@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+   
+    android:orientation="vertical" >
+ 	
+     <TextView android:id="@+id/imageText" 
+	    android:layout_width="wrap_content" 
+	    android:layout_height="wrap_content" 
+
+	    android:text="imagem"
+	    />
+     <Button
+        android:id="@+id/imagem_anterior"
+        android:text="Anterior"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+     
+        android:src="@drawable/ic_launcher" />
+ 
+     <Button
+        android:id="@+id/imagem_proxima"
+        android:text="Proxima"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    
+ 
+</LinearLayout>

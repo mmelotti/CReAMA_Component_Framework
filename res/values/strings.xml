@@ -1,0 +1,13 @@
+<resources>
+
+     
+    
+    <string name="app_name">Test_Fragment</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="menu_settings">Settings</string>
+    <string name="image_alt">Descript</string>
+    <string name="title_activity_main">MainActivity
+        
+        </string>
+
+</resources>
