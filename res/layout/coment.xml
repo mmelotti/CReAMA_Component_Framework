@@ -2,39 +2,34 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:padding="5dp"
     android:orientation="vertical" >
 
-    
-     <TextView android:id="@+id/tituloComent" 
-	    android:layout_width="wrap_content" 
-	    android:layout_height="wrap_content" 
-
-	    android:text="Comentarios: "
-	    />
-     
-     <TextView android:id="@+id/comentarios" 
-	    android:layout_width="wrap_content" 
-	    android:layout_height="wrap_content" 
-
-	    
-	    />
-    
-    <EditText 
-        android:id="@+id/edit_com"
-        
+    <TextView
+        android:id="@+id/tituloComent"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" 
-        android:minLines="3"
-        android:minWidth="620dp"
-        />
-    
-    <Button
-       
-        android:id="@+id/button_com"
-        android:text="Enviar Comentário"
+        android:layout_height="wrap_content"
+        android:text="Comentários:"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/comentarios"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
-    
-   
+
+    <EditText
+        android:id="@+id/edit_com"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:minLines="3"
+        android:minWidth="620dp" />
+
+    <Button
+        android:id="@+id/button_com"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:text="Enviar Comentário" />
 
 </LinearLayout>

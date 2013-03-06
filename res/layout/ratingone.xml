@@ -1,33 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout	
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="fill_parent"
-	android:layout_height="fill_parent"
-	android:orientation="vertical"
-	>
-	
-    
-    
-	<TextView android:id="@+id/ratingText" 
-	    android:layout_width="wrap_content" 
-	    android:layout_height="wrap_content" />
-	
-	<RatingBar android:id="@+id/rating" 
-		android:isIndicator="false"
-		android:stepSize="1.0" 
-		android:numStars="12" 
-		android:rating="0.0" 
-		android:layout_width="wrap_content" 
-		android:layout_height="wrap_content">
-	</RatingBar>
-	
-	
-	<Button       
-        android:id="@+id/button_rating"
-        android:text="Enviar Avaliação"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:padding="5dp" >
+
+    <TextView
+        android:id="@+id/ratingText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
-	
-	
-	
+
+    <RatingBar
+        android:id="@+id/rating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:isIndicator="false"
+        android:numStars="12"
+        android:rating="0.0"
+        android:stepSize="1.0" >
+    </RatingBar>
+
+    <Button
+        android:id="@+id/button_rating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:text="Enviar Avaliação" />
+
 </LinearLayout>

@@ -137,13 +137,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
 				// Inserting Row
 				db.insert(stringDb.getTABLE_TAGS_TARGET(), null, values);
-				
+
 			}
 			dois.close();
 		}
 
 		c.close();
-		
 
 		db.close(); // Closing database connection
 	}
@@ -236,7 +235,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		Cursor cursor = db.rawQuery(countQuery, null);
 		cursor.close();
 
-		// return count
+		// return count   
 		return cursor.getCount();
 	}
 
@@ -250,7 +249,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		}
 
 		String con = "";
-		con += "id, comentario, targetId \n";
+		// con += "id, comentario, targetId \n";
 		/*
 		 * con += "id, comentario, targetId = "+ c.getColumnName(0)+" \n"; con
 		 * += "comentario "+c.getColumnName(1)+" \n"; con += c.getCount()+
@@ -259,10 +258,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
 		if (c.moveToFirst()) {
 			do {
-				con += c.getString(0) + ", ";
-				con += c.getString(1) + ", ";
-				con += c.getString(2) + " \n";
-
+				con += "\nID: " + c.getString(0) 
+						+ "\nTarget ID: " + c.getString(2) 
+						+ "\nComentário: " + c.getString(1) + "\n";
 			} while (c.moveToNext());
 		}
 
@@ -275,15 +273,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		SQLiteDatabase db = this.getReadableDatabase();
 
 		// essa pega pela tabela tags_target
-		String queryTargetTag = "SELECT distinct " +
-				stringDb.getTABLE_TAGS()+"."+ stringDb.getTAG_NAME()+
-				" FROM "
+		String queryTargetTag = "SELECT distinct " + stringDb.getTABLE_TAGS()
+				+ "." + stringDb.getTAG_NAME() + " FROM "
 				+ stringDb.getTABLE_TAGS_TARGET() + " JOIN "
 				+ stringDb.getTABLE_TAGS() + " ON "
-				+ stringDb.getTABLE_TAGS_TARGET() + "."
-				+ stringDb.getTAG_ID() + "=" + stringDb.getTABLE_TAGS()
-				+ "." + stringDb.getKEY_ID() + " WHERE "
-				+ stringDb.getTABLE_TAGS_TARGET() + "."
+				+ stringDb.getTABLE_TAGS_TARGET() + "." + stringDb.getTAG_ID()
+				+ "=" + stringDb.getTABLE_TAGS() + "." + stringDb.getKEY_ID()
+				+ " WHERE " + stringDb.getTABLE_TAGS_TARGET() + "."
 				+ stringDb.getTARGET_ID() + "=" + target;
 
 		Cursor c = db.rawQuery(queryTargetTag, null);
@@ -299,16 +295,16 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		 * /* if (c == null) { return "nada"; }
 		 */
 		String con = "";
-		//con += "id, tag, targetId \n";
+		// con += "id, tag, targetId \n";
 
 		if (c.moveToFirst()) {
 			do {
 				con += c.getString(0) + " \n";
-				/*con += c.getString(1) + ", ";
-				con += c.getString(2) + ", ";
-				con += c.getString(3) + ", ";
-				con += c.getString(4) + ", ";
-				con += c.getString(5) + " \n";*/
+				/*
+				 * con += c.getString(1) + ", "; con += c.getString(2) + ", ";
+				 * con += c.getString(3) + ", "; con += c.getString(4) + ", ";
+				 * con += c.getString(5) + " \n";
+				 */
 
 			} while (c.moveToNext());
 		}
