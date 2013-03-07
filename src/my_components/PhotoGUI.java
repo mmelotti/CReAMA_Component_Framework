@@ -87,7 +87,8 @@ public class PhotoGUI extends GUIComponent {
 		if (n == 3) {
 			return R.drawable.bolapreta;
 		} else if (n == 2) {
-			return R.drawable.letraw;
+			//return R.drawable.letraw;
+			return R.drawable.nature;
 		} else {
 			return R.drawable.ic_launcher;
 		}

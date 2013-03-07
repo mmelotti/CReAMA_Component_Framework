@@ -239,14 +239,18 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		return cursor.getCount(); 
 	}
 
-	public String getCommentsFrom(int target) {
+	public String[] getCommentsFrom(int target) {
+		String[] result;
+		int i = 0;
 		SQLiteDatabase db = this.getReadableDatabase();
 
 		Cursor c = db.rawQuery("SELECT * FROM " + stringDb.getTABLE_COMMENT()
 				+ " WHERE " + stringDb.getTARGET_ID() + "=" + target, null);
 		if (c == null) {
-			return "nada";
+			return null;
 		}
+		
+		result = new String[c.getCount()];
 
 		String con = "";
 		// con += "id, comentario, targetId \n";
@@ -258,15 +262,20 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
 		if (c.moveToFirst()) {
 			do {
-				con += "\nID: " + c.getString(0) 
+				result[i] = "\nID: " + c.getString(0) 
 						+ "\nTarget ID: " + c.getString(2) 
 						+ "\nComentário: " + c.getString(1) + "\n";
+				
+				/*con += "\nID: " + c.getString(0) 
+						+ "\nTarget ID: " + c.getString(2) 
+						+ "\nComentário: " + c.getString(1) + "\n"; */
+				i++;
 			} while (c.moveToNext());
 		}
 
 		c.close();
 
-		return con;
+		return result;
 	}
 
 	public String getTagsFrom(int target) {

@@ -16,8 +16,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-
-
 public class ComentarioGUI extends GUIComponent {
 
 	DatabaseHandler db;
@@ -28,34 +26,55 @@ public class ComentarioGUI extends GUIComponent {
 	// TimeBG t = new TimeBG();
 
 	private Button button;
+	private LayoutInflater li;
+	private ViewGroup cont;
 	private EditText edit;
-	private TextView comentarios;
 	// private MyComponent target;
 	private int idTarget = 1;
 	Bundle extras;
 
+	private void refreshComents() {
+		ViewGroup layoutComent = (ViewGroup) cont
+				.findViewById(R.id.comentariosRoot);
+		layoutComent.removeAllViews();
+		View view;
+		String[] array = db.getCommentsFrom(idTarget);
+
+		for (int i = 0; i < array.length; i++) {
+			view = li.inflate(R.layout.single_coment, null);
+			view.setTag("coment" + i);
+			((TextView) view.findViewById(R.id.body)).setText(array[i]);
+
+			layoutComent.addView(view);
+		}
+	}
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		li = inflater;
+		cont = container;
 
 		this.setId(5);
 
 		View view = inflater.inflate(R.layout.coment, container, false);
+		// lista = (ListView) view.findViewById(R.id.listView);
 		button = (Button) view.findViewById(R.id.button_com);
 		edit = (EditText) view.findViewById(R.id.edit_com);
 
-		comentarios = (TextView) view.findViewById(R.id.comentarios);
-
 		extras = getActivity().getIntent().getExtras();
 
-		
 		if (extras != null) {
 			// recebendo target como parametro
 			idTarget = extras.getInt("nImagem");
 		}
 
 		// busca comentarios para component pela primeira vez
-		comentarios.setText(db.getCommentsFrom(idTarget));
+		
+		// ta dando erro por enquanto, so da pra atualizar pelo botao... acho
+		// que é porque dentro desse método ele ainda nao terminou de criar a
+		// view, sei lá... depois acerto
+		// refreshComents();
 
 		// setMyMessenger(t);
 		button.setOnClickListener(new OnClickListener() {
@@ -83,7 +102,7 @@ public class ComentarioGUI extends GUIComponent {
 				comentario.setTargetId(idTarget);
 				db.addComentario(comentario);
 
-				comentarios.setText(db.getCommentsFrom(idTarget));
+				refreshComents();
 
 				comentario = new Comentario();
 				// inicia outro
