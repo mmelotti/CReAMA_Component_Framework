@@ -2,20 +2,27 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:layout_marginBottom="5dp"
+    android:layout_marginTop="5dp"
+    android:background="@drawable/bordas"
     android:orientation="vertical"
     android:padding="5dp" >
 
     <TextView
         android:id="@+id/ratingText"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <RatingBar
         android:id="@+id/rating"
+        style="?android:attr/ratingBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="1"
         android:isIndicator="false"
-        android:numStars="12"
+        android:numStars="5"
         android:rating="0.0"
         android:stepSize="1.0" >
     </RatingBar>

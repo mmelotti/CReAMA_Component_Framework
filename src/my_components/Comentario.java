@@ -2,14 +2,10 @@ package my_components;
 
 import com.example.my_fragment.ComponentSimpleModel;
 
-import database.DatabaseHandler;
+public class Comentario extends ComponentSimpleModel {
 
-public class Comentario extends ComponentSimpleModel{
-	
-	private String text="";
-	
-	
-	
+	private String text = "";
+
 	public String getText() {
 		return text;
 	}
@@ -18,16 +14,15 @@ public class Comentario extends ComponentSimpleModel{
 		this.text = text;
 	}
 
-	
 	@Override
-	public void save(){
-		
+	public void save() {
+
 	}
 
 	@Override
 	public void restore() {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
+
 }

@@ -52,10 +52,9 @@ public class ComentarioGUI extends GUIComponent {
 		if (extras != null) {
 			// recebendo target como parametro
 			idTarget = extras.getInt("nImagem");
-
 		}
 
-		// busca comentarios para coponent pela primeira vez
+		// busca comentarios para component pela primeira vez
 		comentarios.setText(db.getCommentsFrom(idTarget));
 
 		// setMyMessenger(t);
@@ -70,6 +69,7 @@ public class ComentarioGUI extends GUIComponent {
 				comentario.setInstanceId(getId() + "-" + nInstance);
 				nInstance++;
 				comentario.setText(edit.getText().toString());
+				edit.setText("");
 
 				// teste
 				if (activity != null) {
@@ -87,7 +87,6 @@ public class ComentarioGUI extends GUIComponent {
 
 				comentario = new Comentario();
 				// inicia outro
-
 			}
 
 		});
@@ -97,7 +96,6 @@ public class ComentarioGUI extends GUIComponent {
 
 	public void setDb(DatabaseHandler db) {
 		this.db = db;
-
 	}
 
 }

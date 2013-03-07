@@ -234,9 +234,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		SQLiteDatabase db = this.getReadableDatabase();
 		Cursor cursor = db.rawQuery(countQuery, null);
 		cursor.close();
-
+ 
 		// return count   
-		return cursor.getCount();
+		return cursor.getCount(); 
 	}
 
 	public String getCommentsFrom(int target) {
@@ -314,22 +314,22 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		return con;
 	}
 
-	public int getAverageRatingFrom(int target) {
+	public float getAverageRatingFrom(int target) {
 		SQLiteDatabase db = this.getReadableDatabase();
 
 		Cursor c = db.rawQuery("SELECT * FROM " + stringDb.getTABLE_RATINGS()
 				+ " WHERE " + stringDb.getTARGET_ID() + "=" + target, null);
+		
 		if (c == null) {
 			return 0;
 		}
 
-		int soma = 0;
+		float soma = 0;
 		int cont = 0;
 
 		if (c.moveToFirst()) {
 			do {
 				soma += c.getInt(1);
-
 				cont++;
 			} while (c.moveToNext());
 		}

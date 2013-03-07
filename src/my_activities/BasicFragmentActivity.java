@@ -35,8 +35,8 @@ public class BasicFragmentActivity extends FragmentActivity {
         // Activity's layout inflation.
         setContentView(R.layout.activity_fragment_runtime);
         
-        FragmentManager fm       = getSupportFragmentManager();
-        Fragment        fragment = fm.findFragmentById(R.id.fragment_content); // You can find Fragments just like you would with a 
+        FragmentManager fm = getSupportFragmentManager();
+        Fragment fragment = fm.findFragmentById(R.id.fragment_content); // You can find Fragments just like you would with a 
                                                                                // View by using FragmentManager.
         
         // If we are using activity_fragment_xml.xml then this the fragment will not be
@@ -49,7 +49,6 @@ public class BasicFragmentActivity extends FragmentActivity {
             // can use the back button to undo a transaction. We will cover that topic in more depth in
             // the second part of the tutorial.
         	
-        	
         	TimeBG time = new TimeBG();        	
         	comentario = new ComentarioGUI();       	
         	comentario.setComponent(time);
@@ -57,32 +56,27 @@ public class BasicFragmentActivity extends FragmentActivity {
         	rating.setDb(db);
         	
         	photo = new PhotoGUI();
-   	
-        	
+        	 
             FragmentTransaction ft = fm.beginTransaction();
             
             //ft.add(R.id.fragment_content, new Buscar());
             ft.add(R.id.fragment_content, photo);
-            
+               
             ft.add(R.id.fragment_content6, time);
             //ft.add(R.id.fragment_contentdois, new Basic2Fragment());
             ft.add(R.id.fragment_content3, comentario);
+ 
             ft.add(R.id.fragment_content4, rating);
-            
-            
-            
-            Toast.makeText(this, "criado!!!", Toast.LENGTH_LONG).show();
+
+            Toast.makeText(this, "Criado!", Toast.LENGTH_LONG).show();
             ft.commit(); // Make sure you call commit or your Fragment will not be added. 
                          // This is very common mistake when working with Fragments!
         }
     }
-    
-    
+     
     public void configurarTargets(){
-    	
     	rating.setComponentTarget(photo);
-    	comentario.setComponentTarget(photo);
-    	    
+    	comentario.setComponentTarget(photo);  	    
     }
     
     @Override

@@ -21,7 +21,7 @@ import android.widget.TextView;
 public class RatingGUI extends GUIComponent implements RatingBar.OnRatingBarChangeListener{
 	
 	RatingBar ratingClickable; // declare RatingBar object
-	Rating rating=new Rating();
+	Rating rating = new Rating();
 	TextView ratingText;// declare TextView Object
 	private Button button;
 	private Bundle extras;
@@ -38,41 +38,30 @@ public class RatingGUI extends GUIComponent implements RatingBar.OnRatingBarChan
 		
 		ratingClickable=(RatingBar) view.findViewById(R.id.rating);// create RatingBar object
 		
-		
 		extras = getActivity().getIntent().getExtras();
 		if (extras != null) {
 			// recebendo target como parametro
 			idTarget = extras.getInt("nImagem");
-
 		}
 		
 		button = (Button) view.findViewById(R.id.button_rating);
-		
 		button.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				
 				rating.save();
 				rating.setTargetId(idTarget);
 				db.addRating(rating);
 				
 				ratingText.setText("Media de Avaliações: "+ db.getAverageRatingFrom(idTarget));
-				rating = new Rating();
-				
-				
+				rating = new Rating();				
 			}
 		});
 		
 		if(ratingClickable != null){
-			ratingClickable.setOnRatingBarChangeListener(this);// select listener to be HelloAndroid (this) class
-			
+			ratingClickable.setOnRatingBarChangeListener(this);// select listener to be HelloAndroid (this) class	
 		}
-		
-		
-		
-		
-		
+
 		return view;
 	}
 	
@@ -80,11 +69,9 @@ public class RatingGUI extends GUIComponent implements RatingBar.OnRatingBarChan
 	public void onRatingChanged(RatingBar ratingBar,float rating, boolean fromUser){
 		ratingText.setText(""+this.ratingClickable.getRating()); // display rating as number in TextView, use "this.rating" to not confuse with "float rating"
 		this.rating.setQuantidade((int)ratingClickable.getRating());
-	
 	}
 	
 	public void setDb(DatabaseHandler db) {
 		this.db = db;
-
 	}
 }
