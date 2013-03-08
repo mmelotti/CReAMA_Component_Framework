@@ -11,6 +11,7 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
+        android:layout_weight="1"
         android:orientation="horizontal" >
 
         <TextView
@@ -28,10 +29,18 @@
             android:src="@android:drawable/ic_menu_delete" />
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="data"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="1dp"
         android:layout_margin="5dp"
+        android:layout_marginBottom="0dp"
         android:background="#C3C3C3" />
 
 </LinearLayout>

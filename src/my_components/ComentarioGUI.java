@@ -1,5 +1,6 @@
 package my_components;
 
+import java.text.DateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -12,11 +13,10 @@ import database.DaoMaster;
 import database.DaoMaster.DevOpenHelper;
 import database.DaoSession;
 import database.DatabaseHandler;
-import de.greenrobot.dao.Query;
-import android.app.Activity;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +25,7 @@ import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
@@ -32,6 +33,7 @@ public class ComentarioGUI extends GUIComponent {
 
 	DatabaseHandler db;
 	private CommentDao commentDao;
+	private DaoSession daoSession;
 	// private Comentario comentario = new Comentario();
 
 	private int nInstance = 0;
@@ -43,27 +45,57 @@ public class ComentarioGUI extends GUIComponent {
 	private ViewGroup cont;
 	private EditText edit;
 	// private MyComponent target;
-	private Long idTarget = new Long(1);
+	private Long idTarget = Long.valueOf(1);
 	Bundle extras;
 
 	private void refreshComents() {
 		ViewGroup layoutComent = (ViewGroup) cont
 				.findViewById(R.id.comentariosRoot);
 		layoutComent.removeAllViews();
-		View view;
 
-		Query qr = commentDao.queryBuilder()
-				.where(Properties.TargetId.eq(idTarget)).build();
-		List lista = qr.list();
+		List<Comment> lista = commentDao.queryBuilder()
+				.where(Properties.TargetId.eq(idTarget)).build().list();
 
 		for (int i = 0; i < lista.size(); i++) {
-			view = li.inflate(R.layout.single_coment, null);
-			view.setTag("coment" + i);
-			((TextView) view.findViewById(R.id.body))
-					.setText("" + ((Comment) lista.get(i)).getText());
+			View view = li.inflate(R.layout.single_coment, null);
+			Comment comm = (Comment) lista.get(i);
+
+			view.findViewById(R.id.button_apaga).setTag("" + comm.getId());
+
+			((TextView) view.findViewById(R.id.body)).setText(""
+					+ comm.getText());
+
+			DateFormat df = DateFormat.getDateTimeInstance(DateFormat.SHORT,
+					DateFormat.SHORT);
+			((TextView) view.findViewById(R.id.date)).setText("Enviado em "
+					+ df.format(comm.getDate()));
+
+			((ImageButton) view.findViewById(R.id.button_apaga))
+					.setOnClickListener(new OnClickListener() {
+						@Override
+						public void onClick(View v) {
+							Long id = Long.valueOf(v.getTag().toString());
+							Comment c = findCommentById(id);
+							if (c != null) {
+								Log.v("ID da view " + id, "ID do resultado: "
+										+ c.getId());
+								commentDao.delete(c); // deleta do banco de
+														// dados
+								daoSession.delete(c); // deleta do cache
+								refreshComents();
+							} else
+								Log.v("ID da view " + id, "comment nulo");
+
+						}
+					});
 
 			layoutComent.addView(view);
 		}
+	}
+
+	Comment findCommentById(Long id) {
+		return (Comment) commentDao.queryBuilder().where(Properties.Id.eq(id))
+				.build().unique();
 	}
 
 	@Override
@@ -103,7 +135,7 @@ public class ComentarioGUI extends GUIComponent {
 		// que é porque dentro desse método ele ainda nao terminou de criar a
 		// view, sei lá... depois acerto
 		// refreshComents();
-		
+
 		initCommentDao();
 
 		// setMyMessenger(t);
@@ -112,7 +144,7 @@ public class ComentarioGUI extends GUIComponent {
 			public void onClick(View v) {
 				submitComent();
 			}
-		}); 
+		});
 
 		return view;
 	}
@@ -124,9 +156,9 @@ public class ComentarioGUI extends GUIComponent {
 				new Date(), idTarget);
 		comentario.setInstanceId(getId() + "-" + nInstance);
 		nInstance++;
-		edit.setText(""); 
+		edit.setText("");
 
-		// comentario.save(); 
+		// comentario.save();
 		comentario.setTargetId(idTarget);
 		// db.addComentario(comentario);
 		commentDao.insert(comentario);
@@ -151,7 +183,7 @@ public class ComentarioGUI extends GUIComponent {
 		// Create the session which is a container for the DAO layer and has a
 		// cache which will return handles to the same object across multiple
 		// queries
-		DaoSession daoSession = daoMaster.newSession();
+		daoSession = daoMaster.newSession();
 		// Access the Notes DAO
 		commentDao = daoSession.getCommentDao();
 	}
