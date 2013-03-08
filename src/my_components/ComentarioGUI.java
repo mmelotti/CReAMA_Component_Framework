@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.util.Date;
 import java.util.List;
 
+import com.example.my_fragment.ComponentSimpleModel;
 import com.example.my_fragment.GUIComponent;
 import com.example.firstcomponents.R;
 
@@ -152,7 +153,8 @@ public class ComentarioGUI extends GUIComponent {
 	public void submitComent() {
 		// String r = sendMessage("hora");
 
-		Comment comentario = new Comment(null, edit.getText().toString(),
+		Long newId = ComponentSimpleModel.getUniqueId(getActivity());
+		Comment comentario = new Comment(newId, edit.getText().toString(),
 				new Date(), idTarget);
 		comentario.setInstanceId(getId() + "-" + nInstance);
 		nInstance++;
