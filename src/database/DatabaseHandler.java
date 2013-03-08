@@ -278,7 +278,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		return result;
 	}
 
-	public String getTagsFrom(int target) {
+	public String getTagsFrom(Long target) {
 		SQLiteDatabase db = this.getReadableDatabase();
 
 		// essa pega pela tabela tags_target
@@ -323,7 +323,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		return con;
 	}
 
-	public float getAverageRatingFrom(int target) {
+	public float getAverageRatingFrom(Long target) {
 		SQLiteDatabase db = this.getReadableDatabase();
 
 		Cursor c = db.rawQuery("SELECT * FROM " + stringDb.getTABLE_RATINGS()

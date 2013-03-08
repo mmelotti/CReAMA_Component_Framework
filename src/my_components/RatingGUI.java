@@ -25,7 +25,7 @@ public class RatingGUI extends GUIComponent implements RatingBar.OnRatingBarChan
 	TextView ratingText;// declare TextView Object
 	private Button button;
 	private Bundle extras;
-	private int idTarget;
+	private Long idTarget;
 	private DatabaseHandler db;
 	
 	 @Override
@@ -41,7 +41,7 @@ public class RatingGUI extends GUIComponent implements RatingBar.OnRatingBarChan
 		extras = getActivity().getIntent().getExtras();
 		if (extras != null) {
 			// recebendo target como parametro
-			idTarget = extras.getInt("nImagem");
+			idTarget = extras.getLong("nImagem");
 		}
 		
 		button = (Button) view.findViewById(R.id.button_rating);

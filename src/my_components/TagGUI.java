@@ -21,8 +21,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-
-
 public class TagGUI extends GUIComponent {
 
 	DatabaseHandler db;
@@ -36,7 +34,7 @@ public class TagGUI extends GUIComponent {
 	private EditText edit;
 	private TextView tags;
 	private Bundle extras;
-	private int idTarget=1;
+	private Long idTarget = new Long(1);
 	// private MyComponent target;
 
 	@Override
@@ -54,7 +52,7 @@ public class TagGUI extends GUIComponent {
 		extras = getActivity().getIntent().getExtras();
 		if (extras != null) {
 			// recebendo target como parametro
-			idTarget = extras.getInt("nImagem");
+			idTarget = extras.getLong("nImagem");
 
 		}
 

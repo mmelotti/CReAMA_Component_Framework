@@ -22,7 +22,7 @@ public class PhotoGUI extends GUIComponent {
 	private ImageView image;
 	private Photo photo;
 	private int nInstance = 0;
-	private int imagemAtual = 1;
+	private Long imagemAtual = new Long(1);
 	private int maxImagens = 3;
 	private Button proxima;
 	Bundle extras;
@@ -39,10 +39,10 @@ public class PhotoGUI extends GUIComponent {
 
 		if (extras != null) {
 			// mudou imagem, recebeu parametro
-			imagemAtual = extras.getInt("nImagem");
+			imagemAtual = extras.getLong("nImagem");
 			image.setImageResource(getId(imagemAtual));
 		} else {
-			image.setImageResource(getId(1));
+			image.setImageResource(getId(Long.valueOf(1)));
 		}
 
 		// image.setImageResource(R.drawable.bolapreta);
@@ -81,7 +81,7 @@ public class PhotoGUI extends GUIComponent {
 
 	}
 
-	private int getId(int n) {
+	private int getId(Long n) {
 		// TODO ta bizarro ainda, tudo estatico
 
 		if (n == 3) {
@@ -94,16 +94,16 @@ public class PhotoGUI extends GUIComponent {
 		}
 	}
 
-	private int proximaImagem() {
+	private Long proximaImagem() {
 		if (imagemAtual != maxImagens) {
 			return imagemAtual + 1;
 		}
 
-		return 1;
+		return Long.valueOf(1);
 
 	}
 
-	public void setImagemAtual(int n) {
+	public void setImagemAtual(Long n) {
 		imagemAtual = n;
 
 		// null pointer exception

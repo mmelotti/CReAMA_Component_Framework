@@ -3,14 +3,14 @@ package com.example.my_fragment;
 public abstract class ComponentSimpleModel {
 
 	private String instanceId="";
-	private int targetId = 1; 
+	private Long targetId = new Long(1); 
 	
 	
-	public int getTargetId() {
+	public Long getTargetId() {
 		return targetId;
 	}
 
-	public void setTargetId(int targetId) {
+	public void setTargetId(Long targetId) {
 		this.targetId = targetId;
 	}
 
