@@ -13,8 +13,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.widget.Toast;
-
 
 public class BasicFragmentActivity extends FragmentActivity {
 
@@ -59,16 +57,13 @@ public class BasicFragmentActivity extends FragmentActivity {
         	 
             FragmentTransaction ft = fm.beginTransaction();
             
-            //ft.add(R.id.fragment_content, new Buscar());
             ft.add(R.id.fragment_content, photo);
                
             ft.add(R.id.fragment_content6, time);
-            //ft.add(R.id.fragment_contentdois, new Basic2Fragment());
             ft.add(R.id.fragment_content3, comentario);
  
             ft.add(R.id.fragment_content4, rating);
 
-            Toast.makeText(this, "Criado!", Toast.LENGTH_LONG).show();
             ft.commit(); // Make sure you call commit or your Fragment will not be added. 
                          // This is very common mistake when working with Fragments!
         }

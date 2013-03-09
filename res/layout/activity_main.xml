@@ -29,4 +29,11 @@
         android:layout_centerHorizontal="true"
         android:text="Definir Tags" />
 
+    <Button
+        android:id="@+id/btnAddPhoto"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/go_tag"
+        android:text="Adicionar Foto" />
+
 </RelativeLayout>

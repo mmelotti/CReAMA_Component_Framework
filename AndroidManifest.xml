@@ -24,13 +24,11 @@
             android:name="my_activities.BasicFragmentActivity"
             android:label="@string/title_activity_main" >
         </activity>
-        <activity
-            android:name="my_components.TagActivity"
-            android:label="@string/title_activity_main" >
+        <activity android:name="my_components.TagActivity" >
         </activity>
-        <activity
-            android:name="my_activities.TagFragmentActivity"
-            android:label="@string/title_activity_main" >
+        <activity android:name="my_activities.TagFragmentActivity" >
+        </activity>
+        <activity android:name="my_activities.SavePhotoActivity" >
         </activity>
     </application>
 

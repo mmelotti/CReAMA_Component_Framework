@@ -14,6 +14,7 @@ import database.DaoMaster;
 import database.DaoMaster.DevOpenHelper;
 import database.DaoSession;
 import database.DatabaseHandler;
+import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
@@ -24,6 +25,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -47,7 +49,7 @@ public class ComentarioGUI extends GUIComponent {
 	private EditText edit;
 	// private MyComponent target;
 	private Long idTarget = Long.valueOf(1);
-	Bundle extras;
+	Bundle extras; 
 
 	private void refreshComents() {
 		ViewGroup layoutComent = (ViewGroup) cont
@@ -100,6 +102,14 @@ public class ComentarioGUI extends GUIComponent {
 	}
 
 	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+
+		initCommentDao();
+		refreshComents();
+	}
+
+	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		li = inflater;
@@ -108,7 +118,6 @@ public class ComentarioGUI extends GUIComponent {
 		this.setId(5);
 
 		View view = inflater.inflate(R.layout.coment, container, false);
-		// lista = (ListView) view.findViewById(R.id.listView);
 		button = (Button) view.findViewById(R.id.button_com);
 		edit = (EditText) view.findViewById(R.id.edit_com);
 		edit.setOnEditorActionListener(new OnEditorActionListener() {
@@ -130,15 +139,6 @@ public class ComentarioGUI extends GUIComponent {
 			idTarget = extras.getLong("nImagem");
 		}
 
-		// busca comentarios para component pela primeira vez
-
-		// ta dando erro por enquanto, so da pra atualizar pelo botao... acho
-		// que é porque dentro desse método ele ainda nao terminou de criar a
-		// view, sei lá... depois acerto
-		// refreshComents();
-
-		initCommentDao();
-
 		// setMyMessenger(t);
 		button.setOnClickListener(new OnClickListener() {
 			@Override
@@ -151,7 +151,10 @@ public class ComentarioGUI extends GUIComponent {
 	}
 
 	public void submitComent() {
-		// String r = sendMessage("hora");
+		// fecha teclado
+		InputMethodManager imm = (InputMethodManager) getActivity()
+				.getSystemService(Context.INPUT_METHOD_SERVICE);
+		imm.hideSoftInputFromWindow(edit.getWindowToken(), 0);
 
 		Long newId = ComponentSimpleModel.getUniqueId(getActivity());
 		Comment comentario = new Comment(newId, edit.getText().toString(),
@@ -160,13 +163,9 @@ public class ComentarioGUI extends GUIComponent {
 		nInstance++;
 		edit.setText("");
 
-		// comentario.save();
 		comentario.setTargetId(idTarget);
-		// db.addComentario(comentario);
 		commentDao.insert(comentario);
-
 		refreshComents();
-		// inicia outro
 	}
 
 	public void setDb(DatabaseHandler db) {
