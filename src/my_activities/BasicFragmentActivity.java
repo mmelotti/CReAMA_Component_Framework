@@ -12,7 +12,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.widget.Toast;
 
 public class BasicFragmentActivity extends FragmentActivity {
@@ -24,7 +23,6 @@ public class BasicFragmentActivity extends FragmentActivity {
 	Long photoId;
 	
 	protected void photoNotFound() {
-		Log.d("photo not found", "no photo");
 		Toast.makeText(this, "Foto não encontrada. Verifique se já existe alguma foto.",
 				Toast.LENGTH_SHORT).show();
 		finish();

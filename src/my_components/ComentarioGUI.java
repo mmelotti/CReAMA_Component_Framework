@@ -81,15 +81,11 @@ public class ComentarioGUI extends GUIComponent {
 							Long id = Long.valueOf(v.getTag().toString());
 							Comment c = findCommentById(id);
 							if (c != null) {
-								Log.v("ID da view " + id, "ID do resultado: "
-										+ c.getId());
 								commentDao.delete(c); // deleta do banco de
 														// dados
 								daoSession.delete(c); // deleta do cache
 								refreshComents();
-							} else
-								Log.v("ID da view " + id, "comment nulo");
-
+							} 
 						}
 					});
 

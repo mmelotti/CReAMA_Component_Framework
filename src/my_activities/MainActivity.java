@@ -59,7 +59,7 @@ public class MainActivity extends Activity {
 
 				Intent trocatela = new Intent(MainActivity.this,
 						TagFragmentActivity.class);
-				trocatela.putExtra("nImagem", 8L);
+				trocatela.putExtra("nImagem", PhotoGUI.searchFirstPhoto(null, arg0.getContext()));
 				MainActivity.this.startActivity(trocatela);
 				// MainActivity.this.finish();
 
