@@ -13,12 +13,10 @@ import database.CommentDao.Properties;
 import database.DaoMaster;
 import database.DaoMaster.DevOpenHelper;
 import database.DaoSession;
-import database.DatabaseHandler;
+
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,7 +32,6 @@ import android.widget.TextView.OnEditorActionListener;
 
 public class ComentarioGUI extends GUIComponent {
 
-	DatabaseHandler db;
 	private CommentDao commentDao;
 	private DaoSession daoSession;
 	// private Comentario comentario = new Comentario();
@@ -50,6 +47,10 @@ public class ComentarioGUI extends GUIComponent {
 	// private MyComponent target;
 	private Long idTarget = Long.valueOf(1);
 	Bundle extras; 
+	
+	public ComentarioGUI(Long idTarget) {
+		this.idTarget = idTarget;
+	}
 
 	private void refreshComents() {
 		ViewGroup layoutComent = (ViewGroup) cont
@@ -120,6 +121,7 @@ public class ComentarioGUI extends GUIComponent {
 		View view = inflater.inflate(R.layout.coment, container, false);
 		button = (Button) view.findViewById(R.id.button_com);
 		edit = (EditText) view.findViewById(R.id.edit_com);
+		
 		edit.setOnEditorActionListener(new OnEditorActionListener() {
 			@Override
 			public boolean onEditorAction(TextView v, int actionId,
@@ -138,7 +140,7 @@ public class ComentarioGUI extends GUIComponent {
 			// recebendo target como parametro
 			idTarget = extras.getLong("nImagem");
 		}
-
+		
 		// setMyMessenger(t);
 		button.setOnClickListener(new OnClickListener() {
 			@Override
@@ -168,10 +170,6 @@ public class ComentarioGUI extends GUIComponent {
 		refreshComents();
 	}
 
-	public void setDb(DatabaseHandler db) {
-		this.db = db;
-	}
-
 	void initCommentDao() {
 		// As we are in development we will use the DevOpenHelper which drops
 		// the database on a schema update
@@ -185,7 +183,7 @@ public class ComentarioGUI extends GUIComponent {
 		// cache which will return handles to the same object across multiple
 		// queries
 		daoSession = daoMaster.newSession();
-		// Access the Notes DAO
+		// Access the Comments DAO
 		commentDao = daoSession.getCommentDao();
 	}
 

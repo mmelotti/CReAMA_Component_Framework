@@ -1,9 +1,10 @@
 package my_activities;
 
+import my_components.PhotoGUI;
+
 import com.example.firstcomponents.R;
 
 import database.DatabaseHandler;
-
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
@@ -42,7 +43,7 @@ public class MainActivity extends Activity {
 						BasicFragmentActivity.class);
 				
 				// procura primeira imagem
-				//trocatela.putExtra("nImagem", 8L);
+				trocatela.putExtra("nImagem", PhotoGUI.searchFirstPhoto(null, arg0.getContext()));
 				startActivity(trocatela);
 				// MainActivity.this.finish();
 

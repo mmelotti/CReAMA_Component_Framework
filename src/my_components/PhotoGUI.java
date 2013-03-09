@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.List;
 
+import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
@@ -25,7 +26,6 @@ import com.example.my_fragment.GUIComponent;
 import com.example.firstcomponents.R;
 
 import database.DaoMaster;
-import database.DaoSession;
 import database.PhotoDao;
 import database.DaoMaster.DevOpenHelper;
 import database.PhotoDao.Properties;
@@ -33,12 +33,20 @@ import database.PhotoDao.Properties;
 public class PhotoGUI extends GUIComponent {
 
 	private ImageView image;
-	private Long imagemAtual;
+	private Long imageId;
 	private Button proxima, anterior;
 	Bundle extras;
 
 	private PhotoDao photoDao;
-	private DaoSession daoSession;
+	//private DaoSession daoSession;
+
+	public PhotoGUI(Long imageId) {
+		this.imageId = imageId;
+	}
+
+	public Long getImageId() {
+		return imageId;
+	}
 
 	public static Bitmap byteArrayToBitmap(byte[] imageBytes) {
 		return BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
@@ -77,20 +85,33 @@ public class PhotoGUI extends GUIComponent {
 		return null;
 	}
 
-	void initPhotoDao() {
-		DevOpenHelper helper = new DaoMaster.DevOpenHelper(getActivity(),
+	public static PhotoDao initPhotoDao(Context ctx) {
+		DevOpenHelper helper = new DaoMaster.DevOpenHelper(ctx,
 				"photos-db", null);
 		SQLiteDatabase db = helper.getWritableDatabase();
 		DaoMaster daoMaster = new DaoMaster(db);
-		daoSession = daoMaster.newSession();
-		photoDao = daoSession.getPhotoDao();
+		//session = daoMaster.newSession();
+		return daoMaster.newSession().getPhotoDao();
+	}
+
+	public static Long searchFirstPhoto(PhotoDao dao, Context ctx) {
+		PhotoDao mDao = (dao == null ? initPhotoDao(ctx) : dao);
+			
+		List<Photo> l = mDao.queryBuilder().orderAsc(Properties.Id).build()
+				.list();
+		if (l.isEmpty()) {
+			return -1L;
+		} else {
+			Photo photo = l.get(0);
+			return photo.getId();
+		}
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		initPhotoDao();
+		photoDao = initPhotoDao(getActivity());
 		View view = inflater.inflate(R.layout.imageone, container, false);
 
 		anterior = (Button) view.findViewById(R.id.imagem_anterior);
@@ -98,26 +119,14 @@ public class PhotoGUI extends GUIComponent {
 		image = (ImageView) view.findViewById(R.id.imageView1);
 		extras = getActivity().getIntent().getExtras();
 
-		if (extras != null) {
-			// mudou imagem, recebeu parametro
-			imagemAtual = extras.getLong("nImagem");
-			Photo photo = (Photo) photoDao.queryBuilder()
-					.where(Properties.Id.eq(imagemAtual)).build().unique();
-			if (photo != null)
-				image.setImageBitmap(byteArrayToBitmap(photo.getPhotoBytes()));
-		} else {
-			List<Photo> l = photoDao.queryBuilder().orderAsc(Properties.Id)
-					.build().list();
-			if (l.isEmpty()) {
-				Toast.makeText(getActivity(),
-						"Ainda não existem fotos para visualizar.",
-						Toast.LENGTH_SHORT).show();
-				getActivity().finish();
-			} else {
-				Photo photo = l.get(0);
-				image.setImageBitmap(byteArrayToBitmap(photo.getPhotoBytes()));
-				imagemAtual = photo.getId();
-			}
+		Photo photo = (Photo) photoDao.queryBuilder()
+				.where(Properties.Id.eq(imageId)).build().unique();
+		if (photo != null)
+			image.setImageBitmap(byteArrayToBitmap(photo.getPhotoBytes()));
+		else {
+			Toast.makeText(getActivity(), "Ainda não há fotos para exibir!",
+					Toast.LENGTH_SHORT).show();
+			getActivity().finish();
 		}
 
 		proxima.setOnClickListener(new OnClickListener() {
@@ -147,17 +156,17 @@ public class PhotoGUI extends GUIComponent {
 
 	private Long proximaImagem() {
 		List<Photo> l = photoDao.queryBuilder()
-				.where(Properties.Id.gt(imagemAtual)).orderAsc(Properties.Id)
+				.where(Properties.Id.gt(imageId)).orderAsc(Properties.Id)
 				.list();
 
-		return (l.isEmpty() ? imagemAtual : ((Photo) l.get(0)).getId());
+		return (l.isEmpty() ? imageId : ((Photo) l.get(0)).getId());
 	}
 
 	private Long imagemAnterior() {
 		List<Photo> l = photoDao.queryBuilder()
-				.where(Properties.Id.lt(imagemAtual)).orderDesc(Properties.Id)
+				.where(Properties.Id.lt(imageId)).orderDesc(Properties.Id)
 				.list();
-		return (l.isEmpty() ? imagemAtual : ((Photo) l.get(0)).getId());
+		return (l.isEmpty() ? imageId : ((Photo) l.get(0)).getId());
 	}
 
 }

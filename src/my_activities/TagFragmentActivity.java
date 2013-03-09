@@ -16,7 +16,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.widget.Toast;
 
-
 public class TagFragmentActivity extends FragmentActivity {
 
 	private DatabaseHandler db;
@@ -57,7 +56,7 @@ public class TagFragmentActivity extends FragmentActivity {
         	comentario.setComponent(time);
         	comentario.setDb(db);*/
         	
-        	photo = new PhotoGUI();
+        	//photo = new PhotoGUI();
         	tag = new TagGUI();
         	tag.setDb(db);
         	
