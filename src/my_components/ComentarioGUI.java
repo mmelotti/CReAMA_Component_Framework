@@ -49,7 +49,7 @@ public class ComentarioGUI extends GUIComponent {
 	Bundle extras; 
 	
 	public ComentarioGUI(Long idTarget) {
-		this.idTarget = idTarget;
+		//this.idTarget = idTarget;
 	}
 
 	private void refreshComents() {
@@ -135,6 +135,7 @@ public class ComentarioGUI extends GUIComponent {
 		if (extras != null) {
 			// recebendo target como parametro
 			idTarget = extras.getLong("nImagem");
+			idTarget = getComponentTarget().getCurrent();
 		}
 		
 		// setMyMessenger(t);

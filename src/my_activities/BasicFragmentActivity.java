@@ -85,10 +85,13 @@ public class BasicFragmentActivity extends FragmentActivity {
             ft.commit(); // Make sure you call commit or your Fragment will not be added. 
                          // This is very common mistake when working with Fragments!
         }
+        
+        //set targets
+        configurarTargets();
     }
      
     public void configurarTargets(){
-    	rating.setComponentTarget(photo);
+    	//rating.setComponentTarget(photo);
     	comentario.setComponentTarget(photo);  	    
     }
     
