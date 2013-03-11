@@ -62,7 +62,9 @@ public class SavePhotoActivity extends Activity {
 						ComponentSimpleModel
 								.getUniqueId(SavePhotoActivity.this),
 						null, bArray, null, new Date());
+				initPhotoDao();
 				long id = photoDao.insert(photo);
+				photoDao.getDatabase().close();
 				Log.v("Inseriu a foto no banco de dados!", "ID: " + id);
 				finish();
 			}
@@ -83,7 +85,7 @@ public class SavePhotoActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.save_photo_layout);
 
-		initPhotoDao();
+		
 
 		findViewById(R.id.btnBrowse).setOnClickListener(new OnClickListener() {
 			@Override
