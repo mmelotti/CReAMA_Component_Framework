@@ -57,9 +57,15 @@ public class ComentarioGUI extends GUIComponent {
 				.findViewById(R.id.comentariosRoot);
 		layoutComent.removeAllViews();
 
+		//abri DAO, fecha depois o bd
+		initCommentDao();
+		
 		List<Comment> lista = commentDao.queryBuilder()
 				.where(Properties.TargetId.eq(idTarget)).build().list();
-
+		
+		//fecha bd
+		commentDao.getDatabase().close();
+		
 		for (int i = 0; i < lista.size(); i++) {
 			View view = li.inflate(R.layout.single_coment, null);
 			Comment comm = (Comment) lista.get(i);
@@ -81,9 +87,13 @@ public class ComentarioGUI extends GUIComponent {
 							Long id = Long.valueOf(v.getTag().toString());
 							Comment c = findCommentById(id);
 							if (c != null) {
+								initCommentDao();
 								commentDao.delete(c); // deleta do banco de
 														// dados
 								daoSession.delete(c); // deleta do cache
+								
+								//
+								commentDao.getDatabase().close();
 								refreshComents();
 							} 
 						}
@@ -94,15 +104,19 @@ public class ComentarioGUI extends GUIComponent {
 	}
 
 	Comment findCommentById(Long id) {
-		return (Comment) commentDao.queryBuilder().where(Properties.Id.eq(id))
+		
+		initCommentDao();
+		Comment comment = (Comment) commentDao.queryBuilder().where(Properties.Id.eq(id))
 				.build().unique();
+		commentDao.getDatabase().close();
+		return comment;
 	}
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
-		initCommentDao();
+		
 		refreshComents();
 	}
 
@@ -161,9 +175,11 @@ public class ComentarioGUI extends GUIComponent {
 		comentario.setInstanceId(getId() + "-" + nInstance);
 		nInstance++;
 		edit.setText("");
-
+		
+		initCommentDao();
 		comentario.setTargetId(idTarget);
 		commentDao.insert(comentario);
+		commentDao.getDatabase().close();
 		refreshComents();
 	}
 
