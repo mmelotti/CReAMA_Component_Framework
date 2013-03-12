@@ -8,6 +8,7 @@ import com.example.my_fragment.GUIComponent;
 import database.DatabaseHandler;
 
 
+import android.graphics.Color;
 import android.os.Bundle;
 
 import android.view.LayoutInflater;
@@ -34,6 +35,7 @@ public class RatingGUI extends GUIComponent implements RatingBar.OnRatingBarChan
 		View view = inflater.inflate(R.layout.ratingone, container, false);
 		//setContentView(R.layout.ratingone);// set content from main.xml
 		ratingText=(TextView) view.findViewById(R.id.ratingText);// create TextView object
+		ratingText.setTextColor(getActivity().getResources().getColor(R.color.mycolor1));
 		ratingText.setText("Avalie a imagem!");
 		
 		ratingClickable=(RatingBar) view.findViewById(R.id.rating);// create RatingBar object
@@ -41,7 +43,8 @@ public class RatingGUI extends GUIComponent implements RatingBar.OnRatingBarChan
 		extras = getActivity().getIntent().getExtras();
 		if (extras != null) {
 			// recebendo target como parametro
-			idTarget = extras.getLong("nImagem");
+			//idTarget = extras.getLong("nImagem");
+			idTarget = getComponentTarget().getCurrent();
 		}
 		
 		button = (Button) view.findViewById(R.id.button_rating);
@@ -49,11 +52,14 @@ public class RatingGUI extends GUIComponent implements RatingBar.OnRatingBarChan
 
 			@Override
 			public void onClick(View v) {
+				rating.setQuantidade((int)ratingClickable.getRating());
 				rating.save();
 				rating.setTargetId(idTarget);
 				db.addRating(rating);
 				
+				//ratingText.setTextColor(getActivity().getResources().getColor(R.color.mycolor1));
 				ratingText.setText("Media de Avaliações: "+ db.getAverageRatingFrom(idTarget));
+				
 				rating = new Rating();				
 			}
 		});

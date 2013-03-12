@@ -86,6 +86,8 @@ public class TagFragmentActivity extends FragmentActivity {
                         
             ft.commit(); // Make sure you call commit or your Fragment will not be added. 
                          // This is very common mistake when working with Fragments!
+            
+            configurarTargets();
         }
     }
     

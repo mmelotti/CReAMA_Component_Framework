@@ -9,6 +9,16 @@ public class MyComponent extends Fragment{
 
 	private int componentId=-1;
 	
+	private Long current = (long) 1;
+	
+	public Long getCurrent() {
+		return current;
+	}
+
+	public void setCurrent(Long current) {
+		this.current = current;
+	}
+
 	private MyComponent componentTarget;
 	
 	private List<Integer> instancesId = new ArrayList<Integer>();

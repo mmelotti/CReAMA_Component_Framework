@@ -1,5 +1,5 @@
 <resources>
 
     <style name="AppTheme" parent="android:Theme.Light" />
-
+	<color name="mycolor1">#F5DC49</color>
 </resources>
