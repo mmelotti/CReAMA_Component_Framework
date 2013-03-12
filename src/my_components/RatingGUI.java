@@ -43,7 +43,8 @@ public class RatingGUI extends GUIComponent implements RatingBar.OnRatingBarChan
 		extras = getActivity().getIntent().getExtras();
 		if (extras != null) {
 			// recebendo target como parametro
-			idTarget = extras.getLong("nImagem");
+			//idTarget = extras.getLong("nImagem");
+			idTarget = getComponentTarget().getCurrent();
 		}
 		
 		button = (Button) view.findViewById(R.id.button_rating);
@@ -56,7 +57,7 @@ public class RatingGUI extends GUIComponent implements RatingBar.OnRatingBarChan
 				rating.setTargetId(idTarget);
 				db.addRating(rating);
 				
-				ratingText.setTextColor(getActivity().getResources().getColor(R.color.mycolor1));
+				//ratingText.setTextColor(getActivity().getResources().getColor(R.color.mycolor1));
 				ratingText.setText("Media de Avaliações: "+ db.getAverageRatingFrom(idTarget));
 				
 				rating = new Rating();				

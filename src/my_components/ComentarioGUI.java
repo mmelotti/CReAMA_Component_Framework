@@ -148,7 +148,7 @@ public class ComentarioGUI extends GUIComponent {
 
 		if (extras != null) {
 			// recebendo target como parametro
-			idTarget = extras.getLong("nImagem");
+			//idTarget = extras.getLong("nImagem");
 			idTarget = getComponentTarget().getCurrent();
 		}
 		

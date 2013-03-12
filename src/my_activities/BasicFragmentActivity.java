@@ -91,7 +91,7 @@ public class BasicFragmentActivity extends FragmentActivity {
     }
      
     public void configurarTargets(){
-    	//rating.setComponentTarget(photo);
+    	rating.setComponentTarget(photo);
     	comentario.setComponentTarget(photo);  	    
     }
     
