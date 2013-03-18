@@ -1,6 +1,7 @@
 package my_activities;
 
 import com.example.firstcomponents.R;
+import com.example.my_fragment.MyActivity;
 
 import database.DatabaseHandler;
 import my_components.ComentarioGUI;
@@ -14,7 +15,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.widget.Toast;
 
-public class BasicFragmentActivity extends FragmentActivity {
+public class BasicFragmentActivity extends MyActivity {
 
 	private DatabaseHandler db;
 	private PhotoGUI photo;
@@ -33,7 +34,7 @@ public class BasicFragmentActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
      
         db = new DatabaseHandler(this);
-        
+        rating.setDb(db);
         // We default to building our Fragment at runtime, but you can switch the layout here
         // to R.layout.activity_fragment_xml in order to have the Fragment added during the
         // Activity's layout inflation.
@@ -46,19 +47,7 @@ public class BasicFragmentActivity extends FragmentActivity {
         // If we are using activity_fragment_xml.xml then this the fragment will not be
         // null, otherwise it will be.
         
-        photoId = getIntent().getLongExtra("nImagem", -1L);
-		if (photoId != -1L) 
-			photo = new PhotoGUI(photoId);
-		else {
-			photoNotFound();
-			return; 
-		}
         
-		photoId = photo.getImageId();
-		if (photoId == -1L) {
-			photoNotFound();
-			return;
-		}
 		
         if (fragment == null) {
             
@@ -69,9 +58,9 @@ public class BasicFragmentActivity extends FragmentActivity {
             // the second part of the tutorial.
         	
         	//TimeBG time = new TimeBG();        	
-        	comentario = new ComentarioGUI(photoId);       	
+        	      	
         	//comentario.setComponent(time);
-        	rating.setDb(db);
+        	
         	 
             FragmentTransaction ft = fm.beginTransaction();
             
@@ -87,7 +76,7 @@ public class BasicFragmentActivity extends FragmentActivity {
         }
         
         //set targets
-        configurarTargets();
+      
     }
      
     public void configurarTargets(){
@@ -100,5 +89,28 @@ public class BasicFragmentActivity extends FragmentActivity {
     	super.onDestroy();
     	db.close();
     }
+   
+    @Override
+	public void instanciarComponents() {
+		// TODO Auto-generated method stub
+		photoId = getIntent().getLongExtra("nImagem", -1L);
+		if (photoId != -1L) 
+			photo = new PhotoGUI(photoId);
+		else {
+			photoNotFound();
+			return; 
+		}
+		
+		photoId = photo.getImageId();
+		if (photoId == -1L) {
+			photoNotFound();
+			return;
+		}
+		
+		comentario = new ComentarioGUI(photoId); 
+		//rating = new RatingGUI();
+		//rating.setDb(db);
+		
+	}
 
 }

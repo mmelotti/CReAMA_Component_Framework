@@ -151,7 +151,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		SQLiteDatabase db = this.getWritableDatabase();
 
 		ContentValues values = new ContentValues();
-		values.put(stringDb.getRATING_VALUE(), rat.getQuantidade()); // Comentario
+		values.put(stringDb.getRATING_VALUE(), rat.getValue()); // Comentario
 																		// Name
 		values.put(stringDb.getTARGET_ID(), rat.getTargetId());
 

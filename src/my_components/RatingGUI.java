@@ -52,7 +52,7 @@ public class RatingGUI extends GUIComponent implements RatingBar.OnRatingBarChan
 
 			@Override
 			public void onClick(View v) {
-				rating.setQuantidade((int)ratingClickable.getRating());
+				rating.setValue((int)ratingClickable.getRating());
 				rating.save();
 				rating.setTargetId(idTarget);
 				db.addRating(rating);
@@ -74,7 +74,7 @@ public class RatingGUI extends GUIComponent implements RatingBar.OnRatingBarChan
 	// implement abstract method onRatingChanged
 	public void onRatingChanged(RatingBar ratingBar,float rating, boolean fromUser){
 		ratingText.setText(""+this.ratingClickable.getRating()); // display rating as number in TextView, use "this.rating" to not confuse with "float rating"
-		this.rating.setQuantidade((int)ratingClickable.getRating());
+		this.rating.setValue((int)ratingClickable.getRating());
 	}
 	
 	public void setDb(DatabaseHandler db) {
