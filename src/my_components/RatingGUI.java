@@ -5,6 +5,7 @@ import java.util.List;
 import com.example.firstcomponents.R;
 import com.example.my_fragment.ComponentSimpleModel;
 import com.example.my_fragment.GUIComponent;
+import com.example.my_fragment.MyActivity;
 import com.example.my_fragment.MyComponent;
 
 
@@ -42,6 +43,7 @@ public class RatingGUI extends GUIComponent implements RatingBar.OnRatingBarChan
 	private RatingDao ratingDao;
 	private DaoSession daoSession;
 	private Long newTarget=Long.valueOf(1);
+	private MyActivity mya;
 	
 	private float average=0;
 	private int tamanho = 0;
@@ -174,6 +176,12 @@ public class RatingGUI extends GUIComponent implements RatingBar.OnRatingBarChan
 		newTarget = t;
 	}
 	
+	public void deleteOne(Rating r){
+		ratingDao.delete(r);
+		daoSession.delete(r);
+		mya.deletarAlgo(r.getId(), this);
+	}
+	
 	@Override
 	public void deleteAllFrom(Long target){
 		initRatingDao();
@@ -190,5 +198,12 @@ public class RatingGUI extends GUIComponent implements RatingBar.OnRatingBarChan
 		
 	}
 	
+	public MyActivity getMya() {
+		return mya;
+	}
+
+	public void setMya(MyActivity mya) {
+		this.mya = mya;
+	}
 	
 }
