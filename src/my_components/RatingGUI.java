@@ -42,7 +42,8 @@ public class RatingGUI extends GUIComponent implements
 
 	private float average = 0;
 	private int tamanho = 0;
-
+	private float soma=0;
+	
 	public RatingGUI() {
 
 	}
@@ -83,8 +84,8 @@ public class RatingGUI extends GUIComponent implements
 			public void onClick(View v) {
 				Long newId = ComponentSimpleModel.getUniqueId(getActivity());
 
-				float a = ratingClickable.getRating();
-				rating = new Rating(newId, newTarget, a);
+				
+				rating = new Rating(newId, newTarget, ratingClickable.getRating());
 
 				initRatingDao();
 				ratingDao.insert(rating);
@@ -95,7 +96,8 @@ public class RatingGUI extends GUIComponent implements
 					getAverage();
 				} else {
 					tamanho++;
-					average = (average + a) / tamanho;
+					soma = soma + ratingClickable.getRating();
+					average = soma / tamanho;
 				}
 
 				ratingText.setText("Média de avaliações: " + average);
@@ -134,20 +136,21 @@ public class RatingGUI extends GUIComponent implements
 		List<Rating> lista = ratingDao.queryBuilder()
 				.where(Properties.TargetId.eq(newTarget)).build().list();
 		if (!lista.isEmpty()) {
-			float soma = 0;
+			
 			for (int i = 0; i < lista.size(); i++) {
 				soma = soma + lista.get(i).getValue();
 			}
 
 			// atributos usados para otimizar calculo
 			tamanho = lista.size();
+			
 			average = soma / tamanho;
-
+			calculouMedia = true;
 			Log.i("average", "baixo " + newTarget);
 			// Log.i("average","target here "+getComponentTarget().getCurrent());
 		}
 
-		calculouMedia = true;
+		
 	}
 
 	public void setNewTargetId(Long t) {
@@ -167,7 +170,7 @@ public class RatingGUI extends GUIComponent implements
 				.where(Properties.TargetId.eq(target)).build().list();
 
 		for (int i = 0; i < lista.size(); i++) {
-			ratingDao.delete(lista.get(i));
+			deleteOne(lista.get(i));
 		}
 
 		closeDao();
