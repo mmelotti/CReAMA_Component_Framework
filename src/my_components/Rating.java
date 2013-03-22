@@ -8,7 +8,7 @@ public class Rating extends com.example.my_fragment.ComponentSimpleModel  {
 
     private Long id;
     private Long targetId;
-    private long value;
+    private float value;
 
     public Rating() {
     }
@@ -17,7 +17,7 @@ public class Rating extends com.example.my_fragment.ComponentSimpleModel  {
         this.id = id;
     }
 
-    public Rating(Long id, Long targetId, long value) {
+    public Rating(Long id, Long targetId, float value) {
         this.id = id;
         this.targetId = targetId;
         this.value = value;
@@ -39,11 +39,11 @@ public class Rating extends com.example.my_fragment.ComponentSimpleModel  {
         this.targetId = targetId;
     }
 
-    public long getValue() {
+    public float getValue() {
         return value;
     }
 
-    public void setValue(long value) {
+    public void setValue(float value) {
         this.value = value;
     }
 

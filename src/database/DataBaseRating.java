@@ -83,8 +83,8 @@ public class DataBaseRating extends SQLiteOpenHelper {
             cursor.moveToFirst();
  
         Rating rating = new Rating();
-        rating.setValue(Integer.parseInt(cursor.getString(1)));
-        
+       // rating.setValue(Integer.parseInt(cursor.getString(1)));
+       //all set values, mudei pra long
        
         // return Rating
         return rating;
@@ -104,7 +104,7 @@ public class DataBaseRating extends SQLiteOpenHelper {
             do {
             	Rating rating = new Rating();
                 //Rating.setID(Integer.parseInt(cursor.getString(0)));
-                rating.setValue(Integer.parseInt(cursor.getString(1)));
+               // rating.setValue(Integer.parseInt(cursor.getString(1)));
                 //Rating.setPhoneNumber(cursor.getString(2));
                 // Adding Rating to list
                 ratingList.add(rating);

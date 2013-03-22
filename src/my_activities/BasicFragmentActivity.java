@@ -10,7 +10,7 @@ import my_components.RatingGUI;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
+
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.widget.Toast;
@@ -20,7 +20,7 @@ public class BasicFragmentActivity extends MyActivity {
 	private DatabaseHandler db;
 	private PhotoGUI photo;
 	private ComentarioGUI comentario;
-	private RatingGUI rating = new RatingGUI();
+	private RatingGUI rating; 
 	Long photoId;
 	
 	protected void photoNotFound() {
@@ -33,8 +33,8 @@ public class BasicFragmentActivity extends MyActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
      
-        db = new DatabaseHandler(this);
-        rating.setDb(db);
+      
+        
         // We default to building our Fragment at runtime, but you can switch the layout here
         // to R.layout.activity_fragment_xml in order to have the Fragment added during the
         // Activity's layout inflation.
@@ -81,16 +81,17 @@ public class BasicFragmentActivity extends MyActivity {
      
     public void configurarTargets(){
     	rating.setComponentTarget(photo);
+    	
     	comentario.setComponentTarget(photo);  	    
     }
     
     @Override
     public void onDestroy(){
     	super.onDestroy();
-    	db.close();
+    	
     }
    
-    @Override
+    
 	public void instanciarComponents() {
 		// TODO Auto-generated method stub
 		photoId = getIntent().getLongExtra("nImagem", -1L);
@@ -107,8 +108,8 @@ public class BasicFragmentActivity extends MyActivity {
 			return;
 		}
 		
-		comentario = new ComentarioGUI(photoId); 
-		//rating = new RatingGUI();
+		comentario = new ComentarioGUI(); 
+		rating = new RatingGUI(photoId);
 		//rating.setDb(db);
 		
 	}

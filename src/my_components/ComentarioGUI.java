@@ -14,9 +14,11 @@ import database.DaoMaster;
 import database.DaoMaster.DevOpenHelper;
 import database.DaoSession;
 
+import android.app.Activity;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,6 +52,10 @@ public class ComentarioGUI extends GUIComponent {
 	
 	public ComentarioGUI(Long idTarget) {
 		//this.idTarget = idTarget;
+	}
+	
+	public ComentarioGUI() {
+		
 	}
 
 	private void refreshComents() {
@@ -116,7 +122,7 @@ public class ComentarioGUI extends GUIComponent {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
-		
+		Log.i("en activitycreated","criuou");
 		refreshComents();
 	}
 
@@ -126,7 +132,7 @@ public class ComentarioGUI extends GUIComponent {
 		li = inflater;
 		cont = container;
 
-		this.setId(5);
+		
 
 		View view = inflater.inflate(R.layout.coment, container, false);
 		button = (Button) view.findViewById(R.id.button_com);
@@ -144,13 +150,9 @@ public class ComentarioGUI extends GUIComponent {
 			}
 		});
 
-		extras = getActivity().getIntent().getExtras();
+		idTarget = getComponentTarget().getCurrent();
 
-		if (extras != null) {
-			// recebendo target como parametro
-			//idTarget = extras.getLong("nImagem");
-			idTarget = getComponentTarget().getCurrent();
-		}
+		
 		
 		// setMyMessenger(t);
 		button.setOnClickListener(new OnClickListener() {
@@ -172,18 +174,20 @@ public class ComentarioGUI extends GUIComponent {
 		Long newId = ComponentSimpleModel.getUniqueId(getActivity());
 		Comment comentario = new Comment(newId, edit.getText().toString(),
 				new Date(), idTarget);
-		comentario.setInstanceId(getId() + "-" + nInstance);
-		nInstance++;
+		//comentario.setInstanceId(getId() + "-" + nInstance);
+		//nInstance++;
 		edit.setText("");
 		
 		initCommentDao();
-		comentario.setTargetId(idTarget);
+		//comentario.setTargetId(idTarget);
 		commentDao.insert(comentario);
 		commentDao.getDatabase().close();
 		refreshComents();
 	}
 
-	void initCommentDao() {
+	public void initCommentDao() {
+		
+		Log.i("en initi","aquiii");
 		// As we are in development we will use the DevOpenHelper which drops
 		// the database on a schema update
 		DevOpenHelper helper = new DaoMaster.DevOpenHelper(getActivity(),
@@ -199,5 +203,44 @@ public class ComentarioGUI extends GUIComponent {
 		// Access the Comments DAO
 		commentDao = daoSession.getCommentDao();
 	}
+	
+public void initCommentDao(Activity a) {
+		
+		Log.i("en initi","aquiii");
+		// As we are in development we will use the DevOpenHelper which drops
+		// the database on a schema update
+		DevOpenHelper helper = new DaoMaster.DevOpenHelper(a,
+				"comments-db", null);
+		// Access the database using the helper
+		SQLiteDatabase db = helper.getWritableDatabase();
+		// Construct the DaoMaster which brokers DAOs for the Domain Objects
+		DaoMaster daoMaster = new DaoMaster(db);
+		// Create the session which is a container for the DAO layer and has a
+		// cache which will return handles to the same object across multiple
+		// queries
+		daoSession = daoMaster.newSession();
+		// Access the Comments DAO
+		commentDao = daoSession.getCommentDao();
+	}
+	
+	public void closeDao(){
+		commentDao.getDatabase().close();
+	}
 
+	public List<Comment> getList(Long target,Activity a){
+		
+		initCommentDao(a);
+		
+		List<Comment> lista = commentDao.queryBuilder()
+				.where(Properties.TargetId.eq(target)).build().list();
+		
+		//fecha bd
+		commentDao.getDatabase().close();
+		
+		return lista;
+	}
+	
+	
+	
+	
 }

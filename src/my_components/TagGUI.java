@@ -41,7 +41,7 @@ public class TagGUI extends GUIComponent {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		this.setId(5);
+		
 
 		View view = inflater.inflate(R.layout.tagone, container, false);
 		button = (Button) view.findViewById(R.id.button_tag);

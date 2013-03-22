@@ -14,6 +14,8 @@ public abstract class GUIComponent extends MyComponent {
 			ViewGroup container, Bundle savedInstanceState);
 
 	private RequestListener component;
+	
+	private int relativeFragmentId=-1;
 
 	public interface RequestListener {
 		public String onRequest(String msg);
@@ -31,6 +33,14 @@ public abstract class GUIComponent extends MyComponent {
 
 	public void setComponent(RequestListener component) {
 		this.component = component;
+	}
+
+	public int getRelativeFragmentId() {
+		return relativeFragmentId;
+	}
+
+	public void setRelativeFragmentId(int relativeFragmentId) {
+		this.relativeFragmentId = relativeFragmentId;
 	}
 
 	

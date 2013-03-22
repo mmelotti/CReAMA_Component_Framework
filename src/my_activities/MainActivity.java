@@ -38,9 +38,9 @@ public class MainActivity extends Activity {
 		bttela2.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-
-				Intent trocatela = new Intent(MainActivity.this,
-						BasicFragmentActivity.class);
+				Intent trocatela;
+				// trocatela = new Intent(MainActivity.this,BasicFragmentActivity.class);
+				 trocatela = new Intent(MainActivity.this,NewListActivity.class);
 				
 				// procura primeira imagem
 				trocatela.putExtra("nImagem", PhotoGUI.searchFirstPhoto(null, arg0.getContext()));
