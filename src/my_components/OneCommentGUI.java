@@ -72,7 +72,6 @@ public class OneCommentGUI extends GUIComponent {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		li = inflater;
-		
 
 		View view = inflater.inflate(R.layout.single_coment, container, false);
 

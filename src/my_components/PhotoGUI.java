@@ -41,9 +41,8 @@ public class PhotoGUI extends GUIComponent {
 	Bundle extras;
 
 	private PhotoDao photoDao;
-
+ 
 	// private DaoSession daoSession;
-
 	public PhotoGUI(Long imageId) {
 		// /this.imageId = imageId;
 		setCurrent(imageId);

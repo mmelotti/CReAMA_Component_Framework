@@ -3,13 +3,14 @@ package com.example.my_fragment;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
 public class MyComponent extends Fragment {
 
 	private int generalGUIId = -1;
 	private int componentTargetId = -1;
-	
+
 	public int getComponentTargetId() {
 		return componentTargetId;
 	}
@@ -19,7 +20,7 @@ public class MyComponent extends Fragment {
 	}
 
 	private Long current = (long) 1;
-	
+
 	public Long getCurrent() {
 		return current;
 	}
@@ -29,17 +30,17 @@ public class MyComponent extends Fragment {
 	}
 
 	private MyComponent componentTarget;
-	
+
 	private List<Integer> instancesId = new ArrayList<Integer>();
-	
-	public void addInstanceId(int n){
+
+	public void addInstanceId(int n) {
 		instancesId.add(n);
 	}
-	
-	public boolean removeInstanceId(int n){
+
+	public boolean removeInstanceId(int n) {
 		return instancesId.remove((Object) n);
 	}
-	
+
 	public MyComponent getComponentTarget() {
 		return componentTarget;
 	}
@@ -55,11 +56,9 @@ public class MyComponent extends Fragment {
 	public void setGeneralGUIId(int id) {
 		this.generalGUIId = id;
 	}
-	
-	public void deleteAllFrom(Long target){
-		
+
+	public void deleteAllFrom(Long target) {
+
 	}
-	
-	
-	
+
 }
