@@ -1,15 +1,11 @@
 package my_components;
 
-import java.text.DateFormat;
 import java.util.Date;
-import java.util.List;
-
 import com.example.my_fragment.ComponentSimpleModel;
 import com.example.my_fragment.GUIComponent;
 import com.example.firstcomponents.R;
 
 import database.CommentDao;
-import database.CommentDao.Properties;
 import database.DaoMaster;
 import database.DaoMaster.DevOpenHelper;
 import database.DaoSession;
@@ -28,7 +24,6 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
@@ -57,7 +52,6 @@ public class CommentSendGUI extends GUIComponent {
 		super.onActivityCreated(savedInstanceState);
 
 		Log.i("en activitycreated", "criuou");
-
 	}
 
 	@Override
@@ -74,6 +68,7 @@ public class CommentSendGUI extends GUIComponent {
 					KeyEvent event) {
 				if (actionId == EditorInfo.IME_ACTION_DONE) {
 					submitComent();
+					reloadActivity();
 					return true;
 				}
 				return false;
@@ -83,9 +78,10 @@ public class CommentSendGUI extends GUIComponent {
 		idTarget = getComponentTarget().getCurrent();
 
 		button.setOnClickListener(new OnClickListener() {
-			@Override
+			@Override 
 			public void onClick(View v) {
 				submitComent();
+				reloadActivity();
 			}
 		});
 

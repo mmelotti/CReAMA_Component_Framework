@@ -82,7 +82,6 @@ public class OneCommentGUI extends GUIComponent {
 	}
 
 	private View refreshComment() {
-		// TODO Auto-generated method stub
 		View view = li.inflate(R.layout.single_coment, null);
 
 		view.findViewById(R.id.button_apaga).setTag("" + comment.getId());
@@ -108,7 +107,7 @@ public class OneCommentGUI extends GUIComponent {
 					
 					//
 					commentDao.getDatabase().close();
-					
+					reloadActivity();
 				} 
 			}
 		});

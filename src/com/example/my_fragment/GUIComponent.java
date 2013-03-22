@@ -1,7 +1,6 @@
 package com.example.my_fragment;
 
-
-
+import android.app.Activity;
 import android.os.Bundle;
 
 import android.view.LayoutInflater;
@@ -14,8 +13,14 @@ public abstract class GUIComponent extends MyComponent {
 			ViewGroup container, Bundle savedInstanceState);
 
 	private RequestListener component;
-	
-	private int relativeFragmentId=-1;
+
+	private int relativeFragmentId = -1;
+
+	public void reloadActivity() {
+		Activity a = getActivity();
+		a.finish();
+		startActivity(a.getIntent());
+	}
 
 	public interface RequestListener {
 		public String onRequest(String msg);
@@ -23,7 +28,7 @@ public abstract class GUIComponent extends MyComponent {
 
 	public String sendMessage(String msg) {
 		String re = component.onRequest(msg);
-		
+
 		return re;
 	}
 
@@ -42,9 +47,4 @@ public abstract class GUIComponent extends MyComponent {
 	public void setRelativeFragmentId(int relativeFragmentId) {
 		this.relativeFragmentId = relativeFragmentId;
 	}
-
-	
-	
-	
-	
 }

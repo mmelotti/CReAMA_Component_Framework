@@ -5,10 +5,10 @@ import java.util.List;
 
 import android.support.v4.app.Fragment;
 
-public class MyComponent extends Fragment{
+public class MyComponent extends Fragment {
 
-	private int generalGUIId=-1;
-	private int componentTargetId=-1;
+	private int generalGUIId = -1;
+	private int componentTargetId = -1;
 	
 	public int getComponentTargetId() {
 		return componentTargetId;
