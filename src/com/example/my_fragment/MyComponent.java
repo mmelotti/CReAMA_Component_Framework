@@ -7,7 +7,7 @@ import android.support.v4.app.Fragment;
 
 public class MyComponent extends Fragment{
 
-	private int componentId=-1;
+	private int generalGUIId=-1;
 	private int componentTargetId=-1;
 	
 	public int getComponentTargetId() {
@@ -48,12 +48,12 @@ public class MyComponent extends Fragment{
 		this.componentTarget = componentTarget;
 	}
 
-	public int getComponentId() {
-		return componentId;
+	public int getGeneralGUIId() {
+		return generalGUIId;
 	}
 
-	public void setComponentId(int id) {
-		this.componentId = id;
+	public void setGeneralGUIId(int id) {
+		this.generalGUIId = id;
 	}
 	
 	public void deleteAllFrom(Long target){
