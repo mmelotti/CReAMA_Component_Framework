@@ -6,6 +6,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.List;
 
+import my_activities.ImageZoomActivity;
+
 import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
@@ -35,19 +37,27 @@ public class PhotoGUI extends GUIComponent {
 	private ImageView image;
 	private Long imageId;
 	private Button proxima, anterior;
+	Photo photo;
 	Bundle extras;
 
 	private PhotoDao photoDao;
-	//private DaoSession daoSession;
+
+	// private DaoSession daoSession;
 
 	public PhotoGUI(Long imageId) {
-		///this.imageId = imageId;
+		// /this.imageId = imageId;
 		setCurrent(imageId);
 	}
 
 	public Long getImageId() {
 		return getCurrent();
-		//return imageId;
+		// return imageId;
+	}
+
+	public void zoomPhoto() {
+		Intent i = new Intent(getActivity(), ImageZoomActivity.class);
+		i.putExtra("image", photo.getPhotoBytes());
+		startActivity(i);
 	}
 
 	public static Bitmap byteArrayToBitmap(byte[] imageBytes) {
@@ -88,27 +98,25 @@ public class PhotoGUI extends GUIComponent {
 	}
 
 	public static PhotoDao initPhotoDao(Context ctx) {
-		DevOpenHelper helper = new DaoMaster.DevOpenHelper(ctx,
-				"photos-db", null);
+		DevOpenHelper helper = new DaoMaster.DevOpenHelper(ctx, "photos-db",
+				null);
 		SQLiteDatabase db = helper.getWritableDatabase();
 		DaoMaster daoMaster = new DaoMaster(db);
-		//session = daoMaster.newSession();
+		// session = daoMaster.newSession();
 		PhotoDao photoDao = daoMaster.newSession().getPhotoDao();
-		
-		
-		
+
 		return photoDao;
 	}
 
 	public static Long searchFirstPhoto(PhotoDao dao, Context ctx) {
 		PhotoDao mDao = (dao == null ? initPhotoDao(ctx) : dao);
-			
+
 		List<Photo> l = mDao.queryBuilder().orderAsc(Properties.Id).build()
 				.list();
-		
-		//aqui ja pode fechar o BD
+
+		// aqui ja pode fechar o BD
 		mDao.getDatabase().close();
-		
+
 		if (l.isEmpty()) {
 			return -1L;
 		} else {
@@ -120,9 +128,7 @@ public class PhotoGUI extends GUIComponent {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		
-		
-		
+
 		photoDao = initPhotoDao(getActivity());
 		View view = inflater.inflate(R.layout.imageone, container, false);
 
@@ -131,9 +137,16 @@ public class PhotoGUI extends GUIComponent {
 		image = (ImageView) view.findViewById(R.id.imageView1);
 		extras = getActivity().getIntent().getExtras();
 
-		Photo photo = (Photo) photoDao.queryBuilder()
+		image.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				zoomPhoto();
+			}
+		});
+
+		photo = (Photo) photoDao.queryBuilder()
 				.where(Properties.Id.eq(getCurrent())).build().unique();
-		
+
 		photoDao.getDatabase().close();
 		if (photo != null)
 			image.setImageBitmap(byteArrayToBitmap(photo.getPhotoBytes()));
@@ -183,7 +196,7 @@ public class PhotoGUI extends GUIComponent {
 				.where(Properties.Id.lt(getCurrent())).orderDesc(Properties.Id)
 				.list();
 		photoDao.getDatabase().close();
-		
+
 		return (l.isEmpty() ? getCurrent() : ((Photo) l.get(0)).getId());
 	}
 

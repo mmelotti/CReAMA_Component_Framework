@@ -11,7 +11,9 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="90dp"
         android:padding="5dp"
-        android:text="Selecione a opção:" />
+        android:text="Selecione a opção:"
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
     <Button
         android:id="@+id/go_comment"
@@ -19,7 +21,13 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/text_init"
         android:layout_centerHorizontal="true"
-        android:text="Comentar Fotos" />
+        android:layout_marginBottom="2dp"
+        android:background="#111111"
+        android:padding="15dp"
+        android:text="Comentar Fotos"
+        android:textColor="#ffffff"
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
     <Button
         android:id="@+id/go_tag"
@@ -27,13 +35,25 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/go_comment"
         android:layout_centerHorizontal="true"
-        android:text="Definir Tags" />
+        android:layout_marginBottom="2dp"
+        android:background="#111111"
+        android:padding="15dp"
+        android:text="Definir Tags"
+        android:textColor="#ffffff"
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
     <Button
         android:id="@+id/btnAddPhoto"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/go_tag"
-        android:text="Adicionar Foto" />
+        android:layout_marginBottom="2dp"
+        android:background="#111111"
+        android:padding="15dp"
+        android:text="Adicionar Foto"
+        android:textColor="#ffffff"
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
 </RelativeLayout>

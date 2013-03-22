@@ -33,11 +33,7 @@ public class NewListActivity extends MyActivity {
 	private List<Long> deleteId = new ArrayList<Long>();
 
 	private List<MyComponent> componentes = new ArrayList<MyComponent>();
-	// select
-	// listener to
-	// be
-	// HelloAndroid
-	// (this) class
+
 	// comment =1, rating =2
 	private int source = 2;
 	private int target = 1;
@@ -117,9 +113,9 @@ public class NewListActivity extends MyActivity {
 		sendCom = new CommentSendGUI();
 	}
 
-	public void setMyList() {
+	public void setMyList() { 
 		comentario = new ComentarioGUI(commentTarget);
-		lista = comentario.getList(commentTarget, this);
+		lista = comentario.getList(commentTarget, this); 
 	}
 
 	public void addSomething() {
