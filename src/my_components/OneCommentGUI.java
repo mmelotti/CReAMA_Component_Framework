@@ -23,6 +23,7 @@ import android.widget.TextView.OnEditorActionListener;
 import com.example.firstcomponents.R;
 import com.example.my_fragment.ComponentSimpleModel;
 import com.example.my_fragment.GUIComponent;
+import com.example.my_fragment.MyActivity;
 
 import database.CommentDao;
 import database.DaoMaster;
@@ -34,6 +35,7 @@ public class OneCommentGUI extends GUIComponent {
 
 	private CommentDao commentDao;
 	private DaoSession daoSession;
+	private MyActivity mya;
 
 	private LayoutInflater li;
 	
@@ -92,6 +94,25 @@ public class OneCommentGUI extends GUIComponent {
 				DateFormat.SHORT);
 		((TextView) view.findViewById(R.id.date)).setText("Enviado em "
 				+ df.format(comment.getDate()));
+		((ImageButton) view.findViewById(R.id.button_apaga))
+		.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Long id = Long.valueOf(v.getTag().toString());
+				Comment c = findCommentById(id);
+				if (c != null) {
+					initCommentDao();
+					
+					deleteOne(c);
+					 // deleta do cache
+					
+					//
+					commentDao.getDatabase().close();
+					
+				} 
+			}
+		});
+		
 
 		return view;
 	}
@@ -116,7 +137,8 @@ public class OneCommentGUI extends GUIComponent {
 	
 	public void deleteOne(Comment c){
 		commentDao.delete(c);
-		
+		daoSession.delete(c);
+		mya.deletarAlgo(c.getId(), this);
 	}
 	
 	@Override
@@ -132,6 +154,14 @@ public class OneCommentGUI extends GUIComponent {
 		
 		commentDao.getDatabase().close();
 		
+	}
+
+	public MyActivity getMya() {
+		return mya;
+	}
+
+	public void setMya(MyActivity mya) {
+		this.mya = mya;
 	}
 
 }

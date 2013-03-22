@@ -14,24 +14,31 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <RatingBar
-        android:id="@+id/rating"
-        style="?android:attr/ratingBarStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_weight="1"
-        android:isIndicator="false"
-        android:numStars="5"
-        android:rating="0.0"
-        android:stepSize="1.0" >
-    </RatingBar>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginBottom="5dp"
+        android:orientation="horizontal" >
 
-    <Button
-        android:id="@+id/button_rating"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:text="Enviar Avaliação" />
+        <RatingBar
+            android:id="@+id/rating"
+            style="?android:attr/ratingBarStyleIndicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:isIndicator="false"
+            android:numStars="5"
+            android:rating="0.0"
+            android:stepSize="1.0" >
+        </RatingBar>
+
+        <Button
+            android:id="@+id/button_rating"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:text="Enviar" />
+    </LinearLayout>
 
 </LinearLayout>

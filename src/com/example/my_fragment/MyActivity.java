@@ -16,6 +16,8 @@ public abstract class MyActivity extends FragmentActivity{
 		configurarTargets();
 	}
 		
-	
+	public void deletarAlgo(Long t, MyComponent m){
+		
+	}
 	
 }

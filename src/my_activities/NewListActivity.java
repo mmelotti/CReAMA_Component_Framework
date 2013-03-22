@@ -177,54 +177,61 @@ public class NewListActivity extends MyActivity {
 
 		for (int i = 0; i < lista.size(); i++) {
 
-			geraLayout(idroot);
+			
 			OneCommentGUI com = new OneCommentGUI(lista.get(i));
 			com.setGeneralGUIId(1);
 			com.setComponentTargetId(3);
-			ft.add(idroot, com);
+			com.setRelativeFragmentId(idroot);
+			com.setMya(this);
+			ft.add(R.id.menu_lin, com,""+idroot);
 			componentes.add(com);
 
 			// add para ser deletado depois
 			//deleteId.add(lista.get(i).getId());
-			fragmentId.add(idroot);
+			fragmentId.add(idroot++);
 
-			idroot++;
+			
 
 			// para cada comentario um avaliador!
 
 			RatingGUI rat = new RatingGUI(lista.get(i).getId());
 			rat.setGeneralGUIId(2);
 			rat.setComponentTargetId(1);
-			geraLayout(idroot);
-			ft.add(idroot, rat);
+			rat.setRelativeFragmentId(idroot);
+			rat.setMya(this);
+			
+			ft.add(R.id.menu_lin, rat,""+ idroot);
 			componentes.add(rat);
 
-			fragmentId.add(idroot);
+			fragmentId.add(idroot++);
 			// multiplos ratings
 
-			idroot++;
+			
 
 		}
 
-		geraLayout(idroot);
-		ft.add(idroot, sendCom);
-		idroot++;
+		
+		ft.add(R.id.menu_lin, sendCom);
+		
 
 		ft.commit();
 
 	}
 
-	public void geraLayout(int i) {
-		LinearLayout item = new LinearLayout(this);
-		item.setId(i);
-		myview.addView(item);
-	}
+	
 
+	@Override
+	public void deletarAlgo(Long target, MyComponent component){
+		callbackRemove(target, component);
+	}
+	
 	public void callbackRemove(Long target, MyComponent component) {
 		boolean foundIt = false;
 
 		for (int i = 0; i < dependencies.length; i++) {
+			//tem alguem que depende do que vai ser deletado?
 			if(dependencies[i]==component.getGeneralGUIId()){
+				Log.i("Remover!","encontrou "+dependencies[i]);
 				foundIt=true;
 				break;
 			}
@@ -235,6 +242,7 @@ public class NewListActivity extends MyActivity {
 				if (componentes.get(i).getComponentTargetId() == component
 						.getGeneralGUIId()) {
 					componentes.get(i).deleteAllFrom(target);
+					Log.i("Remover!","from "+target);
 					break;
 				}
 			}

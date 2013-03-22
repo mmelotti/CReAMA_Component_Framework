@@ -5,21 +5,19 @@ import java.util.List;
 import com.example.firstcomponents.R;
 import com.example.my_fragment.ComponentSimpleModel;
 import com.example.my_fragment.GUIComponent;
+import com.example.my_fragment.MyActivity;
 import com.example.my_fragment.MyComponent;
 
 
 
-import database.CommentDao;
 import database.DaoMaster;
 import database.DaoSession;
-import database.DatabaseHandler;
 import database.CommentDao.Properties;
 import database.DaoMaster.DevOpenHelper;
 import database.RatingDao;
 
 
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Color;
 import android.os.Bundle;
 
 import android.util.Log;
@@ -42,6 +40,7 @@ public class RatingGUI extends GUIComponent implements RatingBar.OnRatingBarChan
 	private RatingDao ratingDao;
 	private DaoSession daoSession;
 	private Long newTarget=Long.valueOf(1);
+	private MyActivity mya;
 	
 	private float average=0;
 	private int tamanho = 0;
@@ -62,7 +61,6 @@ public class RatingGUI extends GUIComponent implements RatingBar.OnRatingBarChan
 	    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		
 		View view = inflater.inflate(R.layout.ratingone, container, false);
-		
 		
 		//setContentView(R.layout.ratingone);// set content from main.xml
 		ratingText=(TextView) view.findViewById(R.id.ratingText);// create TextView object
@@ -91,18 +89,13 @@ public class RatingGUI extends GUIComponent implements RatingBar.OnRatingBarChan
 				//db.getAverageRatingFrom(idTarget));//media com db antigo
 				if(!calculouMedia){
 					getAverage();
-				}
-				else{
+				} else{
 					tamanho++;
 					average = (average+a)/tamanho;
 				}
-				ratingText.setText("Media de avaliações: "+ average);
-						
 				
-				closeDao();
-				
-				
-					
+				ratingText.setText("Média de avaliações: "+ average);		
+				closeDao();			
 			}
 		});
 		
@@ -118,9 +111,7 @@ public class RatingGUI extends GUIComponent implements RatingBar.OnRatingBarChan
 		ratingText.setText(""+this.ratingClickable.getRating()); // display rating as number in TextView, use "this.rating" to not confuse with "float rating"
 		
 	}
-	
-	
-	
+
 	public void initRatingDao() {
 		// As we are in development we will use the DevOpenHelper which drops
 		// the database on a schema update
@@ -138,13 +129,10 @@ public class RatingGUI extends GUIComponent implements RatingBar.OnRatingBarChan
 		ratingDao = daoSession.getRatingDao();
 	}
 	
-	
 	public void closeDao(){
 		ratingDao.getDatabase().close();
 	}
-	
-	
-	
+
 	public void getAverage(){
 		
 		
@@ -165,13 +153,17 @@ public class RatingGUI extends GUIComponent implements RatingBar.OnRatingBarChan
 			//Log.i("average","target here "+getComponentTarget().getCurrent());
 		}
 		
-		calculouMedia=true;
-		
-		
+		calculouMedia=true;	
 	}
 	
 	public void setNewTargetId(Long t){
 		newTarget = t;
+	}
+	
+	public void deleteOne(Rating r){
+		ratingDao.delete(r);
+		daoSession.delete(r);
+		mya.deletarAlgo(r.getId(), this);
 	}
 	
 	@Override
@@ -180,15 +172,20 @@ public class RatingGUI extends GUIComponent implements RatingBar.OnRatingBarChan
 		List<Rating> lista = ratingDao.queryBuilder()
 				.where(Properties.TargetId.eq(target)).build().list();
 		
-			
 			for(int i=0;i<lista.size();i++){
 				ratingDao.delete(lista.get(i));
 			}
-			
-		
+	
 		closeDao();
 		
 	}
 	
+	public MyActivity getMya() {
+		return mya;
+	}
+
+	public void setMya(MyActivity mya) {
+		this.mya = mya;
+	}
 	
 }
