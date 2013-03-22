@@ -16,7 +16,7 @@ public class Comentario extends ComponentSimpleModel {
 
 	@Override
 	public void save() {
-
+ 
 	}
 
 	@Override
