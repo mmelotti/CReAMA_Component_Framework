@@ -2,6 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:id="@+id/myonly"
     android:background="#CCCCCC" >
 
     <LinearLayout
@@ -41,6 +42,12 @@
             android:id="@+id/fragment_content6"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content" />
+        
+         <LinearLayout
+            android:id="@+id/fragment_content7"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
     </LinearLayout>
 
 </ScrollView>

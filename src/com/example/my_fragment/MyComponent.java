@@ -8,7 +8,16 @@ import android.support.v4.app.Fragment;
 public class MyComponent extends Fragment{
 
 	private int componentId=-1;
+	private int componentTargetId=-1;
 	
+	public int getComponentTargetId() {
+		return componentTargetId;
+	}
+
+	public void setComponentTargetId(int componentTargetId) {
+		this.componentTargetId = componentTargetId;
+	}
+
 	private Long current = (long) 1;
 	
 	public Long getCurrent() {
@@ -43,11 +52,13 @@ public class MyComponent extends Fragment{
 		return componentId;
 	}
 
-	public void setId(int id) {
+	public void setComponentId(int id) {
 		this.componentId = id;
 	}
 	
-	
+	public void deleteAllFrom(Long target){
+		
+	}
 	
 	
 	

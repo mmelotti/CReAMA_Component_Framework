@@ -1,16 +1,28 @@
 package my_components;
 
+import java.util.List;
+
 import com.example.firstcomponents.R;
+import com.example.my_fragment.ComponentSimpleModel;
 import com.example.my_fragment.GUIComponent;
+import com.example.my_fragment.MyComponent;
 
 
 
+import database.CommentDao;
+import database.DaoMaster;
+import database.DaoSession;
 import database.DatabaseHandler;
+import database.CommentDao.Properties;
+import database.DaoMaster.DevOpenHelper;
+import database.RatingDao;
 
 
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,45 +34,75 @@ import android.widget.TextView;
 public class RatingGUI extends GUIComponent implements RatingBar.OnRatingBarChangeListener{
 	
 	RatingBar ratingClickable; // declare RatingBar object
-	Rating rating = new Rating();
+	Rating rating;
 	TextView ratingText;// declare TextView Object
 	private Button button;
-	private Bundle extras;
-	private Long idTarget;
-	private DatabaseHandler db;
+	private boolean calculouMedia=false;
+
+	private RatingDao ratingDao;
+	private DaoSession daoSession;
+	private Long newTarget=Long.valueOf(1);
+	
+	private float average=0;
+	private int tamanho = 0;
+	
+	public RatingGUI(){
+		
+	}
+	
+	public RatingGUI(Long target){
+		newTarget = target;
+	}
+	
+	public RatingGUI(MyComponent target){
+		setComponentTarget(target);
+	}
 	
 	 @Override
 	    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		
 		View view = inflater.inflate(R.layout.ratingone, container, false);
+		
+		
 		//setContentView(R.layout.ratingone);// set content from main.xml
 		ratingText=(TextView) view.findViewById(R.id.ratingText);// create TextView object
 		ratingText.setTextColor(getActivity().getResources().getColor(R.color.mycolor1));
-		ratingText.setText("Avalie a imagem!");
+		ratingText.setText("Avalie!");
 		
 		ratingClickable=(RatingBar) view.findViewById(R.id.rating);// create RatingBar object
 		
-		extras = getActivity().getIntent().getExtras();
-		if (extras != null) {
-			// recebendo target como parametro
-			//idTarget = extras.getLong("nImagem");
-			idTarget = getComponentTarget().getCurrent();
-		}
+		//newTarget = getComponentTarget().getCurrent();
+		//Log.i("average","target cimaaa "+getComponentTarget().getCurrent());
 		
 		button = (Button) view.findViewById(R.id.button_rating);
 		button.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				rating.setQuantidade((int)ratingClickable.getRating());
-				rating.save();
-				rating.setTargetId(idTarget);
-				db.addRating(rating);
+				Long newId = ComponentSimpleModel.getUniqueId(getActivity());
 				
-				//ratingText.setTextColor(getActivity().getResources().getColor(R.color.mycolor1));
-				ratingText.setText("Media de Avaliações: "+ db.getAverageRatingFrom(idTarget));
+				float a = ratingClickable.getRating();
+				rating = new Rating(newId, newTarget, a);
+	
+				initRatingDao();
+				ratingDao.insert(rating);
 				
-				rating = new Rating();				
+				//ratingText.setText("Media de Avaliações: "+ 
+				//db.getAverageRatingFrom(idTarget));//media com db antigo
+				if(!calculouMedia){
+					getAverage();
+				}
+				else{
+					tamanho++;
+					average = (average+a)/tamanho;
+				}
+				ratingText.setText("Media de avaliações: "+ average);
+						
+				
+				closeDao();
+				
+				
+					
 			}
 		});
 		
@@ -74,10 +116,79 @@ public class RatingGUI extends GUIComponent implements RatingBar.OnRatingBarChan
 	// implement abstract method onRatingChanged
 	public void onRatingChanged(RatingBar ratingBar,float rating, boolean fromUser){
 		ratingText.setText(""+this.ratingClickable.getRating()); // display rating as number in TextView, use "this.rating" to not confuse with "float rating"
-		this.rating.setQuantidade((int)ratingClickable.getRating());
+		
 	}
 	
-	public void setDb(DatabaseHandler db) {
-		this.db = db;
+	
+	
+	public void initRatingDao() {
+		// As we are in development we will use the DevOpenHelper which drops
+		// the database on a schema update
+		DevOpenHelper helper = new DaoMaster.DevOpenHelper(getActivity(),
+				"ratings-db", null);
+		// Access the database using the helper
+		SQLiteDatabase db = helper.getWritableDatabase();
+		// Construct the DaoMaster which brokers DAOs for the Domain Objects
+		DaoMaster daoMaster = new DaoMaster(db);
+		// Create the session which is a container for the DAO layer and has a
+		// cache which will return handles to the same object across multiple
+		// queries
+		daoSession = daoMaster.newSession();
+		// Access the Comments DAO
+		ratingDao = daoSession.getRatingDao();
 	}
+	
+	
+	public void closeDao(){
+		ratingDao.getDatabase().close();
+	}
+	
+	
+	
+	public void getAverage(){
+		
+		
+		List<Rating> lista = ratingDao.queryBuilder()
+				.where(Properties.TargetId.eq(newTarget)).build().list();
+		if(!lista.isEmpty()){
+			float soma=0;
+			for(int i=0;i<lista.size();i++){
+				soma= soma + lista.get(i).getValue();
+			}
+			
+			//atributos usados para otimizar calculo
+			tamanho = lista.size();
+			average = soma/tamanho;
+			
+			
+			Log.i("average","baixo "+newTarget);
+			//Log.i("average","target here "+getComponentTarget().getCurrent());
+		}
+		
+		calculouMedia=true;
+		
+		
+	}
+	
+	public void setNewTargetId(Long t){
+		newTarget = t;
+	}
+	
+	@Override
+	public void deleteAllFrom(Long target){
+		initRatingDao();
+		List<Rating> lista = ratingDao.queryBuilder()
+				.where(Properties.TargetId.eq(target)).build().list();
+		
+			
+			for(int i=0;i<lista.size();i++){
+				ratingDao.delete(lista.get(i));
+			}
+			
+		
+		closeDao();
+		
+	}
+	
+	
 }
