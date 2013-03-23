@@ -23,6 +23,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -37,12 +38,14 @@ public class RatingGUI extends GUIComponent implements
 
 	private RatingDao ratingDao;
 	private DaoSession daoSession;
-	private Long newTarget = Long.valueOf(1);
+	private Long newTarget = 1L;
 	private MyActivity mya;
 
 	private float average = 0;
 	private int tamanho = 0;
-	private float soma=0;
+	private float soma = 0;
+	
+	LinearLayout ratingBody;
 	
 	public RatingGUI() {
 
@@ -62,20 +65,21 @@ public class RatingGUI extends GUIComponent implements
 
 		View view = inflater.inflate(R.layout.ratingone, container, false);
 
-		// setContentView(R.layout.ratingone);// set content from main.xml
-		ratingText = (TextView) view.findViewById(R.id.ratingText);// create
-																	// TextView
-																	// object
+		ratingText = (TextView) view.findViewById(R.id.ratingText);
 		ratingText.setTextColor(getActivity().getResources().getColor(
 				R.color.mycolor1));
 		ratingText.setText("Avalie!");
-
-		ratingClickable = (RatingBar) view.findViewById(R.id.rating);// create
-																		// RatingBar
-																		// object
-
-		// newTarget = getComponentTarget().getCurrent();
-		// Log.i("average","target cimaaa "+getComponentTarget().getCurrent());
+		ratingText.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				int visibility = ratingBody.getVisibility() == View.GONE ? View.VISIBLE : View.GONE;
+				ratingBody.setVisibility(visibility);
+			}
+		});
+		
+		ratingBody = (LinearLayout) view.findViewById(R.id.ratingBody);
+		
+		ratingClickable = (RatingBar) view.findViewById(R.id.rating);
 
 		button = (Button) view.findViewById(R.id.button_rating);
 		button.setOnClickListener(new OnClickListener() {
@@ -90,8 +94,6 @@ public class RatingGUI extends GUIComponent implements
 				initRatingDao();
 				ratingDao.insert(rating);
 
-				// ratingText.setText("Media de Avaliações: "+
-				// db.getAverageRatingFrom(idTarget));//media com db antigo
 				if (!calculouMedia) {
 					getAverage();
 				} else {
@@ -147,9 +149,7 @@ public class RatingGUI extends GUIComponent implements
 			average = soma / tamanho;
 			calculouMedia = true;
 			Log.i("average", "baixo " + newTarget);
-			// Log.i("average","target here "+getComponentTarget().getCurrent());
 		}
-
 		
 	}
 
@@ -174,7 +174,6 @@ public class RatingGUI extends GUIComponent implements
 		}
 
 		closeDao();
-
 	}
 
 	public MyActivity getMya() {

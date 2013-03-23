@@ -60,7 +60,7 @@ public class ComentarioGUI extends GUIComponent {
 
 	private void refreshComents() {
 		ViewGroup layoutComent = (ViewGroup) cont
-				.findViewById(R.id.comentariosRoot);
+				.findViewById(0);
 		layoutComent.removeAllViews();
 
 		//abri DAO, fecha depois o bd

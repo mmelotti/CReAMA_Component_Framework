@@ -11,7 +11,7 @@ import android.widget.ImageView;
 public class ImageZoomActivity extends Activity {
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {  
+	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.image_zoom);
 
@@ -19,7 +19,7 @@ public class ImageZoomActivity extends Activity {
 		iv.setImageBitmap(PhotoGUI.byteArrayToBitmap(getIntent()
 				.getByteArrayExtra("image")));
 
-		iv.setOnClickListener(new View.OnClickListener() { 
+		iv.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View arg0) {

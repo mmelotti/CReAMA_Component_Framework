@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:layout_margin="5dp"
     android:orientation="vertical" >
 
     <TextView
@@ -10,15 +11,6 @@
         android:layout_height="wrap_content"
         android:text="Comentar:"
         android:textAppearance="?android:attr/textAppearanceMedium" />
-
-    <LinearLayout
-        android:id="@+id/comentariosRoot"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:layout_marginTop="5dp"
-        android:orientation="vertical"
-        android:padding="5dp" />
 
     <EditText
         android:id="@+id/edit_com"
@@ -35,6 +27,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
-        android:text="Enviar Comentário" />
+        android:background="#E0E0E0"
+        android:padding="5dp"
+        android:text="Enviar Comentário"
+        android:textColor="#333333"
+        android:textSize="18sp" />
 
 </LinearLayout>

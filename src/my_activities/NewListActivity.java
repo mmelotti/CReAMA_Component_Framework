@@ -95,7 +95,6 @@ public class NewListActivity extends MyActivity {
 	}
 
 	public void instanciarComponents() {
-		// TODO Auto-generated method stub
 		photoId = getIntent().getLongExtra("nImagem", -1L);
 		if (photoId != -1L)
 			photo = new PhotoGUI(photoId);
@@ -113,9 +112,9 @@ public class NewListActivity extends MyActivity {
 		sendCom = new CommentSendGUI();
 	}
 
-	public void setMyList() { 
+	public void setMyList() {
 		comentario = new ComentarioGUI(commentTarget);
-		lista = comentario.getList(commentTarget, this); 
+		lista = comentario.getList(commentTarget, this);
 	}
 
 	public void addSomething() {
@@ -161,20 +160,19 @@ public class NewListActivity extends MyActivity {
 	public void callbackRemove(Long target, MyComponent component) {
 		boolean foundIt = false;
 
-		for (int i = 0; i < dependencies.length; i++) {
+		for (int i : dependencies) {
 			// tem alguem que depende do que vai ser deletado?
-			if (dependencies[i] == component.getGeneralGUIId()) {
-				Log.i("Remover!", "encontrou " + dependencies[i]);
+			if (i == component.getGeneralGUIId()) {
+				Log.i("Remover!", "encontrou " + i);
 				foundIt = true;
 				break;
 			}
 		}
 
 		if (foundIt) {
-			for (int i = 0; i < componentes.size(); i++) {
-				if (componentes.get(i).getComponentTargetId() == component
-						.getGeneralGUIId()) {
-					componentes.get(i).deleteAllFrom(target);
+			for (MyComponent c : componentes) {
+				if (c.getComponentTargetId() == component.getGeneralGUIId()) {
+					c.deleteAllFrom(target);
 					Log.i("Remover!", "from " + target);
 					break;
 				}
