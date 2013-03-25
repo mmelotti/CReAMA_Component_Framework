@@ -1,6 +1,7 @@
-package com.example.test_fragment;
+package my_components;
 
 import com.example.firstcomponents.R;
+import com.example.my_fragment.GUIComponent;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -13,7 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class Buscar extends Fragment{
+public class BuscarGUI extends GUIComponent{
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         

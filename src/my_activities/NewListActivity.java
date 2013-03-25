@@ -3,7 +3,7 @@ package my_activities;
 import java.util.ArrayList;
 import java.util.List;
 
-import my_components.ComentarioGUI;
+import my_components.CommentListGUI;
 import my_components.Comment;
 import my_components.CommentSendGUI;
 import my_components.OneCommentGUI;
@@ -24,8 +24,7 @@ import com.example.my_fragment.MyComponent;
 public class NewListActivity extends MyActivity {
 
 	private PhotoGUI photo;
-	private ComentarioGUI comentario;
-	private RatingGUI rating;
+	private CommentListGUI comentario;
 	private CommentSendGUI sendCom;
 	private boolean gambiarraFlag = false;
 
@@ -113,7 +112,7 @@ public class NewListActivity extends MyActivity {
 	}
 
 	public void setMyList() {
-		comentario = new ComentarioGUI(commentTarget);
+		comentario = new CommentListGUI(commentTarget);
 		lista = comentario.getList(commentTarget, this);
 	}
 
@@ -126,7 +125,7 @@ public class NewListActivity extends MyActivity {
 			com.setGeneralGUIId(1);
 			com.setComponentTargetId(3);
 			com.setRelativeFragmentId(idroot);
-			com.setMya(this);
+			com.setControlActivity(this);
 			ft.add(R.id.menu_lin, com, "" + idroot);
 			componentes.add(com);
 

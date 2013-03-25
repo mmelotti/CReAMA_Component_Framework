@@ -1,9 +1,7 @@
 package database;
 
-import java.util.ArrayList;
-import java.util.List;
 
-import my_components.Comentario;
+//import my_components.Comentario;
 import my_components.Rating;
 import my_components.Tag;
 
@@ -63,6 +61,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	 */
 
 	// Adding new Comentario
+	/*
 	public void addComentario(Comentario comentario) {
 		SQLiteDatabase db = this.getWritableDatabase();
 
@@ -77,7 +76,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		// Inserting Row
 		db.insert(stringDb.getTABLE_COMMENT(), null, values);
 		db.close(); // Closing database connection
-	}
+	}*/
 
 	public void addTag(Tag tag) {
 		SQLiteDatabase db = this.getWritableDatabase();
@@ -164,6 +163,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	}
 
 	// Getting single Comentario
+	/*
 	Comentario getComentario(int id) {
 		SQLiteDatabase db = this.getReadableDatabase();
 
@@ -179,10 +179,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		cursor.close();
 		// return Comentario
 		return Comentario;
-	}
+	}*/
 
 	// Getting All Comentarios
-	public List<Comentario> getAllComentarios() {
+	/*public List<Comentario> getAllComentarios() {
 		List<Comentario> ComentarioList = new ArrayList<Comentario>();
 		// Select All Query
 		String selectQuery = "SELECT  * FROM " + TABLE_COMENTARIOS;
@@ -204,9 +204,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
 		// return Comentario list
 		return ComentarioList;
-	}
+	}*/
 
 	// Updating single Comentario
+	/*
 	public int updateComentario(Comentario Comentario) {
 		SQLiteDatabase db = this.getWritableDatabase();
 
@@ -219,15 +220,18 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		return db.update(TABLE_COMENTARIOS, values, KEY_ID + " = ?",
 				new String[] { String.valueOf(Comentario.getInstanceId()) });
 	}
-
+	*/
+	
+	
 	// Deleting single Comentario
+	/*
 	public void deleteComentario(Comentario Comentario) {
 		SQLiteDatabase db = this.getWritableDatabase();
 		db.delete(TABLE_COMENTARIOS, KEY_ID + " = ?",
 				new String[] { String.valueOf(Comentario.getInstanceId()) });
 		db.close();
 	}
-
+*/
 	// Getting Comentarios Count
 	public int getComentariosCount() {
 		String countQuery = "SELECT  * FROM " + TABLE_COMENTARIOS;
@@ -252,7 +256,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		
 		result = new String[c.getCount()];
 
-		String con = "";
+
 		// con += "id, comentario, targetId \n";
 		/*
 		 * con += "id, comentario, targetId = "+ c.getColumnName(0)+" \n"; con

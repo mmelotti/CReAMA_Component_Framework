@@ -32,7 +32,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
-public class ComentarioGUI extends GUIComponent {
+public class CommentListGUI extends GUIComponent {
 
 	private CommentDao commentDao;
 	private DaoSession daoSession;
@@ -50,11 +50,11 @@ public class ComentarioGUI extends GUIComponent {
 	private Long idTarget = Long.valueOf(1);
 	Bundle extras; 
 	
-	public ComentarioGUI(Long idTarget) {
+	public CommentListGUI(Long idTarget) {
 		//this.idTarget = idTarget;
 	}
 	
-	public ComentarioGUI() {
+	public CommentListGUI() {
 		
 	}
 

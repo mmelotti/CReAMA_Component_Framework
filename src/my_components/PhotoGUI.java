@@ -35,22 +35,16 @@ import database.PhotoDao.Properties;
 public class PhotoGUI extends GUIComponent {
 
 	private ImageView image;
-	private Long imageId;
 	private Button proxima, anterior;
-	Photo photo;
-	Bundle extras;
-
+	private Photo photo;
 	private PhotoDao photoDao;
  
-	// private DaoSession daoSession;
 	public PhotoGUI(Long imageId) {
-		// /this.imageId = imageId;
 		setCurrent(imageId);
 	}
 
 	public Long getImageId() {
 		return getCurrent();
-		// return imageId;
 	}
 
 	public void zoomPhoto() {
@@ -67,7 +61,6 @@ public class PhotoGUI extends GUIComponent {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		image.compress(Bitmap.CompressFormat.JPEG, 80, baos);
 		return baos.toByteArray();
-		// byte[] encodedImage = Base64.encode(b, Base64.DEFAULT);
 	}
 
 	// reduz a imagem para ocupar menos memória
@@ -101,15 +94,12 @@ public class PhotoGUI extends GUIComponent {
 				null);
 		SQLiteDatabase db = helper.getWritableDatabase();
 		DaoMaster daoMaster = new DaoMaster(db);
-		// session = daoMaster.newSession();
 		PhotoDao photoDao = daoMaster.newSession().getPhotoDao();
-
 		return photoDao;
 	}
 
 	public static Long searchFirstPhoto(PhotoDao dao, Context ctx) {
 		PhotoDao mDao = (dao == null ? initPhotoDao(ctx) : dao);
-
 		List<Photo> l = mDao.queryBuilder().orderAsc(Properties.Id).build()
 				.list();
 
@@ -130,11 +120,9 @@ public class PhotoGUI extends GUIComponent {
 
 		photoDao = initPhotoDao(getActivity());
 		View view = inflater.inflate(R.layout.imageone, container, false);
-
 		anterior = (Button) view.findViewById(R.id.imagem_anterior);
 		proxima = (Button) view.findViewById(R.id.imagem_proxima);
 		image = (ImageView) view.findViewById(R.id.imageView1);
-		extras = getActivity().getIntent().getExtras();
 
 		image.setOnClickListener(new OnClickListener() {
 			@Override
@@ -146,7 +134,7 @@ public class PhotoGUI extends GUIComponent {
 		photo = (Photo) photoDao.queryBuilder()
 				.where(Properties.Id.eq(getCurrent())).build().unique();
 
-		photoDao.getDatabase().close();
+		closeDao();
 		if (photo != null)
 			image.setImageBitmap(byteArrayToBitmap(photo.getPhotoBytes()));
 		else {
@@ -185,7 +173,7 @@ public class PhotoGUI extends GUIComponent {
 		List<Photo> l = photoDao.queryBuilder()
 				.where(Properties.Id.gt(getCurrent())).orderAsc(Properties.Id)
 				.list();
-		photoDao.getDatabase().close();
+		closeDao();
 		return (l.isEmpty() ? getCurrent() : ((Photo) l.get(0)).getId());
 	}
 
@@ -194,9 +182,12 @@ public class PhotoGUI extends GUIComponent {
 		List<Photo> l = photoDao.queryBuilder()
 				.where(Properties.Id.lt(getCurrent())).orderDesc(Properties.Id)
 				.list();
-		photoDao.getDatabase().close();
-
+		closeDao();
 		return (l.isEmpty() ? getCurrent() : ((Photo) l.get(0)).getId());
+	}
+	
+	public void closeDao(){
+		photoDao.getDatabase().close();
 	}
 
 }

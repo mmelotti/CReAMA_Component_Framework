@@ -4,7 +4,7 @@ import com.example.firstcomponents.R;
 import com.example.my_fragment.MyActivity;
 
 import database.DatabaseHandler;
-import my_components.ComentarioGUI;
+import my_components.CommentListGUI;
 import my_components.PhotoGUI;
 import my_components.RatingGUI;
 
@@ -19,7 +19,7 @@ public class BasicFragmentActivity extends MyActivity {
 
 	private DatabaseHandler db;
 	private PhotoGUI photo;
-	private ComentarioGUI comentario;
+	private CommentListGUI comentario;
 	private RatingGUI rating; 
 	Long photoId;
 	
@@ -108,7 +108,7 @@ public class BasicFragmentActivity extends MyActivity {
 			return;
 		}
 		
-		comentario = new ComentarioGUI(); 
+		comentario = new CommentListGUI(); 
 		rating = new RatingGUI(photoId);
 		//rating.setDb(db);
 		
