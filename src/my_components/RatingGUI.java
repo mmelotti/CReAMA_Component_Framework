@@ -180,7 +180,7 @@ public class RatingGUI extends GUIComponent implements
 		return mya;
 	}
 
-	public void setMya(MyActivity mya) {
+	public void setControlActivity(MyActivity mya) {
 		this.mya = mya;
 	}
 

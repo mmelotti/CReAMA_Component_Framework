@@ -1,8 +1,13 @@
 package com.example.my_fragment;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.app.Activity;
 import android.os.Bundle;
 
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +16,7 @@ public abstract class GUIComponent extends MyComponent {
 
 	public abstract View onCreateView(LayoutInflater inflater,
 			ViewGroup container, Bundle savedInstanceState);
+
 
 	private RequestListener component;
 
@@ -47,4 +53,10 @@ public abstract class GUIComponent extends MyComponent {
 	public void setRelativeFragmentId(int relativeFragmentId) {
 		this.relativeFragmentId = relativeFragmentId;
 	}
+	
+	
+	
+	
+	
+	
 }

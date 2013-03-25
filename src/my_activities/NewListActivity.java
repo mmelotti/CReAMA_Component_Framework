@@ -18,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.firstcomponents.R;
+import com.example.my_fragment.GUIComponent;
 import com.example.my_fragment.MyActivity;
 import com.example.my_fragment.MyComponent;
 
@@ -27,17 +28,15 @@ public class NewListActivity extends MyActivity {
 	private CommentListGUI comentario;
 	private CommentSendGUI sendCom;
 	private boolean gambiarraFlag = false;
-
+	
 	private List<Integer> fragmentId = new ArrayList<Integer>();
 	private List<Long> deleteId = new ArrayList<Long>();
 
-	private List<MyComponent> componentes = new ArrayList<MyComponent>();
-
-	// comment =1, rating =2
+	// comment =1, rating =2, foto=3
 	private int source = 2;
 	private int target = 1;
 
-	private int[] dependencies = new int[] { 1, 3 };
+	private int[] thisDependencies = new int[] { 1, 3 };
 	// aqui existe dependencia de comentario, e foto
 
 	private long commentTarget;
@@ -65,16 +64,8 @@ public class NewListActivity extends MyActivity {
 
 		myview = (LinearLayout) findViewById(R.id.menu_lin);
 
-		FragmentManager fm = getSupportFragmentManager();
-		Fragment fragment = fm.findFragmentById(R.id.fragment_content);
-
-		if (fragment == null) {
-			FragmentTransaction ft = fm.beginTransaction();
-			ft.add(R.id.fragment_content, photo);
-			ft.commit();
-		}
-
 		// set targets
+		setDependencies(thisDependencies);
 		setMyList();
 		addSomething();
 	}
@@ -116,9 +107,12 @@ public class NewListActivity extends MyActivity {
 		lista = comentario.getList(commentTarget, this);
 	}
 
+	
 	public void addSomething() {
-		FragmentManager fm = getSupportFragmentManager();
-		FragmentTransaction ft = fm.beginTransaction();
+		
+		startTransaction();
+		addGUIComponent(R.id.menu_lin, photo);
+		
 
 		for (int i = 0; i < lista.size(); i++) {
 			OneCommentGUI com = new OneCommentGUI(lista.get(i));
@@ -126,8 +120,8 @@ public class NewListActivity extends MyActivity {
 			com.setComponentTargetId(3);
 			com.setRelativeFragmentId(idroot);
 			com.setControlActivity(this);
-			ft.add(R.id.menu_lin, com, "" + idroot);
-			componentes.add(com);
+			addGUIComponent(R.id.menu_lin, com, "" + idroot);
+			
 
 			// add para ser deletado depois
 			// deleteId.add(lista.get(i).getId());
@@ -138,17 +132,16 @@ public class NewListActivity extends MyActivity {
 			rat.setGeneralGUIId(2);
 			rat.setComponentTargetId(1);
 			rat.setRelativeFragmentId(idroot);
-			rat.setMya(this);
-
-			ft.add(R.id.menu_lin, rat, "" + idroot);
-			componentes.add(rat);
+			rat.setControlActivity(this);
+			addGUIComponent(R.id.menu_lin, rat, "" + idroot);
+			
 
 			fragmentId.add(idroot++);
 			// multiplos ratings
 		}
 
-		ft.add(R.id.menu_lin, sendCom);
-		ft.commit();
+		addGUIComponent(R.id.menu_lin, sendCom);
+		finishTransaction();
 	}
 
 	@Override
@@ -156,27 +149,6 @@ public class NewListActivity extends MyActivity {
 		callbackRemove(target, component);
 	}
 
-	public void callbackRemove(Long target, MyComponent component) {
-		boolean foundIt = false;
-
-		for (int i : dependencies) {
-			// tem alguem que depende do que vai ser deletado?
-			if (i == component.getGeneralGUIId()) {
-				Log.i("Remover!", "encontrou " + i);
-				foundIt = true;
-				break;
-			}
-		}
-
-		if (foundIt) {
-			for (MyComponent c : componentes) {
-				if (c.getComponentTargetId() == component.getGeneralGUIId()) {
-					c.deleteAllFrom(target);
-					Log.i("Remover!", "from " + target);
-					break;
-				}
-			}
-		}
-	}
+	
 
 }
