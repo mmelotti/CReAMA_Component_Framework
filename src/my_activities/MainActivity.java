@@ -40,7 +40,7 @@ public class MainActivity extends Activity {
 			public void onClick(View arg0) {
 				Intent trocatela;
 				// trocatela = new Intent(MainActivity.this,BasicFragmentActivity.class);
-				 trocatela = new Intent(MainActivity.this,NewListActivity.class);
+				 trocatela = new Intent(MainActivity.this,TestComponentsGroup.class);
 				
 				// procura primeira imagem
 				trocatela.putExtra("nImagem", PhotoGUI.searchFirstPhoto(null, arg0.getContext()));
@@ -57,8 +57,11 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View arg0) {
 
-				Intent trocatela = new Intent(MainActivity.this,
+				Intent trocatela;
+				trocatela = new Intent(MainActivity.this,
 						TagFragmentActivity.class);
+				 trocatela = new Intent(MainActivity.this,NewListActivity.class);
+				
 				trocatela.putExtra("nImagem", PhotoGUI.searchFirstPhoto(null, arg0.getContext()));
 				MainActivity.this.startActivity(trocatela);
 				// MainActivity.this.finish();
@@ -75,7 +78,10 @@ public class MainActivity extends Activity {
 
 				Intent addPhoto = new Intent(MainActivity.this,
 						SavePhotoActivity.class);
-				MainActivity.this.startActivity(addPhoto);
+				Intent trocatela = new Intent(MainActivity.this,NewListComposed.class);
+				trocatela.putExtra("nImagem", PhotoGUI.searchFirstPhoto(null, arg0.getContext()));
+				MainActivity.this.startActivity(trocatela);
+				//MainActivity.this.startActivity(addPhoto);
 			}
 		});
 

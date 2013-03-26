@@ -21,7 +21,7 @@ import com.example.my_fragment.ComponentSimpleModel;
 import com.example.my_fragment.MyActivity;
 import com.example.my_fragment.MyComponent;
 
-public class NewListActivity extends MyActivity {
+public class NewListComposed extends MyActivity {
 
 	private PhotoGUI photo;
 	private CommentListGUI comentario;
@@ -112,6 +112,12 @@ public class NewListActivity extends MyActivity {
 		addGUIComponent(R.id.menu_lin, sendCom);
 		finishTransaction();
 		
+		
+		//parte de teste
+		TestComponentsGroup t = new TestComponentsGroup();
+		FragmentManager fragmentManager = getSupportFragmentManager();
+		FragmentTransaction transaction = fragmentManager.beginTransaction();
+		t.addFromOutside(transaction,this);
 		
 	}
 

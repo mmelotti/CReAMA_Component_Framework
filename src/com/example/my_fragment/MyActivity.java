@@ -46,6 +46,11 @@ public abstract class MyActivity extends FragmentActivity {
 		transaction.add(id, c, "" + relativeGUIIdCont);
 		upRelativeId();
 	}
+	
+	public void addComponent(GUIComponent c){
+		componentes.add(c);
+	}
+	
 
 	public void startTransaction() {
 		fragmentManager = getSupportFragmentManager();
