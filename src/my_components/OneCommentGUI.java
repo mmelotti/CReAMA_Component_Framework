@@ -13,6 +13,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.firstcomponents.R;
+import com.example.my_fragment.ComponentSimpleModel;
 import com.example.my_fragment.GUIComponent;
 import com.example.my_fragment.MyActivity;
 
@@ -26,18 +27,33 @@ public class OneCommentGUI extends GUIComponent {
 
 	private CommentDao commentDao;
 	private DaoSession daoSession;
-	private MyActivity controlActivity;
+
 	private LayoutInflater li;
 	private Comment comment;
 
 	public OneCommentGUI() {
+		super();
+		preDefined();
 	}
 
+	public OneCommentGUI(ComponentSimpleModel c){
+		comment = (Comment) c;
+		preDefined();
+	}
+	
 	public OneCommentGUI(Comment c) {
 		comment = c;
+		preDefined();
 	}
+	
+	public void preDefined(){
+		setGeneralGUIId(1);
+		
+		
+	}
+	
 
-	Comment findCommentById(Long id) {
+	private Comment findCommentById(Long id) {
 		initCommentDao();
 		Comment comment = (Comment) commentDao.queryBuilder()
 				.where(Properties.Id.eq(id)).build().unique();
@@ -98,7 +114,7 @@ public class OneCommentGUI extends GUIComponent {
 	public void deleteOne(Comment c){
 		commentDao.delete(c);
 		daoSession.delete(c);
-		controlActivity.deletarAlgo(c.getId(), this);
+		getControlActivity().deletarAlgo(c.getId(), this);
 	}
 	
 	@Override
@@ -117,12 +133,6 @@ public class OneCommentGUI extends GUIComponent {
 		commentDao.getDatabase().close();
 	}
 	
-	public MyActivity getControlActivity() {
-		return controlActivity;
-	}
-
-	public void setControlActivity(MyActivity mya) {
-		this.controlActivity = mya;
-	}
+	
 
 }

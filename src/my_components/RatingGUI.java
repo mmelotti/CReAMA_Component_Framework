@@ -39,7 +39,7 @@ public class RatingGUI extends GUIComponent implements
 	private RatingDao ratingDao;
 	private DaoSession daoSession;
 	private Long newTarget = 1L;
-	private MyActivity mya;
+	
 
 	private float average = 0;
 	private int tamanho = 0;
@@ -48,16 +48,27 @@ public class RatingGUI extends GUIComponent implements
 	LinearLayout ratingBody;
 	
 	public RatingGUI() {
-
+		preDefined();
 	}
 
+	
+	
 	public RatingGUI(Long target) {
+		preDefined();
 		newTarget = target;
 	}
 
+	
+	
 	public RatingGUI(MyComponent target) {
+		preDefined();
 		setComponentTarget(target);
 	}
+	
+	public void preDefined(){
+		setGeneralGUIId(2);
+	}
+	
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -135,8 +146,12 @@ public class RatingGUI extends GUIComponent implements
 
 	public void getAverage() {
 
+		
+		Log.i("average", "null?? " + newTarget);
 		List<Rating> lista = ratingDao.queryBuilder()
 				.where(Properties.TargetId.eq(newTarget)).build().list();
+		//Log.i("average", "baixo " + newTarget);
+		
 		if (!lista.isEmpty()) {
 			
 			for (int i = 0; i < lista.size(); i++) {
@@ -148,7 +163,7 @@ public class RatingGUI extends GUIComponent implements
 			
 			average = soma / tamanho;
 			calculouMedia = true;
-			Log.i("average", "baixo " + newTarget);
+			
 		}
 		
 	}
@@ -160,7 +175,7 @@ public class RatingGUI extends GUIComponent implements
 	public void deleteOne(Rating r) {
 		ratingDao.delete(r);
 		daoSession.delete(r);
-		mya.deletarAlgo(r.getId(), this);
+		getControlActivity().deletarAlgo(r.getId(), this);
 	}
 
 	@Override
@@ -176,12 +191,6 @@ public class RatingGUI extends GUIComponent implements
 		closeDao();
 	}
 
-	public MyActivity getMya() {
-		return mya;
-	}
-
-	public void setControlActivity(MyActivity mya) {
-		this.mya = mya;
-	}
+	
 
 }

@@ -33,16 +33,24 @@ public class CommentSendGUI extends GUIComponent {
 	private DaoSession daoSession;
 	private Button button;
 	private EditText edit;
-	private Long idTarget = Long.valueOf(1);
+	private Long idTarget = Long.valueOf(-1);
 	Bundle extras;
 
 	public CommentSendGUI(Long idTarget) {
 		this.idTarget = idTarget;
+		
+		preDefined();
 	}
 
 	public CommentSendGUI() {
+		preDefined();
 	}
 
+	public void preDefined(){
+		setGeneralGUIId(4);
+	
+	}
+	
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
@@ -67,7 +75,10 @@ public class CommentSendGUI extends GUIComponent {
 				return false;
 			}
 		});
-		idTarget = getComponentTarget().getCurrent();
+		if(idTarget==-1L){
+			idTarget = getComponentTarget().getCurrent();
+		}
+		
 		button.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {

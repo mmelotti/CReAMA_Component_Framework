@@ -1,6 +1,7 @@
 package my_components;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -238,6 +239,25 @@ public void initCommentDao(Activity a) {
 		commentDao.getDatabase().close();
 		
 		return lista;
+	}
+	
+	public List<ComponentSimpleModel> getListSimple(Long target,Activity a){
+		
+		initCommentDao(a);
+		ArrayList<ComponentSimpleModel> list= new ArrayList<ComponentSimpleModel>();
+		
+		List<Comment> lista = commentDao.queryBuilder()
+				.where(Properties.TargetId.eq(target)).build().list();
+		
+		for(int i=0;i<lista.size();i++){
+			list.add(lista.get(i));
+		}
+		
+		
+		//fecha bd
+		commentDao.getDatabase().close();
+		
+		return list;
 	}
 	
 	

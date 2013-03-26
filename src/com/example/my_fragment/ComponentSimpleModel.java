@@ -7,6 +7,7 @@ import android.util.Log;
 public abstract class ComponentSimpleModel {
 
 	private String instanceId = "";
+	private Long id;
 	private Long targetId = Long.valueOf(1);
 
 	public static String SHARED_PREFS_NAME = "gw_shared_prefs";
@@ -45,5 +46,15 @@ public abstract class ComponentSimpleModel {
 	public abstract void save();
 
 	public abstract void restore();
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+	
+	
 
 }

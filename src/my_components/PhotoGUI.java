@@ -41,11 +41,21 @@ public class PhotoGUI extends GUIComponent {
  
 	public PhotoGUI(Long imageId) {
 		setCurrent(imageId);
+		preDefined();
 	}
 
 	public Long getImageId() {
+		preDefined();
 		return getCurrent();
+		
+		
 	}
+	
+	public void preDefined(){
+		setGeneralGUIId(3);
+	
+	}
+	
 
 	public void zoomPhoto() {
 		Intent i = new Intent(getActivity(), ImageZoomActivity.class);

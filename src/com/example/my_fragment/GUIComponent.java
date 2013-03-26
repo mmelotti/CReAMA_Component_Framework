@@ -14,9 +14,9 @@ import android.view.ViewGroup;
 
 public abstract class GUIComponent extends MyComponent {
 
-	public abstract View onCreateView(LayoutInflater inflater,
-			ViewGroup container, Bundle savedInstanceState);
+	
 
+	private MyActivity controlActivity;
 
 	private RequestListener component;
 
@@ -56,7 +56,13 @@ public abstract class GUIComponent extends MyComponent {
 	
 	
 	
+	public void setControlActivity(MyActivity mya){
+		controlActivity=mya;
+	}
 	
+	public MyActivity getControlActivity(){
+		return controlActivity;
+	}
 	
 	
 }
