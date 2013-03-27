@@ -53,7 +53,7 @@ public class TagGUI extends GUIComponent {
 		if (extras != null) {
 			// recebendo target como parametro
 			//idTarget = extras.getLong("nImagem");
-			idTarget = getComponentTarget().getCurrent();
+			idTarget = getComponentTarget().getCurrentInstanceId();
 		}
 
 		// busca tags para component pela primeira vez

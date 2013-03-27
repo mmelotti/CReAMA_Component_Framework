@@ -70,7 +70,7 @@ public class TestComponentsGroup extends MyActivityComposed {
 		if (gambiarraFlag)
 			return;
 		// rating.setComponentTarget(photo);
-		commentTarget = photo.getCurrent();
+		commentTarget = photo.getCurrentInstanceId();
 		sendCom.setComponentTarget(photo);
 	}
 	

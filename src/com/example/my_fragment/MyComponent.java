@@ -21,7 +21,7 @@ public class MyComponent extends Fragment {
 		this.componentTargetId = componentTargetId;
 	}
 
-	public Long getCurrent() {
+	public Long getCurrentInstanceId() {
 		return current;
 	}
 

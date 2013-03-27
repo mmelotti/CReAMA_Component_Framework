@@ -37,6 +37,8 @@ public class NewListComposed extends MyActivity {
 	private List<ComponentSimpleModel> lista;
 	private List<String> listDependents;
 
+	
+	
 	LinearLayout myview;
 
 	protected void photoNotFound() {
@@ -66,7 +68,7 @@ public class NewListComposed extends MyActivity {
 		if (gambiarraFlag)
 			return;
 		// rating.setComponentTarget(photo);
-		commentTarget = photo.getCurrent();
+		commentTarget = photo.getCurrentInstanceId();
 		sendCom.setComponentTarget(photo);
 	}
 
@@ -114,10 +116,11 @@ public class NewListComposed extends MyActivity {
 		
 		
 		//parte de teste
+		/*
 		TestComponentsGroup t = new TestComponentsGroup();
 		FragmentManager fragmentManager = getSupportFragmentManager();
 		FragmentTransaction transaction = fragmentManager.beginTransaction();
-		t.addFromOutside(transaction,this);
+		t.addFromOutside(transaction,this);*/
 		
 	}
 

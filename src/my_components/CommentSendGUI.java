@@ -76,7 +76,7 @@ public class CommentSendGUI extends GUIComponent {
 			}
 		});
 		if(idTarget==-1L){
-			idTarget = getComponentTarget().getCurrent();
+			idTarget = getComponentTarget().getCurrentInstanceId();
 		}
 		
 		button.setOnClickListener(new OnClickListener() {
@@ -104,7 +104,7 @@ public class CommentSendGUI extends GUIComponent {
 	}
 
 	public void initCommentDao() {
-		Log.i("en initi", "aquiii");
+		//Log.i("en initi", "aquiii");
 		DevOpenHelper helper = new DaoMaster.DevOpenHelper(getActivity(),
 				"comments-db", null);
 		SQLiteDatabase db = helper.getWritableDatabase();
@@ -114,7 +114,7 @@ public class CommentSendGUI extends GUIComponent {
 	}
 
 	public void initCommentDao(Activity a) {
-		Log.i("en initi", "aquiii");
+		//Log.i("en initi", "aquiii");
 		DevOpenHelper helper = new DaoMaster.DevOpenHelper(a, "comments-db",
 				null);
 		SQLiteDatabase db = helper.getWritableDatabase();

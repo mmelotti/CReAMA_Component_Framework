@@ -10,11 +10,15 @@ import my_components.PhotoGUI;
 
 import android.os.Bundle;
 
+import android.util.Log;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.firstcomponents.R;
+import com.example.my_fragment.ComponentDefinitions;
 import com.example.my_fragment.ComponentSimpleModel;
+import com.example.my_fragment.Dependencie;
+import com.example.my_fragment.GUIComponent;
 import com.example.my_fragment.MyActivity;
 import com.example.my_fragment.MyComponent;
 
@@ -34,6 +38,8 @@ public class NewListActivity extends MyActivity {
 	private List<ComponentSimpleModel> lista;
 	private List<String> listDependents;
 
+	private List<Dependencie> dep;
+	
 	LinearLayout myview;
 
 	protected void photoNotFound() {
@@ -62,8 +68,20 @@ public class NewListActivity extends MyActivity {
 		if (gambiarraFlag)
 			return;
 		// rating.setComponentTarget(photo);
-		commentTarget = photo.getCurrent();
+		commentTarget = photo.getCurrentInstanceId();
 		sendCom.setComponentTarget(photo);
+		
+		Dependencie d;
+		dep=new ArrayList<Dependencie>();
+		d = new Dependencie("OneComment","Photo",true);
+		dep.add(d);
+		d = new Dependencie("Rating","OneComment",false);
+		dep.add(d);
+		d = new Dependencie("CommentSend","Photo",false);
+		dep.add(d);
+		
+		
+		
 	}
 	
 	public void instanciarComponents() {
@@ -90,18 +108,62 @@ public class NewListActivity extends MyActivity {
 		// o tipo diferente de lista
 		lista = comentario.getListSimple(commentTarget, this);
 		listDependents = new ArrayList<String>();
-		listDependents.add("Rating");
-		listDependents.add("Rating");
-		listDependents.add("CommentSend");
+		//listDependents.add("Rating");
+		//listDependents.add("Rating");
+		//listDependents.add("CommentSend");
 		
 	}
+	
+	public void addOne(String s,ComponentSimpleModel c){
+		//poe vieew
+		ComponentDefinitions cd=new ComponentDefinitions();
+		GUIComponent g= cd.getOne(c);
+	}
+	
+	public void addOther(String s,ComponentSimpleModel c){
+		
+				//addOne(s,c);
+		Log.i("criar comentario"," com id "+c.getId());
+	}
 
+	
+	
+	
+	public void verDependenciaString(String s){
+		for(Dependencie d:dep){
+			if(d.getTarget().equals(s)){
+				Log.i("achou dependencia","  com-> target "+s+" source "+d.getSource());
+				if(d.isToMany()){
+					lista = comentario.getListSimple(commentTarget, this);
+					for(ComponentSimpleModel model:lista){
+						addOther(d.getSource(),model);
+						verDependenciaString(d.getSource());
+					}
+				}
+				else{
+					Log.i("botar na tela"," do tipo "+d.getSource());//cria
+					verDependenciaString(d.getSource());
+				}
+				
+				
+			}
+			
+		}
+	}
+	
+	
+	
+	
 	public void addSomething() {
-
+		
+		
+		
+		verDependenciaString("Photo");
+		
 		startTransaction();
 		addGUIComponent(R.id.menu_lin, photo);
 
-		addDependentList(lista, "OneComment", 3, listDependents,R.id.menu_lin, this);
+		//addDependentList(lista, "OneComment", 3, listDependents,R.id.menu_lin, this);
 		addListForOne(lista,"OneComment", 3, R.id.menu_lin, this);
 
 		addGUIComponent(R.id.menu_lin, sendCom);

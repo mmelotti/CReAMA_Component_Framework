@@ -46,7 +46,7 @@ public class PhotoGUI extends GUIComponent {
 
 	public Long getImageId() {
 		preDefined();
-		return getCurrent();
+		return getCurrentInstanceId();
 	}
 
 	public void preDefined() {
@@ -140,7 +140,7 @@ public class PhotoGUI extends GUIComponent {
 		});
 
 		photo = (Photo) photoDao.queryBuilder()
-				.where(Properties.Id.eq(getCurrent())).build().unique();
+				.where(Properties.Id.eq(getCurrentInstanceId())).build().unique();
 
 		closeDao();
 		if (photo != null)
@@ -179,19 +179,19 @@ public class PhotoGUI extends GUIComponent {
 	private Long proximaImagem() {
 		photoDao = initPhotoDao(getActivity());
 		List<Photo> l = photoDao.queryBuilder()
-				.where(Properties.Id.gt(getCurrent())).orderAsc(Properties.Id)
+				.where(Properties.Id.gt(getCurrentInstanceId())).orderAsc(Properties.Id)
 				.list();
 		closeDao();
-		return (l.isEmpty() ? getCurrent() : ((Photo) l.get(0)).getId());
+		return (l.isEmpty() ? getCurrentInstanceId() : ((Photo) l.get(0)).getId());
 	}
 
 	private Long imagemAnterior() {
 		photoDao = initPhotoDao(getActivity());
 		List<Photo> l = photoDao.queryBuilder()
-				.where(Properties.Id.lt(getCurrent())).orderDesc(Properties.Id)
+				.where(Properties.Id.lt(getCurrentInstanceId())).orderDesc(Properties.Id)
 				.list();
 		closeDao();
-		return (l.isEmpty() ? getCurrent() : ((Photo) l.get(0)).getId());
+		return (l.isEmpty() ? getCurrentInstanceId() : ((Photo) l.get(0)).getId());
 	}
 
 	public void closeDao() {

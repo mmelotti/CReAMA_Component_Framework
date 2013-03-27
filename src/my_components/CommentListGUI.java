@@ -143,7 +143,7 @@ public class CommentListGUI extends GUIComponent {
 			}
 		});
 
-		idTarget = getComponentTarget().getCurrent();
+		idTarget = getComponentTarget().getCurrentInstanceId();
 		
 		// setMyMessenger(t);
 		button.setOnClickListener(new OnClickListener() {
@@ -178,7 +178,7 @@ public class CommentListGUI extends GUIComponent {
 
 	public void initCommentDao() {
 		
-		Log.i("en initi","aquiii");
+		//Log.i("en initi","aquiii");
 		DevOpenHelper helper = new DaoMaster.DevOpenHelper(getActivity(),
 				"comments-db", null);
 		SQLiteDatabase db = helper.getWritableDatabase();
@@ -188,7 +188,7 @@ public class CommentListGUI extends GUIComponent {
 	}
 	
 public void initCommentDao(Activity a) {
-		Log.i("en initi","aquiii");
+		//Log.i("en initi","aquiii");
 		DevOpenHelper helper = new DaoMaster.DevOpenHelper(a,
 				"comments-db", null);
 		SQLiteDatabase db = helper.getWritableDatabase();
