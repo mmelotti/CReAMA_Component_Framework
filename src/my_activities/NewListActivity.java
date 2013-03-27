@@ -1,11 +1,11 @@
 package my_activities;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
 import my_components.CommentListGUI;
 import my_components.CommentSendGUI;
+import my_components.OneCommentGUI;
 import my_components.PhotoGUI;
 
 import android.os.Bundle;
@@ -39,7 +39,7 @@ public class NewListActivity extends MyActivity {
 	private List<String> listDependents;
 
 	private List<Dependencie> dep;
-	
+
 	LinearLayout myview;
 
 	protected void photoNotFound() {
@@ -70,20 +70,18 @@ public class NewListActivity extends MyActivity {
 		// rating.setComponentTarget(photo);
 		commentTarget = photo.getCurrentInstanceId();
 		sendCom.setComponentTarget(photo);
-		
+
 		Dependencie d;
-		dep=new ArrayList<Dependencie>();
-		d = new Dependencie("OneComment","Photo",true);
+		dep = new ArrayList<Dependencie>();
+		d = new Dependencie("OneComment", "Photo", true);
 		dep.add(d);
-		d = new Dependencie("Rating","OneComment",false);
+		d = new Dependencie("Rating", "OneComment", false);
 		dep.add(d);
-		d = new Dependencie("CommentSend","Photo",false);
+		d = new Dependencie("CommentSend", "Photo", false);
 		dep.add(d);
-		
-		
-		
+
 	}
-	
+
 	public void instanciarComponents() {
 		photoId = getIntent().getLongExtra("nImagem", -1L);
 		if (photoId != -1L)
@@ -108,76 +106,72 @@ public class NewListActivity extends MyActivity {
 		// o tipo diferente de lista
 		lista = comentario.getListSimple(commentTarget, this);
 		listDependents = new ArrayList<String>();
-		//listDependents.add("Rating");
-		//listDependents.add("Rating");
-		//listDependents.add("CommentSend");
-		
-	}
-	
-	public void addOne(String s,ComponentSimpleModel c){
-		//poe vieew
-		ComponentDefinitions cd=new ComponentDefinitions();
-		GUIComponent g= cd.getOne(c);
-	}
-	
-	public void addOther(String s,ComponentSimpleModel c){
-		
-				//addOne(s,c);
-		Log.i("criar comentario"," com id "+c.getId());
+		// listDependents.add("Rating");
+		// listDependents.add("Rating");
+		// listDependents.add("CommentSend");
+
 	}
 
-	
-	
-	
-	public void verDependenciaString(String s){
-		for(Dependencie d:dep){
-			if(d.getTarget().equals(s)){
-				Log.i("achou dependencia","  com-> target "+s+" source "+d.getSource());
-				if(d.isToMany()){
-					lista = comentario.getListSimple(commentTarget, this);
-					for(ComponentSimpleModel model:lista){
-						addOther(d.getSource(),model);
-						verDependenciaString(d.getSource());
+	public void addOther(String s, ComponentSimpleModel c) {
+
+		// addOne(s,c);
+		Log.i("criar comentario", " com id " + c.getId());
+		ComponentDefinitions cd = new ComponentDefinitions();
+		GUIComponent one = cd.getComponent(c, s);
+		addGUIComponentWithTag(R.id.menu_lin, one);
+
+	}
+
+	public void addOther(String s, Long target) {
+
+		// addOne(s,c);
+		//Log.i("criar comentario", " com id " + c.getId());
+		ComponentDefinitions cd = new ComponentDefinitions();
+		GUIComponent one = cd.getComponent(target, s);
+		addGUIComponentWithTag(R.id.menu_lin, one);
+
+	}
+
+	public void verDependenciaString(String s, Long target) {
+		for (Dependencie d : dep) {
+			if (d.getTarget().equals(s)) {
+				Log.i("achou dependencia", "  com-> target " + s + " source "
+						+ d.getSource());
+				if (d.isToMany()) {
+					lista = comentario.getListSimple(target, this);
+					for (ComponentSimpleModel model : lista) {
+						addOther(d.getSource(), model);
+						verDependenciaString(d.getSource(),model.getId());
 					}
+				} else {
+					Log.i("botar na tela", " do tipo " + d.getSource());// cria
+					addOther(d.getSource(),target);
+					verDependenciaString(d.getSource(),target);
 				}
-				else{
-					Log.i("botar na tela"," do tipo "+d.getSource());//cria
-					verDependenciaString(d.getSource());
-				}
-				
-				
+
 			}
-			
+
 		}
 	}
-	
-	
-	
-	
+
 	public void addSomething() {
-		
-		
-		
-		verDependenciaString("Photo");
-		
+
 		startTransaction();
 		addGUIComponent(R.id.menu_lin, photo);
+		verDependenciaString("Photo",commentTarget);
 
-		//addDependentList(lista, "OneComment", 3, listDependents,R.id.menu_lin, this);
-		addListForOne(lista,"OneComment", 3, R.id.menu_lin, this);
+		// addDependentList(lista, "OneComment", 3,
+		// listDependents,R.id.menu_lin, this);
+		// addListForOne(lista,"OneComment", 3, R.id.menu_lin, this);
 
-		addGUIComponent(R.id.menu_lin, sendCom);
+		// addGUIComponent(R.id.menu_lin, sendCom);
 		finishTransaction();
-		
-		
+
 	}
 
 	@Override
 	public void deletarAlgo(Long target, MyComponent component) {
 		callbackRemove(target, component);
 	}
-
-
-	
 
 }
