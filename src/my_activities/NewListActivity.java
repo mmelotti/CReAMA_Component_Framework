@@ -10,9 +10,6 @@ import my_components.PhotoGUI;
 
 import android.os.Bundle;
 
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -55,7 +52,6 @@ public class NewListActivity extends MyActivity {
 
 		setContentView(R.layout.activity_fragment_runtime);
 
-
 		// set targets
 		setDependencies(thisDependencies);
 		setMyList();
@@ -69,7 +65,6 @@ public class NewListActivity extends MyActivity {
 		commentTarget = photo.getCurrent();
 		sendCom.setComponentTarget(photo);
 	}
-
 	
 	public void instanciarComponents() {
 		photoId = getIntent().getLongExtra("nImagem", -1L);

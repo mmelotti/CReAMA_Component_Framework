@@ -19,6 +19,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -64,13 +65,9 @@ public class CommentListGUI extends GUIComponent {
 				.findViewById(0);
 		layoutComent.removeAllViews();
 
-		//abri DAO, fecha depois o bd
 		initCommentDao();
-		
 		List<Comment> lista = commentDao.queryBuilder()
 				.where(Properties.TargetId.eq(idTarget)).build().list();
-		
-		//fecha bd
 		commentDao.getDatabase().close();
 		
 		for (int i = 0; i < lista.size(); i++) {
@@ -95,11 +92,8 @@ public class CommentListGUI extends GUIComponent {
 							Comment c = findCommentById(id);
 							if (c != null) {
 								initCommentDao();
-								commentDao.delete(c); // deleta do banco de
-														// dados
+								commentDao.delete(c); // deleta do banco de dados
 								daoSession.delete(c); // deleta do cache
-								
-								//
 								commentDao.getDatabase().close();
 								refreshComents();
 							} 
@@ -133,8 +127,6 @@ public class CommentListGUI extends GUIComponent {
 		li = inflater;
 		cont = container;
 
-		
-
 		View view = inflater.inflate(R.layout.coment, container, false);
 		button = (Button) view.findViewById(R.id.button_com);
 		edit = (EditText) view.findViewById(R.id.edit_com);
@@ -152,8 +144,6 @@ public class CommentListGUI extends GUIComponent {
 		});
 
 		idTarget = getComponentTarget().getCurrent();
-
-		
 		
 		// setMyMessenger(t);
 		button.setOnClickListener(new OnClickListener() {
@@ -189,38 +179,21 @@ public class CommentListGUI extends GUIComponent {
 	public void initCommentDao() {
 		
 		Log.i("en initi","aquiii");
-		// As we are in development we will use the DevOpenHelper which drops
-		// the database on a schema update
 		DevOpenHelper helper = new DaoMaster.DevOpenHelper(getActivity(),
 				"comments-db", null);
-		// Access the database using the helper
 		SQLiteDatabase db = helper.getWritableDatabase();
-		// Construct the DaoMaster which brokers DAOs for the Domain Objects
 		DaoMaster daoMaster = new DaoMaster(db);
-		// Create the session which is a container for the DAO layer and has a
-		// cache which will return handles to the same object across multiple
-		// queries
 		daoSession = daoMaster.newSession();
-		// Access the Comments DAO
 		commentDao = daoSession.getCommentDao();
 	}
 	
 public void initCommentDao(Activity a) {
-		
 		Log.i("en initi","aquiii");
-		// As we are in development we will use the DevOpenHelper which drops
-		// the database on a schema update
 		DevOpenHelper helper = new DaoMaster.DevOpenHelper(a,
 				"comments-db", null);
-		// Access the database using the helper
 		SQLiteDatabase db = helper.getWritableDatabase();
-		// Construct the DaoMaster which brokers DAOs for the Domain Objects
 		DaoMaster daoMaster = new DaoMaster(db);
-		// Create the session which is a container for the DAO layer and has a
-		// cache which will return handles to the same object across multiple
-		// queries
 		daoSession = daoMaster.newSession();
-		// Access the Comments DAO
 		commentDao = daoSession.getCommentDao();
 	}
 	
@@ -229,23 +202,18 @@ public void initCommentDao(Activity a) {
 	}
 
 	public List<Comment> getList(Long target,Activity a){
-		
 		initCommentDao(a);
-		
 		List<Comment> lista = commentDao.queryBuilder()
 				.where(Properties.TargetId.eq(target)).build().list();
-		
-		//fecha bd
 		commentDao.getDatabase().close();
 		
 		return lista;
 	}
 	
 	public List<ComponentSimpleModel> getListSimple(Long target,Activity a){
-		
-		initCommentDao(a);
 		ArrayList<ComponentSimpleModel> list= new ArrayList<ComponentSimpleModel>();
-		
+
+		initCommentDao(a);
 		List<Comment> lista = commentDao.queryBuilder()
 				.where(Properties.TargetId.eq(target)).build().list();
 		
@@ -253,8 +221,6 @@ public void initCommentDao(Activity a) {
 			list.add(lista.get(i));
 		}
 		
-		
-		//fecha bd
 		commentDao.getDatabase().close();
 		
 		return list;

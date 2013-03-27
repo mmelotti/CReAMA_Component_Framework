@@ -38,7 +38,7 @@ public class PhotoGUI extends GUIComponent {
 	private Button proxima, anterior;
 	private Photo photo;
 	private PhotoDao photoDao;
- 
+
 	public PhotoGUI(Long imageId) {
 		setCurrent(imageId);
 		preDefined();
@@ -47,19 +47,17 @@ public class PhotoGUI extends GUIComponent {
 	public Long getImageId() {
 		preDefined();
 		return getCurrent();
-		
-		
 	}
-	
-	public void preDefined(){
+
+	public void preDefined() {
 		setGeneralGUIId(3);
-	
+
 	}
-	
 
 	public void zoomPhoto() {
 		Intent i = new Intent(getActivity(), ImageZoomActivity.class);
 		i.putExtra("image", photo.getPhotoBytes());
+		//ActivityOptions opts = ActivityOptions.makeThumbnailScaleUpAnimation(view, bitmap, 0, 0);
 		startActivity(i);
 	}
 
@@ -195,8 +193,8 @@ public class PhotoGUI extends GUIComponent {
 		closeDao();
 		return (l.isEmpty() ? getCurrent() : ((Photo) l.get(0)).getId());
 	}
-	
-	public void closeDao(){
+
+	public void closeDao() {
 		photoDao.getDatabase().close();
 	}
 

@@ -1,6 +1,5 @@
 package my_activities;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,8 +7,6 @@ import my_components.CommentListGUI;
 import my_components.CommentSendGUI;
 import my_components.PhotoGUI;
 
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.app.Activity;
 import android.os.Bundle;
@@ -63,7 +60,6 @@ public class TestComponentsGroup extends MyActivityComposed {
 
 		setContentView(R.layout.activity_fragment_runtime);
 
-
 		// set targets
 		setDependencies(thisDependencies);
 		setMyList();
@@ -77,7 +73,6 @@ public class TestComponentsGroup extends MyActivityComposed {
 		commentTarget = photo.getCurrent();
 		sendCom.setComponentTarget(photo);
 	}
-
 	
 	public void instanciarComponents() {
 		photoId = getIntent().getLongExtra("nImagem", -1L);
@@ -118,12 +113,9 @@ public class TestComponentsGroup extends MyActivityComposed {
 		listDependents.add("Rating");
 		//listDependents.add("Rating");
 		//listDependents.add("CommentSend");
-		
 	}
-	
 
 	public void addSomething() {
-
 		startTransaction();
 		addGUIComponent(R.id.menu_lin, photo);
 
@@ -132,7 +124,7 @@ public class TestComponentsGroup extends MyActivityComposed {
 
 		addGUIComponent(R.id.menu_lin, sendCom);
 		finishTransaction();
-		
+
 		Log.i("OUTRO," ,"ADDSOMETHING");
 	}
 
@@ -179,8 +171,7 @@ public class TestComponentsGroup extends MyActivityComposed {
 		MyGrouping mg = new MyGrouping(1L, 2L, 1L);//rating to coment
 		agrupamento.add(mg);
 		mg = new MyGrouping(2L, 1L, 3L);//comment to photo
-		agrupamento.add(mg);
-		
+		agrupamento.add(mg);	
 	}
 	
 	public void addDependentListOutside(List<ComponentSimpleModel> lista, String s1,

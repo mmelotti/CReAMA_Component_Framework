@@ -40,9 +40,7 @@
             android:name="my_activities.NewListActivity"
             android:configChanges="orientation|screenSize" >
         </activity>
-        <activity
-            android:name="my_activities.ImageZoomActivity"
-            >
+        <activity android:name="my_activities.ImageZoomActivity" >
         </activity>
     </application>
 

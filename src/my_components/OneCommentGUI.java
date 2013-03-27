@@ -15,8 +15,6 @@ import android.widget.TextView;
 import com.example.firstcomponents.R;
 import com.example.my_fragment.ComponentSimpleModel;
 import com.example.my_fragment.GUIComponent;
-import com.example.my_fragment.MyActivity;
-
 import database.CommentDao;
 import database.DaoMaster;
 import database.DaoSession;
@@ -47,9 +45,7 @@ public class OneCommentGUI extends GUIComponent {
 	}
 	
 	public void preDefined(){
-		setGeneralGUIId(1);
-		
-		
+		setGeneralGUIId(1);	
 	}
 	
 

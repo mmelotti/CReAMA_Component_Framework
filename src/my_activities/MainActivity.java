@@ -39,8 +39,8 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View arg0) {
 				Intent trocatela;
-				// trocatela = new Intent(MainActivity.this,BasicFragmentActivity.class);
-				 trocatela = new Intent(MainActivity.this,TestComponentsGroup.class);
+				// trocatela = new Intent(MainActivity.this, BasicFragmentActivity.class);
+				 trocatela = new Intent(MainActivity.this, TestComponentsGroup.class);
 				
 				// procura primeira imagem
 				trocatela.putExtra("nImagem", PhotoGUI.searchFirstPhoto(null, arg0.getContext()));

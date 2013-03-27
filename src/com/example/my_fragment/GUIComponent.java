@@ -1,16 +1,7 @@
 package com.example.my_fragment;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.app.Activity;
-import android.os.Bundle;
-
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 public abstract class GUIComponent extends MyComponent {
 
@@ -54,15 +45,18 @@ public abstract class GUIComponent extends MyComponent {
 		this.relativeFragmentId = relativeFragmentId;
 	}
 	
-	
+	public void addComponentToView(GUIComponent comp, int viewId) {
+        FragmentTransaction ft = getChildFragmentManager().beginTransaction();
+        ft.add(viewId, comp);
+        ft.commit();
+	}
 	
 	public void setControlActivity(MyActivity mya){
-		controlActivity=mya;
+		controlActivity = mya;
 	}
 	
 	public MyActivity getControlActivity(){
 		return controlActivity;
 	}
-	
 	
 }
