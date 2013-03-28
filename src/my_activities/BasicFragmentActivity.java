@@ -5,7 +5,7 @@ import com.example.my_fragment.MyActivity;
 
 import database.DatabaseHandler;
 import my_components.comment.CommentListGUI;
-import my_components.photo.PhotoGUI;
+import my_components.photo.PhotoViewGUI;
 import my_components.rating.RatingViewGUI;
 
 import android.os.Bundle;
@@ -18,7 +18,7 @@ import android.widget.Toast;
 public class BasicFragmentActivity extends MyActivity {
 
 	private DatabaseHandler db;
-	private PhotoGUI photo;
+	private PhotoViewGUI photo;
 	private CommentListGUI comentario;
 	private RatingViewGUI rating; 
 	Long photoId;
@@ -96,7 +96,7 @@ public class BasicFragmentActivity extends MyActivity {
 		// TODO Auto-generated method stub
 		photoId = getIntent().getLongExtra("nImagem", -1L);
 		if (photoId != -1L) 
-			photo = new PhotoGUI(photoId);
+			photo = new PhotoViewGUI(photoId);
 		else {
 			photoNotFound();
 			return; 

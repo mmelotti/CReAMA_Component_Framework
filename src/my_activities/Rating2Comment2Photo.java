@@ -5,7 +5,7 @@ import java.util.List;
 
 import my_components.comment.CommentListGUI;
 import my_components.comment.CommentSendGUI;
-import my_components.photo.PhotoGUI;
+import my_components.photo.PhotoViewGUI;
 import android.os.Bundle;
 import android.widget.LinearLayout;
 import android.widget.Toast;

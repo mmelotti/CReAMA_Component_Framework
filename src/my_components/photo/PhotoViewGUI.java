@@ -1,6 +1,5 @@
 package my_components.photo;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -31,14 +30,14 @@ import com.example.firstcomponents.R;
 import database.DaoMaster;
 import database.DaoMaster.DevOpenHelper;
 
-public class PhotoGUI extends GUIComponent {
+public class PhotoViewGUI extends GUIComponent {
 
 	private ImageView image;
 	private Button proxima, anterior;
-	private PhotoView photo;
+	private Photo photo;
 	private PhotoDao photoDao;
 
-	public PhotoGUI(Long imageId) {
+	public PhotoViewGUI(Long imageId) {
 		setCurrent(imageId);
 		preDefined();
 	}
@@ -58,16 +57,6 @@ public class PhotoGUI extends GUIComponent {
 		i.putExtra("image", photo.getPhotoBytes());
 		//ActivityOptions opts = ActivityOptions.makeThumbnailScaleUpAnimation(view, bitmap, 0, 0);
 		startActivity(i);
-	}
-
-	public static Bitmap byteArrayToBitmap(byte[] imageBytes) {
-		return BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
-	}
-
-	public static byte[] bitmapToByteArray(Bitmap image) {
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		image.compress(Bitmap.CompressFormat.JPEG, 80, baos);
-		return baos.toByteArray();
 	}
 
 	// reduz a imagem para ocupar menos memória
@@ -107,7 +96,7 @@ public class PhotoGUI extends GUIComponent {
 
 	public static Long searchFirstPhoto(PhotoDao dao, Context ctx) {
 		PhotoDao mDao = (dao == null ? initPhotoDao(ctx) : dao);
-		List<PhotoView> l = mDao.queryBuilder().orderAsc(Properties.Id).build()
+		List<Photo> l = mDao.queryBuilder().orderAsc(Properties.Id).build()
 				.list();
 
 		// aqui ja pode fechar o BD
@@ -116,7 +105,7 @@ public class PhotoGUI extends GUIComponent {
 		if (l.isEmpty()) {
 			return -1L;
 		} else {
-			PhotoView photo = l.get(0);
+			Photo photo = l.get(0);
 			return photo.getId();
 		}
 	}
@@ -138,12 +127,12 @@ public class PhotoGUI extends GUIComponent {
 			}
 		});
 
-		photo = (PhotoView) photoDao.queryBuilder()
+		photo = (Photo) photoDao.queryBuilder()
 				.where(Properties.Id.eq(getCurrentInstanceId())).build().unique();
 
 		closeDao();
 		if (photo != null)
-			image.setImageBitmap(byteArrayToBitmap(photo.getPhotoBytes()));
+			image.setImageBitmap(PhotoUtils.byteArrayToBitmap(photo.getPhotoBytes()));
 		else {
 			Toast.makeText(getActivity(), "Ainda não há fotos para exibir!",
 					Toast.LENGTH_SHORT).show();
@@ -177,20 +166,20 @@ public class PhotoGUI extends GUIComponent {
 
 	private Long proximaImagem() {
 		photoDao = initPhotoDao(getActivity());
-		List<PhotoView> l = photoDao.queryBuilder()
+		List<Photo> l = photoDao.queryBuilder()
 				.where(Properties.Id.gt(getCurrentInstanceId())).orderAsc(Properties.Id)
 				.list();
 		closeDao();
-		return (l.isEmpty() ? getCurrentInstanceId() : ((PhotoView) l.get(0)).getId());
+		return (l.isEmpty() ? getCurrentInstanceId() : ((Photo) l.get(0)).getId());
 	}
 
 	private Long imagemAnterior() {
 		photoDao = initPhotoDao(getActivity());
-		List<PhotoView> l = photoDao.queryBuilder()
+		List<Photo> l = photoDao.queryBuilder()
 				.where(Properties.Id.lt(getCurrentInstanceId())).orderDesc(Properties.Id)
 				.list();
 		closeDao();
-		return (l.isEmpty() ? getCurrentInstanceId() : ((PhotoView) l.get(0)).getId());
+		return (l.isEmpty() ? getCurrentInstanceId() : ((Photo) l.get(0)).getId());
 	}
 
 	public void closeDao() {

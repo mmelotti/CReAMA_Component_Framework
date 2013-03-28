@@ -3,10 +3,11 @@ package my_activities;
 import java.util.ArrayList;
 import java.util.List;
 
+import my_components.Constants;
 import my_components.comment.CommentListGUI;
 import my_components.comment.CommentSendGUI;
-import my_components.comment.CommentViewGUI;
-import my_components.photo.PhotoGUI;
+import my_components.photo.PhotoSendGUI;
+import my_components.photo.PhotoViewGUI;
 
 import android.os.Bundle;
 
@@ -24,7 +25,7 @@ import com.example.my_fragment.GenericComponent;
 
 public class NewListActivity extends MyActivity {
 
-	private PhotoGUI photo;
+	private PhotoViewGUI photo;
 	private CommentListGUI comentario;
 	private CommentSendGUI sendCom;
 	private boolean gambiarraFlag = false;
@@ -32,11 +33,10 @@ public class NewListActivity extends MyActivity {
 	private int[] thisDependencies = new int[] { 1, 3 };
 	// aqui existe dependencia de comentario, e foto
 
-	private long commentTarget;
+	private long idPhoto;
 	Long photoId;
 	int relativeGUIIdCont = 55;
 	private List<ComponentSimpleModel> lista;
-	private List<String> listDependents;
 
 	private List<Dependency> dep;
 
@@ -68,16 +68,18 @@ public class NewListActivity extends MyActivity {
 		if (gambiarraFlag)
 			return;
 		// rating.setComponentTarget(photo);
-		commentTarget = photo.getCurrentInstanceId();
+		idPhoto = photo.getCurrentInstanceId();
 		sendCom.setComponentTarget(photo);
 
 		Dependency d;
 		dep = new ArrayList<Dependency>();
-		d = new Dependency("OneComment", "Photo", true);
+		d = new Dependency(Constants.CommentViewGUIName,
+				Constants.PhotoViewGUIName, true);
 		dep.add(d);
-		d = new Dependency("Rating", "OneComment", false);
+		d = new Dependency(Constants.RatingViewGUIName,
+				Constants.CommentViewGUIName, false);
 		dep.add(d);
-		d = new Dependency("CommentSend", "Photo", false);
+		d = new Dependency(Constants.CommentSendGUIName, "Photo", false);
 		dep.add(d);
 
 	}
@@ -85,7 +87,7 @@ public class NewListActivity extends MyActivity {
 	public void instanciarComponents() {
 		photoId = getIntent().getLongExtra("nImagem", -1L);
 		if (photoId != -1L)
-			photo = new PhotoGUI(photoId);
+			photo = new PhotoViewGUI(photoId);
 		else {
 			photoNotFound();
 			return;
@@ -101,15 +103,10 @@ public class NewListActivity extends MyActivity {
 	}
 
 	public void setMyList() {
-		comentario = new CommentListGUI(commentTarget);
+		comentario = new CommentListGUI(idPhoto);
 		// lista = comentario.getList(commentTarget, this);
 		// o tipo diferente de lista
-		lista = comentario.getListSimple(commentTarget, this);
-		listDependents = new ArrayList<String>();
-		// listDependents.add("Rating");
-		// listDependents.add("Rating");
-		// listDependents.add("CommentSend");
-
+		lista = comentario.getListSimple(idPhoto, this);
 	}
 
 	public void addOther(String s, ComponentSimpleModel c) {
@@ -125,7 +122,7 @@ public class NewListActivity extends MyActivity {
 	public void addOther(String s, Long target) {
 
 		// addOne(s,c);
-		//Log.i("criar comentario", " com id " + c.getId());
+		// Log.i("criar comentario", " com id " + c.getId());
 		ComponentDefinitions cd = new ComponentDefinitions();
 		GUIComponent one = cd.getComponent(target, s);
 		addGUIComponentWithTag(R.id.menu_lin, one);
@@ -141,12 +138,11 @@ public class NewListActivity extends MyActivity {
 					lista = comentario.getListSimple(target, this);
 					for (ComponentSimpleModel model : lista) {
 						addOther(d.getSource(), model);
-						verDependenciaString(d.getSource(),model.getId());
+						verDependenciaString(d.getSource(), model.getId());
 					}
 				} else {
-					Log.i("botar na tela", " do tipo " + d.getSource());// cria
-					addOther(d.getSource(),target);
-					verDependenciaString(d.getSource(),target);
+	 				addOther(d.getSource(), target);
+					verDependenciaString(d.getSource(), target);
 				}
 
 			}
@@ -155,18 +151,15 @@ public class NewListActivity extends MyActivity {
 	}
 
 	public void addSomething() {
-
 		startTransaction();
+
 		addGUIComponent(R.id.menu_lin, photo);
-		verDependenciaString("Photo",commentTarget);
+		verDependenciaString(Constants.PhotoViewGUIName, idPhoto);
 
-		// addDependentList(lista, "OneComment", 3,
-		// listDependents,R.id.menu_lin, this);
-		// addListForOne(lista,"OneComment", 3, R.id.menu_lin, this);
+		PhotoSendGUI photoSend = new PhotoSendGUI();
+		addGUIComponent(R.id.menu_lin, photoSend);
 
-		// addGUIComponent(R.id.menu_lin, sendCom);
 		finishTransaction();
-
 	}
 
 	@Override

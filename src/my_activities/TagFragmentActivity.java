@@ -3,7 +3,7 @@ package my_activities;
 import com.example.firstcomponents.R;
 
 import database.DatabaseHandler;
-import my_components.photo.PhotoGUI;
+import my_components.photo.PhotoViewGUI;
 import my_components.tag.TagGUI;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -16,7 +16,7 @@ public class TagFragmentActivity extends FragmentActivity {
 
 	private DatabaseHandler db;
 	Long photoId;
-	private PhotoGUI photo;
+	private PhotoViewGUI photo;
 	private TagGUI tag;
 	//private ComentarioGUI comentario;
 	//private RatingGUI rating = new RatingGUI();
@@ -44,7 +44,7 @@ public class TagFragmentActivity extends FragmentActivity {
         
         photoId = getIntent().getLongExtra("nImagem", -1L);
 		if (photoId != -1L) 
-			photo = new PhotoGUI(photoId);
+			photo = new PhotoViewGUI(photoId);
 		else {
 			photoNotFound();
 			return; 

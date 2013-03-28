@@ -1,8 +1,7 @@
 package com.example.my_fragment;
 
 import java.util.ArrayList;
-import java.util.List;
-
+import my_components.Constants;
 import my_components.comment.CommentSendGUI;
 import my_components.comment.CommentViewGUI;
 import my_components.rating.RatingViewGUI;
@@ -13,11 +12,11 @@ public class ComponentDefinitions {
 	ArrayList<String> paths = new ArrayList<String>();
 
 	public ComponentDefinitions() {
-		names.add("OneComment");
-		names.add("Rating");
+		names.add(Constants.CommentViewGUIName);
+		names.add(Constants.RatingViewGUIName);
 
-		paths.add("my_components.OneCommentGUI");
-		paths.add("my_components.RatingGUI");
+		//paths.add("my_components.OneCommentGUI");
+		//paths.add("my_components.RatingGUI");
 	}
 
 	public String findByName(String name) {
@@ -35,9 +34,9 @@ public class ComponentDefinitions {
 	}
 
 	public GUIComponent getComponent(ComponentSimpleModel m, String name) {
-		if (name.equals("OneComment")) {
+		if (name.equals(Constants.CommentViewGUIName)) {
 			return getOne(m);
-		} else if (name.equals("Rating")) {
+		} else if (name.equals(Constants.RatingViewGUIName)) {
 			return getRatingGUI(1L);
 		}
 		return getOne(m);
@@ -46,9 +45,9 @@ public class ComponentDefinitions {
 	public GUIComponent getComponent(Long target, String name) {
 		if (name.equals("OneComment")) {
 			//
-		} else if (name.equals("Rating")) {
+		} else if (name.equals(Constants.RatingViewGUIName)) {
 			return getRatingGUI(target);
-		} else if (name.equals("CommentSend")) {
+		} else if (name.equals(Constants.CommentSendGUIName)) {
 			return getCommentSendGUI(target);
 		}
 		return getRatingGUI(target);

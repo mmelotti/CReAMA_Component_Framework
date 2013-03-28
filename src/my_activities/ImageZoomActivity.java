@@ -2,7 +2,7 @@ package my_activities;
 
 import com.example.firstcomponents.R;
 
-import my_components.photo.PhotoGUI;
+import my_components.photo.PhotoUtils;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
@@ -16,7 +16,7 @@ public class ImageZoomActivity extends Activity {
 		setContentView(R.layout.image_zoom);
 
 		ImageView iv = (ImageView) findViewById(R.id.expanded_image);
-		iv.setImageBitmap(PhotoGUI.byteArrayToBitmap(getIntent()
+		iv.setImageBitmap(PhotoUtils.byteArrayToBitmap(getIntent()
 				.getByteArrayExtra("image")));
 
 		iv.setOnClickListener(new View.OnClickListener() {

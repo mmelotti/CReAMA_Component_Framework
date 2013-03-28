@@ -5,7 +5,7 @@ import java.util.List;
 
 import my_components.comment.CommentListGUI;
 import my_components.comment.CommentSendGUI;
-import my_components.photo.PhotoGUI;
+import my_components.photo.PhotoViewGUI;
 
 import android.support.v4.app.FragmentTransaction;
 import android.app.Activity;
@@ -26,7 +26,7 @@ import com.example.my_fragment.MyGrouping;
 
 public class TestComponentsGroup extends MyActivityComposed {
 
-	private PhotoGUI photo;
+	private PhotoViewGUI photo;
 	private CommentListGUI comentario;
 	private CommentSendGUI sendCom;
 	private boolean gambiarraFlag = false;
@@ -77,7 +77,7 @@ public class TestComponentsGroup extends MyActivityComposed {
 	public void instanciarComponents() {
 		photoId = getIntent().getLongExtra("nImagem", -1L);
 		if (photoId != -1L)
-			photo = new PhotoGUI(photoId);
+			photo = new PhotoViewGUI(photoId);
 		else {
 			photoNotFound();
 			return;
@@ -133,7 +133,7 @@ public class TestComponentsGroup extends MyActivityComposed {
 		
 		photoId = 1L;
 		if (photoId != -1L)
-			photo = new PhotoGUI(photoId);
+			photo = new PhotoViewGUI(photoId);
 		else {
 			photoNotFound();
 			return;

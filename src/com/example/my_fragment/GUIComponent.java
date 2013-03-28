@@ -5,8 +5,6 @@ import android.support.v4.app.FragmentTransaction;
 
 public abstract class GUIComponent extends GenericComponent {
 
-	
-
 	private MyActivity controlActivity;
 
 	private RequestListener component;
@@ -44,19 +42,19 @@ public abstract class GUIComponent extends GenericComponent {
 	public void setRelativeFragmentId(int relativeFragmentId) {
 		this.relativeFragmentId = relativeFragmentId;
 	}
-	
+
 	public void addComponentToView(GUIComponent comp, int viewId) {
-        FragmentTransaction ft = getChildFragmentManager().beginTransaction();
-        ft.add(viewId, comp);
-        ft.commit();
+		FragmentTransaction ft = getChildFragmentManager().beginTransaction();
+		ft.add(viewId, comp);
+		ft.commit();
 	}
-	
-	public void setControlActivity(MyActivity mya){
+
+	public void setControlActivity(MyActivity mya) {
 		controlActivity = mya;
 	}
-	
-	public MyActivity getControlActivity(){
+
+	public MyActivity getControlActivity() {
 		return controlActivity;
 	}
-	
+
 }

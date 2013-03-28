@@ -1,0 +1,22 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#a3a3a3"
+    android:orientation="vertical"
+    android:padding="3dp" >
+
+    <TextView
+        android:id="@+id/name_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Envie uma foto!"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <Button
+        android:id="@+id/btnBrowse"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Procurar" />
+
+</LinearLayout>

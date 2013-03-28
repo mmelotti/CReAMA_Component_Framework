@@ -6,7 +6,7 @@ import java.util.List;
 
 import my_components.comment.CommentListGUI;
 import my_components.comment.CommentSendGUI;
-import my_components.photo.PhotoGUI;
+import my_components.photo.PhotoViewGUI;
 
 import android.os.Bundle;
 
@@ -23,7 +23,7 @@ import com.example.my_fragment.GenericComponent;
 
 public class NewListComposed extends MyActivity {
 
-	private PhotoGUI photo;
+	private PhotoViewGUI photo;
 	private CommentListGUI comentario;
 	private CommentSendGUI sendCom;
 	private boolean gambiarraFlag = false;
@@ -76,7 +76,7 @@ public class NewListComposed extends MyActivity {
 	public void instanciarComponents() {
 		photoId = getIntent().getLongExtra("nImagem", -1L);
 		if (photoId != -1L)
-			photo = new PhotoGUI(photoId);
+			photo = new PhotoViewGUI(photoId);
 		else {
 			photoNotFound();
 			return;

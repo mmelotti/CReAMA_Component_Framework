@@ -14,7 +14,7 @@ import de.greenrobot.dao.Property;
 /** 
  * DAO for table PHOTO.
 */
-public class PhotoDao extends AbstractDao<PhotoView, Long> {
+public class PhotoDao extends AbstractDao<Photo, Long> {
 
     public static final String TABLENAME = "PHOTO";
 
@@ -58,7 +58,7 @@ public class PhotoDao extends AbstractDao<PhotoView, Long> {
 
     /** @inheritdoc */
     @Override
-    protected void bindValues(SQLiteStatement stmt, PhotoView entity) {
+    protected void bindValues(SQLiteStatement stmt, Photo entity) {
         stmt.clearBindings();
  
         Long id = entity.getId();
@@ -95,8 +95,8 @@ public class PhotoDao extends AbstractDao<PhotoView, Long> {
 
     /** @inheritdoc */
     @Override
-    public PhotoView readEntity(Cursor cursor, int offset) {
-        PhotoView entity = new PhotoView( //
+    public Photo readEntity(Cursor cursor, int offset) {
+        Photo entity = new Photo( //
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
             cursor.isNull(offset + 1) ? null : cursor.getLong(offset + 1), // targetId
             cursor.isNull(offset + 2) ? null : cursor.getBlob(offset + 2), // photoBytes
@@ -108,7 +108,7 @@ public class PhotoDao extends AbstractDao<PhotoView, Long> {
      
     /** @inheritdoc */
     @Override
-    public void readEntity(Cursor cursor, PhotoView entity, int offset) {
+    public void readEntity(Cursor cursor, Photo entity, int offset) {
         entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
         entity.setTargetId(cursor.isNull(offset + 1) ? null : cursor.getLong(offset + 1));
         entity.setPhotoBytes(cursor.isNull(offset + 2) ? null : cursor.getBlob(offset + 2));
@@ -118,14 +118,14 @@ public class PhotoDao extends AbstractDao<PhotoView, Long> {
     
     /** @inheritdoc */
     @Override
-    protected Long updateKeyAfterInsert(PhotoView entity, long rowId) {
+    protected Long updateKeyAfterInsert(Photo entity, long rowId) {
         entity.setId(rowId);
         return rowId;
     }
     
     /** @inheritdoc */
     @Override
-    public Long getKey(PhotoView entity) {
+    public Long getKey(Photo entity) {
         if(entity != null) {
             return entity.getId();
         } else {

@@ -4,7 +4,7 @@ package my_components.photo;
 /**
  * Entity mapped to table PHOTO.
  */
-public class PhotoView extends com.example.my_fragment.ComponentSimpleModel  {
+public class Photo extends com.example.my_fragment.ComponentSimpleModel  {
 
     private Long id;
     private Long targetId;
@@ -12,14 +12,14 @@ public class PhotoView extends com.example.my_fragment.ComponentSimpleModel  {
     private String text;
     private java.util.Date date;
 
-    public PhotoView() {
+    public Photo() {
     }
 
-    public PhotoView(Long id) {
+    public Photo(Long id) {
         this.id = id;
     }
 
-    public PhotoView(Long id, Long targetId, byte[] photoBytes, String text, java.util.Date date) {
+    public Photo(Long id, Long targetId, byte[] photoBytes, String text, java.util.Date date) {
         this.id = id;
         this.targetId = targetId;
         this.photoBytes = photoBytes;
