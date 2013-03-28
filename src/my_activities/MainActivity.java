@@ -1,6 +1,6 @@
 package my_activities;
 
-import my_components.PhotoGUI;
+import my_components.photo.PhotoGUI;
 
 import com.example.firstcomponents.R;
 

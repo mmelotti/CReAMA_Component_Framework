@@ -24,7 +24,7 @@
             android:name="my_activities.BasicFragmentActivity"
             android:label="@string/title_activity_main" >
         </activity>
-        <activity android:name="my_components.TagActivity" >
+        <activity android:name="my_components.tag.TagActivity" >
         </activity>
         <activity android:name="my_activities.TagFragmentActivity" >
         </activity>

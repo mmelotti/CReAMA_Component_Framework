@@ -3,10 +3,10 @@ package my_activities;
 import java.util.ArrayList;
 import java.util.List;
 
-import my_components.CommentListGUI;
-import my_components.CommentSendGUI;
-import my_components.OneCommentGUI;
-import my_components.PhotoGUI;
+import my_components.comment.CommentListGUI;
+import my_components.comment.CommentSendGUI;
+import my_components.comment.CommentViewGUI;
+import my_components.photo.PhotoGUI;
 
 import android.os.Bundle;
 
@@ -17,10 +17,10 @@ import android.widget.Toast;
 import com.example.firstcomponents.R;
 import com.example.my_fragment.ComponentDefinitions;
 import com.example.my_fragment.ComponentSimpleModel;
-import com.example.my_fragment.Dependencie;
+import com.example.my_fragment.Dependency;
 import com.example.my_fragment.GUIComponent;
 import com.example.my_fragment.MyActivity;
-import com.example.my_fragment.MyComponent;
+import com.example.my_fragment.GenericComponent;
 
 public class NewListActivity extends MyActivity {
 
@@ -38,7 +38,7 @@ public class NewListActivity extends MyActivity {
 	private List<ComponentSimpleModel> lista;
 	private List<String> listDependents;
 
-	private List<Dependencie> dep;
+	private List<Dependency> dep;
 
 	LinearLayout myview;
 
@@ -71,13 +71,13 @@ public class NewListActivity extends MyActivity {
 		commentTarget = photo.getCurrentInstanceId();
 		sendCom.setComponentTarget(photo);
 
-		Dependencie d;
-		dep = new ArrayList<Dependencie>();
-		d = new Dependencie("OneComment", "Photo", true);
+		Dependency d;
+		dep = new ArrayList<Dependency>();
+		d = new Dependency("OneComment", "Photo", true);
 		dep.add(d);
-		d = new Dependencie("Rating", "OneComment", false);
+		d = new Dependency("Rating", "OneComment", false);
 		dep.add(d);
-		d = new Dependencie("CommentSend", "Photo", false);
+		d = new Dependency("CommentSend", "Photo", false);
 		dep.add(d);
 
 	}
@@ -133,7 +133,7 @@ public class NewListActivity extends MyActivity {
 	}
 
 	public void verDependenciaString(String s, Long target) {
-		for (Dependencie d : dep) {
+		for (Dependency d : dep) {
 			if (d.getTarget().equals(s)) {
 				Log.i("achou dependencia", "  com-> target " + s + " source "
 						+ d.getSource());
@@ -170,7 +170,7 @@ public class NewListActivity extends MyActivity {
 	}
 
 	@Override
-	public void deletarAlgo(Long target, MyComponent component) {
+	public void deletarAlgo(Long target, GenericComponent component) {
 		callbackRemove(target, component);
 	}
 

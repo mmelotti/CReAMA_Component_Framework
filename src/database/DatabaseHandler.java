@@ -2,8 +2,8 @@ package database;
 
 
 //import my_components.Comentario;
-import my_components.Rating;
-import my_components.Tag;
+import my_components.rating.Rating;
+import my_components.tag.Tag;
 
 import android.content.ContentValues;
 import android.content.Context;

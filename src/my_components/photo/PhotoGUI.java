@@ -1,4 +1,4 @@
-package my_components;
+package my_components.photo;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.util.List;
 
 import my_activities.ImageZoomActivity;
+import my_components.photo.PhotoDao.Properties;
 
 import android.content.Context;
 import android.content.Intent;
@@ -28,15 +29,13 @@ import com.example.my_fragment.GUIComponent;
 import com.example.firstcomponents.R;
 
 import database.DaoMaster;
-import database.PhotoDao;
 import database.DaoMaster.DevOpenHelper;
-import database.PhotoDao.Properties;
 
 public class PhotoGUI extends GUIComponent {
 
 	private ImageView image;
 	private Button proxima, anterior;
-	private Photo photo;
+	private PhotoView photo;
 	private PhotoDao photoDao;
 
 	public PhotoGUI(Long imageId) {
@@ -108,7 +107,7 @@ public class PhotoGUI extends GUIComponent {
 
 	public static Long searchFirstPhoto(PhotoDao dao, Context ctx) {
 		PhotoDao mDao = (dao == null ? initPhotoDao(ctx) : dao);
-		List<Photo> l = mDao.queryBuilder().orderAsc(Properties.Id).build()
+		List<PhotoView> l = mDao.queryBuilder().orderAsc(Properties.Id).build()
 				.list();
 
 		// aqui ja pode fechar o BD
@@ -117,7 +116,7 @@ public class PhotoGUI extends GUIComponent {
 		if (l.isEmpty()) {
 			return -1L;
 		} else {
-			Photo photo = l.get(0);
+			PhotoView photo = l.get(0);
 			return photo.getId();
 		}
 	}
@@ -139,7 +138,7 @@ public class PhotoGUI extends GUIComponent {
 			}
 		});
 
-		photo = (Photo) photoDao.queryBuilder()
+		photo = (PhotoView) photoDao.queryBuilder()
 				.where(Properties.Id.eq(getCurrentInstanceId())).build().unique();
 
 		closeDao();
@@ -178,20 +177,20 @@ public class PhotoGUI extends GUIComponent {
 
 	private Long proximaImagem() {
 		photoDao = initPhotoDao(getActivity());
-		List<Photo> l = photoDao.queryBuilder()
+		List<PhotoView> l = photoDao.queryBuilder()
 				.where(Properties.Id.gt(getCurrentInstanceId())).orderAsc(Properties.Id)
 				.list();
 		closeDao();
-		return (l.isEmpty() ? getCurrentInstanceId() : ((Photo) l.get(0)).getId());
+		return (l.isEmpty() ? getCurrentInstanceId() : ((PhotoView) l.get(0)).getId());
 	}
 
 	private Long imagemAnterior() {
 		photoDao = initPhotoDao(getActivity());
-		List<Photo> l = photoDao.queryBuilder()
+		List<PhotoView> l = photoDao.queryBuilder()
 				.where(Properties.Id.lt(getCurrentInstanceId())).orderDesc(Properties.Id)
 				.list();
 		closeDao();
-		return (l.isEmpty() ? getCurrentInstanceId() : ((Photo) l.get(0)).getId());
+		return (l.isEmpty() ? getCurrentInstanceId() : ((PhotoView) l.get(0)).getId());
 	}
 
 	public void closeDao() {

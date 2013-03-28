@@ -2,7 +2,7 @@ package my_activities;
 
 import com.example.firstcomponents.R;
 
-import my_components.PhotoGUI;
+import my_components.photo.PhotoGUI;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;

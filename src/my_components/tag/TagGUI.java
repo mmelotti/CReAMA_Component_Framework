@@ -1,4 +1,4 @@
-package my_components;
+package my_components.tag;
 
 import com.example.my_fragment.GUIComponent;
 

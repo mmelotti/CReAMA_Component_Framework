@@ -2,7 +2,7 @@ package database;
 import java.util.ArrayList;
 import java.util.List;
 
-import my_components.Rating;
+import my_components.rating.Rating;
  
 import android.content.ContentValues;
 import android.content.Context;

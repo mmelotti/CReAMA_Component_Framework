@@ -3,7 +3,7 @@ package com.example.my_fragment;
 import android.app.Activity;
 import android.support.v4.app.FragmentTransaction;
 
-public abstract class GUIComponent extends MyComponent {
+public abstract class GUIComponent extends GenericComponent {
 
 	
 

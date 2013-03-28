@@ -1,16 +1,16 @@
-package my_components;
+package my_components.comment;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import my_components.comment.CommentDao.Properties;
+
 import com.example.my_fragment.ComponentSimpleModel;
 import com.example.my_fragment.GUIComponent;
 import com.example.firstcomponents.R;
 
-import database.CommentDao;
-import database.CommentDao.Properties;
 import database.DaoMaster;
 import database.DaoMaster.DevOpenHelper;
 import database.DaoSession;
@@ -19,7 +19,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;

@@ -4,9 +4,9 @@ import com.example.firstcomponents.R;
 import com.example.my_fragment.MyActivity;
 
 import database.DatabaseHandler;
-import my_components.CommentListGUI;
-import my_components.PhotoGUI;
-import my_components.RatingGUI;
+import my_components.comment.CommentListGUI;
+import my_components.photo.PhotoGUI;
+import my_components.rating.RatingViewGUI;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -20,7 +20,7 @@ public class BasicFragmentActivity extends MyActivity {
 	private DatabaseHandler db;
 	private PhotoGUI photo;
 	private CommentListGUI comentario;
-	private RatingGUI rating; 
+	private RatingViewGUI rating; 
 	Long photoId;
 	
 	protected void photoNotFound() {
@@ -109,7 +109,7 @@ public class BasicFragmentActivity extends MyActivity {
 		}
 		
 		comentario = new CommentListGUI(); 
-		rating = new RatingGUI(photoId);
+		rating = new RatingViewGUI(photoId);
 		//rating.setDb(db);
 		
 	}

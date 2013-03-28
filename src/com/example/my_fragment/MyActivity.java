@@ -15,7 +15,7 @@ public abstract class MyActivity extends FragmentActivity {
 
 	public abstract void instanciarComponents();
 
-	private List<MyComponent> componentes = new ArrayList<MyComponent>();
+	private List<GenericComponent> componentes = new ArrayList<GenericComponent>();
 	private FragmentManager fragmentManager;
 	private FragmentTransaction transaction;
 	private int[] dependencies;
@@ -29,7 +29,7 @@ public abstract class MyActivity extends FragmentActivity {
 		configurarTargets();
 	}
 
-	public void deletarAlgo(Long t, MyComponent m) {
+	public void deletarAlgo(Long t, GenericComponent m) {
 
 	}
 
@@ -61,11 +61,11 @@ public abstract class MyActivity extends FragmentActivity {
 		transaction.commit();
 	}
 
-	public List<MyComponent> getComponentes() {
+	public List<GenericComponent> getComponentes() {
 		return componentes;
 	}
 
-	public void setComponentes(List<MyComponent> componentes) {
+	public void setComponentes(List<GenericComponent> componentes) {
 		this.componentes = componentes;
 	}
 
@@ -77,7 +77,7 @@ public abstract class MyActivity extends FragmentActivity {
 		this.dependencies = dependencies;
 	}
 
-	public void callbackRemove(Long target, MyComponent component) {
+	public void callbackRemove(Long target, GenericComponent component) {
 		boolean foundIt = false;
 
 		for (int i : getDependencies()) {
@@ -90,7 +90,7 @@ public abstract class MyActivity extends FragmentActivity {
 		}
 
 		if (foundIt) {
-			for (MyComponent c : getComponentes()) {
+			for (GenericComponent c : getComponentes()) {
 				if (c.getComponentTargetId() == component.getGeneralGUIId()) {
 					c.deleteAllFrom(target);
 					Log.i("Remover!", "from " + target);

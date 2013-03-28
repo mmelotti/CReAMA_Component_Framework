@@ -1,7 +1,9 @@
-package my_components;
+package my_components.comment;
 
 import java.text.DateFormat;
 import java.util.List;
+
+import my_components.comment.CommentDao.Properties;
 
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -15,13 +17,11 @@ import android.widget.TextView;
 import com.example.firstcomponents.R;
 import com.example.my_fragment.ComponentSimpleModel;
 import com.example.my_fragment.GUIComponent;
-import database.CommentDao;
 import database.DaoMaster;
 import database.DaoSession;
-import database.CommentDao.Properties;
 import database.DaoMaster.DevOpenHelper;
 
-public class OneCommentGUI extends GUIComponent {
+public class CommentViewGUI extends GUIComponent {
 
 	private CommentDao commentDao;
 	private DaoSession daoSession;
@@ -29,17 +29,17 @@ public class OneCommentGUI extends GUIComponent {
 	private LayoutInflater li;
 	private Comment comment;
 
-	public OneCommentGUI() {
+	public CommentViewGUI() {
 		super();
 		preDefined();
 	}
 
-	public OneCommentGUI(ComponentSimpleModel c){
+	public CommentViewGUI(ComponentSimpleModel c){
 		comment = (Comment) c;
 		preDefined();
 	}
 	
-	public OneCommentGUI(Comment c) {
+	public CommentViewGUI(Comment c) {
 		comment = c;
 		preDefined();
 	}

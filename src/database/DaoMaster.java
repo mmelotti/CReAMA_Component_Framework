@@ -1,5 +1,8 @@
 package database;
 
+import my_components.comment.CommentDao;
+import my_components.photo.PhotoDao;
+import my_components.rating.RatingDao;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;

@@ -4,9 +4,9 @@ package my_activities;
 import java.util.ArrayList;
 import java.util.List;
 
-import my_components.CommentListGUI;
-import my_components.CommentSendGUI;
-import my_components.PhotoGUI;
+import my_components.comment.CommentListGUI;
+import my_components.comment.CommentSendGUI;
+import my_components.photo.PhotoGUI;
 
 import android.os.Bundle;
 
@@ -19,7 +19,7 @@ import android.widget.Toast;
 import com.example.firstcomponents.R;
 import com.example.my_fragment.ComponentSimpleModel;
 import com.example.my_fragment.MyActivity;
-import com.example.my_fragment.MyComponent;
+import com.example.my_fragment.GenericComponent;
 
 public class NewListComposed extends MyActivity {
 
@@ -125,7 +125,7 @@ public class NewListComposed extends MyActivity {
 	}
 
 	@Override
-	public void deletarAlgo(Long target, MyComponent component) {
+	public void deletarAlgo(Long target, GenericComponent component) {
 		callbackRemove(target, component);
 	}
 

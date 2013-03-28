@@ -10,9 +10,9 @@ import com.example.my_fragment.ComponentSimpleModel;
 import database.DaoMaster;
 import database.DaoSession;
 import database.DaoMaster.DevOpenHelper;
-import database.PhotoDao;
-import my_components.Photo;
-import my_components.PhotoGUI;
+import my_components.photo.PhotoDao;
+import my_components.photo.PhotoGUI;
+import my_components.photo.PhotoView;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -58,7 +58,7 @@ public class SavePhotoActivity extends Activity {
 
 				//Bitmap bitmap = BitmapFactory.decodeFile(filepath);
 				byte[] bArray = PhotoGUI.bitmapToByteArray(bitmap);
-				Photo photo = new Photo(
+				PhotoView photo = new PhotoView(
 						ComponentSimpleModel
 								.getUniqueId(SavePhotoActivity.this),
 						null, bArray, null, new Date());

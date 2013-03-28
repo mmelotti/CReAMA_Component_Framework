@@ -1,18 +1,18 @@
-package my_components;
+package my_components.rating;
 
 import java.util.List;
+
+import my_components.comment.CommentDao.Properties;
 
 import com.example.firstcomponents.R;
 import com.example.my_fragment.ComponentSimpleModel;
 import com.example.my_fragment.GUIComponent;
 import com.example.my_fragment.MyActivity;
-import com.example.my_fragment.MyComponent;
+import com.example.my_fragment.GenericComponent;
 
 import database.DaoMaster;
 import database.DaoSession;
-import database.CommentDao.Properties;
 import database.DaoMaster.DevOpenHelper;
-import database.RatingDao;
 
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -27,7 +27,7 @@ import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-public class RatingGUI extends GUIComponent implements
+public class RatingViewGUI extends GUIComponent implements
 		RatingBar.OnRatingBarChangeListener {
 
 	RatingBar ratingClickable; // declare RatingBar object
@@ -47,20 +47,20 @@ public class RatingGUI extends GUIComponent implements
 	
 	LinearLayout ratingBody;
 	
-	public RatingGUI() {
+	public RatingViewGUI() {
 		preDefined();
 	}
 
 	
 	
-	public RatingGUI(Long target) {
+	public RatingViewGUI(Long target) {
 		preDefined();
 		newTarget = target;
 	}
 
 	
 	
-	public RatingGUI(MyComponent target) {
+	public RatingViewGUI(GenericComponent target) {
 		preDefined();
 		setComponentTarget(target);
 	}

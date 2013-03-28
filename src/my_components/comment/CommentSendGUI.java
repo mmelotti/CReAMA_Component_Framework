@@ -1,11 +1,10 @@
-package my_components;
+package my_components.comment;
 
 import java.util.Date;
 import com.example.my_fragment.ComponentSimpleModel;
 import com.example.my_fragment.GUIComponent;
 import com.example.firstcomponents.R;
 
-import database.CommentDao;
 import database.DaoMaster;
 import database.DaoMaster.DevOpenHelper;
 import database.DaoSession;

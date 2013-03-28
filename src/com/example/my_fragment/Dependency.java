@@ -1,6 +1,6 @@
 package com.example.my_fragment;
 
-public class Dependencie {
+public class Dependency {
 
 	
 	private String source;
@@ -8,7 +8,7 @@ public class Dependencie {
 	private boolean toMany;
 	
 	
-	public Dependencie(String s,String t, boolean b){
+	public Dependency(String s,String t, boolean b){
 		source = s;
 		target = t;
 		toMany = b;

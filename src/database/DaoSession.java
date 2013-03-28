@@ -9,9 +9,12 @@ import de.greenrobot.dao.DaoConfig;
 import de.greenrobot.dao.AbstractDaoSession;
 import de.greenrobot.dao.IdentityScopeType;
 
-import my_components.Comment;
-import my_components.Photo;
-import my_components.Rating;
+import my_components.comment.Comment;
+import my_components.comment.CommentDao;
+import my_components.photo.PhotoDao;
+import my_components.photo.PhotoView;
+import my_components.rating.Rating;
+import my_components.rating.RatingDao;
 import my_activities.Rating2Comment2Photo;
 
 
@@ -58,7 +61,7 @@ public class DaoSession extends AbstractDaoSession {
         rating2Comment2PhotoDao = new Rating2Comment2PhotoDao(rating2Comment2PhotoDaoConfig, this);
 
         registerDao(Comment.class, commentDao);
-        registerDao(Photo.class, photoDao);
+        registerDao(PhotoView.class, photoDao);
         registerDao(Rating.class, ratingDao);
         registerDao(Rating2Comment2Photo.class, rating2Comment2PhotoDao);
     }

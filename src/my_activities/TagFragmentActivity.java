@@ -3,8 +3,8 @@ package my_activities;
 import com.example.firstcomponents.R;
 
 import database.DatabaseHandler;
-import my_components.PhotoGUI;
-import my_components.TagGUI;
+import my_components.photo.PhotoGUI;
+import my_components.tag.TagGUI;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;

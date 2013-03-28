@@ -5,12 +5,12 @@ import java.util.List;
 
 import android.support.v4.app.Fragment;
 
-public class MyComponent extends Fragment {
+public class GenericComponent extends Fragment {
 
 	private int generalGUIId = -1;
 	private int componentTargetId = -1;
 	private Long current = (long) 1;
-	private MyComponent componentTarget;
+	private GenericComponent componentTarget;
 	private List<Integer> instancesId = new ArrayList<Integer>();
 
 	public int getComponentTargetId() {
@@ -37,11 +37,11 @@ public class MyComponent extends Fragment {
 		return instancesId.remove((Object) n);
 	}
 
-	public MyComponent getComponentTarget() {
+	public GenericComponent getComponentTarget() {
 		return componentTarget;
 	}
 
-	public void setComponentTarget(MyComponent componentTarget) {
+	public void setComponentTarget(GenericComponent componentTarget) {
 		this.componentTarget = componentTarget;
 	}
 
