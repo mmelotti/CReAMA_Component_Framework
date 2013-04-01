@@ -117,77 +117,7 @@ public abstract class MyActivity extends FragmentActivity {
 		this.relativeGUIIdCont = relativeGUIIdCont;
 	}
 
-	public void addDependentList(List<ComponentSimpleModel> lista, String s1,
-			int target, List<String> list2, int fragmentId, MyActivity control) {
-
-		ComponentDefinitions def = new ComponentDefinitions();
-
-		for (int i = 0; i < lista.size(); i++) {
-
-			GUIComponent com = def.getComponent(lista.get(i), s1);
-			com.setComponentTargetId(target);
-			com.setControlActivity(control);
-			addGUIComponentWithTag(fragmentId, com);
-
-			// para cada component, outros mais!
-			for (int j = 0; j < list2.size(); j++) {
-
-				GUIComponent rat = def.getComponent(lista.get(i).getId(),
-						list2.get(j));
-				rat.setComponentTargetId(1);
-				rat.setControlActivity(control);
-				addGUIComponentWithTag(fragmentId, rat);
-			}
-
-		}
-	}
-
-	public void addListInsideList(List<ComponentSimpleModel> lista, String s1,
-			int target, List<String> list2, int fragmentId, MyActivity control,
-			String before,String newList, int newTarget) {
-
-		ComponentDefinitions def = new ComponentDefinitions();
-
-		for (int i = 0; i < lista.size(); i++) {
-
-			GUIComponent com = def.getComponent(lista.get(i), s1);
-			com.setComponentTargetId(target);
-			com.setControlActivity(control);
-			addGUIComponentWithTag(fragmentId, com);
-
-			// para cada component, outros mais!
-			for (int j = 0; j < list2.size(); j++) {
-
-				
-				if(list2.get(j).equals(before)){
-					addListForOne(lista, newList, newTarget, fragmentId, control);
-				}
-				GUIComponent rat = def.getComponent(lista.get(i).getId(),
-						list2.get(j));
-				rat.setComponentTargetId(1);
-				rat.setControlActivity(control);
-				addGUIComponentWithTag(fragmentId, rat);
-			}
-
-		}
-	}
-
-	public void addListForOne(List<ComponentSimpleModel> lista, String s1,
-			int target, int fragmentId, MyActivity control) {
-
-		ComponentDefinitions def = new ComponentDefinitions();
-
-		for (int i = 0; i < lista.size(); i++) {
-
-			GUIComponent com = def.getComponent(lista.get(i), s1);
-			com.setComponentTargetId(target);
-			com.setControlActivity(control);
-			addGUIComponentWithTag(fragmentId, com);
-
-			// para cada component, outros mais!
-
-		}
-	}
+	
 
 	public List<Dependency> getDependencies() {
 		return dependencies;
