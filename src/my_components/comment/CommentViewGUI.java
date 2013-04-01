@@ -5,6 +5,7 @@ import java.util.List;
 
 import my_components.comment.CommentDao.Properties;
 
+import android.annotation.SuppressLint;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -17,10 +18,13 @@ import android.widget.TextView;
 import com.example.firstcomponents.R;
 import com.example.my_fragment.ComponentSimpleModel;
 import com.example.my_fragment.GUIComponent;
+import com.example.my_fragment.MyActivity;
+
 import database.DaoMaster;
 import database.DaoSession;
 import database.DaoMaster.DevOpenHelper;
 
+@SuppressLint("ValidFragment")
 public class CommentViewGUI extends GUIComponent {
 
 	private CommentDao commentDao;
@@ -34,20 +38,19 @@ public class CommentViewGUI extends GUIComponent {
 		preDefined();
 	}
 
-	public CommentViewGUI(ComponentSimpleModel c){
+	public CommentViewGUI(ComponentSimpleModel c) {
 		comment = (Comment) c;
 		preDefined();
 	}
-	
+
 	public CommentViewGUI(Comment c) {
 		comment = c;
 		preDefined();
 	}
-	
-	public void preDefined(){
-		setGeneralGUIId(1);	
+
+	public void preDefined() {
+		setGeneralGUIId(1);
 	}
-	
 
 	private Comment findCommentById(Long id) {
 		initCommentDao();
@@ -58,13 +61,10 @@ public class CommentViewGUI extends GUIComponent {
 	}
 
 	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
-	}
-
-	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		setControlActivity((MyActivity) getActivity());
+
 		li = inflater;
 		View view = inflater.inflate(R.layout.single_coment, container, false);
 		view = refreshComment();
@@ -81,19 +81,19 @@ public class CommentViewGUI extends GUIComponent {
 		((TextView) view.findViewById(R.id.date)).setText("Enviado em "
 				+ df.format(comment.getDate()));
 		((ImageButton) view.findViewById(R.id.button_apaga))
-		.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Long id = Long.valueOf(v.getTag().toString());
-				Comment c = findCommentById(id);
-				if (c != null) {
-					initCommentDao();				
-					deleteOne(c);
-					closeDao();
-					reloadActivity();
-				} 
-			}
-		});
+				.setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						Long id = Long.valueOf(v.getTag().toString());
+						Comment c = findCommentById(id);
+						if (c != null) {
+							initCommentDao();
+							deleteOne(c);
+							closeDao();
+							reloadActivity();
+						}
+					}
+				});
 		return view;
 	}
 
@@ -105,30 +105,27 @@ public class CommentViewGUI extends GUIComponent {
 		daoSession = daoMaster.newSession();
 		commentDao = daoSession.getCommentDao();
 	}
-	
-	
-	public void deleteOne(Comment c){
+
+	public void deleteOne(Comment c) {
 		commentDao.delete(c);
 		daoSession.delete(c);
 		getControlActivity().deletarAlgo(c.getId(), this);
 	}
-	
+
 	@Override
-	public void deleteAllFrom(Long target){
-		initCommentDao();		
+	public void deleteAllFrom(Long target) {
+		initCommentDao();
 		List<Comment> lista = commentDao.queryBuilder()
-				.where(Properties.TargetId.eq(target)).build().list();		
-		for(int i=0;i<lista.size();i++){
+				.where(Properties.TargetId.eq(target)).build().list();
+		for (int i = 0; i < lista.size(); i++) {
 			deleteOne(lista.get(i));
-		}		
+		}
 		closeDao();
-		
+
 	}
 
-	public void closeDao(){
+	public void closeDao() {
 		commentDao.getDatabase().close();
 	}
-	
-	
 
 }

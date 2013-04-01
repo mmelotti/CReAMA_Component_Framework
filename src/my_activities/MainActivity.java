@@ -1,20 +1,20 @@
 package my_activities;
 
+import my_components.photo.PhotoSendGUI;
 import my_components.photo.PhotoViewGUI;
 
-import com.example.firstcomponents.R;
+import com.example.firstcomponents.R; 
+import com.example.my_fragment.MyActivity;
 
-import database.DatabaseHandler;
 import android.os.Bundle;
-import android.app.Activity;
 import android.content.Intent;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 
-public class MainActivity extends Activity {
+public class MainActivity extends MyActivity {
 
-	private Button bttela2, btag, btnAddPhoto;
+	private Button bttela2, btag;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -22,12 +22,10 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 		setBotoes();
 
-		// inicializao db
-		DatabaseHandler myDb = new DatabaseHandler(this);
-		myDb.dropAllTables();
-		myDb.checkTablesOnDB();
-		myDb.close();
-		myDb = null;
+		startTransaction();
+		PhotoSendGUI photoSend = new PhotoSendGUI();
+		addGUIComponent(R.id.root, photoSend);
+		finishTransaction();
 	}
 
 	private void setBotoes() {
@@ -35,12 +33,12 @@ public class MainActivity extends Activity {
 
 		bttela2.setOnClickListener(new View.OnClickListener() {
 			@Override
-			public void onClick(View arg0) {
+			public void onClick(View v) {
 				Intent trocatela = new Intent(MainActivity.this,
 						NewListActivity.class);
 				// procura primeira imagem
 				trocatela.putExtra("nImagem",
-						PhotoViewGUI.searchFirstPhoto(null, arg0.getContext()));
+						PhotoViewGUI.searchFirstPhoto(null, v.getContext()));
 				startActivity(trocatela);
 				// MainActivity.this.finish();
 			}
@@ -61,31 +59,24 @@ public class MainActivity extends Activity {
 			}
 		});
 
-		btnAddPhoto = (Button) findViewById(R.id.btnAddPhoto);
-		// bttela2.setText("NEW");
-
-		btnAddPhoto.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-
-				Intent addPhoto = new Intent(MainActivity.this,
-						SavePhotoActivity.class);
-				MainActivity.this.startActivity(addPhoto);
-
-				// Intent trocatela = new
-				// Intent(MainActivity.this,NewListComposed.class);
-				// trocatela.putExtra("nImagem",
-				// PhotoViewGUI.searchFirstPhoto(null, arg0.getContext()));
-				// MainActivity.this.startActivity(trocatela);
-			}
-		});
-
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.activity_main, menu);
 		return true;
+	}
+
+	@Override
+	public void configurarTargets() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void instanciarComponents() {
+		// TODO Auto-generated method stub
+
 	}
 
 }

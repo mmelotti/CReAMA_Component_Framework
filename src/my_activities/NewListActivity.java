@@ -6,7 +6,6 @@ import java.util.List;
 import my_components.Constants;
 import my_components.comment.CommentListGUI;
 import my_components.comment.CommentSendGUI;
-import my_components.photo.PhotoSendGUI;
 import my_components.photo.PhotoViewGUI;
 
 import android.os.Bundle;
@@ -79,7 +78,8 @@ public class NewListActivity extends MyActivity {
 		d = new Dependency(Constants.RatingViewGUIName,
 				Constants.CommentViewGUIName, false);
 		dep.add(d);
-		d = new Dependency(Constants.CommentSendGUIName, "Photo", false);
+		d = new Dependency(Constants.CommentSendGUIName,
+				Constants.PhotoViewGUIName, false);
 		dep.add(d);
 
 	}
@@ -141,7 +141,7 @@ public class NewListActivity extends MyActivity {
 						verDependenciaString(d.getSource(), model.getId());
 					}
 				} else {
-	 				addOther(d.getSource(), target);
+					addOther(d.getSource(), target);
 					verDependenciaString(d.getSource(), target);
 				}
 
@@ -152,13 +152,8 @@ public class NewListActivity extends MyActivity {
 
 	public void addSomething() {
 		startTransaction();
-
 		addGUIComponent(R.id.menu_lin, photo);
 		verDependenciaString(Constants.PhotoViewGUIName, idPhoto);
-
-		PhotoSendGUI photoSend = new PhotoSendGUI();
-		addGUIComponent(R.id.menu_lin, photoSend);
-
 		finishTransaction();
 	}
 

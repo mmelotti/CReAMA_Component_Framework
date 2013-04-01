@@ -5,8 +5,7 @@
     android:background="#CCCCCC" >
 
     <RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="5dp" >
@@ -46,19 +45,6 @@
             android:background="#111111"
             android:padding="15dp"
             android:text="Definir Tags"
-            android:textColor="#ffffff"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-        <Button
-            android:id="@+id/btnAddPhoto"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/go_tag"
-            android:layout_marginBottom="2dp"
-            android:background="#111111"
-            android:padding="15dp"
-            android:text="Adicionar Foto"
             android:textColor="#ffffff"
             android:textSize="18sp"
             android:textStyle="bold" />
