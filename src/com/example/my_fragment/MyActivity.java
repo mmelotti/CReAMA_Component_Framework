@@ -3,6 +3,10 @@ package com.example.my_fragment;
 import java.util.ArrayList;
 import java.util.List;
 
+import my_components.comment.CommentListGUI;
+
+import com.example.firstcomponents.R;
+
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -18,7 +22,8 @@ public abstract class MyActivity extends FragmentActivity {
 	private List<GenericComponent> componentes = new ArrayList<GenericComponent>();
 	private FragmentManager fragmentManager;
 	private FragmentTransaction transaction;
-	private int[] dependencies;
+	private int[] dependenciesInt;
+	private List<Dependency> dependencies;
 
 	private int relativeGUIIdCont = 55;
 
@@ -69,18 +74,18 @@ public abstract class MyActivity extends FragmentActivity {
 		this.componentes = componentes;
 	}
 
-	public int[] getDependencies() {
-		return dependencies;
+	public int[] getDependenciesInt() {
+		return dependenciesInt;
 	}
 
-	public void setDependencies(int[] dependencies) {
-		this.dependencies = dependencies;
+	public void setDependenciesInt(int[] dependencies) {
+		this.dependenciesInt = dependencies;
 	}
 
 	public void callbackRemove(Long target, GenericComponent component) {
 		boolean foundIt = false;
 
-		for (int i : getDependencies()) {
+		for (int i : getDependenciesInt()) {
 			// tem alguem que depende do que vai ser deletado?
 			if (i == component.getGeneralGUIId()) {
 				Log.i("Remover!", "encontrou " + i);
@@ -183,5 +188,63 @@ public abstract class MyActivity extends FragmentActivity {
 
 		}
 	}
+
+	public List<Dependency> getDependencies() {
+		return dependencies;
+	}
+
+	public void setDependencies(List<Dependency> dependencies) {
+		this.dependencies = dependencies;
+	}
+	
+	public void addDependencie(Dependency d){
+		dependencies.add(d);
+	}
+	
+
+	public void addOther(String s, ComponentSimpleModel c, int id) {
+
+		// addOne(s,c);
+		Log.i("criar comentario", " com id " + c.getId());
+		ComponentDefinitions cd = new ComponentDefinitions();
+		GUIComponent one = cd.getComponent(c, s);
+		addGUIComponentWithTag(id, one);
+
+	}
+
+	public void addOther(String s, Long target, int id) {
+
+		// addOne(s,c);
+		// Log.i("criar comentario", " com id " + c.getId());
+		ComponentDefinitions cd = new ComponentDefinitions();
+		GUIComponent one = cd.getComponent(target, s);
+		addGUIComponentWithTag(id, one);
+
+	}
+
+	public void verDependenciaString(String s, Long target) {
+		for (Dependency d : getDependencies()) {
+			if (d.getTarget().equals(s)) {
+				Log.i("achou dependencia", "  com-> target " + s + " source "
+						+ d.getSource());
+				if (d.isToMany()) {
+					List<ComponentSimpleModel> m =  new 
+							CommentListGUI(target).getListSimple(target, this);
+					
+					
+					for (ComponentSimpleModel model : m) {
+						addOther(d.getSource(), model,R.id.menu_lin);
+						verDependenciaString(d.getSource(), model.getId());
+					}
+				} else {
+					addOther(d.getSource(), target,R.id.menu_lin);
+					verDependenciaString(d.getSource(), target);
+				}
+
+			}
+
+		}
+	}
+
 
 }

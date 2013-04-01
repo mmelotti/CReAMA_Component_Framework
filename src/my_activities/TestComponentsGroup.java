@@ -61,7 +61,7 @@ public class TestComponentsGroup extends MyActivityComposed {
 		setContentView(R.layout.activity_fragment_runtime);
 
 		// set targets
-		setDependencies(thisDependencies);
+		setDependenciesInt(thisDependencies);
 		setMyList();
 		addSomething();
 	}
@@ -129,7 +129,7 @@ public class TestComponentsGroup extends MyActivityComposed {
 	}
 
 	public void addFromOutside(FragmentTransaction transaction,Activity a){
-		setDependencies(thisDependencies);
+		setDependenciesInt(thisDependencies);
 		
 		photoId = 1L;
 		if (photoId != -1L)

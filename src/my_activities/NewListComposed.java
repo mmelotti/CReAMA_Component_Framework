@@ -59,7 +59,7 @@ public class NewListComposed extends MyActivity {
 
 
 		// set targets
-		setDependencies(thisDependencies);
+		setDependenciesInt(thisDependencies);
 		setMyList();
 		addSomething();
 	}
