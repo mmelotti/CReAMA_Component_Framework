@@ -15,8 +15,6 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.firstcomponents.R;
-import com.example.my_fragment.ComponentDefinitions;
-import com.example.my_fragment.ComponentSimpleModel;
 import com.example.my_fragment.Dependency;
 import com.example.my_fragment.GUIComponent;
 import com.example.my_fragment.MyActivity;
@@ -25,21 +23,12 @@ import com.example.my_fragment.GenericComponent;
 public class NewListActivity extends MyActivity {
 
 	private PhotoViewGUI photo;
-	private CommentListGUI comentario;
-	private CommentSendGUI sendCom;
 	private boolean gambiarraFlag = false;
-
 	private int[] thisDependencies = new int[] { 1, 3 };
 	// aqui existe dependencia de comentario, e foto
 
 	private long idPhoto;
 	Long photoId;
-	int relativeGUIIdCont = 55;
-	private List<ComponentSimpleModel> lista;
-
-	
-
-	LinearLayout myview;
 
 	protected void photoNotFound() {
 		gambiarraFlag = true;
@@ -68,7 +57,6 @@ public class NewListActivity extends MyActivity {
 			return;
 		// rating.setComponentTarget(photo);
 		idPhoto = photo.getCurrentInstanceId();
-		sendCom.setComponentTarget(photo);
 
 		Dependency d;
 		setDependencies(new ArrayList<Dependency>());
@@ -99,14 +87,10 @@ public class NewListActivity extends MyActivity {
 			return;
 		}
 
-		sendCom = new CommentSendGUI();
 	}
 
 	public void setMyList() {
-		comentario = new CommentListGUI(idPhoto);
-		// lista = comentario.getList(commentTarget, this);
-		// o tipo diferente de lista
-		lista = comentario.getListSimple(idPhoto, this);
+
 	}
 
 	public void addSomething() {
