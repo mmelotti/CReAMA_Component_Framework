@@ -9,6 +9,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 import database.DaoMaster;
 import database.DaoSession;
 import database.DaoMaster.DevOpenHelper;
@@ -43,16 +44,18 @@ public class PhotoUtils {
 			BitmapFactory.Options o = new BitmapFactory.Options();
 			o.inJustDecodeBounds = true;
 			BitmapFactory.decodeStream(new FileInputStream(f), null, o);
-
+			Log.e("BEFORE RESIZE width e height", o.outWidth + " - " + o.outHeight);
+			
 			// Find the correct scale value. It should be the power of 2.
 			int scale = 1;
-			if (o.outHeight > o.outWidth)
+			if (o.outHeight < o.outWidth)
 				while (o.outWidth / scale / 2 >= size)
 					scale *= 2;
 			else
 				while (o.outHeight / scale / 2 >= size)
 					scale *= 2;
 
+			scale *= 2; 
 			BitmapFactory.Options o2 = new BitmapFactory.Options();
 			o2.inSampleSize = scale;
 			return BitmapFactory.decodeStream(new FileInputStream(f), null, o2);
@@ -67,16 +70,18 @@ public class PhotoUtils {
 			BitmapFactory.Options o = new BitmapFactory.Options();
 			o.inJustDecodeBounds = true;
 			BitmapFactory.decodeStream(new FileInputStream(f), null, o);
-
+			Log.e("BEFORE RESIZE width e height", o.outWidth + " - " + o.outHeight);
+			
 			// Find the correct scale value. It should be the power of 2.
 			int scale = 1;
-			if (o.outHeight > o.outWidth)
+			if (o.outHeight < o.outWidth)
 				while (o.outWidth / scale / 2 >= width)
 					scale *= 2;
 			else
 				while (o.outHeight / scale / 2 >= height)
 					scale *= 2;
 
+			scale *= 2; 
 			BitmapFactory.Options o2 = new BitmapFactory.Options();
 			o2.inSampleSize = scale;
 			return BitmapFactory.decodeStream(new FileInputStream(f), null, o2);

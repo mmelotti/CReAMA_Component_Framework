@@ -17,7 +17,7 @@ import android.widget.Toast;
 
 public class BasicFragmentActivity extends MyActivity {
 
-	private DatabaseHandler db;
+	private DatabaseHandler db; 
 	private PhotoViewGUI photo;
 	private CommentListGUI comentario;
 	private RatingViewGUI rating; 

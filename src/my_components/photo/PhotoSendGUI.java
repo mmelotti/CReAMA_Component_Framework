@@ -51,8 +51,9 @@ public class PhotoSendGUI extends GUIComponent {
 				cursor.close();
 
 				File f = new File(filepath);
-				Bitmap bitmap = PhotoViewGUI.resizeImage(f, 800);
-
+				Bitmap bitmap = PhotoUtils.resizeImage(f, 800);
+				Log.e("AFTER RESIZE width e height", bitmap.getWidth() + " - " + bitmap.getHeight());
+				
 				// Bitmap bitmap = BitmapFactory.decodeFile(filepath);
 				byte[] bArray = PhotoUtils.bitmapToByteArray(bitmap);
 				Photo photo = new Photo(ComponentSimpleModel.getUniqueId(ctx),

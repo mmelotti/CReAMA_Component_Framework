@@ -1,21 +1,19 @@
 package my_components.photo;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.util.List;
 
 import my_activities.ImageZoomActivity;
 import my_components.photo.PhotoDao.Properties;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-
 import android.os.Bundle;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +28,7 @@ import com.example.firstcomponents.R;
 import database.DaoMaster;
 import database.DaoMaster.DevOpenHelper;
 
+@SuppressLint("ValidFragment")
 public class PhotoViewGUI extends GUIComponent {
 
 	private ImageView image;
@@ -55,34 +54,9 @@ public class PhotoViewGUI extends GUIComponent {
 	public void zoomPhoto() {
 		Intent i = new Intent(getActivity(), ImageZoomActivity.class);
 		i.putExtra("image", photo.getPhotoBytes());
-		//ActivityOptions opts = ActivityOptions.makeThumbnailScaleUpAnimation(view, bitmap, 0, 0);
+		// ActivityOptions opts =
+		// ActivityOptions.makeThumbnailScaleUpAnimation(view, bitmap, 0, 0);
 		startActivity(i);
-	}
-
-	// reduz a imagem para ocupar menos memória
-	public static Bitmap resizeImage(File f, int size) {
-		try {
-			// Decode image size
-			BitmapFactory.Options o = new BitmapFactory.Options();
-			o.inJustDecodeBounds = true;
-			BitmapFactory.decodeStream(new FileInputStream(f), null, o);
-
-			// Find the correct scale value. It should be the power of 2.
-			int scale = 1;
-			if (o.outHeight > o.outWidth)
-				while (o.outWidth / scale / 2 >= size)
-					scale *= 2;
-			else
-				while (o.outHeight / scale / 2 >= size)
-					scale *= 2;
-
-			// Decode with inSampleSize
-			BitmapFactory.Options o2 = new BitmapFactory.Options();
-			o2.inSampleSize = scale;
-			return BitmapFactory.decodeStream(new FileInputStream(f), null, o2);
-		} catch (FileNotFoundException e) {
-		}
-		return null;
 	}
 
 	public static PhotoDao initPhotoDao(Context ctx) {
@@ -128,12 +102,17 @@ public class PhotoViewGUI extends GUIComponent {
 		});
 
 		photo = (Photo) photoDao.queryBuilder()
-				.where(Properties.Id.eq(getCurrentInstanceId())).build().unique();
+				.where(Properties.Id.eq(getCurrentInstanceId())).build()
+				.unique();
 
 		closeDao();
-		if (photo != null)
-			image.setImageBitmap(PhotoUtils.byteArrayToBitmap(photo.getPhotoBytes()));
-		else {
+		if (photo != null) {
+			byte[] data = photo.getPhotoBytes();
+			Bitmap bm = BitmapFactory.decodeByteArray(data, 0, data.length);
+			Log.e("width e height", bm.getWidth() + " - " + bm.getHeight());
+			// image.setImageBitmap(PhotoUtils.byteArrayToBitmap(photo.getPhotoBytes()));
+			image.setImageBitmap(bm);
+		} else {
 			Toast.makeText(getActivity(), "Ainda não há fotos para exibir!",
 					Toast.LENGTH_SHORT).show();
 			getActivity().finish();
@@ -167,19 +146,21 @@ public class PhotoViewGUI extends GUIComponent {
 	private Long proximaImagem() {
 		photoDao = initPhotoDao(getActivity());
 		List<Photo> l = photoDao.queryBuilder()
-				.where(Properties.Id.gt(getCurrentInstanceId())).orderAsc(Properties.Id)
-				.list();
+				.where(Properties.Id.gt(getCurrentInstanceId()))
+				.orderAsc(Properties.Id).list();
 		closeDao();
-		return (l.isEmpty() ? getCurrentInstanceId() : ((Photo) l.get(0)).getId());
+		return (l.isEmpty() ? getCurrentInstanceId() : ((Photo) l.get(0))
+				.getId());
 	}
 
 	private Long imagemAnterior() {
 		photoDao = initPhotoDao(getActivity());
 		List<Photo> l = photoDao.queryBuilder()
-				.where(Properties.Id.lt(getCurrentInstanceId())).orderDesc(Properties.Id)
-				.list();
+				.where(Properties.Id.lt(getCurrentInstanceId()))
+				.orderDesc(Properties.Id).list();
 		closeDao();
-		return (l.isEmpty() ? getCurrentInstanceId() : ((Photo) l.get(0)).getId());
+		return (l.isEmpty() ? getCurrentInstanceId() : ((Photo) l.get(0))
+				.getId());
 	}
 
 	public void closeDao() {

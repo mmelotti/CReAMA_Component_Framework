@@ -1,22 +1,15 @@
 package my_activities;
 
 import java.util.ArrayList;
-import java.util.List;
-
 import my_components.Constants;
-import my_components.comment.CommentListGUI;
-import my_components.comment.CommentSendGUI;
 import my_components.photo.PhotoViewGUI;
 
 import android.os.Bundle;
 
-import android.util.Log;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.firstcomponents.R;
 import com.example.my_fragment.Dependency;
-import com.example.my_fragment.GUIComponent;
 import com.example.my_fragment.MyActivity;
 import com.example.my_fragment.GenericComponent;
 
