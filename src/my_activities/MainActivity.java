@@ -52,9 +52,11 @@ public class MainActivity extends MyActivity {
 			public void onClick(View arg0) {
 				Intent trocatela = new Intent(MainActivity.this,
 						TagFragmentActivity.class);
-				trocatela.putExtra("nImagem",
+				Intent trocatela2 = new Intent(MainActivity.this,
+						Rating2Comment2Photo.class);
+				trocatela2.putExtra("nImagem",
 						PhotoViewGUI.searchFirstPhoto(null, arg0.getContext()));
-				MainActivity.this.startActivity(trocatela);
+				MainActivity.this.startActivity(trocatela2);
 				// MainActivity.this.finish();
 			}
 		});

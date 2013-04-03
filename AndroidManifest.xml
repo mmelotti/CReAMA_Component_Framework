@@ -30,7 +30,7 @@
         </activity>
         <activity android:name="my_activities.SavePhotoActivity" >
         </activity>
-        <activity android:name="my_activities.TestComponentsGroup" >
+        <activity android:name="my_activities.Rating2Comment2Photo" >
         </activity>
         <activity
             android:name="my_activities.NewListComposed"
