@@ -1,4 +1,4 @@
-package my_activities;
+/*package my_activities;
 
 import com.example.firstcomponents.R;
 
@@ -104,4 +104,4 @@ public class TagFragmentActivity extends FragmentActivity {
     	db.close();
     }
 
-}
+}*/

@@ -50,8 +50,7 @@ public class MainActivity extends MyActivity {
 		btag.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				Intent trocatela = new Intent(MainActivity.this,
-						TagFragmentActivity.class);
+				//Intent trocatela = new Intent(MainActivity.this,TagFragmentActivity.class);
 				Intent trocatela2 = new Intent(MainActivity.this,
 						Rating2Comment2Photo.class);
 				trocatela2.putExtra("nImagem",

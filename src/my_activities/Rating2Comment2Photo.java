@@ -61,6 +61,9 @@ public class Rating2Comment2Photo extends MyActivity {
 		d = new Dependency(Constants.RatingViewGUIName,
 				Constants.CommentViewGUIName, false);
 		addDependencie(d);
+		d = new Dependency(Constants.CommentSendGUIName,
+				Constants.PhotoViewGUIName, false);
+		addDependencie(d);
 		
 
 	}

@@ -41,7 +41,6 @@ public class RatingToCommentGUI extends GUIComponent {
 	private RatingToCommentDao rating2cDao;
 	private DaoSession daoSession;
 	private RatingToComment rating2c;
-	
 
 	public RatingToCommentGUI(Long target) {
 
@@ -64,7 +63,15 @@ public class RatingToCommentGUI extends GUIComponent {
 
 		View view = inflater.inflate(R.layout.composed, container, false);
 		lookForTarget();
-		addComponent();
+		configurarTargets();
+		
+		//botar na tela
+		initTransaction();
+		verDependenciaString(Constants.RatingToCommentGUIName, rating2c.getId());
+		finishTransaction();
+		
+		
+		//addComponent();
 		return view;
 	}
 
@@ -82,6 +89,22 @@ public class RatingToCommentGUI extends GUIComponent {
 
 		rating2c = lista.get(0);
 		closeDao();
+
+	}
+
+	public void configurarTargets() {
+
+		Dependency d;
+		setDependencies(new ArrayList<Dependency>());
+		d = new Dependency(Constants.CommentViewGUIName,
+				Constants.RatingToCommentGUIName, true);
+		addDependencie(d);
+		d = new Dependency(Constants.RatingViewGUIName,
+				Constants.CommentViewGUIName, false);
+		addDependencie(d);
+		d = new Dependency(Constants.CommentSendGUIName,
+				Constants.RatingToCommentGUIName, false);
+		addDependencie(d);
 
 	}
 
@@ -105,26 +128,25 @@ public class RatingToCommentGUI extends GUIComponent {
 		rating2cDao.getDatabase().close();
 	}
 
-	public void addComponent(){
+	public void addComponent() {
 		initTransaction();
 		send = new CommentSendGUI(rating2c.getId());
 		transaction.add(R.id.rootComposed, send);
 		finishTransaction();
 	}
-	
-	public void initTransaction(){
-		
+
+	public void initTransaction() {
+
 		transaction = getChildFragmentManager().beginTransaction();
-		
+
 	}
-	
-	public void finishTransaction(){
+
+	public void finishTransaction() {
 		transaction.commit();
 	}
-	
-	//PARTE PARA COMPONENTES COMPOSTOS
-	
-	
+
+	// PARTE PARA COMPONENTES COMPOSTOS
+
 	private List<GenericComponent> componentes = new ArrayList<GenericComponent>();
 	private FragmentManager fragmentManager;
 	private FragmentTransaction transaction;
@@ -132,7 +154,7 @@ public class RatingToCommentGUI extends GUIComponent {
 	private List<Dependency> dependencies;
 
 	private int relativeGUIIdCont = 55;
-	
+
 	public void addOther(String s, ComponentSimpleModel c, int id) {
 
 		// addOne(s,c);
@@ -159,16 +181,15 @@ public class RatingToCommentGUI extends GUIComponent {
 				Log.i("achou dependencia", "  com-> target " + s + " source "
 						+ d.getSource());
 				if (d.isToMany()) {
-					List<ComponentSimpleModel> m =  new 
-							CommentListGUI(target).getListSimple(target, getActivity());
-					
-					
+					List<ComponentSimpleModel> m = new CommentListGUI(target)
+							.getListSimple(target, getActivity());
+
 					for (ComponentSimpleModel model : m) {
-						addOther(d.getSource(), model,R.id.menu_lin);
+						addOther(d.getSource(), model, R.id.rootComposed);
 						verDependenciaString(d.getSource(), model.getId());
 					}
 				} else {
-					addOther(d.getSource(), target,R.id.menu_lin);
+					addOther(d.getSource(), target, R.id.rootComposed);
 					verDependenciaString(d.getSource(), target);
 				}
 
@@ -176,9 +197,7 @@ public class RatingToCommentGUI extends GUIComponent {
 
 		}
 	}
-	
-	
-	
+
 	public void addGUIComponent(int id, GUIComponent c) {
 		c.setRelativeFragmentId(relativeGUIIdCont);
 		componentes.add(c);
@@ -192,8 +211,7 @@ public class RatingToCommentGUI extends GUIComponent {
 		transaction.add(id, c, "" + relativeGUIIdCont);
 		upRelativeId();
 	}
-	
-	
+
 	public void upRelativeId() {
 		relativeGUIIdCont++;
 	}
@@ -206,8 +224,6 @@ public class RatingToCommentGUI extends GUIComponent {
 		this.relativeGUIIdCont = relativeGUIIdCont;
 	}
 
-	
-
 	public List<Dependency> getDependencies() {
 		return dependencies;
 	}
@@ -215,26 +231,9 @@ public class RatingToCommentGUI extends GUIComponent {
 	public void setDependencies(List<Dependency> dependencies) {
 		this.dependencies = dependencies;
 	}
-	
-	public void addDependencie(Dependency d){
+
+	public void addDependencie(Dependency d) {
 		dependencies.add(d);
 	}
-	
-	public void configurarTargets() {
-		
 
-		Dependency d;
-		setDependencies(new ArrayList<Dependency>());
-		d = new Dependency(Constants.CommentViewGUIName,
-				Constants.PhotoViewGUIName, true);
-		addDependencie(d);
-		/*d = new Dependency(Constants.RatingViewGUIName,
-				Constants.CommentViewGUIName, false);
-		addDependencie(d);
-		d = new Dependency(Constants.CommentSendGUIName,
-				Constants.PhotoViewGUIName, false);
-		addDependencie(d);*/
-
-	}
-	
 }

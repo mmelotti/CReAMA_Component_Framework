@@ -1,4 +1,7 @@
+
+/*
 package my_components.tag;
+
 
 import com.example.my_fragment.GUIComponent;
 
@@ -134,4 +137,4 @@ public class TagGUI extends GUIComponent {
 
 	}
 
-}
+}*/
