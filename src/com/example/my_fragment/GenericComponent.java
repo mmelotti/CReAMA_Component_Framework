@@ -10,6 +10,7 @@ public class GenericComponent extends Fragment {
 	private int generalGUIId = -1;
 	private int componentTargetId = -1;
 	private Long current = (long) 1;
+	
 	private GenericComponent componentTarget;
 	private List<Integer> instancesId = new ArrayList<Integer>();
 
@@ -57,4 +58,8 @@ public class GenericComponent extends Fragment {
 
 	}
 
+	
+
+	
+	
 }

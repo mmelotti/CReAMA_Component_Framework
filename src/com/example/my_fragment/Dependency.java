@@ -3,35 +3,37 @@ package com.example.my_fragment;
 public class Dependency {
 
 	
-	private String source;
-	private String target;
+	private ComponentNaming source;
+	private ComponentNaming target;
+	
 	private boolean toMany;
 	
 	
-	public Dependency(String s,String t, boolean b){
+	public Dependency(ComponentNaming s,ComponentNaming t, boolean b){
 		source = s;
 		target = t;
 		toMany = b;
 		
+		
 	}
 
 
-	public String getSource() {
+	public ComponentNaming getSource() {
 		return source;
 	}
 
 
-	public void setSource(String source) {
+	public void setSource(ComponentNaming source) {
 		this.source = source;
 	}
 
 
-	public String getTarget() {
+	public ComponentNaming getTarget() {
 		return target;
 	}
 
 
-	public void setTarget(String target) {
+	public void setTarget(ComponentNaming target) {
 		this.target = target;
 	}
 

@@ -23,6 +23,7 @@ import android.view.ViewGroup;
 
 import com.example.firstcomponents.R;
 import com.example.my_fragment.ComponentDefinitions;
+import com.example.my_fragment.ComponentNaming;
 import com.example.my_fragment.ComponentSimpleModel;
 import com.example.my_fragment.Dependency;
 import com.example.my_fragment.GUIComponent;
@@ -41,6 +42,7 @@ public class RatingToCommentGUI extends GUIComponent {
 	private RatingToCommentDao rating2cDao;
 	private DaoSession daoSession;
 	private RatingToComment rating2c;
+	private ComponentNaming commentView, commentSend, rating2commentView, rating;
 
 	public RatingToCommentGUI(Long target) {
 
@@ -67,7 +69,7 @@ public class RatingToCommentGUI extends GUIComponent {
 		
 		//botar na tela
 		initTransaction();
-		verDependenciaString(Constants.RatingToCommentGUIName, rating2c.getId());
+		verDependenciaString(rating2commentView, rating2c.getId());
 		finishTransaction();
 		
 		
@@ -78,6 +80,7 @@ public class RatingToCommentGUI extends GUIComponent {
 	public void lookForTarget() {
 
 		initRatingToCommentDao();
+		Log.e("look", " target " + newTarget);
 		List<RatingToComment> lista = rating2cDao.queryBuilder()
 				.where(Properties.TargetId.eq(newTarget)).build().list();
 
@@ -96,21 +99,24 @@ public class RatingToCommentGUI extends GUIComponent {
 
 		Dependency d;
 		setDependencies(new ArrayList<Dependency>());
-		d = new Dependency(Constants.CommentViewGUIName,
-				Constants.RatingToCommentGUIName, true);
+
+		commentView = new ComponentNaming(Constants.CommentViewGUIName, Constants.CommentViewGUIName+"inside");
+		commentSend = new ComponentNaming(Constants.CommentSendGUIName, Constants.CommentSendGUIName+"inside");
+		rating2commentView = new ComponentNaming(Constants.RatingToCommentGUIName, Constants.RatingToCommentGUIName+"inside");
+		rating = new ComponentNaming(Constants.RatingViewGUIName,Constants.RatingViewGUIName+"inside");
+		
+		d = new Dependency(commentView,rating2commentView, true);
 		addDependencie(d);
-		d = new Dependency(Constants.RatingViewGUIName,
-				Constants.CommentViewGUIName, false);
+		d = new Dependency(rating,commentView, false);
 		addDependencie(d);
-		d = new Dependency(Constants.CommentSendGUIName,
-				Constants.RatingToCommentGUIName, false);
+		d = new Dependency(commentSend,rating2commentView, false);
 		addDependencie(d);
 
 	}
 
 	public void createNew() {
 		Long newId = ComponentSimpleModel.getUniqueId(getActivity());
-
+		Log.i("composed", " com target " + newTarget);
 		rating2c = new RatingToComment(newId, newTarget);
 		rating2cDao.insert(rating2c);
 	}
@@ -158,7 +164,7 @@ public class RatingToCommentGUI extends GUIComponent {
 	public void addOther(String s, ComponentSimpleModel c, int id) {
 
 		// addOne(s,c);
-		Log.i("criar comentario", " com id " + c.getId());
+		
 		ComponentDefinitions cd = new ComponentDefinitions();
 		GUIComponent one = cd.getComponent(c, s);
 		addGUIComponentWithTag(id, one);
@@ -175,21 +181,22 @@ public class RatingToCommentGUI extends GUIComponent {
 
 	}
 
-	public void verDependenciaString(String s, Long target) {
+	public void verDependenciaString(ComponentNaming s, Long target) {
 		for (Dependency d : getDependencies()) {
 			if (d.getTarget().equals(s)) {
 				Log.i("achou dependencia", "  com-> target " + s + " source "
 						+ d.getSource());
 				if (d.isToMany()) {
-					List<ComponentSimpleModel> m = new CommentListGUI(target)
-							.getListSimple(target, getActivity());
-
+					List<ComponentSimpleModel> m =  new 
+							CommentListGUI(target).getListSimple(target, getActivity());
+					
+					
 					for (ComponentSimpleModel model : m) {
-						addOther(d.getSource(), model, R.id.rootComposed);
+						addOther(d.getSource().getGuiName(), model,R.id.rootComposed);
 						verDependenciaString(d.getSource(), model.getId());
 					}
 				} else {
-					addOther(d.getSource(), target, R.id.rootComposed);
+					addOther(d.getSource().getGuiName(), target,R.id.rootComposed);
 					verDependenciaString(d.getSource(), target);
 				}
 

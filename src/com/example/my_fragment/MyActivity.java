@@ -19,10 +19,10 @@ public abstract class MyActivity extends FragmentActivity {
 
 	public abstract void instanciarComponents();
 
-	private List<GenericComponent> componentes = new ArrayList<GenericComponent>();
+	private List<GUIComponent> componentes = new ArrayList<GUIComponent>();
 	private FragmentManager fragmentManager;
 	private FragmentTransaction transaction;
-	private int[] dependenciesInt;
+
 	private List<Dependency> dependencies;
 
 	private int relativeGUIIdCont = 55;
@@ -34,7 +34,7 @@ public abstract class MyActivity extends FragmentActivity {
 		configurarTargets();
 	}
 
-	public void deletarAlgo(Long t, GenericComponent m) {
+	public void deletarAlgo(Long t, GUIComponent m) {
 
 	}
 
@@ -48,6 +48,7 @@ public abstract class MyActivity extends FragmentActivity {
 	public void addGUIComponentWithTag(int id, GUIComponent c) {
 		c.setRelativeFragmentId(relativeGUIIdCont);
 		componentes.add(c);
+				
 		transaction.add(id, c, "" + relativeGUIIdCont);
 		upRelativeId();
 	}
@@ -66,37 +67,33 @@ public abstract class MyActivity extends FragmentActivity {
 		transaction.commit();
 	}
 
-	public List<GenericComponent> getComponentes() {
+	
+
+	public List<GUIComponent> getComponentes() {
 		return componentes;
 	}
 
-	public void setComponentes(List<GenericComponent> componentes) {
+	public void setComponentes(List<GUIComponent> componentes) {
 		this.componentes = componentes;
 	}
 
-	public int[] getDependenciesInt() {
-		return dependenciesInt;
-	}
-
-	public void setDependenciesInt(int[] dependencies) {
-		this.dependenciesInt = dependencies;
-	}
-
-	public void callbackRemove(Long target, GenericComponent component) {
+	
+	public void callbackRemove(Long target, String component) {
 		boolean foundIt = false;
 
-		for (int i : getDependenciesInt()) {
+		for (Dependency d : getDependencies()) {
 			// tem alguem que depende do que vai ser deletado?
-			if (i == component.getGeneralGUIId()) {
-				Log.i("Remover!", "encontrou " + i);
+			//Log.i("Remov?", d.getTarget().getNickName()+" <-encontrou??? " + component);
+			if (d.getTarget().getNickName().equals(component)) {
+				Log.i("Remover!", "encontrou " + component);
 				foundIt = true;
 				break;
 			}
 		}
 
 		if (foundIt) {
-			for (GenericComponent c : getComponentes()) {
-				if (c.getComponentTargetId() == component.getGeneralGUIId()) {
+			for (GUIComponent c : getComponentes()) {
+				if (c.getNick().equals(component)) {
 					c.deleteAllFrom(target);
 					Log.i("Remover!", "from " + target);
 					break;
@@ -104,6 +101,10 @@ public abstract class MyActivity extends FragmentActivity {
 			}
 		}
 	}
+	
+	
+	
+	
 
 	public void upRelativeId() {
 		relativeGUIIdCont++;
@@ -132,31 +133,33 @@ public abstract class MyActivity extends FragmentActivity {
 	}
 	
 
-	public void addOther(String s, ComponentSimpleModel c, int id) {
+	public void addOther(ComponentNaming s, ComponentSimpleModel c, int id) {
 
 		// addOne(s,c);
-		Log.i("criar comentario", " com id " + c.getId());
+		
 		ComponentDefinitions cd = new ComponentDefinitions();
-		GUIComponent one = cd.getComponent(c, s);
+		GUIComponent one = cd.getComponent(c, s.getGuiName());
+		
+		one.setNick(s.getNickName());
 		addGUIComponentWithTag(id, one);
 
 	}
 
-	public void addOther(String s, Long target, int id) {
+	public void addOther(ComponentNaming s, Long target, int id) {
 
 		// addOne(s,c);
 		// Log.i("criar comentario", " com id " + c.getId());
 		ComponentDefinitions cd = new ComponentDefinitions();
-		GUIComponent one = cd.getComponent(target, s);
+		GUIComponent one = cd.getComponent(target, s.getGuiName());
+		one.setNick(s.getNickName());
 		addGUIComponentWithTag(id, one);
 
 	}
 
-	public void verDependenciaString(String s, Long target) {
+	public void verDependenciaString(ComponentNaming s, Long target) {
 		for (Dependency d : getDependencies()) {
 			if (d.getTarget().equals(s)) {
-				Log.i("achou dependencia", "  com-> target " + s + " source "
-						+ d.getSource());
+				
 				if (d.isToMany()) {
 					List<ComponentSimpleModel> m =  new 
 							CommentListGUI(target).getListSimple(target, this);

@@ -11,7 +11,9 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import com.example.firstcomponents.R;
+import com.example.my_fragment.ComponentNaming;
 import com.example.my_fragment.Dependency;
+import com.example.my_fragment.GUIComponent;
 import com.example.my_fragment.MyActivity;
 import com.example.my_fragment.GenericComponent;
 
@@ -19,7 +21,10 @@ public class Rating2Comment2Photo extends MyActivity {
 
 	private PhotoViewGUI photo;
 	private boolean gambiarraFlag = false;
-	private int[] thisDependencies = new int[] { 1, 3 };
+	
+	private ComponentNaming commentView, commentSend, photoView, rating,r2cView;
+	private GUIComponent rating2comment;
+	
 	// aqui existe dependencia de comentario, e foto
 
 	private long idPhoto;
@@ -42,7 +47,7 @@ public class Rating2Comment2Photo extends MyActivity {
 		setContentView(R.layout.activity_fragment_runtime);
 
 		// set targets
-		setDependenciesInt(thisDependencies);
+		
 		setMyList();
 		addSomething();
 	}
@@ -55,17 +60,23 @@ public class Rating2Comment2Photo extends MyActivity {
 
 		Dependency d;
 		setDependencies(new ArrayList<Dependency>());
-		d = new Dependency(Constants.CommentViewGUIName,
-				Constants.PhotoViewGUIName, true);
+		
+		
+		commentView = new ComponentNaming(Constants.CommentViewGUIName, Constants.CommentViewGUIName+"1");
+		commentSend = new ComponentNaming(Constants.CommentSendGUIName, Constants.CommentSendGUIName+"1");
+		photoView = new ComponentNaming(Constants.PhotoViewGUIName, Constants.PhotoViewGUIName+"1");
+		rating = new ComponentNaming(Constants.RatingViewGUIName,Constants.RatingViewGUIName+"1");
+		r2cView = new ComponentNaming(Constants.RatingToCommentGUIName,Constants.RatingToCommentGUIName+"1");
+		
+		d = new Dependency(commentView,photoView, true);
 		addDependencie(d);
-		d = new Dependency(Constants.RatingViewGUIName,
-				Constants.CommentViewGUIName, false);
+		d = new Dependency(rating,commentView, false);
 		addDependencie(d);
-		d = new Dependency(Constants.CommentSendGUIName,
-				Constants.PhotoViewGUIName, false);
+		d = new Dependency(commentSend,photoView, false);
 		addDependencie(d);
 		
-
+		rating2comment.setNick(r2cView.getNickName());
+		photo.setNick(photoView.getNickName());
 	}
 
 	public void instanciarComponents() {
@@ -82,7 +93,9 @@ public class Rating2Comment2Photo extends MyActivity {
 			photoNotFound();
 			return;
 		}
-
+		
+		rating2comment =new RatingToCommentGUI(photoId);
+		
 	}
 
 	public void setMyList() {
@@ -92,14 +105,14 @@ public class Rating2Comment2Photo extends MyActivity {
 	public void addSomething() {
 		startTransaction();
 		addGUIComponent(R.id.menu_lin, photo);
-		verDependenciaString(Constants.PhotoViewGUIName, idPhoto);
-		addGUIComponent(R.id.menu_lin, new RatingToCommentGUI(idPhoto));
+		verDependenciaString(photoView, idPhoto);
+		addGUIComponent(R.id.menu_lin, rating2comment);
 		finishTransaction();
 	}
 
 	@Override
-	public void deletarAlgo(Long target, GenericComponent component) {
-		callbackRemove(target, component);
+	public void deletarAlgo(Long target, GUIComponent component) {
+		callbackRemove(target, component.getNick());
 	}
 
 }

@@ -8,6 +8,7 @@ public abstract class GUIComponent extends GenericComponent {
 	private MyActivity controlActivity;
 
 	private RequestListener component;
+	private String nick;
 
 	private int relativeFragmentId = -1;
 
@@ -55,6 +56,14 @@ public abstract class GUIComponent extends GenericComponent {
 
 	public MyActivity getControlActivity() {
 		return controlActivity;
+	}
+
+	public String getNick() {
+		return nick;
+	}
+
+	public void setNick(String nick) {
+		this.nick = nick;
 	}
 
 }
