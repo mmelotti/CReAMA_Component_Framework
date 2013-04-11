@@ -37,9 +37,9 @@ public class GalleryAdapter extends BaseAdapter {
 		ImageView imageView;
 		if (convertView == null) { // if it's not recycled, initialize some attributes
 			imageView = new ImageView(mContext);
-			imageView.setLayoutParams(new GridView.LayoutParams(200, 200));
+			imageView.setLayoutParams(new GridView.LayoutParams(250, 250));
 			imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
-			imageView.setPadding(15, 15, 15, 15);
+			imageView.setPadding(10, 10, 10, 10);
 		} else
 			imageView = (ImageView) convertView;
 
