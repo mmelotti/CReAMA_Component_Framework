@@ -120,11 +120,7 @@ public class PhotoViewGUI extends GUIComponent {
 
 		proxima.setOnClickListener(new OnClickListener() {
 			@Override
-			public void onClick(View v) {
-				Intent trocatela = new Intent(getActivity(), getActivity()
-						.getClass());
-				trocatela.putExtra("nImagem", proximaImagem());
-				getActivity().startActivity(trocatela);
+			public void onClick(View v) { 
 				getActivity().finish();
 			}
 		});
@@ -140,7 +136,7 @@ public class PhotoViewGUI extends GUIComponent {
 			}
 		});
 
-		return view;
+		return view; 
 	}
 
 	private Long proximaImagem() {

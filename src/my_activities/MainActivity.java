@@ -24,11 +24,11 @@ public class MainActivity extends MyActivity {
 		setBotoes();
 
 		startTransaction();
-		PhotoSendGUI photoSend = new PhotoSendGUI();
-		addGUIComponent(R.id.root, photoSend); 
-		
 		PhotoGalleryGUI gallery = new PhotoGalleryGUI();
 		addGUIComponent(R.id.root, gallery);
+		
+		PhotoSendGUI photoSend = new PhotoSendGUI();
+		addGUIComponent(R.id.root, photoSend); 
 		finishTransaction();
 	}
 

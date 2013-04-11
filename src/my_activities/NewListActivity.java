@@ -13,13 +13,11 @@ import com.example.my_fragment.ComponentNaming;
 import com.example.my_fragment.Dependency;
 import com.example.my_fragment.GUIComponent;
 import com.example.my_fragment.MyActivity;
-import com.example.my_fragment.GenericComponent;
 
 public class NewListActivity extends MyActivity {
 
 	private PhotoViewGUI photo;
 	private boolean gambiarraFlag = false;
-	
 
 	private ComponentNaming commentView, commentSend, photoView, rating;
 	
@@ -57,7 +55,6 @@ public class NewListActivity extends MyActivity {
 		Dependency d;
 		setDependencies(new ArrayList<Dependency>());
 		
-		
 		commentView = new ComponentNaming(Constants.CommentViewGUIName, Constants.CommentViewGUIName+"1");
 		commentSend = new ComponentNaming(Constants.CommentSendGUIName, Constants.CommentSendGUIName+"1");
 		photoView = new ComponentNaming(Constants.PhotoViewGUIName, Constants.PhotoViewGUIName+"1");
@@ -88,7 +85,6 @@ public class NewListActivity extends MyActivity {
 			photoNotFound();
 			return;
 		}
-		
 
 	}
 
