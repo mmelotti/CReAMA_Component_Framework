@@ -12,4 +12,5 @@ public class Constants {
 	public static String PhotoViewGUIName = "PhotoView";
 	public static String CommentSendGUIName = "SendComment";
 	public static String RatingToCommentGUIName = "Rating2Comment";
+	public static String BinomioGUIName = "BinomioView";
 }

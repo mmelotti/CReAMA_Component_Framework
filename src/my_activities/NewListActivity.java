@@ -6,6 +6,7 @@ import my_components.photo.PhotoViewGUI;
 
 import android.os.Bundle;
 
+import android.util.Log;
 import android.widget.Toast;
 
 import com.example.firstcomponents.R;
@@ -19,7 +20,7 @@ public class NewListActivity extends MyActivity {
 	private PhotoViewGUI photo;
 	private boolean gambiarraFlag = false;
 
-	private ComponentNaming commentView, commentSend, photoView, rating;
+	private ComponentNaming commentView, commentSend, photoView, rating, binomio;
 	
 	private long idPhoto;
 	Long photoId;
@@ -59,7 +60,12 @@ public class NewListActivity extends MyActivity {
 		commentSend = new ComponentNaming(Constants.CommentSendGUIName, Constants.CommentSendGUIName+"1");
 		photoView = new ComponentNaming(Constants.PhotoViewGUIName, Constants.PhotoViewGUIName+"1");
 		rating = new ComponentNaming(Constants.RatingViewGUIName,Constants.RatingViewGUIName+"1");
+		binomio = new ComponentNaming(Constants.BinomioGUIName, "Binomio1");
 		
+		Log.i("adding","binomio gui");
+		
+		d=new Dependency(binomio,photoView,false);
+		addDependencie(d);
 		d = new Dependency(commentView,photoView, true);
 		addDependencie(d);
 		d = new Dependency(rating,commentView, false);
