@@ -5,10 +5,10 @@
     android:layout_height="wrap_content"
     android:layout_marginBottom="5dp"
     android:layout_marginTop="5dp"
-    android:background="#666666"
-    android:columnWidth="130dp"
+    android:background="#444444"
+    android:columnWidth="96dp"
     android:gravity="center"
     android:numColumns="auto_fit"
-    android:padding="5dp"
+    android:padding="3dp"
     android:stretchMode="columnWidth"
     android:verticalSpacing="10dp" />

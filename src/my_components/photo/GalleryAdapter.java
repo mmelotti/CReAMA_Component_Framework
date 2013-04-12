@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 public class GalleryAdapter extends BaseAdapter {
 	private Context mContext;
@@ -24,7 +25,7 @@ public class GalleryAdapter extends BaseAdapter {
 		return mList.size();
 	}
 
-	public Object getItem(int position) {  
+	public Object getItem(int position) {
 		return null;
 	}
 
@@ -37,14 +38,19 @@ public class GalleryAdapter extends BaseAdapter {
 		ImageView imageView;
 		if (convertView == null) { // if it's not recycled, initialize some attributes
 			imageView = new ImageView(mContext);
-			imageView.setLayoutParams(new GridView.LayoutParams(250, 250));
+			LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+					LinearLayout.LayoutParams.FILL_PARENT,
+					LinearLayout.LayoutParams.FILL_PARENT);
+			imageView.setLayoutParams(new GridView.LayoutParams(params));
+			//imageView.setLayoutParams(new GridView.LayoutParams(128, 128));
 			imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
-			imageView.setPadding(10, 10, 10, 10);
+			//imageView.setPadding(5, 5, 5, 5);  
 		} else
 			imageView = (ImageView) convertView;
 
 		byte[] data = mList.get(position).getPhotoBytes();
 		Bitmap bm = BitmapFactory.decodeByteArray(data, 0, data.length);
+		bm = Bitmap.createScaledBitmap(bm, 192, 192, false);	// diminui a imagem 
 		imageView.setImageBitmap(bm);
 		return imageView;
 	}

@@ -25,7 +25,7 @@ import database.DaoMaster.DevOpenHelper;
 @SuppressLint("ValidFragment")
 public class PhotoGalleryGUI extends GUIComponent {
 	private PhotoDao photoDao; 
-	
+	 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -43,7 +43,7 @@ public class PhotoGalleryGUI extends GUIComponent {
 					int position, long id) {
 				Intent trocatela = new Intent(getActivity(), NewListActivity.class);
 				trocatela.putExtra("nImagem", id);
-				getActivity().startActivity(trocatela);
+				getActivity().startActivity(trocatela); 
 			}
 		});
 		

@@ -110,7 +110,7 @@ public class PhotoViewGUI extends GUIComponent {
 			byte[] data = photo.getPhotoBytes();
 			Bitmap bm = BitmapFactory.decodeByteArray(data, 0, data.length);
 			Log.e("width e height", bm.getWidth() + " - " + bm.getHeight());
-			// image.setImageBitmap(PhotoUtils.byteArrayToBitmap(photo.getPhotoBytes()));
+			//bm = Bitmap.createScaledBitmap(bm, 256, 256, true);	// diminui a imagem
 			image.setImageBitmap(bm);
 		} else {
 			Toast.makeText(getActivity(), "Ainda não há fotos para exibir!",

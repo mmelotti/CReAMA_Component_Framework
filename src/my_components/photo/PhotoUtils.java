@@ -49,13 +49,12 @@ public class PhotoUtils {
 			// Find the correct scale value. It should be the power of 2.
 			int scale = 1;
 			if (o.outHeight < o.outWidth)
-				while (o.outWidth / scale / 2 >= size)
+				while (o.outWidth / scale >= size)
 					scale *= 2;
 			else
-				while (o.outHeight / scale / 2 >= size)
+				while (o.outHeight / scale >= size)
 					scale *= 2;
 
-			scale *= 2; 
 			BitmapFactory.Options o2 = new BitmapFactory.Options();
 			o2.inSampleSize = scale;
 			return BitmapFactory.decodeStream(new FileInputStream(f), null, o2);
