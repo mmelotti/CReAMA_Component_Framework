@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import my_components.tag.Tag;
-import my_components.tag.TagDao;
 import my_components.tag.TagDao.Properties;
 
 import android.annotation.SuppressLint;
@@ -29,11 +27,14 @@ import database.DaoSession;
 import database.DaoMaster.DevOpenHelper;
 
 @SuppressLint({ "ValidFragment", "NewApi" })
-public class BinomioGUI extends GUIComponent {
+public class BinomioAverageGUI extends GUIComponent {
 
-	
+	private Binomio bin = new Binomio();
 	private Long newTarget;
-	
+	private int nBin = 5;
+	private View binView;
+	private int fechada = 0, simples = 0, vertical = 0, simetrica = 0,
+			opaca = 0;
 
 	private BinomioDao binomioDao;
 	private DaoSession daoSession;
@@ -44,11 +45,11 @@ public class BinomioGUI extends GUIComponent {
 	private static final String KEY_RIGHT_TEXT_VIEW = "rightTextView";
 	private static final String KEY_BINOMIO = "binomio";
 
-	public BinomioGUI() {
+	public BinomioAverageGUI() {
 
 	}
 
-	public BinomioGUI(Long t) {
+	public BinomioAverageGUI(Long t) {
 		newTarget = t;
 	}
 
@@ -85,6 +86,9 @@ public class BinomioGUI extends GUIComponent {
 		list.add(new BinomiosArquigrafia("Simétrica", "Assimétrica"));
 		list.add(new BinomiosArquigrafia("Opaca", "Translúcida"));
 
+		int i = 0;
+		int[] values = averageBinomios(newTarget);
+
 		for (BinomiosArquigrafia binomio : list) {
 			View v = inflater.inflate(R.layout.binomio, null);
 			TextView left, right;
@@ -92,6 +96,9 @@ public class BinomioGUI extends GUIComponent {
 			right = (TextView) v.findViewById(R.id.label_right);
 			left.setText(binomio.getLeft());
 			right.setText(binomio.getRight());
+
+			binomio.setLeftValue(values[i]);
+			binomio.setRightValue(100 - values[i]);
 
 			final TextView seekbarLeftValueText = (TextView) v
 					.findViewById(R.id.seekbar_value_left);
@@ -114,35 +121,40 @@ public class BinomioGUI extends GUIComponent {
 			seekbar.setTag(tag);
 
 			seekbar.setProgress(binomio.getLeftValue());
-			seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-				@Override
-				public void onStopTrackingTouch(SeekBar seekBar) {
-				}
 
-				@Override
-				public void onStartTrackingTouch(SeekBar seekBar) {
-				}
-
-				@Override
-				public void onProgressChanged(SeekBar seekBar, int progress,
-						boolean fromUser) {
-					final HashMap<String, Object> tag = (HashMap<String, Object>) seekBar
-							.getTag();
-					final BinomiosArquigrafia binomio = (BinomiosArquigrafia) tag
-							.get(KEY_BINOMIO);
-					binomio.setLeftValue(progress);
-					binomio.setRightValue(100 - progress);
-					((TextView) tag.get(KEY_LEFT_TEXT_VIEW)).setText(Integer
-							.toString(binomio.getRightValue()) + "%");
-					((TextView) tag.get(KEY_RIGHT_TEXT_VIEW)).setText(Integer
-							.toString(binomio.getLeftValue()) + "%");
-				}
-			});
-
+			i++;
 		}
 	}
 
-	
+	public int[] averageBinomios(Long idTarget) {
+		List<Binomio> lista = getAllFromTarget(idTarget);
+
+		for (Binomio b : lista) {
+			fechada += b.getFechada();
+			simples += b.getSimples();
+			vertical += b.getVertical();
+			simetrica += b.getSimetrica();
+			opaca += b.getOpaca();
+
+		}
+
+		if (lista.size() != 0) {
+			fechada = fechada / lista.size();
+			simples += simples / lista.size();
+			vertical += vertical / lista.size();
+			simetrica += simetrica / lista.size();
+			opaca += opaca / lista.size();
+		} else {
+			fechada += 50;
+			simples += 50;
+			vertical += 50;
+			simetrica += 50;
+			opaca += 50;
+		}
+
+		int[] data = { fechada, simples, vertical, simetrica, opaca };
+		return data;
+	}
 
 	public List<Binomio> getAllFromTarget(Long id) {
 		initRatingDao();

@@ -1,12 +1,8 @@
 package my_components.tag;
 
-
 import java.util.List;
 
 import my_components.tag.TagDao.Properties;
-
-
-
 
 import com.example.my_fragment.ComponentSimpleModel;
 import com.example.my_fragment.GUIComponent;
@@ -18,6 +14,7 @@ import database.DaoSession;
 import database.DatabaseHandler;
 import database.DaoMaster.DevOpenHelper;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
@@ -34,14 +31,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+@SuppressLint("ValidFragment")
 public class TagGUI extends GUIComponent {
 
-	
-	
-	private Long newTarget;
 	private Tag tag = new Tag();
 
-	private int nInstance = 0;
 	private TagDao tagDao;
 	private DaoSession daoSession;
 
@@ -51,14 +45,19 @@ public class TagGUI extends GUIComponent {
 	private EditText edit;
 	private TextView tags;
 	private Bundle extras;
-	private Long idTarget = new Long(1);
+	private Long idTarget;
+	private String stringList;
+
 	// private MyComponent target;
+
+	@SuppressLint("ValidFragment")
+	public TagGUI(Long target) {
+		idTarget = target;
+	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-
-		
 
 		View view = inflater.inflate(R.layout.tagone, container, false);
 		button = (Button) view.findViewById(R.id.button_tag);
@@ -69,69 +68,50 @@ public class TagGUI extends GUIComponent {
 		extras = getActivity().getIntent().getExtras();
 		if (extras != null) {
 			// recebendo target como parametro
-			//idTarget = extras.getLong("nImagem");
+			// idTarget = extras.getLong("nImagem");
 			idTarget = getComponentTarget().getCurrentInstanceId();
 		}
 
 		// busca tags para component pela primeira vez
-		String tempString= "";
-		
-		//sublinhado
-		SpannableString spanString = new SpannableString(tempString);
-		  spanString.setSpan(new UnderlineSpan(), 0, spanString.length(), 0);
+		stringList = getAllStrings(idTarget);
+
+		// sublinhado
+		SpannableString spanString = new SpannableString(stringList);
+		spanString.setSpan(new UnderlineSpan(), 0, spanString.length(), 0);
 		tags.setText(spanString);
-		//tags.setTe
-		
-		//set listener para mudar de tela, tag by tag
+		// tags.setTe
+
+		// set listener para mudar de tela, tag by tag
 		tags.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
-				
-				Intent trocatela = new Intent(getActivity(),
-						TagActivity.class);
-				//trocatela.putExtra("nImagem", proximaImagem());
+
+				Intent trocatela = new Intent(getActivity(), TagActivity.class);
+				// trocatela.putExtra("nImagem", proximaImagem());
 				getActivity().startActivity(trocatela);
-				
-				Log.i("clicou texto!","ok!!");
-				
-		}
-	});
-		
-		
+
+				Log.i("clicou texto!", "ok!!");
+
+			}
+		});
+
 		// setMyMessenger(t);
 		button.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				Activity activity = getActivity();
-
-				// String r = sendMessage("hora");
-
-				
 				tag.setTag(edit.getText().toString());
+				tag.setTargetId(idTarget);
 
-				// teste
-				if (activity != null) {
-					// Toast.makeText(activity, comentario.getText(),
-					// Toast.LENGTH_LONG).show();
-					// Toast.makeText(activity, db.checkSomething(),
-					// Toast.LENGTH_LONG).show();
+				if (addOneTag(tag)) {
+					stringList += " " + tag.getTag(); // fazer aqui lista
 				}
 
-				
-				tag.setTargetId(idTarget);
-				
-				addOneTag(tag);
-
-				
-				
-				
-				String tempString = ""; //fazer aqui lista
-				
-				//sublinhado
-				SpannableString spanString = new SpannableString(tempString);
-				  spanString.setSpan(new UnderlineSpan(), 0, spanString.length(), 0);
+				// sublinhado
+				SpannableString spanString = new SpannableString(stringList);
+				spanString.setSpan(new UnderlineSpan(), 0, spanString.length(),
+						0);
 				tags.setText(spanString);
 				// comentarios.setText(db.checkSomething(1));
 
@@ -145,40 +125,48 @@ public class TagGUI extends GUIComponent {
 		return view;
 	}
 
-	
-	
-	public void addOneTag(Tag tag){
-		boolean achou=false;
-		
+	public String getAllStrings(Long id) {
+		String ret = "";
+		List<Tag> lista = getAllFromTarget(id);
+		for (Tag t : lista) {
+			ret += t.getTag() + " ";
+		}
 
-		
-		
+		return ret;
+	}
+
+	public List<Tag> getAllFromTarget(Long id) {
 		initRatingDao();
 		List<Tag> lista = tagDao.queryBuilder()
-				.where(Properties.Tag.eq(tag.getTag())).build().list();
+				.where(Properties.TargetId.eq(id)).build().list();
 		closeDao();
-		for(Tag t:lista){
-			if(t.getTargetId()==tag.getTargetId()){
-				achou=true;
-				
+
+		return lista;
+	}
+
+	public boolean addOneTag(Tag tag) {
+		boolean achou = false;
+
+		
+		List<Tag> lista = getAllFromTarget(tag.getTargetId());
+		for (Tag t : lista) {
+			if (t.getTargetId() == tag.getTargetId()) {
+				achou = true;
 				break;
 			}
 		}
-		
-		Long newId = ComponentSimpleModel.getUniqueId(getActivity());
-		tag.setId(newId);
-		initRatingDao();
-		tagDao.insert(tag);
 
-		closeDao();
-		
-		
-		
-		
-		
+		if (!achou) {
+			Long newId = ComponentSimpleModel.getUniqueId(getActivity());
+			tag.setId(newId);
+			initRatingDao();
+			tagDao.insert(tag);
+			closeDao();
+		}
+
+		return !achou;
 	}
-	
-	
+
 	public void initRatingDao() {
 		DevOpenHelper helper = new DaoMaster.DevOpenHelper(getActivity(),
 				"tags-db", null);
@@ -191,5 +179,5 @@ public class TagGUI extends GUIComponent {
 	public void closeDao() {
 		tagDao.getDatabase().close();
 	}
-	
+
 }
