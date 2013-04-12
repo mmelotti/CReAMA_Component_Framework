@@ -2,7 +2,9 @@ package my_components.rating;
 
 import java.util.List;
 
-import my_components.comment.CommentDao.Properties;
+import my_components.rating.RatingDao.Properties;
+
+
 
 import com.example.firstcomponents.R;
 import com.example.my_fragment.ComponentSimpleModel;
@@ -14,6 +16,7 @@ import database.DaoMaster;
 import database.DaoSession;
 import database.DaoMaster.DevOpenHelper;
 
+import android.annotation.SuppressLint;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
@@ -27,6 +30,7 @@ import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+@SuppressLint("ValidFragment")
 public class RatingViewGUI extends GUIComponent implements
 		RatingBar.OnRatingBarChangeListener {
 
@@ -53,6 +57,7 @@ public class RatingViewGUI extends GUIComponent implements
 
 	
 	
+	@SuppressLint("ValidFragment")
 	public RatingViewGUI(Long target) {
 		preDefined();
 		newTarget = target;

@@ -1,6 +1,7 @@
 package my_components.binomio;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import android.annotation.SuppressLint;
@@ -10,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.example.firstcomponents.R;
@@ -22,6 +24,10 @@ public class BinomioGUI extends GUIComponent {
 	private Long newTarget;
 	private int nBin = 5;
 	private View binView;
+	
+	private static final String KEY_LEFT_TEXT_VIEW = "leftTextView";
+	private static final String KEY_RIGHT_TEXT_VIEW = "rightTextView";
+	private static final String KEY_BINOMIO = "binomio";
 
 	public BinomioGUI() {
 
@@ -61,8 +67,46 @@ public class BinomioGUI extends GUIComponent {
 			right = (TextView) v.findViewById(R.id.label_right);
 			left.setText(binomio.getLeft());
 			right.setText(binomio.getRight());
+			
+			
+			final TextView seekbarLeftValueText = (TextView) v.findViewById(R.id.seekbar_value_left);
+			seekbarLeftValueText.setText(Integer.toString(binomio.getRightValue()) + "%");
+			final TextView seekbarRightValueText = (TextView) v.findViewById(R.id.seekbar_value_right);
+			seekbarRightValueText.setText(Integer.toString(binomio.getLeftValue()) + "%");
+			
 
 			l.addView(v);
+			
+			
+			SeekBar seekbar = (SeekBar) v.findViewById(R.id.seekbar);
+			seekbar.setHorizontalScrollBarEnabled(true);
+			
+			final HashMap<String, Object> tag = new HashMap<String, Object>(3);
+			tag.put(KEY_LEFT_TEXT_VIEW, seekbarLeftValueText);
+			tag.put(KEY_RIGHT_TEXT_VIEW, seekbarRightValueText);
+			tag.put(KEY_BINOMIO, binomio);
+			seekbar.setTag(tag);
+			
+			seekbar.setProgress(binomio.getLeftValue());
+			seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+				@Override
+				public void onStopTrackingTouch(SeekBar seekBar) { }
+				
+				@Override
+				public void onStartTrackingTouch(SeekBar seekBar) { }
+				
+				@Override
+				public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+					final HashMap<String, Object> tag = (HashMap<String, Object>) seekBar.getTag();
+					final BinomiosArquigrafia binomio = (BinomiosArquigrafia) tag.get(KEY_BINOMIO);
+					binomio.setLeftValue(progress);
+					binomio.setRightValue(100-progress);
+					((TextView) tag.get(KEY_LEFT_TEXT_VIEW)).setText(Integer.toString(binomio.getRightValue()) + "%");
+					((TextView) tag.get(KEY_RIGHT_TEXT_VIEW)).setText(Integer.toString(binomio.getLeftValue()) + "%");
+				}
+			});
+			
+			
 		}
 	}
 

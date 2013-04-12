@@ -1,16 +1,26 @@
-
-/*
 package my_components.tag;
 
 
+import java.util.List;
+
+import my_components.tag.TagDao.Properties;
+
+
+
+
+import com.example.my_fragment.ComponentSimpleModel;
 import com.example.my_fragment.GUIComponent;
 
 import com.example.firstcomponents.R;
 
+import database.DaoMaster;
+import database.DaoSession;
 import database.DatabaseHandler;
+import database.DaoMaster.DevOpenHelper;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
 import android.text.SpannableString;
@@ -26,10 +36,14 @@ import android.widget.TextView;
 
 public class TagGUI extends GUIComponent {
 
-	DatabaseHandler db;
+	
+	
+	private Long newTarget;
 	private Tag tag = new Tag();
 
 	private int nInstance = 0;
+	private TagDao tagDao;
+	private DaoSession daoSession;
 
 	// TimeBG t = new TimeBG();
 
@@ -60,7 +74,7 @@ public class TagGUI extends GUIComponent {
 		}
 
 		// busca tags para component pela primeira vez
-		String tempString=db.getTagsFrom(idTarget);
+		String tempString= "";
 		
 		//sublinhado
 		SpannableString spanString = new SpannableString(tempString);
@@ -94,8 +108,7 @@ public class TagGUI extends GUIComponent {
 
 				// String r = sendMessage("hora");
 
-				tag.setInstanceId(getId() + "-" + nInstance);
-				nInstance++;
+				
 				tag.setTag(edit.getText().toString());
 
 				// teste
@@ -106,15 +119,15 @@ public class TagGUI extends GUIComponent {
 					// Toast.LENGTH_LONG).show();
 				}
 
-				tag.save();
+				
 				tag.setTargetId(idTarget);
 				
-				db.addTag(tag);
+				addOneTag(tag);
 
 				
 				
 				
-				String tempString=db.getTagsFrom(idTarget);
+				String tempString = ""; //fazer aqui lista
 				
 				//sublinhado
 				SpannableString spanString = new SpannableString(tempString);
@@ -132,9 +145,51 @@ public class TagGUI extends GUIComponent {
 		return view;
 	}
 
-	public void setDb(DatabaseHandler db) {
-		this.db = db;
+	
+	
+	public void addOneTag(Tag tag){
+		boolean achou=false;
+		
 
+		
+		
+		initRatingDao();
+		List<Tag> lista = tagDao.queryBuilder()
+				.where(Properties.Tag.eq(tag.getTag())).build().list();
+		closeDao();
+		for(Tag t:lista){
+			if(t.getTargetId()==tag.getTargetId()){
+				achou=true;
+				
+				break;
+			}
+		}
+		
+		Long newId = ComponentSimpleModel.getUniqueId(getActivity());
+		tag.setId(newId);
+		initRatingDao();
+		tagDao.insert(tag);
+
+		closeDao();
+		
+		
+		
+		
+		
+	}
+	
+	
+	public void initRatingDao() {
+		DevOpenHelper helper = new DaoMaster.DevOpenHelper(getActivity(),
+				"tags-db", null);
+		SQLiteDatabase db = helper.getWritableDatabase();
+		DaoMaster daoMaster = new DaoMaster(db);
+		daoSession = daoMaster.newSession();
+		tagDao = daoSession.getTagDao();
 	}
 
-}*/
+	public void closeDao() {
+		tagDao.getDatabase().close();
+	}
+	
+}
