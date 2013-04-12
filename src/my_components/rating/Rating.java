@@ -47,16 +47,6 @@ public class Rating extends com.example.my_fragment.ComponentSimpleModel  {
         this.value = value;
     }
 
-	@Override
-	public void save() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void restore() {
-		// TODO Auto-generated method stub
-		
-	}
+	
 
 }

@@ -43,9 +43,7 @@ public abstract class ComponentSimpleModel {
 		this.instanceId = instanceId;
 	}
 
-	public abstract void save();
-
-	public abstract void restore();
+	
 
 	public Long getId() {
 		return id;

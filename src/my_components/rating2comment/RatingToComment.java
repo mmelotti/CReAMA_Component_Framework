@@ -37,16 +37,4 @@ public class RatingToComment extends com.example.my_fragment.ComponentSimpleMode
         this.targetId = targetId;
     }
 
-	@Override
-	public void save() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void restore() {
-		// TODO Auto-generated method stub
-		
-	}
-
 }

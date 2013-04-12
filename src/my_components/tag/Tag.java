@@ -50,16 +50,6 @@ public class Tag extends com.example.my_fragment.ComponentSimpleModel  {
         this.tag = tag;
     }
 
-	@Override
-	public void save() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void restore() {
-		// TODO Auto-generated method stub
-		
-	}
+	
 
 }

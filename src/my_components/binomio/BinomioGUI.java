@@ -10,6 +10,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -24,6 +26,8 @@ public class BinomioGUI extends GUIComponent {
 	private Long newTarget;
 	private int nBin = 5;
 	private View binView;
+	
+	private Button button;
 	
 	private static final String KEY_LEFT_TEXT_VIEW = "leftTextView";
 	private static final String KEY_RIGHT_TEXT_VIEW = "rightTextView";
@@ -46,6 +50,17 @@ public class BinomioGUI extends GUIComponent {
 		LinearLayout lCon = (LinearLayout) view
 				.findViewById(R.id.binomio_container);
 
+		button = (Button) view.findViewById(R.id.button_binomio);
+		
+		button.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				
+			}
+		});
+		
+		
 		addVariosBinomios(lCon, inflater);
 
 		return view;

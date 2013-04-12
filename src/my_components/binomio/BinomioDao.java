@@ -4,10 +4,11 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 
-import database.DaoSession;
 import de.greenrobot.dao.AbstractDao;
 import de.greenrobot.dao.DaoConfig;
 import de.greenrobot.dao.Property;
+
+import database.DaoSession;
 
 import my_components.binomio.Binomio;
 
@@ -33,8 +34,9 @@ public class BinomioDao extends AbstractDao<Binomio, Long> {
         public final static Property Vertical = new Property(6, Integer.class, "vertical", false, "VERTICAL");
         public final static Property Horizontal = new Property(7, Integer.class, "horizontal", false, "HORIZONTAL");
         public final static Property Simetrica = new Property(8, Integer.class, "simetrica", false, "SIMETRICA");
-        public final static Property Opaca = new Property(9, Integer.class, "opaca", false, "OPACA");
-        public final static Property Translucida = new Property(10, Integer.class, "translucida", false, "TRANSLUCIDA");
+        public final static Property Assimetrica = new Property(9, Integer.class, "assimetrica", false, "ASSIMETRICA");
+        public final static Property Opaca = new Property(10, Integer.class, "opaca", false, "OPACA");
+        public final static Property Translucida = new Property(11, Integer.class, "translucida", false, "TRANSLUCIDA");
     };
 
 
@@ -59,8 +61,9 @@ public class BinomioDao extends AbstractDao<Binomio, Long> {
                 "'VERTICAL' INTEGER," + // 6: vertical
                 "'HORIZONTAL' INTEGER," + // 7: horizontal
                 "'SIMETRICA' INTEGER," + // 8: simetrica
-                "'OPACA' INTEGER," + // 9: opaca
-                "'TRANSLUCIDA' INTEGER);"); // 10: translucida
+                "'ASSIMETRICA' INTEGER," + // 9: assimetrica
+                "'OPACA' INTEGER," + // 10: opaca
+                "'TRANSLUCIDA' INTEGER);"); // 11: translucida
     }
 
     /** Drops the underlying database table. */
@@ -119,14 +122,19 @@ public class BinomioDao extends AbstractDao<Binomio, Long> {
             stmt.bindLong(9, simetrica);
         }
  
+        Integer assimetrica = entity.getAssimetrica();
+        if (assimetrica != null) {
+            stmt.bindLong(10, assimetrica);
+        }
+ 
         Integer opaca = entity.getOpaca();
         if (opaca != null) {
-            stmt.bindLong(10, opaca);
+            stmt.bindLong(11, opaca);
         }
  
         Integer translucida = entity.getTranslucida();
         if (translucida != null) {
-            stmt.bindLong(11, translucida);
+            stmt.bindLong(12, translucida);
         }
     }
 
@@ -149,8 +157,9 @@ public class BinomioDao extends AbstractDao<Binomio, Long> {
             cursor.isNull(offset + 6) ? null : cursor.getInt(offset + 6), // vertical
             cursor.isNull(offset + 7) ? null : cursor.getInt(offset + 7), // horizontal
             cursor.isNull(offset + 8) ? null : cursor.getInt(offset + 8), // simetrica
-            cursor.isNull(offset + 9) ? null : cursor.getInt(offset + 9), // opaca
-            cursor.isNull(offset + 10) ? null : cursor.getInt(offset + 10) // translucida
+            cursor.isNull(offset + 9) ? null : cursor.getInt(offset + 9), // assimetrica
+            cursor.isNull(offset + 10) ? null : cursor.getInt(offset + 10), // opaca
+            cursor.isNull(offset + 11) ? null : cursor.getInt(offset + 11) // translucida
         );
         return entity;
     }
@@ -167,8 +176,9 @@ public class BinomioDao extends AbstractDao<Binomio, Long> {
         entity.setVertical(cursor.isNull(offset + 6) ? null : cursor.getInt(offset + 6));
         entity.setHorizontal(cursor.isNull(offset + 7) ? null : cursor.getInt(offset + 7));
         entity.setSimetrica(cursor.isNull(offset + 8) ? null : cursor.getInt(offset + 8));
-        entity.setOpaca(cursor.isNull(offset + 9) ? null : cursor.getInt(offset + 9));
-        entity.setTranslucida(cursor.isNull(offset + 10) ? null : cursor.getInt(offset + 10));
+        entity.setAssimetrica(cursor.isNull(offset + 9) ? null : cursor.getInt(offset + 9));
+        entity.setOpaca(cursor.isNull(offset + 10) ? null : cursor.getInt(offset + 10));
+        entity.setTranslucida(cursor.isNull(offset + 11) ? null : cursor.getInt(offset + 11));
      }
     
     /** @inheritdoc */

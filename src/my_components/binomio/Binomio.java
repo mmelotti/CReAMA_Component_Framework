@@ -15,6 +15,7 @@ public class Binomio extends com.example.my_fragment.ComponentSimpleModel  {
     private Integer vertical;
     private Integer horizontal;
     private Integer simetrica;
+    private Integer assimetrica;
     private Integer opaca;
     private Integer translucida;
 
@@ -25,7 +26,7 @@ public class Binomio extends com.example.my_fragment.ComponentSimpleModel  {
         this.id = id;
     }
 
-    public Binomio(Long id, Long targetId, Integer fechada, Integer aberta, Integer simples, Integer complexa, Integer vertical, Integer horizontal, Integer simetrica, Integer opaca, Integer translucida) {
+    public Binomio(Long id, Long targetId, Integer fechada, Integer aberta, Integer simples, Integer complexa, Integer vertical, Integer horizontal, Integer simetrica, Integer assimetrica, Integer opaca, Integer translucida) {
         this.id = id;
         this.targetId = targetId;
         this.fechada = fechada;
@@ -35,6 +36,7 @@ public class Binomio extends com.example.my_fragment.ComponentSimpleModel  {
         this.vertical = vertical;
         this.horizontal = horizontal;
         this.simetrica = simetrica;
+        this.assimetrica = assimetrica;
         this.opaca = opaca;
         this.translucida = translucida;
     }
@@ -111,6 +113,14 @@ public class Binomio extends com.example.my_fragment.ComponentSimpleModel  {
         this.simetrica = simetrica;
     }
 
+    public Integer getAssimetrica() {
+        return assimetrica;
+    }
+
+    public void setAssimetrica(Integer assimetrica) {
+        this.assimetrica = assimetrica;
+    }
+
     public Integer getOpaca() {
         return opaca;
     }
@@ -126,17 +136,5 @@ public class Binomio extends com.example.my_fragment.ComponentSimpleModel  {
     public void setTranslucida(Integer translucida) {
         this.translucida = translucida;
     }
-
-	@Override
-	public void save() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void restore() {
-		// TODO Auto-generated method stub
-		
-	}
 
 }
