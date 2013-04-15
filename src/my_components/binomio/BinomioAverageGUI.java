@@ -45,9 +45,7 @@ public class BinomioAverageGUI extends GUIComponent {
 	private static final String KEY_RIGHT_TEXT_VIEW = "rightTextView";
 	private static final String KEY_BINOMIO = "binomio";
 
-	public BinomioAverageGUI() {
 
-	}
 
 	public BinomioAverageGUI(Long t) {
 		newTarget = t;
@@ -63,14 +61,9 @@ public class BinomioAverageGUI extends GUIComponent {
 				.findViewById(R.id.binomio_container);
 
 		button = (Button) view.findViewById(R.id.button_binomio);
+		button.setEnabled(false);
 
-		button.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-
-			}
-		});
+		
 
 		addVariosBinomios(lCon, inflater);
 
@@ -145,11 +138,11 @@ public class BinomioAverageGUI extends GUIComponent {
 			simetrica += simetrica / lista.size();
 			opaca += opaca / lista.size();
 		} else {
-			fechada += 50;
-			simples += 50;
-			vertical += 50;
-			simetrica += 50;
-			opaca += 50;
+			fechada = 50;
+			simples = 50;
+			vertical = 50;
+			simetrica = 50;
+			opaca = 50;
 		}
 
 		int[] data = { fechada, simples, vertical, simetrica, opaca };

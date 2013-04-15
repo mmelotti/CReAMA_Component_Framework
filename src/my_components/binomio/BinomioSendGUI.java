@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import my_components.rating.Rating;
 import my_components.tag.Tag;
 import my_components.tag.TagDao;
 import my_components.tag.TagDao.Properties;
@@ -22,6 +23,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.example.firstcomponents.R;
+import com.example.my_fragment.ComponentSimpleModel;
 import com.example.my_fragment.GUIComponent;
 
 import database.DaoMaster;
@@ -29,14 +31,15 @@ import database.DaoSession;
 import database.DaoMaster.DevOpenHelper;
 
 @SuppressLint({ "ValidFragment", "NewApi" })
-public class BinomioGUI extends GUIComponent {
+public class BinomioSendGUI extends GUIComponent {
 
-	
 	private Long newTarget;
-	
 
 	private BinomioDao binomioDao;
 	private DaoSession daoSession;
+	
+	
+	private int[] values = iniciarBinomios();
 
 	private Button button;
 
@@ -44,11 +47,13 @@ public class BinomioGUI extends GUIComponent {
 	private static final String KEY_RIGHT_TEXT_VIEW = "rightTextView";
 	private static final String KEY_BINOMIO = "binomio";
 
-	public BinomioGUI() {
+	
+
+	public BinomioSendGUI() {
 
 	}
 
-	public BinomioGUI(Long t) {
+	public BinomioSendGUI(Long t) {
 		newTarget = t;
 	}
 
@@ -68,6 +73,32 @@ public class BinomioGUI extends GUIComponent {
 			@Override
 			public void onClick(View v) {
 
+				Long newId = ComponentSimpleModel.getUniqueId(getActivity());
+
+				Binomio b = new Binomio();
+				b.setId(newId);
+				b.setTargetId(newTarget);
+				
+				b.setFechada(100-values[0]);
+				b.setAberta(values[0]);
+				b.setSimples(100-values[1]);
+				b.setComplexa(values[1]);
+				
+				Log.i("val","valor 0 1 2="+values[0]+" "+values[1]+" "+values[2]);
+				
+				b.setVertical(100-values[2]);
+				b.setHorizontal(values[2]);
+				b.setSimetrica(100-values[3]);
+				b.setAssimetrica(values[3]);
+				b.setOpaca(100-values[4]);
+				b.setTranslucida(values[4]);
+				
+				
+				initRatingDao();
+				binomioDao.insert(b);
+
+				closeDao();
+				reloadActivity();
 			}
 		});
 
@@ -85,7 +116,10 @@ public class BinomioGUI extends GUIComponent {
 		list.add(new BinomiosArquigrafia("Simétrica", "Assimétrica"));
 		list.add(new BinomiosArquigrafia("Opaca", "Translúcida"));
 
+		int i = 0;
+
 		for (BinomiosArquigrafia binomio : list) {
+			
 			View v = inflater.inflate(R.layout.binomio, null);
 			TextView left, right;
 			left = (TextView) v.findViewById(R.id.label_left);
@@ -111,9 +145,11 @@ public class BinomioGUI extends GUIComponent {
 			tag.put(KEY_LEFT_TEXT_VIEW, seekbarLeftValueText);
 			tag.put(KEY_RIGHT_TEXT_VIEW, seekbarRightValueText);
 			tag.put(KEY_BINOMIO, binomio);
+			tag.put("nbinomio", i);
 			seekbar.setTag(tag);
 
 			seekbar.setProgress(binomio.getLeftValue());
+			i++;
 			seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 				@Override
 				public void onStopTrackingTouch(SeekBar seekBar) {
@@ -130,6 +166,10 @@ public class BinomioGUI extends GUIComponent {
 							.getTag();
 					final BinomiosArquigrafia binomio = (BinomiosArquigrafia) tag
 							.get(KEY_BINOMIO);
+
+					final int numero = (Integer) tag.get("nbinomio");
+					values[numero] = progress;
+
 					binomio.setLeftValue(progress);
 					binomio.setRightValue(100 - progress);
 					((TextView) tag.get(KEY_LEFT_TEXT_VIEW)).setText(Integer
@@ -141,8 +181,6 @@ public class BinomioGUI extends GUIComponent {
 
 		}
 	}
-
-	
 
 	public List<Binomio> getAllFromTarget(Long id) {
 		initRatingDao();
@@ -164,6 +202,12 @@ public class BinomioGUI extends GUIComponent {
 
 	public void closeDao() {
 		binomioDao.getDatabase().close();
+	}
+
+	public int[] iniciarBinomios() {
+
+		int[] data = { 50, 50,50,50,50 };
+		return data;
 	}
 
 }

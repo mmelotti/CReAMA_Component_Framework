@@ -2,7 +2,8 @@ package com.example.my_fragment;
 
 import java.util.ArrayList;
 import my_components.Constants;
-import my_components.binomio.BinomioGUI;
+import my_components.binomio.BinomioAverageGUI;
+import my_components.binomio.BinomioSendGUI;
 import my_components.comment.CommentSendGUI;
 import my_components.comment.CommentViewGUI;
 import my_components.rating.RatingViewGUI;
@@ -52,6 +53,8 @@ public class ComponentDefinitions {
 			return getCommentSendGUI(target);
 		} else if (name.equals(Constants.BinomioGUIName)){
 			return getBinomioGUI(target);
+		} else if (name.equals(Constants.BinomioAverageGUIName)){
+			return getBinomioAverageGUI(target);
 		}
 		return getRatingGUI(target);
 	}
@@ -68,8 +71,12 @@ public class ComponentDefinitions {
 		return new CommentSendGUI(t);
 	}
 	
-	public BinomioGUI getBinomioGUI(Long t){
-		return new BinomioGUI(t);
+	public BinomioSendGUI getBinomioGUI(Long t){
+		return new BinomioSendGUI(t);
+	}
+	
+	public BinomioAverageGUI getBinomioAverageGUI(Long t){
+		return new BinomioAverageGUI(t);
 	}
 
 }

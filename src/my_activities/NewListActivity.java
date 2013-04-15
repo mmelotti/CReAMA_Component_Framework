@@ -20,7 +20,7 @@ public class NewListActivity extends MyActivity {
 	private PhotoViewGUI photo;
 	private boolean gambiarraFlag = false;
 
-	private ComponentNaming commentView, commentSend, photoView, rating, binomio;
+	private ComponentNaming commentView, commentSend, photoView, rating, binomio,binAverage;
 	
 	private long idPhoto;
 	Long photoId;
@@ -61,6 +61,7 @@ public class NewListActivity extends MyActivity {
 		photoView = new ComponentNaming(Constants.PhotoViewGUIName, Constants.PhotoViewGUIName+"1");
 		rating = new ComponentNaming(Constants.RatingViewGUIName,Constants.RatingViewGUIName+"1");
 		binomio = new ComponentNaming(Constants.BinomioGUIName, "Binomio1");
+		binAverage = new ComponentNaming(Constants.BinomioAverageGUIName, "Binomio2");
 		
 		Log.i("adding","binomio gui");
 		
@@ -71,6 +72,8 @@ public class NewListActivity extends MyActivity {
 		d = new Dependency(rating,commentView, false);
 		addDependencie(d);
 		d = new Dependency(commentSend,photoView, false);
+		addDependencie(d);
+		d = new Dependency(binAverage,photoView, false);
 		addDependencie(d);
 		
 		photo.setNick(photoView.getNickName());
