@@ -15,7 +15,7 @@ import android.widget.Button;
 
 public class MainActivity extends MyActivity {
 
-	private Button bttela2, btag;
+	private Button buttonBinomioComentario, buttonComposto, buttonTag;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -33,9 +33,9 @@ public class MainActivity extends MyActivity {
 	}
 
 	private void setBotoes() {
-		bttela2 = (Button) findViewById(R.id.go_comment);
+		buttonBinomioComentario = (Button) findViewById(R.id.go_comment);
 
-		bttela2.setOnClickListener(new View.OnClickListener() {
+		buttonBinomioComentario.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				Intent trocatela = new Intent(MainActivity.this,
@@ -48,10 +48,10 @@ public class MainActivity extends MyActivity {
 			}
 		});
 
-		btag = (Button) findViewById(R.id.go_tag);
+		buttonComposto = (Button) findViewById(R.id.go_composto);
 		// bttela2.setText("NEW");
 
-		btag.setOnClickListener(new View.OnClickListener() {
+		buttonComposto.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
 				//Intent trocatela = new Intent(MainActivity.this,TagFragmentActivity.class);

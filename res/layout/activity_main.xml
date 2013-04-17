@@ -59,6 +59,20 @@
                 android:textColor="#ffffff"
                 android:textSize="18sp"
                 android:textStyle="bold" />
+            
+             <Button
+                android:id="@+id/go_composto"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/go_comment"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="2dp"
+                android:background="#111111"
+                android:padding="15dp"
+                android:text="Teste composto"
+                android:textColor="#ffffff"
+                android:textSize="18sp"
+                android:textStyle="bold" />
         </LinearLayout>
     </ScrollView>
 
