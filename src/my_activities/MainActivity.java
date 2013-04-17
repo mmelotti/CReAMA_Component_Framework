@@ -24,8 +24,8 @@ public class MainActivity extends MyActivity {
 		setBotoes();
 
 		startTransaction();
-		PhotoGalleryGUI gallery = new PhotoGalleryGUI();
-		addGUIComponent(R.id.root, gallery);
+		//PhotoGalleryGUI gallery = new PhotoGalleryGUI();
+		//addGUIComponent(R.id.root, gallery);
 		
 		PhotoSendGUI photoSend = new PhotoSendGUI();
 		addGUIComponent(R.id.root, photoSend); 

@@ -62,6 +62,7 @@ public class BinomioAverageGUI extends GUIComponent {
 
 		button = (Button) view.findViewById(R.id.button_binomio);
 		button.setEnabled(false);
+	
 
 		
 
@@ -90,8 +91,8 @@ public class BinomioAverageGUI extends GUIComponent {
 			left.setText(binomio.getLeft());
 			right.setText(binomio.getRight());
 
-			binomio.setLeftValue(values[i]);
-			binomio.setRightValue(100 - values[i]);
+			binomio.setLeftValue(100 - values[i]);
+			binomio.setRightValue(values[i]);
 
 			final TextView seekbarLeftValueText = (TextView) v
 					.findViewById(R.id.seekbar_value_left);
@@ -114,6 +115,7 @@ public class BinomioAverageGUI extends GUIComponent {
 			seekbar.setTag(tag);
 
 			seekbar.setProgress(binomio.getLeftValue());
+			seekbar.setEnabled(false);
 
 			i++;
 		}
@@ -128,15 +130,18 @@ public class BinomioAverageGUI extends GUIComponent {
 			vertical += b.getVertical();
 			simetrica += b.getSimetrica();
 			opaca += b.getOpaca();
-
+			Log.i("val!!!","valor= "+ opaca);
 		}
 
 		if (lista.size() != 0) {
 			fechada = fechada / lista.size();
-			simples += simples / lista.size();
-			vertical += vertical / lista.size();
-			simetrica += simetrica / lista.size();
-			opaca += opaca / lista.size();
+			simples = simples / lista.size();
+			
+			
+			vertical = vertical / lista.size();
+			simetrica = simetrica / lista.size();
+			opaca = opaca / lista.size();
+			Log.i("val!!!",lista.size()+" opaca media= "+ opaca);
 		} else {
 			fechada = 50;
 			simples = 50;
