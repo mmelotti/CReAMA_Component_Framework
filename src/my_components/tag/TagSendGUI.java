@@ -43,8 +43,7 @@ public class TagSendGUI extends GUIComponent {
 
 	private Button button;
 	private EditText edit;
-	private TextView tags;
-	private Bundle extras;
+
 	private Long idTarget;
 	private String stringList;
 
@@ -63,12 +62,7 @@ public class TagSendGUI extends GUIComponent {
 		button = (Button) view.findViewById(R.id.button_tag);
 		edit = (EditText) view.findViewById(R.id.edit_tag);
 
-		extras = getActivity().getIntent().getExtras();
-		if (extras != null) {
-			// recebendo target como parametro
-			// idTarget = extras.getLong("nImagem");
-			idTarget = getComponentTarget().getCurrentInstanceId();
-		}
+		
 
 		// busca tags para component pela primeira vez
 		stringList = getAllStrings(idTarget);
@@ -86,18 +80,10 @@ public class TagSendGUI extends GUIComponent {
 				tag.setTargetId(idTarget);
 
 				if (addOneTag(tag)) {
-					stringList += " " + tag.getTag(); // fazer aqui lista
+					reloadActivity();
 				}
 
-				// sublinhado
-				SpannableString spanString = new SpannableString(stringList);
-				spanString.setSpan(new UnderlineSpan(), 0, spanString.length(),
-						0);
-				tags.setText(spanString);
-				// comentarios.setText(db.checkSomething(1));
-
-				tag = new Tag();
-				// inicia outro
+				
 
 			}
 
@@ -130,7 +116,7 @@ public class TagSendGUI extends GUIComponent {
 
 		List<Tag> lista = getAllFromTarget(tag.getTargetId());
 		for (Tag t : lista) {
-			if (t.getTargetId() == tag.getTargetId()) {
+			if (t.getTag().equals(tag.getTag())) {
 				achou = true;
 				break;
 			}

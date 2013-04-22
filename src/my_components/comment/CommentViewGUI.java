@@ -1,11 +1,13 @@
 package my_components.comment;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import my_components.comment.CommentDao.Properties;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -126,6 +128,32 @@ public class CommentViewGUI extends GUIComponent {
 
 	public void closeDao() {
 		commentDao.getDatabase().close();
+	}
+	
+	public List<ComponentSimpleModel> getListSimple(Long target,Activity a){
+		ArrayList<ComponentSimpleModel> list= new ArrayList<ComponentSimpleModel>();
+
+		initCommentDao(a);
+		List<Comment> lista = commentDao.queryBuilder()
+				.where(Properties.TargetId.eq(target)).build().list();
+		
+		for(int i=0;i<lista.size();i++){
+			list.add(lista.get(i));
+		}
+		
+		commentDao.getDatabase().close();
+		
+		return list;
+	}
+	
+	public void initCommentDao(Activity a) {
+		//Log.i("en initi","aquiii");
+		DevOpenHelper helper = new DaoMaster.DevOpenHelper(a,
+				"comments-db", null);
+		SQLiteDatabase db = helper.getWritableDatabase();
+		DaoMaster daoMaster = new DaoMaster(db);
+		daoSession = daoMaster.newSession();
+		commentDao = daoSession.getCommentDao();
 	}
 
 }

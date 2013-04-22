@@ -1,5 +1,8 @@
 package com.example.my_fragment;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.app.Activity;
 import android.support.v4.app.FragmentTransaction;
 
@@ -64,6 +67,13 @@ public abstract class GUIComponent extends GenericComponent {
 
 	public void setNick(String nick) {
 		this.nick = nick;
+	}
+	public List<ComponentSimpleModel> getListSimple(Long target,Activity a){
+ArrayList<ComponentSimpleModel> list= new ArrayList<ComponentSimpleModel>();
+		
+		
+		
+		return list;
 	}
 
 }

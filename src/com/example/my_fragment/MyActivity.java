@@ -7,6 +7,7 @@ import my_components.comment.CommentListGUI;
 
 import com.example.firstcomponents.R;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -48,15 +49,14 @@ public abstract class MyActivity extends FragmentActivity {
 	public void addGUIComponentWithTag(int id, GUIComponent c) {
 		c.setRelativeFragmentId(relativeGUIIdCont);
 		componentes.add(c);
-				
+
 		transaction.add(id, c, "" + relativeGUIIdCont);
 		upRelativeId();
 	}
-	
-	public void addComponent(GUIComponent c){
+
+	public void addComponent(GUIComponent c) {
 		componentes.add(c);
 	}
-	
 
 	public void startTransaction() {
 		fragmentManager = getSupportFragmentManager();
@@ -67,8 +67,6 @@ public abstract class MyActivity extends FragmentActivity {
 		transaction.commit();
 	}
 
-	
-
 	public List<GUIComponent> getComponentes() {
 		return componentes;
 	}
@@ -77,13 +75,13 @@ public abstract class MyActivity extends FragmentActivity {
 		this.componentes = componentes;
 	}
 
-	
 	public void callbackRemove(Long target, String component) {
 		boolean foundIt = false;
 
 		for (Dependency d : getDependencies()) {
 			// tem alguem que depende do que vai ser deletado?
-			//Log.i("Remov?", d.getTarget().getNickName()+" <-encontrou??? " + component);
+			// Log.i("Remov?", d.getTarget().getNickName()+" <-encontrou??? " +
+			// component);
 			if (d.getTarget().getNickName().equals(component)) {
 				Log.i("Remover!", "encontrou " + component);
 				foundIt = true;
@@ -101,10 +99,6 @@ public abstract class MyActivity extends FragmentActivity {
 			}
 		}
 	}
-	
-	
-	
-	
 
 	public void upRelativeId() {
 		relativeGUIIdCont++;
@@ -118,8 +112,6 @@ public abstract class MyActivity extends FragmentActivity {
 		this.relativeGUIIdCont = relativeGUIIdCont;
 	}
 
-	
-
 	public List<Dependency> getDependencies() {
 		return dependencies;
 	}
@@ -127,19 +119,18 @@ public abstract class MyActivity extends FragmentActivity {
 	public void setDependencies(List<Dependency> dependencies) {
 		this.dependencies = dependencies;
 	}
-	
-	public void addDependencie(Dependency d){
+
+	public void addDependencie(Dependency d) {
 		dependencies.add(d);
 	}
-	
 
 	public void addOther(ComponentNaming s, ComponentSimpleModel c, int id) {
 
 		// addOne(s,c);
-		
+
 		ComponentDefinitions cd = new ComponentDefinitions();
 		GUIComponent one = cd.getComponent(c, s.getGuiName());
-		
+
 		one.setNick(s.getNickName());
 		addGUIComponentWithTag(id, one);
 
@@ -159,18 +150,17 @@ public abstract class MyActivity extends FragmentActivity {
 	public void verDependenciaString(ComponentNaming s, Long target) {
 		for (Dependency d : getDependencies()) {
 			if (d.getTarget().equals(s)) {
-				
+
 				if (d.isToMany()) {
-					List<ComponentSimpleModel> m =  new 
-							CommentListGUI(target).getListSimple(target, this);
-					
-					
+					List<ComponentSimpleModel> m = listToMany(d.getSource()
+							.getGuiName(), target);
+
 					for (ComponentSimpleModel model : m) {
-						addOther(d.getSource(), model,R.id.menu_lin);
+						addOther(d.getSource(), model, R.id.menu_lin);
 						verDependenciaString(d.getSource(), model.getId());
 					}
 				} else {
-					addOther(d.getSource(), target,R.id.menu_lin);
+					addOther(d.getSource(), target, R.id.menu_lin);
 					verDependenciaString(d.getSource(), target);
 				}
 
@@ -179,5 +169,12 @@ public abstract class MyActivity extends FragmentActivity {
 		}
 	}
 
+	public List<ComponentSimpleModel> listToMany(String name, Long target) {
+		ComponentDefinitions c = new ComponentDefinitions();
+		List<ComponentSimpleModel> list;
+		list = c.listToMany(name, target, this);
+
+		return list;
+	}
 
 }

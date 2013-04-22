@@ -1,7 +1,9 @@
 package my_components.tag;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import my_components.comment.Comment;
 import my_components.tag.TagDao.Properties;
 
 import com.example.my_fragment.ComponentSimpleModel;
@@ -41,10 +43,9 @@ public class TagViewGUI extends GUIComponent {
 
 	// TimeBG t = new TimeBG();
 
-	private Button button;
-	private EditText edit;
+
 	private TextView tags;
-	private Bundle extras;
+
 	private Long idTarget;
 	private String stringList;
 
@@ -68,15 +69,10 @@ public class TagViewGUI extends GUIComponent {
 
 		tags = (TextView) view.findViewById(R.id.tags);
 
-		extras = getActivity().getIntent().getExtras();
-		if (extras != null) {
-			// recebendo target como parametro
-			// idTarget = extras.getLong("nImagem");
-			idTarget = getComponentTarget().getCurrentInstanceId();
-		}
+	
 
 		// busca tags para component pela primeira vez
-		stringList = getAllStrings(idTarget);
+		stringList = tag.getTag();
 
 		// sublinhado
 		SpannableString spanString = new SpannableString(stringList);
@@ -115,7 +111,7 @@ public class TagViewGUI extends GUIComponent {
 	}
 
 	public List<Tag> getAllFromTarget(Long id) {
-		initRatingDao();
+		initTagDao();
 		List<Tag> lista = tagDao.queryBuilder()
 				.where(Properties.TargetId.eq(id)).build().list();
 		closeDao();
@@ -137,7 +133,7 @@ public class TagViewGUI extends GUIComponent {
 		if (!achou) {
 			Long newId = ComponentSimpleModel.getUniqueId(getActivity());
 			tag.setId(newId);
-			initRatingDao();
+			initTagDao();
 			tagDao.insert(tag);
 			closeDao();
 		}
@@ -145,8 +141,17 @@ public class TagViewGUI extends GUIComponent {
 		return !achou;
 	}
 
-	public void initRatingDao() {
+	public void initTagDao() {
 		DevOpenHelper helper = new DaoMaster.DevOpenHelper(getActivity(),
+				"tags-db", null);
+		SQLiteDatabase db = helper.getWritableDatabase();
+		DaoMaster daoMaster = new DaoMaster(db);
+		daoSession = daoMaster.newSession();
+		tagDao = daoSession.getTagDao();
+	}
+	
+	public void initTagDao(Activity a) {
+		DevOpenHelper helper = new DaoMaster.DevOpenHelper(a,
 				"tags-db", null);
 		SQLiteDatabase db = helper.getWritableDatabase();
 		DaoMaster daoMaster = new DaoMaster(db);
@@ -156,6 +161,22 @@ public class TagViewGUI extends GUIComponent {
 
 	public void closeDao() {
 		tagDao.getDatabase().close();
+	}
+	
+	public List<ComponentSimpleModel> getListSimple(Long target,Activity a){
+		ArrayList<ComponentSimpleModel> list= new ArrayList<ComponentSimpleModel>();
+
+		initTagDao(a);
+		List<Tag> lista = tagDao.queryBuilder()
+				.where(Properties.TargetId.eq(target)).build().list();
+		
+		for(int i=0;i<lista.size();i++){
+			list.add(lista.get(i));
+		}
+		
+		tagDao.getDatabase().close();
+		
+		return list;
 	}
 
 }

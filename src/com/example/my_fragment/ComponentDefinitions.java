@@ -1,6 +1,10 @@
 package com.example.my_fragment;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import android.app.Activity;
+
 import my_components.Constants;
 import my_components.binomio.BinomioAverageGUI;
 import my_components.binomio.BinomioSendGUI;
@@ -19,8 +23,8 @@ public class ComponentDefinitions {
 		names.add(Constants.CommentViewGUIName);
 		names.add(Constants.RatingViewGUIName);
 
-		//paths.add("my_components.OneCommentGUI");
-		//paths.add("my_components.RatingGUI");
+		// paths.add("my_components.OneCommentGUI");
+		// paths.add("my_components.RatingGUI");
 	}
 
 	public String findByName(String name) {
@@ -40,9 +44,8 @@ public class ComponentDefinitions {
 	public GUIComponent getComponent(ComponentSimpleModel m, String name) {
 		if (name.equals(Constants.CommentViewGUIName)) {
 			return getOneComment(m);
-		} else if (name.equals(Constants.RatingViewGUIName)) {
-			return getRatingGUI(1L);
-		}	else if (name.equals(Constants.TagViewGUIName)) {
+
+		} else if (name.equals(Constants.TagViewGUIName)) {
 			return getOneTag(m);
 		}
 		return getOneComment(m);
@@ -55,22 +58,26 @@ public class ComponentDefinitions {
 			return getRatingGUI(target);
 		} else if (name.equals(Constants.CommentSendGUIName)) {
 			return getCommentSendGUI(target);
-		} else if (name.equals(Constants.BinomioGUIName)){
+		} else if (name.equals(Constants.BinomioGUIName)) {
 			return getBinomioGUI(target);
-		} else if (name.equals(Constants.BinomioAverageGUIName)){
+		} else if (name.equals(Constants.BinomioAverageGUIName)) {
 			return getBinomioAverageGUI(target);
-		}	else if (name.equals(Constants.TagSendGUIName)){
+		} else if (name.equals(Constants.TagSendGUIName)) {
 			return getTagSendGUI(target);
+		} else if (name.equals(Constants.CommentViewGUIName)) {
+			return getCommentViewGUI(target);
+
+		} else if (name.equals(Constants.TagViewGUIName)) {
+			return getTagViewGUI(target);
 		}
-		
-		
+
 		return getRatingGUI(target);
 	}
 
 	public CommentViewGUI getOneComment(ComponentSimpleModel m) {
 		return new CommentViewGUI(m);
 	}
-	
+
 	public TagViewGUI getOneTag(ComponentSimpleModel m) {
 		return new TagViewGUI(m);
 	}
@@ -83,16 +90,30 @@ public class ComponentDefinitions {
 		return new CommentSendGUI(t);
 	}
 	
+	public CommentViewGUI getCommentViewGUI(Long t) {
+		return new CommentViewGUI();
+	}
+
 	public TagSendGUI getTagSendGUI(Long t) {
 		return new TagSendGUI(t);
 	}
 	
-	public BinomioSendGUI getBinomioGUI(Long t){
+	public TagViewGUI getTagViewGUI(Long t) {
+		return new TagViewGUI(t);
+	}
+
+	public BinomioSendGUI getBinomioGUI(Long t) {
 		return new BinomioSendGUI(t);
 	}
-	
-	public BinomioAverageGUI getBinomioAverageGUI(Long t){
+
+	public BinomioAverageGUI getBinomioAverageGUI(Long t) {
 		return new BinomioAverageGUI(t);
+	}
+
+	public List<ComponentSimpleModel> listToMany(String name, Long target,
+			Activity a) {
+		GUIComponent g = getComponent(target, name);
+		return g.getListSimple(target, a);
 	}
 
 }
