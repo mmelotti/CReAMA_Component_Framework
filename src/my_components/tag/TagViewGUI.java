@@ -32,7 +32,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 @SuppressLint("ValidFragment")
-public class TagGUI extends GUIComponent {
+public class TagViewGUI extends GUIComponent {
 
 	private Tag tag = new Tag();
 
@@ -51,7 +51,7 @@ public class TagGUI extends GUIComponent {
 	// private MyComponent target;
 
 	@SuppressLint("ValidFragment")
-	public TagGUI(Long target) {
+	public TagViewGUI(Long target) {
 		idTarget = target;
 	}
 
@@ -59,8 +59,8 @@ public class TagGUI extends GUIComponent {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		View view = inflater.inflate(R.layout.tagone, container, false);
-		button = (Button) view.findViewById(R.id.button_tag);
+		View view = inflater.inflate(R.layout.tagview, container, false);
+		
 		edit = (EditText) view.findViewById(R.id.edit_tag);
 
 		tags = (TextView) view.findViewById(R.id.tags);
@@ -97,30 +97,7 @@ public class TagGUI extends GUIComponent {
 		});
 
 		// setMyMessenger(t);
-		button.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				tag.setTag(edit.getText().toString());
-				tag.setTargetId(idTarget);
-
-				if (addOneTag(tag)) {
-					stringList += " " + tag.getTag(); // fazer aqui lista
-				}
-
-				// sublinhado
-				SpannableString spanString = new SpannableString(stringList);
-				spanString.setSpan(new UnderlineSpan(), 0, spanString.length(),
-						0);
-				tags.setText(spanString);
-				// comentarios.setText(db.checkSomething(1));
-
-				tag = new Tag();
-				// inicia outro
-
-			}
-
-		});
+		
 
 		return view;
 	}
