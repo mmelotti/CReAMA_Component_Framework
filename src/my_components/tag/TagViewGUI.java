@@ -60,8 +60,6 @@ public class TagViewGUI extends GUIComponent {
 			Bundle savedInstanceState) {
 
 		View view = inflater.inflate(R.layout.tagview, container, false);
-		
-		edit = (EditText) view.findViewById(R.id.edit_tag);
 
 		tags = (TextView) view.findViewById(R.id.tags);
 
@@ -97,7 +95,6 @@ public class TagViewGUI extends GUIComponent {
 		});
 
 		// setMyMessenger(t);
-		
 
 		return view;
 	}
@@ -124,7 +121,6 @@ public class TagViewGUI extends GUIComponent {
 	public boolean addOneTag(Tag tag) {
 		boolean achou = false;
 
-		
 		List<Tag> lista = getAllFromTarget(tag.getTargetId());
 		for (Tag t : lista) {
 			if (t.getTargetId() == tag.getTargetId()) {

@@ -59,11 +59,9 @@ public class TagSendGUI extends GUIComponent {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		View view = inflater.inflate(R.layout.tagview, container, false);
+		View view = inflater.inflate(R.layout.tagsend, container, false);
 		button = (Button) view.findViewById(R.id.button_tag);
 		edit = (EditText) view.findViewById(R.id.edit_tag);
-
-		tags = (TextView) view.findViewById(R.id.tags);
 
 		extras = getActivity().getIntent().getExtras();
 		if (extras != null) {
@@ -78,23 +76,6 @@ public class TagSendGUI extends GUIComponent {
 		// sublinhado
 		SpannableString spanString = new SpannableString(stringList);
 		spanString.setSpan(new UnderlineSpan(), 0, spanString.length(), 0);
-		tags.setText(spanString);
-		// tags.setTe
-
-		// set listener para mudar de tela, tag by tag
-		tags.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-
-				Intent trocatela = new Intent(getActivity(), TagActivity.class);
-				// trocatela.putExtra("nImagem", proximaImagem());
-				getActivity().startActivity(trocatela);
-
-				Log.i("clicou texto!", "ok!!");
-
-			}
-		});
 
 		// setMyMessenger(t);
 		button.setOnClickListener(new OnClickListener() {
@@ -147,7 +128,6 @@ public class TagSendGUI extends GUIComponent {
 	public boolean addOneTag(Tag tag) {
 		boolean achou = false;
 
-		
 		List<Tag> lista = getAllFromTarget(tag.getTargetId());
 		for (Tag t : lista) {
 			if (t.getTargetId() == tag.getTargetId()) {
