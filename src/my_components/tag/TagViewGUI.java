@@ -54,6 +54,11 @@ public class TagViewGUI extends GUIComponent {
 	public TagViewGUI(Long target) {
 		idTarget = target;
 	}
+	
+	@SuppressLint("ValidFragment")
+	public TagViewGUI(ComponentSimpleModel c) {
+		tag = (Tag) c;
+	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,

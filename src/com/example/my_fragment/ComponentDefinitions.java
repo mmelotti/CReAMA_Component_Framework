@@ -7,6 +7,8 @@ import my_components.binomio.BinomioSendGUI;
 import my_components.comment.CommentSendGUI;
 import my_components.comment.CommentViewGUI;
 import my_components.rating.RatingViewGUI;
+import my_components.tag.TagSendGUI;
+import my_components.tag.TagViewGUI;
 
 public class ComponentDefinitions {
 
@@ -37,11 +39,13 @@ public class ComponentDefinitions {
 
 	public GUIComponent getComponent(ComponentSimpleModel m, String name) {
 		if (name.equals(Constants.CommentViewGUIName)) {
-			return getOne(m);
+			return getOneComment(m);
 		} else if (name.equals(Constants.RatingViewGUIName)) {
 			return getRatingGUI(1L);
+		}	else if (name.equals(Constants.TagViewGUIName)) {
+			return getOneTag(m);
 		}
-		return getOne(m);
+		return getOneComment(m);
 	}
 
 	public GUIComponent getComponent(Long target, String name) {
@@ -55,12 +59,20 @@ public class ComponentDefinitions {
 			return getBinomioGUI(target);
 		} else if (name.equals(Constants.BinomioAverageGUIName)){
 			return getBinomioAverageGUI(target);
+		}	else if (name.equals(Constants.TagSendGUIName)){
+			return getTagSendGUI(target);
 		}
+		
+		
 		return getRatingGUI(target);
 	}
 
-	public CommentViewGUI getOne(ComponentSimpleModel m) {
+	public CommentViewGUI getOneComment(ComponentSimpleModel m) {
 		return new CommentViewGUI(m);
+	}
+	
+	public TagViewGUI getOneTag(ComponentSimpleModel m) {
+		return new TagViewGUI(m);
 	}
 
 	public RatingViewGUI getRatingGUI(Long target) {
@@ -69,6 +81,10 @@ public class ComponentDefinitions {
 
 	public CommentSendGUI getCommentSendGUI(Long t) {
 		return new CommentSendGUI(t);
+	}
+	
+	public TagSendGUI getTagSendGUI(Long t) {
+		return new TagSendGUI(t);
 	}
 	
 	public BinomioSendGUI getBinomioGUI(Long t){

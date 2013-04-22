@@ -27,7 +27,7 @@
         </activity>
         <activity android:name="my_components.tag.TagActivity" >
         </activity>
-        <activity android:name="my_activities.TagFragmentActivity" >
+        <activity android:name="my_activities.TagActivity" >
         </activity>
         <activity android:name="my_activities.SavePhotoActivity" >
         </activity>
