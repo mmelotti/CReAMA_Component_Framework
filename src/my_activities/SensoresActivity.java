@@ -32,7 +32,7 @@ public class SensoresActivity extends Activity implements OnClickListener {
 			break;
 
 		case R.id.btnLum:
-			sensorType = Sensor.TYPE_LIGHT;
+			sensorType = SensorManagerService.TYPE_NETWORK;
 			lumOn = !lumOn;
 			turnOn = lumOn;
 			break;
