@@ -15,6 +15,7 @@ import database.DaoMaster;
 import database.DaoMaster.DevOpenHelper;
 import database.DaoSession;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -33,13 +34,14 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
+@SuppressLint("ValidFragment")
 public class CommentListGUI extends GUIComponent {
 
 	private CommentDao commentDao;
 	private DaoSession daoSession;
 	// private Comentario comentario = new Comentario();
 
-	private int nInstance = 0;
+	// private int nInstance = 0;
 
 	// TimeBG t = new TimeBG();
 
@@ -49,26 +51,25 @@ public class CommentListGUI extends GUIComponent {
 	private EditText edit;
 	// private MyComponent target;
 	private Long idTarget = Long.valueOf(1);
-	Bundle extras; 
-	
+	Bundle extras;
+
 	public CommentListGUI(Long idTarget) {
-		//this.idTarget = idTarget;
+		// this.idTarget = idTarget;
 	}
-	
+
 	public CommentListGUI() {
-		
+
 	}
 
 	private void refreshComents() {
-		ViewGroup layoutComent = (ViewGroup) cont
-				.findViewById(0);
+		ViewGroup layoutComent = (ViewGroup) cont.findViewById(0);
 		layoutComent.removeAllViews();
 
 		initCommentDao();
 		List<Comment> lista = commentDao.queryBuilder()
 				.where(Properties.TargetId.eq(idTarget)).build().list();
 		commentDao.getDatabase().close();
-		
+
 		for (int i = 0; i < lista.size(); i++) {
 			View view = li.inflate(R.layout.single_coment, null);
 			Comment comm = (Comment) lista.get(i);
@@ -91,11 +92,12 @@ public class CommentListGUI extends GUIComponent {
 							Comment c = findCommentById(id);
 							if (c != null) {
 								initCommentDao();
-								commentDao.delete(c); // deleta do banco de dados
+								commentDao.delete(c); // deleta do banco de
+														// dados
 								daoSession.delete(c); // deleta do cache
 								commentDao.getDatabase().close();
 								refreshComents();
-							} 
+							}
 						}
 					});
 
@@ -104,10 +106,10 @@ public class CommentListGUI extends GUIComponent {
 	}
 
 	Comment findCommentById(Long id) {
-		
+
 		initCommentDao();
-		Comment comment = (Comment) commentDao.queryBuilder().where(Properties.Id.eq(id))
-				.build().unique();
+		Comment comment = (Comment) commentDao.queryBuilder()
+				.where(Properties.Id.eq(id)).build().unique();
 		commentDao.getDatabase().close();
 		return comment;
 	}
@@ -116,7 +118,7 @@ public class CommentListGUI extends GUIComponent {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
-		Log.i("en activitycreated","criuou");
+		Log.i("en activitycreated", "criuou");
 		refreshComents();
 	}
 
@@ -129,7 +131,7 @@ public class CommentListGUI extends GUIComponent {
 		View view = inflater.inflate(R.layout.coment, container, false);
 		button = (Button) view.findViewById(R.id.button_com);
 		edit = (EditText) view.findViewById(R.id.edit_com);
-		
+
 		edit.setOnEditorActionListener(new OnEditorActionListener() {
 			@Override
 			public boolean onEditorAction(TextView v, int actionId,
@@ -143,7 +145,7 @@ public class CommentListGUI extends GUIComponent {
 		});
 
 		idTarget = getComponentTarget().getCurrentInstanceId();
-		
+
 		// setMyMessenger(t);
 		button.setOnClickListener(new OnClickListener() {
 			@Override
@@ -164,20 +166,15 @@ public class CommentListGUI extends GUIComponent {
 		Long newId = ComponentSimpleModel.getUniqueId(getActivity());
 		Comment comentario = new Comment(newId, edit.getText().toString(),
 				new Date(), idTarget);
-		//comentario.setInstanceId(getId() + "-" + nInstance);
-		//nInstance++;
 		edit.setText("");
-		
+
 		initCommentDao();
-		//comentario.setTargetId(idTarget);
 		commentDao.insert(comentario);
 		commentDao.getDatabase().close();
 		refreshComents();
 	}
 
 	public void initCommentDao() {
-		
-		//Log.i("en initi","aquiii");
 		DevOpenHelper helper = new DaoMaster.DevOpenHelper(getActivity(),
 				"comments-db", null);
 		SQLiteDatabase db = helper.getWritableDatabase();
@@ -185,47 +182,43 @@ public class CommentListGUI extends GUIComponent {
 		daoSession = daoMaster.newSession();
 		commentDao = daoSession.getCommentDao();
 	}
-	
-public void initCommentDao(Activity a) {
-		//Log.i("en initi","aquiii");
-		DevOpenHelper helper = new DaoMaster.DevOpenHelper(a,
-				"comments-db", null);
+
+	public void initCommentDao(Activity a) {
+		DevOpenHelper helper = new DaoMaster.DevOpenHelper(a, "comments-db",
+				null);
 		SQLiteDatabase db = helper.getWritableDatabase();
 		DaoMaster daoMaster = new DaoMaster(db);
 		daoSession = daoMaster.newSession();
 		commentDao = daoSession.getCommentDao();
 	}
-	
-	public void closeDao(){
+
+	public void closeDao() {
 		commentDao.getDatabase().close();
 	}
 
-	public List<Comment> getList(Long target,Activity a){
+	public List<Comment> getList(Long target, Activity a) {
 		initCommentDao(a);
 		List<Comment> lista = commentDao.queryBuilder()
 				.where(Properties.TargetId.eq(target)).build().list();
 		commentDao.getDatabase().close();
-		
+
 		return lista;
 	}
-	
-	public List<ComponentSimpleModel> getListSimple(Long target,Activity a){
-		ArrayList<ComponentSimpleModel> list= new ArrayList<ComponentSimpleModel>();
+
+	public List<ComponentSimpleModel> getListSimple(Long target, Activity a) {
+		ArrayList<ComponentSimpleModel> list = new ArrayList<ComponentSimpleModel>();
 
 		initCommentDao(a);
 		List<Comment> lista = commentDao.queryBuilder()
 				.where(Properties.TargetId.eq(target)).build().list();
-		
-		for(int i=0;i<lista.size();i++){
+
+		for (int i = 0; i < lista.size(); i++) {
 			list.add(lista.get(i));
 		}
-		
+
 		commentDao.getDatabase().close();
-		
+
 		return list;
 	}
-	
-	
-	
-	
+
 }

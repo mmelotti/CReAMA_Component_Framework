@@ -4,12 +4,9 @@ import java.util.List;
 
 import my_components.rating.RatingDao.Properties;
 
-
-
 import com.example.firstcomponents.R;
 import com.example.my_fragment.ComponentSimpleModel;
 import com.example.my_fragment.GUIComponent;
-import com.example.my_fragment.MyActivity;
 import com.example.my_fragment.GenericComponent;
 
 import database.DaoMaster;
@@ -55,16 +52,12 @@ public class RatingViewGUI extends GUIComponent implements
 		preDefined();
 	}
 
-	
-	
 	@SuppressLint("ValidFragment")
 	public RatingViewGUI(Long target) {
 		preDefined();
 		newTarget = target;
 	}
 
-	
-	
 	public RatingViewGUI(GenericComponent target) {
 		preDefined();
 		setComponentTarget(target);
@@ -74,7 +67,6 @@ public class RatingViewGUI extends GUIComponent implements
 		setGeneralGUIId(2);
 	}
 	
-
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -103,7 +95,6 @@ public class RatingViewGUI extends GUIComponent implements
 			@Override
 			public void onClick(View v) {
 				Long newId = ComponentSimpleModel.getUniqueId(getActivity());
-
 				
 				rating = new Rating(newId, newTarget, ratingClickable.getRating());
 
@@ -130,7 +121,6 @@ public class RatingViewGUI extends GUIComponent implements
 		return view;
 	}
 
-	// implement abstract method onRatingChanged
 	public void onRatingChanged(RatingBar ratingBar, float rating,
 			boolean fromUser) {
 		ratingText.setText("" + this.ratingClickable.getRating());
@@ -149,26 +139,21 @@ public class RatingViewGUI extends GUIComponent implements
 		ratingDao.getDatabase().close();
 	}
 
-	public void getAverage() {
-
-		
+	public void getAverage() {		
 		Log.i("average", "null?? " + newTarget);
 		List<Rating> lista = ratingDao.queryBuilder()
 				.where(Properties.TargetId.eq(newTarget)).build().list();
-		//Log.i("average", "baixo " + newTarget);
 		
 		if (!lista.isEmpty()) {
 			
-			for (int i = 0; i < lista.size(); i++) {
+			for (int i = 0; i < lista.size(); i++) 
 				soma = soma + lista.get(i).getValue();
-			}
 
 			// atributos usados para otimizar calculo
 			tamanho = lista.size();
 			
 			average = soma / tamanho;
 			calculouMedia = true;
-			
 		}
 		
 	}
@@ -189,13 +174,10 @@ public class RatingViewGUI extends GUIComponent implements
 		List<Rating> lista = ratingDao.queryBuilder()
 				.where(Properties.TargetId.eq(target)).build().list();
 
-		for (int i = 0; i < lista.size(); i++) {
+		for (int i = 0; i < lista.size(); i++)
 			deleteOne(lista.get(i));
-		}
 
 		closeDao();
 	}
-
-	
 
 }

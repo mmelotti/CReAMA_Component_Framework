@@ -13,7 +13,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
@@ -29,10 +28,10 @@ import database.DaoMaster.DevOpenHelper;
 @SuppressLint({ "ValidFragment", "NewApi" })
 public class BinomioAverageGUI extends GUIComponent {
 
-	private Binomio bin = new Binomio();
+	//private Binomio bin = new Binomio();
 	private Long newTarget;
-	private int nBin = 5;
-	private View binView;
+	//private int nBin = 5;
+	//private View binView;
 	private int fechada = 0, simples = 0, vertical = 0, simetrica = 0,
 			opaca = 0;
 
@@ -44,8 +43,6 @@ public class BinomioAverageGUI extends GUIComponent {
 	private static final String KEY_LEFT_TEXT_VIEW = "leftTextView";
 	private static final String KEY_RIGHT_TEXT_VIEW = "rightTextView";
 	private static final String KEY_BINOMIO = "binomio";
-
-
 
 	public BinomioAverageGUI(Long t) {
 		newTarget = t;
@@ -62,9 +59,6 @@ public class BinomioAverageGUI extends GUIComponent {
 
 		button = (Button) view.findViewById(R.id.button_binomio);
 		button.setEnabled(false);
-	
-
-		
 
 		addVariosBinomios(lCon, inflater);
 
@@ -72,7 +66,6 @@ public class BinomioAverageGUI extends GUIComponent {
 	}
 
 	private void addVariosBinomios(LinearLayout l, LayoutInflater inflater) {
-
 		List<BinomiosArquigrafia> list = new ArrayList<BinomiosArquigrafia>();
 		list.add(new BinomiosArquigrafia("Fechada", "Aberta"));
 		list.add(new BinomiosArquigrafia("Simples", "Complexa"));

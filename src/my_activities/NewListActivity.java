@@ -19,16 +19,13 @@ public class NewListActivity extends MyActivity {
 
 	private PhotoViewGUI photo;
 	private boolean gambiarraFlag = false;
-
 	private ComponentNaming commentView, commentSend, photoView, rating, binomio,binAverage;
-	
 	private long idPhoto;
-	Long photoId;
+	private Long photoId;
 
 	protected void photoNotFound() {
 		gambiarraFlag = true;
-		Toast.makeText(this,
-				"Foto não encontrada. Verifique se já existe alguma foto.",
+		Toast.makeText(this, "Foto não encontrada. Verifique se já existe alguma foto.",
 				Toast.LENGTH_SHORT).show();
 		finish();
 	}
@@ -53,31 +50,24 @@ public class NewListActivity extends MyActivity {
 		// rating.setComponentTarget(photo);
 		idPhoto = photo.getCurrentInstanceId();
 
-		Dependency d;
 		setDependencies(new ArrayList<Dependency>());
 		
 		commentView = new ComponentNaming(Constants.CommentViewGUIName, Constants.CommentViewGUIName+"1");
 		commentSend = new ComponentNaming(Constants.CommentSendGUIName, Constants.CommentSendGUIName+"1");
 		photoView = new ComponentNaming(Constants.PhotoViewGUIName, Constants.PhotoViewGUIName+"1");
-		rating = new ComponentNaming(Constants.RatingViewGUIName,Constants.RatingViewGUIName+"1");
+		rating = new ComponentNaming(Constants.RatingViewGUIName, Constants.RatingViewGUIName+"1");
 		binomio = new ComponentNaming(Constants.BinomioGUIName, "Binomio1");
 		binAverage = new ComponentNaming(Constants.BinomioAverageGUIName, "Binomio2");
 		
 		Log.i("adding","binomio gui");
 		
-		d=new Dependency(binomio,photoView,false);
-		addDependencie(d);
-		d = new Dependency(commentView,photoView, true);
-		addDependencie(d);
-		d = new Dependency(rating,commentView, false);
-		addDependencie(d);
-		d = new Dependency(commentSend,photoView, false);
-		addDependencie(d);
-		d = new Dependency(binAverage,photoView, false);
-		addDependencie(d);
+		addDependencie(new Dependency(binomio, photoView, false));
+		addDependencie(new Dependency(commentView, photoView, true));
+		addDependencie(new Dependency(rating, commentView, false));
+		addDependencie(new Dependency(commentSend, photoView, false));
+		addDependencie(new Dependency(binAverage, photoView, false));
 		
 		photo.setNick(photoView.getNickName());
-		
 	}
 
 	public void instanciarComponents() {

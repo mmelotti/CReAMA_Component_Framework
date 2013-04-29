@@ -8,13 +8,11 @@ import my_components.comment.CommentListGUI;
 import my_components.comment.CommentSendGUI;
 import my_components.comment.CommentViewGUI;
 import my_components.comment.CommentDao.Properties;
-import my_components.rating.Rating;
-import my_components.rating.RatingDao;
 import my_components.rating.RatingViewGUI;
 
+import android.annotation.SuppressLint;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -33,8 +31,8 @@ import database.DaoMaster;
 import database.DaoSession;
 import database.DaoMaster.DevOpenHelper;
 
+@SuppressLint("ValidFragment")
 public class RatingToCommentGUI extends GUIComponent {
-
 	CommentViewGUI comview;
 	RatingViewGUI ratview;
 	CommentSendGUI send;
@@ -45,13 +43,10 @@ public class RatingToCommentGUI extends GUIComponent {
 	private ComponentNaming commentView, commentSend, rating2commentView, rating;
 
 	public RatingToCommentGUI(Long target) {
-
 		newTarget = target;
-
 	}
 
 	public RatingToCommentGUI(GenericComponent target) {
-
 		setComponentTarget(target);
 	}
 
@@ -70,8 +65,7 @@ public class RatingToCommentGUI extends GUIComponent {
 		//botar na tela
 		initTransaction();
 		verDependenciaString(rating2commentView, rating2c.getId());
-		finishTransaction();
-		
+		finishTransaction();	
 		
 		//addComponent();
 		return view;
@@ -92,26 +86,19 @@ public class RatingToCommentGUI extends GUIComponent {
 
 		rating2c = lista.get(0);
 		closeDao();
-
 	}
 
 	public void configurarTargets() {
-
-		Dependency d;
 		setDependencies(new ArrayList<Dependency>());
 
 		commentView = new ComponentNaming(Constants.CommentViewGUIName, Constants.CommentViewGUIName+"inside");
 		commentSend = new ComponentNaming(Constants.CommentSendGUIName, Constants.CommentSendGUIName+"inside");
 		rating2commentView = new ComponentNaming(Constants.RatingToCommentGUIName, Constants.RatingToCommentGUIName+"inside");
 		rating = new ComponentNaming(Constants.RatingViewGUIName,Constants.RatingViewGUIName+"inside");
-		
-		d = new Dependency(commentView,rating2commentView, true);
-		addDependencie(d);
-		d = new Dependency(rating,commentView, false);
-		addDependencie(d);
-		d = new Dependency(commentSend,rating2commentView, false);
-		addDependencie(d);
 
+		addDependencie(new Dependency(commentView, rating2commentView, true));
+		addDependencie(new Dependency(rating, commentView, false));
+		addDependencie(new Dependency(commentSend, rating2commentView, false));
 	}
 
 	public void createNew() {
@@ -154,9 +141,7 @@ public class RatingToCommentGUI extends GUIComponent {
 	// PARTE PARA COMPONENTES COMPOSTOS
 
 	private List<GenericComponent> componentes = new ArrayList<GenericComponent>();
-	private FragmentManager fragmentManager;
 	private FragmentTransaction transaction;
-	private int[] dependenciesInt;
 	private List<Dependency> dependencies;
 
 	private int relativeGUIIdCont = 55;
@@ -168,17 +153,14 @@ public class RatingToCommentGUI extends GUIComponent {
 		ComponentDefinitions cd = new ComponentDefinitions();
 		GUIComponent one = cd.getComponent(c, s);
 		addGUIComponentWithTag(id, one);
-
 	}
 
 	public void addOther(String s, Long target, int id) {
-
 		// addOne(s,c);
 		// Log.i("criar comentario", " com id " + c.getId());
 		ComponentDefinitions cd = new ComponentDefinitions();
 		GUIComponent one = cd.getComponent(target, s);
 		addGUIComponentWithTag(id, one);
-
 	}
 
 	public void verDependenciaString(ComponentNaming s, Long target) {

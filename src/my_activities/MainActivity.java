@@ -1,6 +1,5 @@
 package my_activities;
 
-import my_components.photo.PhotoGalleryGUI;
 import my_components.photo.PhotoSendGUI;
 import my_components.photo.PhotoViewGUI;
 

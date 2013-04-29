@@ -4,9 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import my_components.rating.Rating;
-import my_components.tag.Tag;
-import my_components.tag.TagDao;
 import my_components.tag.TagDao.Properties;
 
 import android.annotation.SuppressLint;
@@ -162,8 +159,10 @@ public class BinomioSendGUI extends GUIComponent {
 				@Override
 				public void onProgressChanged(SeekBar seekBar, int progress,
 						boolean fromUser) {
+					@SuppressWarnings("unchecked")
 					final HashMap<String, Object> tag = (HashMap<String, Object>) seekBar
 							.getTag();
+					
 					final BinomiosArquigrafia binomio = (BinomiosArquigrafia) tag
 							.get(KEY_BINOMIO);
 

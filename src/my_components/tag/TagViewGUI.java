@@ -3,7 +3,6 @@ package my_components.tag;
 import java.util.ArrayList;
 import java.util.List;
 
-import my_components.comment.Comment;
 import my_components.tag.TagDao.Properties;
 
 import com.example.my_fragment.ComponentSimpleModel;
@@ -13,7 +12,6 @@ import com.example.firstcomponents.R;
 
 import database.DaoMaster;
 import database.DaoSession;
-import database.DatabaseHandler;
 import database.DaoMaster.DevOpenHelper;
 
 import android.annotation.SuppressLint;
@@ -29,8 +27,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
 @SuppressLint("ValidFragment")
@@ -40,10 +36,6 @@ public class TagViewGUI extends GUIComponent {
 
 	private TagDao tagDao;
 	private DaoSession daoSession;
-
-	// TimeBG t = new TimeBG();
-
-
 	private TextView tags;
 
 	private Long idTarget;

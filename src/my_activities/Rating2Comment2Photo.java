@@ -3,7 +3,6 @@ package my_activities;
 import java.util.ArrayList;
 import my_components.Constants;
 import my_components.photo.PhotoViewGUI;
-import my_components.rating2comment.RatingToComment;
 import my_components.rating2comment.RatingToCommentGUI;
 
 import android.os.Bundle;
@@ -15,7 +14,6 @@ import com.example.my_fragment.ComponentNaming;
 import com.example.my_fragment.Dependency;
 import com.example.my_fragment.GUIComponent;
 import com.example.my_fragment.MyActivity;
-import com.example.my_fragment.GenericComponent;
 
 public class Rating2Comment2Photo extends MyActivity {
 

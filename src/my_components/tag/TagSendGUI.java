@@ -11,25 +11,20 @@ import com.example.firstcomponents.R;
 
 import database.DaoMaster;
 import database.DaoSession;
-import database.DatabaseHandler;
 import database.DaoMaster.DevOpenHelper;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 @SuppressLint("ValidFragment")
 public class TagSendGUI extends GUIComponent {
@@ -39,15 +34,11 @@ public class TagSendGUI extends GUIComponent {
 	private TagDao tagDao;
 	private DaoSession daoSession;
 
-	// TimeBG t = new TimeBG();
-
 	private Button button;
 	private EditText edit;
 
 	private Long idTarget;
 	private String stringList;
-
-	// private MyComponent target;
 
 	@SuppressLint("ValidFragment")
 	public TagSendGUI(Long target) {
@@ -82,9 +73,6 @@ public class TagSendGUI extends GUIComponent {
 				if (addOneTag(tag)) {
 					reloadActivity();
 				}
-
-				
-
 			}
 
 		});
@@ -95,9 +83,8 @@ public class TagSendGUI extends GUIComponent {
 	public String getAllStrings(Long id) {
 		String ret = "";
 		List<Tag> lista = getAllFromTarget(id);
-		for (Tag t : lista) {
+		for (Tag t : lista)
 			ret += t.getTag() + " ";
-		}
 
 		return ret;
 	}

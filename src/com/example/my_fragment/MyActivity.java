@@ -3,11 +3,8 @@ package com.example.my_fragment;
 import java.util.ArrayList;
 import java.util.List;
 
-import my_components.comment.CommentListGUI;
-
 import com.example.firstcomponents.R;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -137,14 +134,10 @@ public abstract class MyActivity extends FragmentActivity {
 	}
 
 	public void addOther(ComponentNaming s, Long target, int id) {
-
-		// addOne(s,c);
-		// Log.i("criar comentario", " com id " + c.getId());
 		ComponentDefinitions cd = new ComponentDefinitions();
 		GUIComponent one = cd.getComponent(target, s.getGuiName());
 		one.setNick(s.getNickName());
 		addGUIComponentWithTag(id, one);
-
 	}
 
 	public void verDependenciaString(ComponentNaming s, Long target) {
