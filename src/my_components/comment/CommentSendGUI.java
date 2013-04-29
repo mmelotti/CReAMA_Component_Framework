@@ -96,8 +96,12 @@ public class CommentSendGUI extends GUIComponent {
 				.getSystemService(Context.INPUT_METHOD_SERVICE);
 		imm.hideSoftInputFromWindow(edit.getWindowToken(), 0);
 		Long newId = ComponentSimpleModel.getUniqueId(getActivity());
-		Comment comentario = new Comment(newId, edit.getText().toString(),
-				new Date(), idTarget);
+		Comment comentario = new Comment();
+		comentario.setDate(new Date());
+		comentario.setId(newId);
+		comentario.setText(edit.getText().toString());
+		comentario.setTargetId(idTarget);
+	
 		edit.setText("");
 		initCommentDao();
 		commentDao.insert(comentario);

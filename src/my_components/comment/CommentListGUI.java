@@ -164,8 +164,9 @@ public class CommentListGUI extends GUIComponent {
 		imm.hideSoftInputFromWindow(edit.getWindowToken(), 0);
 
 		Long newId = ComponentSimpleModel.getUniqueId(getActivity());
-		Comment comentario = new Comment(newId, edit.getText().toString(),
-				new Date(), idTarget);
+		Comment comentario=new Comment();
+		//Comment comentario = new Comment(newId, edit.getText().toString(),
+			//	new Date(), idTarget);
 		edit.setText("");
 
 		initCommentDao();

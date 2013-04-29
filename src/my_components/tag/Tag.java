@@ -50,6 +50,4 @@ public class Tag extends com.example.my_fragment.ComponentSimpleModel  {
         this.tag = tag;
     }
 
-	
-
 }

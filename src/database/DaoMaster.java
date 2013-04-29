@@ -12,6 +12,7 @@ import my_components.comment.CommentDao;
 import my_components.photo.PhotoDao;
 import my_components.tag.TagDao;
 import my_components.binomio.BinomioDao;
+import my_components.gps.CoordinatesDao;
 import my_components.rating.RatingDao;
 import my_components.rating2comment.RatingToCommentDao;
 
@@ -28,6 +29,7 @@ public class DaoMaster extends AbstractDaoMaster {
         PhotoDao.createTable(db, ifNotExists);
         TagDao.createTable(db, ifNotExists);
         BinomioDao.createTable(db, ifNotExists);
+        CoordinatesDao.createTable(db, ifNotExists);
         RatingDao.createTable(db, ifNotExists);
         RatingToCommentDao.createTable(db, ifNotExists);
     }
@@ -38,6 +40,7 @@ public class DaoMaster extends AbstractDaoMaster {
         PhotoDao.dropTable(db, ifExists);
         TagDao.dropTable(db, ifExists);
         BinomioDao.dropTable(db, ifExists);
+        CoordinatesDao.dropTable(db, ifExists);
         RatingDao.dropTable(db, ifExists);
         RatingToCommentDao.dropTable(db, ifExists);
     }
@@ -75,6 +78,7 @@ public class DaoMaster extends AbstractDaoMaster {
         registerDaoClass(PhotoDao.class);
         registerDaoClass(TagDao.class);
         registerDaoClass(BinomioDao.class);
+        registerDaoClass(CoordinatesDao.class);
         registerDaoClass(RatingDao.class);
         registerDaoClass(RatingToCommentDao.class);
     }

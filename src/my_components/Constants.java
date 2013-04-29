@@ -16,4 +16,5 @@ public class Constants {
 	public static String BinomioAverageGUIName = "BinomioAverage";
 	public static String TagSendGUIName = "TagSend";
 	public static String TagViewGUIName = "TagView";
+	public static String CoordinatesViewGUIName = "CoordinatesView";
 }

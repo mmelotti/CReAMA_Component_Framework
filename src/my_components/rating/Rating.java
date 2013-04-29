@@ -47,6 +47,4 @@ public class Rating extends com.example.my_fragment.ComponentSimpleModel  {
         this.value = value;
     }
 
-	
-
 }

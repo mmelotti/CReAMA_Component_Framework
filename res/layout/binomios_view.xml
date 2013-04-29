@@ -7,6 +7,18 @@
 	android:id="@+id/binomio_maior"
 	>
 	
+    
+     <TextView
+                android:id="@+id/text_bin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:padding="5dp"
+                android:text="Avalie:"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+    
     <LinearLayout
 	
 	android:layout_width="fill_parent"

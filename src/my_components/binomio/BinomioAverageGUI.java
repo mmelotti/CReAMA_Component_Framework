@@ -38,7 +38,7 @@ public class BinomioAverageGUI extends GUIComponent {
 	private BinomioDao binomioDao;
 	private DaoSession daoSession;
 
-	private Button button;
+
 
 	private static final String KEY_LEFT_TEXT_VIEW = "leftTextView";
 	private static final String KEY_RIGHT_TEXT_VIEW = "rightTextView";
@@ -50,15 +50,14 @@ public class BinomioAverageGUI extends GUIComponent {
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.binomios_view, container, false);
+		View view = inflater.inflate(R.layout.binomios_average, container, false);
 
 		Log.i("create", "binomio gui");
 		// Button save = (Button) view.findViewById(R.id.btnBrowse);
 		LinearLayout lCon = (LinearLayout) view
-				.findViewById(R.id.binomio_container);
+				.findViewById(R.id.binomio_container_average);
 
-		button = (Button) view.findViewById(R.id.button_binomio);
-		button.setEnabled(false);
+		
 
 		addVariosBinomios(lCon, inflater);
 

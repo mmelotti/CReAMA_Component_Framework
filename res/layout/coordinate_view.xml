@@ -5,13 +5,24 @@
     android:orientation="vertical" >
 
     <TextView
-        android:id="@+id/tituloTag"
+        android:id="@+id/tituloLat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Tags: " />
+        android:text="Latitude: " />
 
     <TextView
-        android:id="@+id/tags"
+        android:id="@+id/latitudeValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    
+    <TextView
+        android:id="@+id/tituloLong"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Longitude: " />
+
+    <TextView
+        android:id="@+id/longitudeValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 

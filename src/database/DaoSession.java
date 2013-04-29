@@ -13,6 +13,7 @@ import my_components.comment.Comment;
 import my_components.photo.Photo;
 import my_components.tag.Tag;
 import my_components.binomio.Binomio;
+import my_components.gps.Coordinates;
 import my_components.rating.Rating;
 import my_components.rating2comment.RatingToComment;
 
@@ -20,6 +21,7 @@ import my_components.comment.CommentDao;
 import my_components.photo.PhotoDao;
 import my_components.tag.TagDao;
 import my_components.binomio.BinomioDao;
+import my_components.gps.CoordinatesDao;
 import my_components.rating.RatingDao;
 import my_components.rating2comment.RatingToCommentDao;
 
@@ -36,6 +38,7 @@ public class DaoSession extends AbstractDaoSession {
     private final DaoConfig photoDaoConfig;
     private final DaoConfig tagDaoConfig;
     private final DaoConfig binomioDaoConfig;
+    private final DaoConfig coordinatesDaoConfig;
     private final DaoConfig ratingDaoConfig;
     private final DaoConfig ratingToCommentDaoConfig;
 
@@ -43,6 +46,7 @@ public class DaoSession extends AbstractDaoSession {
     private final PhotoDao photoDao;
     private final TagDao tagDao;
     private final BinomioDao binomioDao;
+    private final CoordinatesDao coordinatesDao;
     private final RatingDao ratingDao;
     private final RatingToCommentDao ratingToCommentDao;
 
@@ -62,6 +66,9 @@ public class DaoSession extends AbstractDaoSession {
         binomioDaoConfig = daoConfigMap.get(BinomioDao.class).clone();
         binomioDaoConfig.initIdentityScope(type);
 
+        coordinatesDaoConfig = daoConfigMap.get(CoordinatesDao.class).clone();
+        coordinatesDaoConfig.initIdentityScope(type);
+
         ratingDaoConfig = daoConfigMap.get(RatingDao.class).clone();
         ratingDaoConfig.initIdentityScope(type);
 
@@ -72,6 +79,7 @@ public class DaoSession extends AbstractDaoSession {
         photoDao = new PhotoDao(photoDaoConfig, this);
         tagDao = new TagDao(tagDaoConfig, this);
         binomioDao = new BinomioDao(binomioDaoConfig, this);
+        coordinatesDao = new CoordinatesDao(coordinatesDaoConfig, this);
         ratingDao = new RatingDao(ratingDaoConfig, this);
         ratingToCommentDao = new RatingToCommentDao(ratingToCommentDaoConfig, this);
 
@@ -79,6 +87,7 @@ public class DaoSession extends AbstractDaoSession {
         registerDao(Photo.class, photoDao);
         registerDao(Tag.class, tagDao);
         registerDao(Binomio.class, binomioDao);
+        registerDao(Coordinates.class, coordinatesDao);
         registerDao(Rating.class, ratingDao);
         registerDao(RatingToComment.class, ratingToCommentDao);
     }
@@ -88,6 +97,7 @@ public class DaoSession extends AbstractDaoSession {
         photoDaoConfig.getIdentityScope().clear();
         tagDaoConfig.getIdentityScope().clear();
         binomioDaoConfig.getIdentityScope().clear();
+        coordinatesDaoConfig.getIdentityScope().clear();
         ratingDaoConfig.getIdentityScope().clear();
         ratingToCommentDaoConfig.getIdentityScope().clear();
     }
@@ -106,6 +116,10 @@ public class DaoSession extends AbstractDaoSession {
 
     public BinomioDao getBinomioDao() {
         return binomioDao;
+    }
+
+    public CoordinatesDao getCoordinatesDao() {
+        return coordinatesDao;
     }
 
     public RatingDao getRatingDao() {
