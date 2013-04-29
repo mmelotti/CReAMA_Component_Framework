@@ -50,7 +50,7 @@ public class BinomioAverageGUI extends GUIComponent {
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.binomios, container, false);
+		View view = inflater.inflate(R.layout.binomios_view, container, false);
 
 		Log.i("create", "binomio gui");
 		// Button save = (Button) view.findViewById(R.id.btnBrowse);

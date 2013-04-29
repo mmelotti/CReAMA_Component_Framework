@@ -49,7 +49,7 @@ public class TagSendGUI extends GUIComponent {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		View view = inflater.inflate(R.layout.tagsend, container, false);
+		View view = inflater.inflate(R.layout.tag_send, container, false);
 		button = (Button) view.findViewById(R.id.button_tag);
 		edit = (EditText) view.findViewById(R.id.edit_tag);
 

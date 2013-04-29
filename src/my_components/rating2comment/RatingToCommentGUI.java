@@ -58,7 +58,7 @@ public class RatingToCommentGUI extends GUIComponent {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		View view = inflater.inflate(R.layout.composed, container, false);
+		View view = inflater.inflate(R.layout.cr_composed, container, false);
 		lookForTarget();
 		configurarTargets();
 		

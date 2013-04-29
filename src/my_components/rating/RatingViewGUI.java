@@ -71,7 +71,7 @@ public class RatingViewGUI extends GUIComponent implements
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		View view = inflater.inflate(R.layout.ratingone, container, false);
+		View view = inflater.inflate(R.layout.rating_view, container, false);
 
 		ratingText = (TextView) view.findViewById(R.id.ratingText);
 		ratingText.setTextColor(getActivity().getResources().getColor(

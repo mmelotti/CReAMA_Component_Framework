@@ -68,13 +68,13 @@ public class CommentViewGUI extends GUIComponent {
 		setControlActivity((MyActivity) getActivity());
 
 		li = inflater;
-		View view = inflater.inflate(R.layout.single_coment, container, false);
+		View view = inflater.inflate(R.layout.comment_view, container, false);
 		view = refreshComment();
 		return view;
 	}
 
 	private View refreshComment() {
-		View view = li.inflate(R.layout.single_coment, null);
+		View view = li.inflate(R.layout.comment_view, null);
 		view.findViewById(R.id.button_apaga).setTag("" + comment.getId());
 		((TextView) view.findViewById(R.id.body)).setText(""
 				+ comment.getText());

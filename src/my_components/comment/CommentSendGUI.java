@@ -9,6 +9,7 @@ import database.DaoMaster;
 import database.DaoMaster.DevOpenHelper;
 import database.DaoSession;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -26,6 +27,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
+@SuppressLint("ValidFragment")
 public class CommentSendGUI extends GUIComponent {
 
 	private CommentDao commentDao;
@@ -59,7 +61,7 @@ public class CommentSendGUI extends GUIComponent {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.coment, container, false);
+		View view = inflater.inflate(R.layout.comment_send, container, false);
 		button = (Button) view.findViewById(R.id.button_com);
 		edit = (EditText) view.findViewById(R.id.edit_com);
 		edit.setOnEditorActionListener(new OnEditorActionListener() {

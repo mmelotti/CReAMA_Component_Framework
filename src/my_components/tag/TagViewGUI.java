@@ -57,7 +57,7 @@ public class TagViewGUI extends GUIComponent {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		View view = inflater.inflate(R.layout.tagview, container, false);
+		View view = inflater.inflate(R.layout.tag_view, container, false);
 
 		tags = (TextView) view.findViewById(R.id.tags);
 

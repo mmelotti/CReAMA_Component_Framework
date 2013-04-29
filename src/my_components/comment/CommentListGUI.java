@@ -71,7 +71,7 @@ public class CommentListGUI extends GUIComponent {
 		commentDao.getDatabase().close();
 
 		for (int i = 0; i < lista.size(); i++) {
-			View view = li.inflate(R.layout.single_coment, null);
+			View view = li.inflate(R.layout.comment_view, null);
 			Comment comm = (Comment) lista.get(i);
 
 			view.findViewById(R.id.button_apaga).setTag("" + comm.getId());
@@ -128,7 +128,7 @@ public class CommentListGUI extends GUIComponent {
 		li = inflater;
 		cont = container;
 
-		View view = inflater.inflate(R.layout.coment, container, false);
+		View view = inflater.inflate(R.layout.comment_send, container, false);
 		button = (Button) view.findViewById(R.id.button_com);
 		edit = (EditText) view.findViewById(R.id.edit_com);
 
