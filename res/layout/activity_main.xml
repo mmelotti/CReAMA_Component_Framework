@@ -4,6 +4,13 @@
     android:orientation="vertical" >
 
     <LinearLayout
+        android:id="@+id/gallery"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:orientation="vertical" >
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/root"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -59,7 +66,7 @@
                 android:textColor="#ffffff"
                 android:textSize="18sp"
                 android:textStyle="bold" />
-            
+
             <Button
                 android:id="@+id/go_sensor"
                 android:layout_width="fill_parent"
@@ -73,8 +80,8 @@
                 android:textColor="#ffffff"
                 android:textSize="18sp"
                 android:textStyle="bold" />
-            
-             <Button
+
+            <Button
                 android:id="@+id/go_composto"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"

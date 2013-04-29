@@ -34,15 +34,15 @@ public class GalleryAdapter extends BaseAdapter {
 	}
 
 	// create a new ImageView for each item referenced by the Adapter
-	public View getView(int position, View convertView, ViewGroup parent) {
-		ImageView imageView;
+	public View getView(int position, View convertView, ViewGroup parent) { 
+		ImageView imageView; 
 		if (convertView == null) { // if it's not recycled, initialize some attributes
 			imageView = new ImageView(mContext);
 			LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
 					LinearLayout.LayoutParams.FILL_PARENT,
 					LinearLayout.LayoutParams.FILL_PARENT);
-			imageView.setLayoutParams(new GridView.LayoutParams(params));
-			//imageView.setLayoutParams(new GridView.LayoutParams(128, 128));
+			imageView.setLayoutParams(new GridView.LayoutParams(params)); 
+			//imageView.setLayoutParams(new GridView.LayoutParams(180, 180));  
 			imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
 			//imageView.setPadding(5, 5, 5, 5);  
 		} else

@@ -1,5 +1,6 @@
 package my_activities;
 
+import my_components.photo.PhotoGalleryGUI;
 import my_components.photo.PhotoSendGUI;
 import my_components.photo.PhotoViewGUI;
 
@@ -23,8 +24,8 @@ public class MainActivity extends MyActivity {
 		setBotoes();
 
 		startTransaction();
-		//PhotoGalleryGUI gallery = new PhotoGalleryGUI();
-		//addGUIComponent(R.id.root, gallery);
+		PhotoGalleryGUI gallery = new PhotoGalleryGUI();
+		addGUIComponent(R.id.gallery, gallery);
 		
 		PhotoSendGUI photoSend = new PhotoSendGUI();
 		addGUIComponent(R.id.root, photoSend); 
