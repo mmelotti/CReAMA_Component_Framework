@@ -10,8 +10,9 @@ public abstract class CRComponent extends GenericComponent {
 
 	private CRActivity controlActivity;
 
-	private RequestListener component;
+	private RequestListener component=null;
 	private String nick;
+	private static String MSG_ENVIOU="enviou";
 
 	private int relativeFragmentId = -1;
 
@@ -69,6 +70,14 @@ public abstract class CRComponent extends GenericComponent {
 		this.nick = nick;
 	}
 
+	public void enviou(){
+		if(component!=null){
+			sendMessage(MSG_ENVIOU);
+		}
+		
+	}
+	
+	
 	public List<ComponentSimpleModel> getListSimple(Long target, Activity a) {
 		ArrayList<ComponentSimpleModel> list = new ArrayList<ComponentSimpleModel>();
 

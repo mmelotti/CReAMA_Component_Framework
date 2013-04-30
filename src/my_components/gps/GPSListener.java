@@ -15,6 +15,7 @@ import com.example.firstcomponents.R;
 import com.example.my_fragment.ComponentSimpleModel;
 import com.example.my_fragment.CRComponent;
 import com.gw.android.components.sensor_service.SensorManagerService;
+import com.gw.android.components.sensor_service.SensorServiceListener;
 
 @SuppressLint("ValidFragment")
 public class GPSListener extends CRComponent {
@@ -24,7 +25,9 @@ public class GPSListener extends CRComponent {
 	TextView lat, lon;
 	Long idTarget;
 	private Coordinates coord;
-	private int sensorType = SensorManagerService.TYPE_NETWORK;
+	private int sensorType = SensorManagerService.TYPE_GPS;
+	private SensorServiceListener sensorListener;
+	private Intent startIntent;
 
 	public GPSListener(Long t) {
 		// TODO Auto-generated constructor stub
@@ -48,7 +51,47 @@ public class GPSListener extends CRComponent {
 		lat = (TextView) view.findViewById(R.id.latitudeValue);
 		lon = (TextView) view.findViewById(R.id.longitudeValue);
 
+		sensorListener = new SensorServiceListener(getActivity());
+		startIntent = new Intent(
+				getActivity(),
+				com.gw.android.components.sensor_service.SensorManagerService.class);
+		getActivity().startService(startIntent);
+		Log.d("start sefvice???", "true");
+
+		//sensorListener.startSamplingSensor(sensorType);
+		
 		return view;
 	}
+	
+	
+	@Override
+	public void onStop() {
+		super.onStop();
+		Log.d("on stop", "true");
+		sensorListener.stopListening();
+		
+	}
+	
+	@Override
+	public void onPause() {
+		super.onPause();
+		Log.d("on pause", "true");
+		sensorListener.stopListening();
+		
+	}
 
+	@Override
+	public void onResume() {
+		super.onResume();
+		Log.d("on resume", "true");
+		sensorListener.startListening();
+		
+	}
+	
+	@Override
+	public void onDestroy() {
+		Log.d("on destroy", "true");
+		getActivity().stopService(startIntent);
+		super.onDestroy();
+	}
 }

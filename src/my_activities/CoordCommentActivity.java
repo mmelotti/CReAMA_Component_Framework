@@ -63,7 +63,7 @@ public class CoordCommentActivity extends CRActivity {
 		
 		
 		addDependencie(new Dependency(commentView, photoView, true));
-		addDependencie(new Dependency(coordView, commentView, false));
+		//addDependencie(new Dependency(coordView, commentView, false));
 		addDependencie(new Dependency(commentSend, photoView, false));
 		addDependencie(new Dependency(coordSend, commentSend, false));
 		

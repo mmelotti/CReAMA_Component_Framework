@@ -108,10 +108,7 @@ public class ComponentDefinitions {
 		return new GPSListener(t);
 	}
 	
-	public GPSViewGUI getOneGPSViewGUI(ComponentSimpleModel c){
-		return new GPSViewGUI(c);
-	}
-	
+
 	public GPSViewGUI getOneGPSViewGUI(Long t){
 		return new GPSViewGUI(t);
 	}
