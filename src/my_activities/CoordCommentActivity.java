@@ -19,7 +19,7 @@ public class CoordCommentActivity extends CRActivity {
 
 	private PhotoViewGUI photo;
 	private boolean gambiarraFlag = false;
-	private ComponentNaming commentView, commentSend, photoView, coord;
+	private ComponentNaming commentView, commentSend, photoView, coordView, coordSend;
 	private long idPhoto;
 	private Long photoId;
 
@@ -56,14 +56,16 @@ public class CoordCommentActivity extends CRActivity {
 		commentSend = new ComponentNaming(Constants.CommentSendGUIName, Constants.CommentSendGUIName+"1");
 		photoView = new ComponentNaming(Constants.PhotoViewGUIName, Constants.PhotoViewGUIName+"1");
 		
-		coord = new ComponentNaming(Constants.GPSViewGUIName, "GPS");
+		coordView = new ComponentNaming(Constants.GPSViewGUIName, "GPS");
+		coordSend = new ComponentNaming(Constants.GPSListenerName, "GPSsend");
 		
 		Log.i("adding","binomio gui");
 		
 		
 		addDependencie(new Dependency(commentView, photoView, true));
-		addDependencie(new Dependency(coord, commentView, false));
+		addDependencie(new Dependency(coordView, commentView, false));
 		addDependencie(new Dependency(commentSend, photoView, false));
+		addDependencie(new Dependency(coordSend, commentSend, false));
 		
 		
 		

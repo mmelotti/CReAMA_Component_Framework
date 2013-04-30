@@ -68,11 +68,10 @@ public abstract class CRComponent extends GenericComponent {
 	public void setNick(String nick) {
 		this.nick = nick;
 	}
-	public List<ComponentSimpleModel> getListSimple(Long target,Activity a){
-ArrayList<ComponentSimpleModel> list= new ArrayList<ComponentSimpleModel>();
-		
-		
-		
+
+	public List<ComponentSimpleModel> getListSimple(Long target, Activity a) {
+		ArrayList<ComponentSimpleModel> list = new ArrayList<ComponentSimpleModel>();
+
 		return list;
 	}
 

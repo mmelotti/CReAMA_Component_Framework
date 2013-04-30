@@ -17,4 +17,5 @@ public class Constants {
 	public static String TagSendGUIName = "TagSend";
 	public static String TagViewGUIName = "TagView";
 	public static String GPSViewGUIName = "CoordinatesView";
+	public static String GPSListenerName = "CoordinatesSend";
 }

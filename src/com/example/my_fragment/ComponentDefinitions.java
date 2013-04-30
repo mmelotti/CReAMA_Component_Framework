@@ -10,6 +10,7 @@ import my_components.binomio.BinomioAverageGUI;
 import my_components.binomio.BinomioSendGUI;
 import my_components.comment.CommentSendGUI;
 import my_components.comment.CommentViewGUI;
+import my_components.gps.GPSListener;
 import my_components.gps.GPSViewGUI;
 import my_components.rating.RatingViewGUI;
 import my_components.tag.TagSendGUI;
@@ -42,14 +43,12 @@ public class ComponentDefinitions {
 		return r;
 	}
 
-	public CRComponent getComponent(ComponentSimpleModel m, String name) {
+	public CRComponent getComponentToMany(ComponentSimpleModel m, String name) {
 		if (name.equals(Constants.CommentViewGUIName)) {
 			return getOneComment(m);
 
 		} else if (name.equals(Constants.TagViewGUIName)) {
 			return getOneTag(m);
-		}else if (name.equals(Constants.GPSViewGUIName)) {
-			return getOneGPSViewGUI(m);
 		}
 		return getOneComment(m);
 	}
@@ -72,8 +71,10 @@ public class ComponentDefinitions {
 
 		} else if (name.equals(Constants.TagViewGUIName)) {
 			return getTagViewGUI(target);
+		}else if (name.equals(Constants.GPSListenerName)) {
+			return getGPSListener(target);
 		}else if (name.equals(Constants.GPSViewGUIName)) {
-			return getGPSViewGUI(target);
+			return getOneGPSViewGUI(target);
 		}
 
 		return getRatingGUI(target);
@@ -103,12 +104,16 @@ public class ComponentDefinitions {
 		return new TagSendGUI(t);
 	}
 	
-	public GPSViewGUI getGPSViewGUI(Long t){
-		return new GPSViewGUI(t);
+	public GPSListener getGPSListener(Long t){
+		return new GPSListener(t);
 	}
 	
 	public GPSViewGUI getOneGPSViewGUI(ComponentSimpleModel c){
 		return new GPSViewGUI(c);
+	}
+	
+	public GPSViewGUI getOneGPSViewGUI(Long t){
+		return new GPSViewGUI(t);
 	}
 	
 	public TagViewGUI getTagViewGUI(Long t) {

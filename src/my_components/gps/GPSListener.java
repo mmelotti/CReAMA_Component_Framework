@@ -17,22 +17,22 @@ import com.example.my_fragment.CRComponent;
 import com.gw.android.components.sensor_service.SensorManagerService;
 
 @SuppressLint("ValidFragment")
-public class GPSViewGUI extends CRComponent {
+public class GPSListener extends CRComponent {
 
 	@SuppressLint("ValidFragment")
 	String latV, lonV;
 	TextView lat, lon;
 	Long idTarget;
 	private Coordinates coord;
-	
+	private int sensorType = SensorManagerService.TYPE_NETWORK;
 
-	public GPSViewGUI(Long t) {
+	public GPSListener(Long t) {
 		// TODO Auto-generated constructor stub
 
 		idTarget = t;
 	}
 
-	public GPSViewGUI(ComponentSimpleModel c) {
+	public GPSListener(ComponentSimpleModel c) {
 		// TODO Auto-generated constructor stub
 
 		coord = (Coordinates) c;

@@ -151,7 +151,7 @@ public class RatingToCommentGUI extends CRComponent {
 		// addOne(s,c);
 		
 		ComponentDefinitions cd = new ComponentDefinitions();
-		CRComponent one = cd.getComponent(c, s);
+		CRComponent one = cd.getComponentToMany(c, s);
 		addGUIComponentWithTag(id, one);
 	}
 

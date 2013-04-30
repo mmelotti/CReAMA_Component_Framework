@@ -126,7 +126,7 @@ public abstract class CRActivity extends FragmentActivity {
 		// addOne(s,c);
 
 		ComponentDefinitions cd = new ComponentDefinitions();
-		CRComponent one = cd.getComponent(c, s.getGuiName());
+		CRComponent one = cd.getComponentToMany(c, s.getGuiName());
 
 		one.setNick(s.getNickName());
 		addGUIComponentWithTag(id, one);
