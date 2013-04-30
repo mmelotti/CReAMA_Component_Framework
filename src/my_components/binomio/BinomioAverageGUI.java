@@ -19,14 +19,14 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.example.firstcomponents.R;
-import com.example.my_fragment.GUIComponent;
+import com.example.my_fragment.CRComponent;
 
 import database.DaoMaster;
 import database.DaoSession;
 import database.DaoMaster.DevOpenHelper;
 
 @SuppressLint({ "ValidFragment", "NewApi" })
-public class BinomioAverageGUI extends GUIComponent {
+public class BinomioAverageGUI extends CRComponent {
 
 	//private Binomio bin = new Binomio();
 	private Long newTarget;

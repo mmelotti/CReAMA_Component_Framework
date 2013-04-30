@@ -2,7 +2,7 @@ package my_components.comment;
 
 import java.util.Date;
 import com.example.my_fragment.ComponentSimpleModel;
-import com.example.my_fragment.GUIComponent;
+import com.example.my_fragment.CRComponent;
 import com.example.firstcomponents.R;
 
 import database.DaoMaster;
@@ -28,7 +28,7 @@ import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
 @SuppressLint("ValidFragment")
-public class CommentSendGUI extends GUIComponent {
+public class CommentSendGUI extends CRComponent {
 
 	private CommentDao commentDao;
 	private DaoSession daoSession;

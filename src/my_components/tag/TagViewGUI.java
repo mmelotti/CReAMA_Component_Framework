@@ -6,7 +6,7 @@ import java.util.List;
 import my_components.tag.TagDao.Properties;
 
 import com.example.my_fragment.ComponentSimpleModel;
-import com.example.my_fragment.GUIComponent;
+import com.example.my_fragment.CRComponent;
 
 import com.example.firstcomponents.R;
 
@@ -30,7 +30,7 @@ import android.view.View.OnClickListener;
 import android.widget.TextView;
 
 @SuppressLint("ValidFragment")
-public class TagViewGUI extends GUIComponent {
+public class TagViewGUI extends CRComponent {
 
 	private Tag tag = new Tag();
 

@@ -12,16 +12,16 @@ import android.widget.Toast;
 import com.example.firstcomponents.R;
 import com.example.my_fragment.ComponentNaming;
 import com.example.my_fragment.Dependency;
-import com.example.my_fragment.GUIComponent;
-import com.example.my_fragment.MyActivity;
+import com.example.my_fragment.CRComponent;
+import com.example.my_fragment.CRActivity;
 
-public class Rating2Comment2Photo extends MyActivity {
+public class Rating2Comment2Photo extends CRActivity {
 
 	private PhotoViewGUI photo;
 	private boolean gambiarraFlag = false;
 	
 	private ComponentNaming commentView, commentSend, photoView, rating,r2cView;
-	private GUIComponent rating2comment;
+	private CRComponent rating2comment;
 	
 	// aqui existe dependencia de comentario, e foto
 
@@ -109,7 +109,7 @@ public class Rating2Comment2Photo extends MyActivity {
 	}
 
 	@Override
-	public void deletarAlgo(Long target, GUIComponent component) {
+	public void deletarAlgo(Long target, CRComponent component) {
 		callbackRemove(target, component.getNick());
 	}
 

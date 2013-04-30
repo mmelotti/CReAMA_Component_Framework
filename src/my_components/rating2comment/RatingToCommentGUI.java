@@ -24,7 +24,7 @@ import com.example.my_fragment.ComponentDefinitions;
 import com.example.my_fragment.ComponentNaming;
 import com.example.my_fragment.ComponentSimpleModel;
 import com.example.my_fragment.Dependency;
-import com.example.my_fragment.GUIComponent;
+import com.example.my_fragment.CRComponent;
 import com.example.my_fragment.GenericComponent;
 
 import database.DaoMaster;
@@ -32,7 +32,7 @@ import database.DaoSession;
 import database.DaoMaster.DevOpenHelper;
 
 @SuppressLint("ValidFragment")
-public class RatingToCommentGUI extends GUIComponent {
+public class RatingToCommentGUI extends CRComponent {
 	CommentViewGUI comview;
 	RatingViewGUI ratview;
 	CommentSendGUI send;
@@ -151,7 +151,7 @@ public class RatingToCommentGUI extends GUIComponent {
 		// addOne(s,c);
 		
 		ComponentDefinitions cd = new ComponentDefinitions();
-		GUIComponent one = cd.getComponent(c, s);
+		CRComponent one = cd.getComponent(c, s);
 		addGUIComponentWithTag(id, one);
 	}
 
@@ -159,7 +159,7 @@ public class RatingToCommentGUI extends GUIComponent {
 		// addOne(s,c);
 		// Log.i("criar comentario", " com id " + c.getId());
 		ComponentDefinitions cd = new ComponentDefinitions();
-		GUIComponent one = cd.getComponent(target, s);
+		CRComponent one = cd.getComponent(target, s);
 		addGUIComponentWithTag(id, one);
 	}
 
@@ -187,14 +187,14 @@ public class RatingToCommentGUI extends GUIComponent {
 		}
 	}
 
-	public void addGUIComponent(int id, GUIComponent c) {
+	public void addGUIComponent(int id, CRComponent c) {
 		c.setRelativeFragmentId(relativeGUIIdCont);
 		componentes.add(c);
 		transaction.add(id, c);
 		upRelativeId();
 	}
 
-	public void addGUIComponentWithTag(int id, GUIComponent c) {
+	public void addGUIComponentWithTag(int id, CRComponent c) {
 		c.setRelativeFragmentId(relativeGUIIdCont);
 		componentes.add(c);
 		transaction.add(id, c, "" + relativeGUIIdCont);

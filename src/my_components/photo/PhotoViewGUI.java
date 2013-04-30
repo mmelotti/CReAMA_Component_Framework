@@ -22,14 +22,14 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.example.my_fragment.GUIComponent;
+import com.example.my_fragment.CRComponent;
 import com.example.firstcomponents.R;
 
 import database.DaoMaster;
 import database.DaoMaster.DevOpenHelper;
 
 @SuppressLint("ValidFragment")
-public class PhotoViewGUI extends GUIComponent {
+public class PhotoViewGUI extends CRComponent {
 
 	private ImageView image;
 	private Button proxima, anterior;

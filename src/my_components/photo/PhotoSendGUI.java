@@ -21,10 +21,10 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.my_fragment.ComponentSimpleModel;
-import com.example.my_fragment.GUIComponent;
+import com.example.my_fragment.CRComponent;
 import com.example.firstcomponents.R;
 
-public class PhotoSendGUI extends GUIComponent {
+public class PhotoSendGUI extends CRComponent {
 
 	// Browse files
 	public void chooseFile() {

@@ -1,7 +1,7 @@
 package my_activities;
 
 import com.example.firstcomponents.R;
-import com.example.my_fragment.MyActivity;
+import com.example.my_fragment.CRActivity;
 
 import my_components.comment.CommentListGUI;
 import my_components.photo.PhotoViewGUI;
@@ -14,7 +14,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.widget.Toast;
 
-public class BasicFragmentActivity extends MyActivity {
+public class BasicFragmentActivity extends CRActivity {
 
 	private PhotoViewGUI photo;
 	private CommentListGUI comentario;

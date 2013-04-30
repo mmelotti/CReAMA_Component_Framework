@@ -5,7 +5,7 @@ import java.util.List;
 import my_components.tag.TagDao.Properties;
 
 import com.example.my_fragment.ComponentSimpleModel;
-import com.example.my_fragment.GUIComponent;
+import com.example.my_fragment.CRComponent;
 
 import com.example.firstcomponents.R;
 
@@ -27,7 +27,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 @SuppressLint("ValidFragment")
-public class TagSendGUI extends GUIComponent {
+public class TagSendGUI extends CRComponent {
 
 	private Tag tag = new Tag();
 

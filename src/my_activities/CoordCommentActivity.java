@@ -15,11 +15,11 @@ import com.example.my_fragment.Dependency;
 import com.example.my_fragment.CRComponent;
 import com.example.my_fragment.CRActivity;
 
-public class NewListActivity extends CRActivity {
+public class CoordCommentActivity extends CRActivity {
 
 	private PhotoViewGUI photo;
 	private boolean gambiarraFlag = false;
-	private ComponentNaming commentView, commentSend, photoView, rating, binomio,binAverage;
+	private ComponentNaming commentView, commentSend, photoView, coord;
 	private long idPhoto;
 	private Long photoId;
 
@@ -55,17 +55,18 @@ public class NewListActivity extends CRActivity {
 		commentView = new ComponentNaming(Constants.CommentViewGUIName, Constants.CommentViewGUIName+"1");
 		commentSend = new ComponentNaming(Constants.CommentSendGUIName, Constants.CommentSendGUIName+"1");
 		photoView = new ComponentNaming(Constants.PhotoViewGUIName, Constants.PhotoViewGUIName+"1");
-		rating = new ComponentNaming(Constants.RatingViewGUIName, Constants.RatingViewGUIName+"1");
-		binomio = new ComponentNaming(Constants.BinomioGUIName, "Binomio1");
-		binAverage = new ComponentNaming(Constants.BinomioAverageGUIName, "Binomio2");
+		
+		coord = new ComponentNaming(Constants.GPSViewGUIName, "GPS");
 		
 		Log.i("adding","binomio gui");
 		
-		addDependencie(new Dependency(binomio, photoView, false));
+		
 		addDependencie(new Dependency(commentView, photoView, true));
-		addDependencie(new Dependency(rating, commentView, false));
+		addDependencie(new Dependency(coord, commentView, false));
 		addDependencie(new Dependency(commentSend, photoView, false));
-		addDependencie(new Dependency(binAverage, photoView, false));
+		
+		
+		
 		
 		photo.setNick(photoView.getNickName());
 	}

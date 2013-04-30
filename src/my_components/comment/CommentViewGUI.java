@@ -19,15 +19,15 @@ import android.widget.TextView;
 
 import com.example.firstcomponents.R;
 import com.example.my_fragment.ComponentSimpleModel;
-import com.example.my_fragment.GUIComponent;
-import com.example.my_fragment.MyActivity;
+import com.example.my_fragment.CRComponent;
+import com.example.my_fragment.CRActivity;
 
 import database.DaoMaster;
 import database.DaoSession;
 import database.DaoMaster.DevOpenHelper;
 
 @SuppressLint("ValidFragment")
-public class CommentViewGUI extends GUIComponent {
+public class CommentViewGUI extends CRComponent {
 
 	private CommentDao commentDao;
 	private DaoSession daoSession;
@@ -65,7 +65,7 @@ public class CommentViewGUI extends GUIComponent {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		setControlActivity((MyActivity) getActivity());
+		setControlActivity((CRActivity) getActivity());
 
 		li = inflater;
 		View view = inflater.inflate(R.layout.comment_view, container, false);

@@ -17,13 +17,13 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
 
 import com.example.firstcomponents.R;
-import com.example.my_fragment.GUIComponent;
+import com.example.my_fragment.CRComponent;
 
 import database.DaoMaster;
 import database.DaoMaster.DevOpenHelper;
 
 @SuppressLint("ValidFragment")
-public class PhotoGalleryGUI extends GUIComponent {
+public class PhotoGalleryGUI extends CRComponent {
 	private PhotoDao photoDao; 
 	 
 	@Override

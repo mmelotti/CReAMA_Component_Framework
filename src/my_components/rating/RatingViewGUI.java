@@ -6,7 +6,7 @@ import my_components.rating.RatingDao.Properties;
 
 import com.example.firstcomponents.R;
 import com.example.my_fragment.ComponentSimpleModel;
-import com.example.my_fragment.GUIComponent;
+import com.example.my_fragment.CRComponent;
 import com.example.my_fragment.GenericComponent;
 
 import database.DaoMaster;
@@ -28,7 +28,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 @SuppressLint("ValidFragment")
-public class RatingViewGUI extends GUIComponent implements
+public class RatingViewGUI extends CRComponent implements
 		RatingBar.OnRatingBarChangeListener {
 
 	RatingBar ratingClickable; // declare RatingBar object

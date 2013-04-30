@@ -1,7 +1,7 @@
 package my_components;
 
 import com.example.firstcomponents.R;
-import com.example.my_fragment.GUIComponent;
+import com.example.my_fragment.CRComponent;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -12,7 +12,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.Toast;
 
-public class BuscarGUI extends GUIComponent {
+public class BuscarGUI extends CRComponent {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {

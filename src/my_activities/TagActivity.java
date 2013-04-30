@@ -12,10 +12,10 @@ import android.widget.Toast;
 import com.example.firstcomponents.R;
 import com.example.my_fragment.ComponentNaming;
 import com.example.my_fragment.Dependency;
-import com.example.my_fragment.GUIComponent;
-import com.example.my_fragment.MyActivity;
+import com.example.my_fragment.CRComponent;
+import com.example.my_fragment.CRActivity;
 
-public class TagActivity extends MyActivity {
+public class TagActivity extends CRActivity {
 
 	private PhotoViewGUI photo;
 	private boolean gambiarraFlag = false;
@@ -103,7 +103,7 @@ public class TagActivity extends MyActivity {
 	}
 
 	@Override
-	public void deletarAlgo(Long target, GUIComponent component) {
+	public void deletarAlgo(Long target, CRComponent component) {
 		callbackRemove(target, component.getNick());
 	}
 

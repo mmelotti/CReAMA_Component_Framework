@@ -11,13 +11,13 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 
-public abstract class MyActivity extends FragmentActivity {
+public abstract class CRActivity extends FragmentActivity {
 
 	public abstract void configurarTargets();
 
 	public abstract void instanciarComponents();
 
-	private List<GUIComponent> componentes = new ArrayList<GUIComponent>();
+	private List<CRComponent> componentes = new ArrayList<CRComponent>();
 	private FragmentManager fragmentManager;
 	private FragmentTransaction transaction;
 
@@ -32,18 +32,18 @@ public abstract class MyActivity extends FragmentActivity {
 		configurarTargets();
 	}
 
-	public void deletarAlgo(Long t, GUIComponent m) {
+	public void deletarAlgo(Long t, CRComponent m) {
 
 	}
 
-	public void addGUIComponent(int id, GUIComponent c) {
+	public void addGUIComponent(int id, CRComponent c) {
 		c.setRelativeFragmentId(relativeGUIIdCont);
 		componentes.add(c);
 		transaction.add(id, c);
 		upRelativeId();
 	}
 
-	public void addGUIComponentWithTag(int id, GUIComponent c) {
+	public void addGUIComponentWithTag(int id, CRComponent c) {
 		c.setRelativeFragmentId(relativeGUIIdCont);
 		componentes.add(c);
 
@@ -51,7 +51,7 @@ public abstract class MyActivity extends FragmentActivity {
 		upRelativeId();
 	}
 
-	public void addComponent(GUIComponent c) {
+	public void addComponent(CRComponent c) {
 		componentes.add(c);
 	}
 
@@ -64,11 +64,11 @@ public abstract class MyActivity extends FragmentActivity {
 		transaction.commit();
 	}
 
-	public List<GUIComponent> getComponentes() {
+	public List<CRComponent> getComponentes() {
 		return componentes;
 	}
 
-	public void setComponentes(List<GUIComponent> componentes) {
+	public void setComponentes(List<CRComponent> componentes) {
 		this.componentes = componentes;
 	}
 
@@ -87,7 +87,7 @@ public abstract class MyActivity extends FragmentActivity {
 		}
 
 		if (foundIt) {
-			for (GUIComponent c : getComponentes()) {
+			for (CRComponent c : getComponentes()) {
 				if (c.getNick().equals(component)) {
 					c.deleteAllFrom(target);
 					Log.i("Remover!", "from " + target);
@@ -126,7 +126,7 @@ public abstract class MyActivity extends FragmentActivity {
 		// addOne(s,c);
 
 		ComponentDefinitions cd = new ComponentDefinitions();
-		GUIComponent one = cd.getComponent(c, s.getGuiName());
+		CRComponent one = cd.getComponent(c, s.getGuiName());
 
 		one.setNick(s.getNickName());
 		addGUIComponentWithTag(id, one);
@@ -135,7 +135,7 @@ public abstract class MyActivity extends FragmentActivity {
 
 	public void addOther(ComponentNaming s, Long target, int id) {
 		ComponentDefinitions cd = new ComponentDefinitions();
-		GUIComponent one = cd.getComponent(target, s.getGuiName());
+		CRComponent one = cd.getComponent(target, s.getGuiName());
 		one.setNick(s.getNickName());
 		addGUIComponentWithTag(id, one);
 	}
