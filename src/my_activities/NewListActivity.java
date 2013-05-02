@@ -102,5 +102,10 @@ public class NewListActivity extends CRActivity {
 	public void deletarAlgo(Long target, CRComponent component) {
 		callbackRemove(target, component.getNick());
 	}
+	
+	@Override
+	public void inserirAlgo(Long target, CRComponent component) {
+		callbackAdd(target, component.getNick());
+	}
 
 }

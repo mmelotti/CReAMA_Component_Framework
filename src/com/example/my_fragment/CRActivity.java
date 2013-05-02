@@ -36,6 +36,10 @@ public abstract class CRActivity extends FragmentActivity {
 
 	}
 
+	public void inserirAlgo(Long t, CRComponent m) {
+
+	}
+
 	public void addGUIComponent(int id, CRComponent c) {
 		c.setRelativeFragmentId(relativeGUIIdCont);
 		componentes.add(c);
@@ -70,6 +74,27 @@ public abstract class CRActivity extends FragmentActivity {
 
 	public void setComponentes(List<CRComponent> componentes) {
 		this.componentes = componentes;
+	}
+
+	public void callbackAdd(Long target, String component) {
+		Log.i("ADD!", "entrando no for");
+		for (Dependency d : getDependencies()) {
+			// tem alguem que depende do que vai ser addedado?
+			// Log.i("Remov?", d.getTarget().getNickName()+" <-encontrou??? " +
+			// component);
+			if (d.getTarget().getNickName().equals(component)) {
+				Log.i("ADD!", "encontrou source= "+d.getSource().getNickName());
+				for (CRComponent c : getComponentes()) {
+					if (c.getNick().equals(d.getSource().getNickName())) {
+						c.submittedFrom(target);
+						Log.i("ADD!", "callback from= " + component);
+						break;
+					}
+				}
+
+			}
+		}
+
 	}
 
 	public void callbackRemove(Long target, String component) {

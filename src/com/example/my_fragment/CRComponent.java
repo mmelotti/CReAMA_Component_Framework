@@ -83,5 +83,9 @@ public abstract class CRComponent extends GenericComponent {
 
 		return list;
 	}
+	
+	public void submittedFrom(Long target){
+		
+	}
 
 }

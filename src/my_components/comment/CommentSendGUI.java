@@ -1,6 +1,8 @@
 package my_components.comment;
 
 import java.util.Date;
+
+import com.example.my_fragment.CRActivity;
 import com.example.my_fragment.ComponentSimpleModel;
 import com.example.my_fragment.CRComponent;
 import com.example.firstcomponents.R;
@@ -106,6 +108,8 @@ public class CommentSendGUI extends CRComponent {
 		initCommentDao();
 		commentDao.insert(comentario);
 		closeDao();
+		((CRActivity) getActivity()).inserirAlgo(newId, this);
+		//getControlActivity().inserirAlgo(newId, this);
 	}
 
 	public void initCommentDao() {

@@ -58,40 +58,46 @@ public class GPSListener extends CRComponent {
 		getActivity().startService(startIntent);
 		Log.d("start sefvice???", "true");
 
-		//sensorListener.startSamplingSensor(sensorType);
-		
+		// sensorListener.startSamplingSensor(sensorType);
+
 		return view;
 	}
-	
-	
+
 	@Override
 	public void onStop() {
 		super.onStop();
 		Log.d("on stop", "true");
-		sensorListener.stopListening();
-		
+		// sensorListener.stopListening();
+
 	}
-	
+
 	@Override
 	public void onPause() {
 		super.onPause();
 		Log.d("on pause", "true");
 		sensorListener.stopListening();
-		
+
 	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
-		Log.d("on resume", "true");
+		Log.d("on resume", "true GPS");
 		sensorListener.startListening();
-		
+
 	}
-	
+
 	@Override
 	public void onDestroy() {
 		Log.d("on destroy", "true");
-		getActivity().stopService(startIntent);
+		//getActivity().stopService(startIntent);
 		super.onDestroy();
 	}
+	
+	@Override
+	public void submittedFrom(Long target){
+		
+		
+	}
+	
 }
