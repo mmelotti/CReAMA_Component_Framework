@@ -85,9 +85,9 @@ public class GPSListener extends CRComponent {
 		double[] array = sensorListener.getSensorValues(sensorType);
 
 		Log.d("array nulo?", (array == null ? "sim" : "NÃO"));
-		Log.d("coordenadas", "lat: " + array[0] + " - long: " + array[1]);
+		Log.d("coordenadas", "lat: " + array[0] + " - long: " + array[1]); 
 		Log.d("target", " " + target);
-		coord = new Coordinates(ComponentSimpleModel.getUniqueId(ctx), target, (long) array[0], (long) array[1]);
+		coord = new Coordinates(ComponentSimpleModel.getUniqueId(ctx), target, (long) (array[0]*1E6), (long) (array[1]*1E6));
 
 		return coord;
 	}
