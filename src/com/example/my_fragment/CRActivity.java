@@ -142,7 +142,7 @@ public abstract class CRActivity extends FragmentActivity {
 		this.dependencies = dependencies;
 	}
 
-	public void addDependencie(Dependency d) {
+	public void addDependency(Dependency d) {
 		dependencies.add(d);
 	}
 

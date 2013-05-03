@@ -18,8 +18,6 @@ import database.DaoMaster.DevOpenHelper;
 
 @SuppressLint("ValidFragment")
 public class GPSViewGUI extends CRComponent {
-
-	@SuppressLint("ValidFragment")
 	String latV, lonV;
 	TextView lat, lon;
 	Long idTarget;
@@ -40,8 +38,8 @@ public class GPSViewGUI extends CRComponent {
 		lon = (TextView) view.findViewById(R.id.longitudeValue);
 		coord = getCoordinates();
 		if (coord != null) {
-			lat.setText(Long.toString(coord.getLatitude()));
-			lon.setText(Long.toString(coord.getLongitude()));
+			lat.setText(""+coord.getLatitude());
+			lon.setText(""+coord.getLongitude());
 
 		}
 
@@ -51,7 +49,7 @@ public class GPSViewGUI extends CRComponent {
 	public Coordinates getCoordinates() {
 		CoordinatesDao coordDao = initCoordDao(getActivity());
 		Coordinates c = (Coordinates) coordDao.queryBuilder()
-				.where(Properties.TargetId.eq(idTarget)).build().list();
+				.where(Properties.TargetId.eq(idTarget)).build().unique();
 		coordDao.getDatabase().close();
 		return c;
 	}

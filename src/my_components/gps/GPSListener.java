@@ -2,14 +2,12 @@ package my_components.gps;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.View.OnClickListener;
 import android.widget.TextView;
 
 import com.example.firstcomponents.R;
@@ -26,17 +24,15 @@ public class GPSListener extends CRComponent {
 	TextView lat, lon;
 	Long idTarget;
 	private Coordinates coord;
+	private Context mCtx;
 	private int sensorType = SensorManagerService.TYPE_GPS;
 	private SensorServiceListener sensorListener;
-	private Intent startIntent;
 
 	public GPSListener(Long t) {
 		idTarget = t;
 	}
 
 	public GPSListener(ComponentSimpleModel c) {
-		// TODO Auto-generated constructor stub
-
 		coord = (Coordinates) c;
 	}
 
@@ -50,24 +46,15 @@ public class GPSListener extends CRComponent {
 		lat = (TextView) view.findViewById(R.id.latitudeValue);
 		lon = (TextView) view.findViewById(R.id.longitudeValue);
 
-		sensorListener = new SensorServiceListener(getActivity());
-		startIntent = new Intent(
-				getActivity(),
+		mCtx = getActivity().getApplicationContext();
+		sensorListener = new SensorServiceListener(mCtx);
+		/*startIntent = new Intent(
+				mCtx,
 				com.gw.android.components.sensor_service.SensorManagerService.class);
-		getActivity().startService(startIntent);
-		Log.d("start sefvice???", "true");
-
-		// sensorListener.startSamplingSensor(sensorType);
+		mCtx.startService(startIntent);*/
+		Log.d("start service", "true");
 
 		return view;
-	}
-
-	@Override
-	public void onStop() {
-		super.onStop();
-		Log.d("on stop", "true");
-		// sensorListener.stopListening();
-
 	}
 
 	@Override
@@ -75,35 +62,33 @@ public class GPSListener extends CRComponent {
 		super.onPause();
 		Log.d("on pause", "true");
 		sensorListener.stopListening();
-
+		sensorListener.stopSamplingSensor(sensorType);
 	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
-		Log.d("on resume", "true GPS");
+		Log.d("on resume", "true GPS"); 
 		sensorListener.startListening();
-
+		sensorListener.startSamplingSensor(sensorType);
 	}
 
 	@Override
-	public void onDestroy() {
-		Log.d("on destroy", "true");
-		//getActivity().stopService(startIntent);
-		super.onDestroy();
-	}
-	
-	@Override
-	public void submittedFrom(Long target){
-		Coordinates coord = getCoordinates(getActivity(), target);
-		CoordinatesDao coordDao = GPSViewGUI.initCoordDao(getActivity());
-		coordDao.insert(coord);
+	public void submittedFrom(Long target) {
+		Coordinates c = getCoordinates(mCtx, target);
+		CoordinatesDao coordDao = GPSViewGUI.initCoordDao(mCtx);
+		coordDao.insert(c);
 		coordDao.getDatabase().close();
 	}
-	
+
 	public Coordinates getCoordinates(Context ctx, Long target) {
-		double[] array = sensorListener.getSensorValues(SensorManagerService.TYPE_GPS);
-		Coordinates coord = new Coordinates(ComponentSimpleModel.getUniqueId(ctx), target, (long) array[0], (long) array[1]);
+		double[] array = sensorListener.getSensorValues(sensorType);
+
+		Log.d("array nulo?", (array == null ? "sim" : "NÃO"));
+		Log.d("coordenadas", "lat: " + array[0] + " - long: " + array[1]);
+		Log.d("target", " " + target);
+		coord = new Coordinates(ComponentSimpleModel.getUniqueId(ctx), target, (long) array[0], (long) array[1]);
+
 		return coord;
 	}
 }

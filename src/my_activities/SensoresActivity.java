@@ -48,7 +48,7 @@ public class SensoresActivity extends Activity implements OnClickListener {
 			break;
 
 		case R.id.btnOff:
-			stopService(startIntent);
+			//stopService(startIntent);
 			break;
 
 		default:
@@ -99,7 +99,7 @@ public class SensoresActivity extends Activity implements OnClickListener {
 
 	@Override
 	public void onDestroy() {
-		stopService(startIntent);
+		//stopService(startIntent);
 		super.onDestroy();
 	}
 

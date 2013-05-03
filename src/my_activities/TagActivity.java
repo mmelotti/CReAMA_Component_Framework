@@ -64,11 +64,11 @@ public class TagActivity extends CRActivity {
 		Log.i("adding","binomio gui");
 		
 		d = new Dependency(tagView,photoView, true);
-		addDependencie(d);
+		addDependency(d);
 		d=new Dependency(tagSend,photoView,false);
-		addDependencie(d);	
+		addDependency(d);	
 		d = new Dependency(binAverage,photoView, false);
-		addDependencie(d);
+		addDependency(d);
 		
 		photo.setNick(photoView.getNickName());
 		

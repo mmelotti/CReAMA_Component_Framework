@@ -67,11 +67,11 @@ public class Rating2Comment2Photo extends CRActivity {
 		r2cView = new ComponentNaming(Constants.RatingToCommentGUIName,Constants.RatingToCommentGUIName+"1");
 		
 		d = new Dependency(commentView,photoView, true);
-		addDependencie(d);
+		addDependency(d);
 		d = new Dependency(rating,commentView, false);
-		addDependencie(d);
+		addDependency(d);
 		d = new Dependency(commentSend,photoView, false);
-		addDependencie(d);
+		addDependency(d);
 		
 		rating2comment.setNick(r2cView.getNickName());
 		photo.setNick(photoView.getNickName());

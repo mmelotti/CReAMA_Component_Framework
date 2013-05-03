@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import my_components.Constants;
 import my_components.photo.PhotoViewGUI;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import android.util.Log;
@@ -19,13 +20,15 @@ public class CoordCommentActivity extends CRActivity {
 
 	private PhotoViewGUI photo;
 	private boolean gambiarraFlag = false;
-	private ComponentNaming commentView, commentSend, photoView, coordView, coordSend;
+	private ComponentNaming commentView, commentSend, photoView, coordView,
+			coordSend;
 	private long idPhoto;
 	private Long photoId;
 
 	protected void photoNotFound() {
 		gambiarraFlag = true;
-		Toast.makeText(this, "Foto não encontrada. Verifique se já existe alguma foto.",
+		Toast.makeText(this,
+				"Foto não encontrada. Verifique se já existe alguma foto.",
 				Toast.LENGTH_SHORT).show();
 		finish();
 	}
@@ -39,7 +42,7 @@ public class CoordCommentActivity extends CRActivity {
 		setContentView(R.layout.activity_fragment_runtime);
 
 		// set targets
-		
+
 		setMyList();
 		addSomething();
 	}
@@ -51,25 +54,24 @@ public class CoordCommentActivity extends CRActivity {
 		idPhoto = photo.getCurrentInstanceId();
 
 		setDependencies(new ArrayList<Dependency>());
-		
-		commentView = new ComponentNaming(Constants.CommentViewGUIName, Constants.CommentViewGUIName+"1");
-		commentSend = new ComponentNaming(Constants.CommentSendGUIName, Constants.CommentSendGUIName+"1");
-		photoView = new ComponentNaming(Constants.PhotoViewGUIName, Constants.PhotoViewGUIName+"1");
-		
+
+		commentView = new ComponentNaming(Constants.CommentViewGUIName,
+				Constants.CommentViewGUIName + "1");
+		commentSend = new ComponentNaming(Constants.CommentSendGUIName,
+				Constants.CommentSendGUIName + "1");
+		photoView = new ComponentNaming(Constants.PhotoViewGUIName,
+				Constants.PhotoViewGUIName + "1");
+
 		coordView = new ComponentNaming(Constants.GPSViewGUIName, "GPS");
 		coordSend = new ComponentNaming(Constants.GPSListenerName, "GPSsend");
-		
-		Log.i("adding","binomio gui");
-		
-		
-		addDependencie(new Dependency(commentView, photoView, true));
-		//addDependencie(new Dependency(coordView, commentView, false));
-		addDependencie(new Dependency(commentSend, photoView, false));
-		addDependencie(new Dependency(coordSend, commentSend, false));
-		
-		
-		
-		
+
+		Log.i("adding", "binomio gui");
+
+		addDependency(new Dependency(commentView, photoView, true));
+		addDependency(new Dependency(coordView, commentView, false));
+		addDependency(new Dependency(commentSend, photoView, false));
+		addDependency(new Dependency(coordSend, commentSend, false));
+
 		photo.setNick(photoView.getNickName());
 	}
 
@@ -105,7 +107,7 @@ public class CoordCommentActivity extends CRActivity {
 	public void deletarAlgo(Long target, CRComponent component) {
 		callbackRemove(target, component.getNick());
 	}
-	
+
 	@Override
 	public void inserirAlgo(Long target, CRComponent component) {
 		callbackAdd(target, component.getNick());

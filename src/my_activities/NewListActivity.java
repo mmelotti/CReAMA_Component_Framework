@@ -61,11 +61,11 @@ public class NewListActivity extends CRActivity {
 		
 		Log.i("adding","binomio gui");
 		
-		addDependencie(new Dependency(binomio, photoView, false));
-		addDependencie(new Dependency(commentView, photoView, true));
-		addDependencie(new Dependency(rating, commentView, false));
-		addDependencie(new Dependency(commentSend, photoView, false));
-		addDependencie(new Dependency(binAverage, photoView, false));
+		addDependency(new Dependency(binomio, photoView, false));
+		addDependency(new Dependency(commentView, photoView, true));
+		addDependency(new Dependency(rating, commentView, false));
+		addDependency(new Dependency(commentSend, photoView, false));
+		addDependency(new Dependency(binAverage, photoView, false));
 		
 		photo.setNick(photoView.getNickName());
 	}
