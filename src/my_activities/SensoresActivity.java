@@ -1,7 +1,5 @@
 package my_activities;
 
-
-
 import com.example.firstcomponents.R;
 import com.gw.android.components.sensor_service.SensorManagerService;
 import com.gw.android.components.sensor_service.SensorServiceListener;

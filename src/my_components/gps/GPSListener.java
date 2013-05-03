@@ -1,6 +1,7 @@
 package my_components.gps;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -30,8 +31,6 @@ public class GPSListener extends CRComponent {
 	private Intent startIntent;
 
 	public GPSListener(Long t) {
-		// TODO Auto-generated constructor stub
-
 		idTarget = t;
 	}
 
@@ -96,8 +95,15 @@ public class GPSListener extends CRComponent {
 	
 	@Override
 	public void submittedFrom(Long target){
-		
-		
+		Coordinates coord = getCoordinates(getActivity(), target);
+		CoordinatesDao coordDao = GPSViewGUI.initCoordDao(getActivity());
+		coordDao.insert(coord);
+		coordDao.getDatabase().close();
 	}
 	
+	public Coordinates getCoordinates(Context ctx, Long target) {
+		double[] array = sensorListener.getSensorValues(SensorManagerService.TYPE_GPS);
+		Coordinates coord = new Coordinates(ComponentSimpleModel.getUniqueId(ctx), target, (long) array[0], (long) array[1]);
+		return coord;
+	}
 }
