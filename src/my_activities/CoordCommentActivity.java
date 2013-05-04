@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import my_components.Constants;
 import my_components.photo.PhotoViewGUI;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import android.util.Log;

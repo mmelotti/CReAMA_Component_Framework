@@ -2,7 +2,6 @@ package my_components.comment;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import my_components.comment.CommentDao.Properties;

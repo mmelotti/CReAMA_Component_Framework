@@ -27,8 +27,11 @@ public class CoordinatesDao extends AbstractDao<Coordinates, Long> {
     public static class Properties {
         public final static Property Id = new Property(0, Long.class, "id", true, "_id");
         public final static Property TargetId = new Property(1, Long.class, "targetId", false, "TARGET_ID");
-        public final static Property Latitude = new Property(2, long.class, "latitude", false, "LATITUDE");
-        public final static Property Longitude = new Property(3, long.class, "longitude", false, "LONGITUDE");
+        public final static Property Latitude = new Property(2, double.class, "latitude", false, "LATITUDE");
+        public final static Property Longitude = new Property(3, double.class, "longitude", false, "LONGITUDE");
+        public final static Property AddressLine1 = new Property(4, String.class, "addressLine1", false, "ADDRESS_LINE1");
+        public final static Property AddressLine2 = new Property(5, String.class, "addressLine2", false, "ADDRESS_LINE2");
+        public final static Property AddressLine3 = new Property(6, String.class, "addressLine3", false, "ADDRESS_LINE3");
     };
 
 
@@ -46,8 +49,11 @@ public class CoordinatesDao extends AbstractDao<Coordinates, Long> {
         db.execSQL("CREATE TABLE " + constraint + "'COORDINATES' (" + //
                 "'_id' INTEGER PRIMARY KEY ," + // 0: id
                 "'TARGET_ID' INTEGER," + // 1: targetId
-                "'LATITUDE' INTEGER NOT NULL ," + // 2: latitude
-                "'LONGITUDE' INTEGER NOT NULL );"); // 3: longitude
+                "'LATITUDE' REAL NOT NULL ," + // 2: latitude
+                "'LONGITUDE' REAL NOT NULL ," + // 3: longitude
+                "'ADDRESS_LINE1' TEXT," + // 4: addressLine1
+                "'ADDRESS_LINE2' TEXT," + // 5: addressLine2
+                "'ADDRESS_LINE3' TEXT);"); // 6: addressLine3
     }
 
     /** Drops the underlying database table. */
@@ -70,8 +76,23 @@ public class CoordinatesDao extends AbstractDao<Coordinates, Long> {
         if (targetId != null) {
             stmt.bindLong(2, targetId);
         }
-        stmt.bindLong(3, entity.getLatitude());
-        stmt.bindLong(4, entity.getLongitude());
+        stmt.bindDouble(3, entity.getLatitude());
+        stmt.bindDouble(4, entity.getLongitude());
+ 
+        String addressLine1 = entity.getAddressLine1();
+        if (addressLine1 != null) {
+            stmt.bindString(5, addressLine1);
+        }
+ 
+        String addressLine2 = entity.getAddressLine2();
+        if (addressLine2 != null) {
+            stmt.bindString(6, addressLine2);
+        }
+ 
+        String addressLine3 = entity.getAddressLine3();
+        if (addressLine3 != null) {
+            stmt.bindString(7, addressLine3);
+        }
     }
 
     /** @inheritdoc */
@@ -86,8 +107,11 @@ public class CoordinatesDao extends AbstractDao<Coordinates, Long> {
         Coordinates entity = new Coordinates( //
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
             cursor.isNull(offset + 1) ? null : cursor.getLong(offset + 1), // targetId
-            cursor.getLong(offset + 2), // latitude
-            cursor.getLong(offset + 3) // longitude
+            cursor.getDouble(offset + 2), // latitude
+            cursor.getDouble(offset + 3), // longitude
+            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // addressLine1
+            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // addressLine2
+            cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6) // addressLine3
         );
         return entity;
     }
@@ -97,8 +121,11 @@ public class CoordinatesDao extends AbstractDao<Coordinates, Long> {
     public void readEntity(Cursor cursor, Coordinates entity, int offset) {
         entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
         entity.setTargetId(cursor.isNull(offset + 1) ? null : cursor.getLong(offset + 1));
-        entity.setLatitude(cursor.getLong(offset + 2));
-        entity.setLongitude(cursor.getLong(offset + 3));
+        entity.setLatitude(cursor.getDouble(offset + 2));
+        entity.setLongitude(cursor.getDouble(offset + 3));
+        entity.setAddressLine1(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
+        entity.setAddressLine2(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
+        entity.setAddressLine3(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
      }
     
     /** @inheritdoc */

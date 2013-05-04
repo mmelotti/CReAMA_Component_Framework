@@ -8,8 +8,11 @@ public class Coordinates extends com.example.my_fragment.ComponentSimpleModel  {
 
     private Long id;
     private Long targetId;
-    private long latitude;
-    private long longitude;
+    private double latitude;
+    private double longitude;
+    private String addressLine1;
+    private String addressLine2;
+    private String addressLine3;
 
     public Coordinates() {
     }
@@ -18,11 +21,14 @@ public class Coordinates extends com.example.my_fragment.ComponentSimpleModel  {
         this.id = id;
     }
 
-    public Coordinates(Long id, Long targetId, long latitude, long longitude) {
+    public Coordinates(Long id, Long targetId, double latitude, double longitude, String addressLine1, String addressLine2, String addressLine3) {
         this.id = id;
         this.targetId = targetId;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.addressLine1 = addressLine1;
+        this.addressLine2 = addressLine2;
+        this.addressLine3 = addressLine3;
     }
 
     public Long getId() {
@@ -41,20 +47,44 @@ public class Coordinates extends com.example.my_fragment.ComponentSimpleModel  {
         this.targetId = targetId;
     }
 
-    public long getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(long latitude) {
+    public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 
-    public long getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(long longitude) {
+    public void setLongitude(double longitude) {
         this.longitude = longitude;
+    }
+
+    public String getAddressLine1() {
+        return addressLine1;
+    }
+
+    public void setAddressLine1(String addressLine1) {
+        this.addressLine1 = addressLine1;
+    }
+
+    public String getAddressLine2() {
+        return addressLine2;
+    }
+
+    public void setAddressLine2(String addressLine2) {
+        this.addressLine2 = addressLine2;
+    }
+
+    public String getAddressLine3() {
+        return addressLine3;
+    }
+
+    public void setAddressLine3(String addressLine3) {
+        this.addressLine3 = addressLine3;
     }
 
 }

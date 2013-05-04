@@ -2,6 +2,7 @@ package my_components.gps;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.location.Address;
 import android.os.Bundle;
 
 import android.util.Log;
@@ -83,12 +84,13 @@ public class GPSListener extends CRComponent {
 
 	public Coordinates getCoordinates(Context ctx, Long target) {
 		double[] array = sensorListener.getSensorValues(sensorType);
-
-		Log.d("array nulo?", (array == null ? "sim" : "NÃO"));
-		Log.d("coordenadas", "lat: " + array[0] + " - long: " + array[1]); 
-		Log.d("target", " " + target);
-		coord = new Coordinates(ComponentSimpleModel.getUniqueId(ctx), target, (long) (array[0]*1E6), (long) (array[1]*1E6));
-
+		Address ad = GPSViewGUI.getAddress(ctx, array[0], array[1]);
+		
+		if (ad != null) 
+			coord = new Coordinates(ComponentSimpleModel.getUniqueId(ctx), target, array[0], array[1], ad.getAddressLine(0), ad.getAddressLine(1), ad.getAddressLine(2));
+		else
+			coord = new Coordinates(ComponentSimpleModel.getUniqueId(ctx), target, array[0], array[1], null, null, null);
+		
 		return coord;
 	}
 }
