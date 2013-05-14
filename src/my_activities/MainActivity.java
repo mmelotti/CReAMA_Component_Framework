@@ -73,11 +73,10 @@ public class MainActivity extends CRActivity {
 		buttonSensor.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				// Intent trocatela = new
 				// Intent(MainActivity.this,TagFragmentActivity.class);
-				Intent trocatela2 = new Intent(MainActivity.this,
-						SensoresActivity.class);
-
+				// Intent trocatela2 = new Intent(MainActivity.this, SensoresActivity.class);
+				Intent trocatela2 = new Intent(MainActivity.this, FaqTestActivity.class);
+				
 				MainActivity.this.startActivity(trocatela2);
 				// MainActivity.this.finish();
 			}
