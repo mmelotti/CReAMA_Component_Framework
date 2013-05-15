@@ -124,6 +124,20 @@ public class FaqTestActivity extends Activity {
 		return null;
 	}
 
+	public static String retrieveRequest(String id, HttpContext httpContext) {
+		HttpClient client = new DefaultHttpClient();
+		HttpGet requestList = new HttpGet(url + "/" + id);
+		
+		try {
+			HttpResponse response = client.execute(requestList, httpContext);
+			return EntityUtils.toString(response.getEntity());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+	
 	public static String createRequest(String pergunta, String resposta,
 			HttpContext httpContext) {
 		return saveRequest("", pergunta, resposta, httpContext);
@@ -137,24 +151,24 @@ public class FaqTestActivity extends Activity {
 	public static String saveRequest(String id, String pergunta, String resposta,
 			HttpContext httpContext) {
 		HttpClient client = new DefaultHttpClient();
-		HttpPost requestCreate = new HttpPost(urlSave);
-		List<NameValuePair> paramsCreate = new ArrayList<NameValuePair>();
-		paramsCreate.add(new BasicNameValuePair("faq.id", id));
-		paramsCreate.add(new BasicNameValuePair("faq.pergunta", pergunta));
-		paramsCreate.add(new BasicNameValuePair("faq.resposta", resposta));
+		HttpPost request = new HttpPost(urlSave);
+		List<NameValuePair> params = new ArrayList<NameValuePair>();
+		params.add(new BasicNameValuePair("faq.id", id));
+		params.add(new BasicNameValuePair("faq.pergunta", pergunta));
+		params.add(new BasicNameValuePair("faq.resposta", resposta));
+		
 		try {
-			UrlEncodedFormEntity entityCreate = new UrlEncodedFormEntity(
-					paramsCreate, "UTF-8");
 			UrlEncodedFormEntity entity = new UrlEncodedFormEntity(
-					paramsCreate, "UTF-8");
-			requestCreate.setEntity(entity);
-			HttpResponse responseCreate = client.execute(requestCreate,
+					params, "UTF-8");
+			request.setEntity(entity);
+			HttpResponse responseCreate = client.execute(request,
 					httpContext);
 			String resultCreate = EntityUtils.toString(responseCreate
 					.getEntity());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
 		return null;
 	}
 
@@ -171,7 +185,7 @@ public class FaqTestActivity extends Activity {
 		@Override
 		protected void onPreExecute() {
 			progressDialog.setTitle("Espere");
-			progressDialog.setMessage("Recebendo lista de perguntas...");
+			progressDialog.setMessage("Recebendo resultado da requisição...");
 			progressDialog.show();
 		}
 
@@ -181,8 +195,8 @@ public class FaqTestActivity extends Activity {
 			
 			HttpContext httpContext = new BasicHttpContext();
 			loginRequest(login, password, httpContext);
-			result = listRequest(httpContext);
-			//CreateRequest("pergunta teste", "a resposta", httpContext);
+			result = listRequest(httpContext);  
+			// result = createRequest("pergunta teste", "a resposta", httpContext);
 			return result;
 		}
 
