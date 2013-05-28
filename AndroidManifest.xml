@@ -56,7 +56,11 @@
             android:configChanges="orientation|screenSize" >
         </activity>
         <activity
-            android:name="my_activities.FaqTestActivity"
+            android:name="my_activities.FaqActivity"
+            android:configChanges="orientation|screenSize" >
+        </activity>
+        <activity
+            android:name="my_components.faq.FaqLoginActivity"
             android:configChanges="orientation|screenSize" >
         </activity>
         <activity android:name="my_activities.ImageZoomActivity" >

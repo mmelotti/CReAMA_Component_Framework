@@ -1,4 +1,4 @@
-package my_activities;
+package my_components.faq;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -7,6 +7,8 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import my_activities.FaqActivity;
+import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -16,6 +18,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.protocol.ClientContext;
 import org.apache.http.client.CookieStore;
+import org.apache.http.cookie.Cookie;
 import org.apache.http.impl.client.BasicCookieStore;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
@@ -30,12 +33,16 @@ import com.example.firstcomponents.R;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 
-public class FaqTestActivity extends Activity {
+public class FaqLoginActivity extends Activity {
 	TextView resultTxt;
+	HttpContext httpContext;
+	
 	static String ip = "192.168.1.106";
 	String login = "admin";
 	String password = "123";
@@ -49,8 +56,6 @@ public class FaqTestActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.faq_test);
-
-		//resultTxt = (TextView) findViewById(R.id.txt);
 		new GetListAsyncTask(this).execute();
 	}
 	
@@ -90,6 +95,10 @@ public class FaqTestActivity extends Activity {
 			requestLogin.setEntity(entity);
 			HttpResponse responseLogin = client.execute(requestLogin,
 					httpContext);
+			
+			Header[] h1 = responseLogin.getAllHeaders();
+			for (Header ha : h1) 
+				Log.e("headers", ha.toString());
 			return EntityUtils.toString(responseLogin.getEntity());
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -185,19 +194,19 @@ public class FaqTestActivity extends Activity {
 		@Override
 		protected void onPreExecute() {
 			progressDialog.setTitle("Espere");
-			progressDialog.setMessage("Recebendo resultado da requisição...");
+			progressDialog.setMessage("Fazendo login...");
 			progressDialog.show();
 		}
 
 		@Override
 		protected String doInBackground(Void... p) {
 			String result;
-			
-			HttpContext httpContext = new BasicHttpContext();
+			httpContext = new BasicHttpContext();			
 			loginRequest(login, password, httpContext);
-			result = listRequest(httpContext);  
+			// result = listRequest(httpContext);  
 			// result = createRequest("pergunta teste", "a resposta", httpContext);
-			return result;
+			// return result;
+			return "";
 		}
 
 		@Override
@@ -205,7 +214,12 @@ public class FaqTestActivity extends Activity {
 			if (progressDialog.isShowing())
 				progressDialog.dismiss();
 
-			resultTxt.setText(result);
+			Intent loginDone = new Intent(FaqLoginActivity.this, FaqActivity.class);
+			CookieStore cookies = (CookieStore) httpContext.getAttribute(ClientContext.COOKIE_STORE);
+			List<Cookie> list = cookies.getCookies();
+		
+			loginDone.putExtra("sessionInfo", new MyCookie(list.get(0)));
+			FaqLoginActivity.this.startActivity(loginDone);
 		}
 
 	}

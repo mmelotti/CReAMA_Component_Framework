@@ -19,6 +19,7 @@ public class GWDaoGenerator {
 		addTag(schema);
 		addBinomio(schema);
 		addCoord(schema);
+		addFaq(schema);
 		Entity rating = addRating(schema);
 		addRatingToComment(schema, com, rating);
 
@@ -44,6 +45,14 @@ public class GWDaoGenerator {
 		photo.addStringProperty("text");
 		photo.addDateProperty("date");
 
+	}
+	
+	private static void addFaq(Schema schema) {
+		Entity faq = schema.addEntity("Faq");
+		faq.setJavaPackage(pack + "faq");
+		addNewComponent(schema, faq);
+		faq.addStringProperty("pergunta");
+		faq.addStringProperty("resposta");
 	}
 
 	private static Entity addComment(Schema schema) {

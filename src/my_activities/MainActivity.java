@@ -1,5 +1,6 @@
 package my_activities;
 
+import my_components.faq.FaqLoginActivity;
 import my_components.photo.PhotoGalleryGUI;
 import my_components.photo.PhotoSendGUI;
 import my_components.photo.PhotoViewGUI;
@@ -75,7 +76,7 @@ public class MainActivity extends CRActivity {
 			public void onClick(View arg0) {
 				// Intent(MainActivity.this,TagFragmentActivity.class);
 				// Intent trocatela2 = new Intent(MainActivity.this, SensoresActivity.class);
-				Intent trocatela2 = new Intent(MainActivity.this, FaqTestActivity.class);
+				Intent trocatela2 = new Intent(MainActivity.this, FaqLoginActivity.class);
 				
 				MainActivity.this.startActivity(trocatela2);
 				// MainActivity.this.finish();
