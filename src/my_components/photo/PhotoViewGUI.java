@@ -2,7 +2,6 @@ package my_components.photo;
 
 import java.util.List;
 
-import my_activities.ImageZoomActivity;
 import my_components.photo.PhotoDao.Properties;
 
 import android.annotation.SuppressLint;

@@ -1,6 +1,7 @@
 package my_activities;
 
 import my_components.faq.FaqLoginActivity;
+import my_components.faq.FaqLoginGUI;
 import my_components.photo.PhotoGalleryGUI;
 import my_components.photo.PhotoSendGUI;
 import my_components.photo.PhotoViewGUI;
@@ -74,11 +75,14 @@ public class MainActivity extends CRActivity {
 		buttonSensor.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
+				FaqLoginGUI login = new FaqLoginGUI();
+				login.show(getSupportFragmentManager(), "login");
+				
 				// Intent(MainActivity.this,TagFragmentActivity.class);
 				// Intent trocatela2 = new Intent(MainActivity.this, SensoresActivity.class);
-				Intent trocatela2 = new Intent(MainActivity.this, FaqLoginActivity.class);
+				// Intent trocatela2 = new Intent(MainActivity.this, FaqLoginActivity.class);
 				
-				MainActivity.this.startActivity(trocatela2);
+				//MainActivity.this.startActivity(trocatela2);
 				// MainActivity.this.finish();
 			}
 		});

@@ -3,9 +3,9 @@ package com.example.my_fragment;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.support.v4.app.Fragment;
+import android.support.v4.app.DialogFragment;
 
-public class GenericComponent extends Fragment {
+public class GenericComponent extends DialogFragment {
 
 	private int generalGUIId = -1;
 	private int componentTargetId = -1;

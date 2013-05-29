@@ -1,8 +1,7 @@
-package my_activities;
+package my_components.photo;
 
 import com.example.firstcomponents.R;
 
-import my_components.photo.PhotoUtils;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.os.Bundle;

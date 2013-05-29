@@ -37,9 +37,10 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 @SuppressLint("ValidFragment")
-public class FaqListGUI extends CRComponent implements OnItemClickListener {
+public class FaqViewGUI extends CRComponent implements OnItemClickListener {
 	String urlList = FaqActivity.url + "/faq/4/list?_format=json";
 	DefaultHttpClient client = new DefaultHttpClient();
 	ListView listView;
@@ -158,7 +159,8 @@ public class FaqListGUI extends CRComponent implements OnItemClickListener {
 
 		@Override
 		protected void onPostExecute(String result) {
-			ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity().getApplicationContext(), android.R.layout.simple_list_item_1, mQuestions);
+			//tv.setText(result);
+			ArrayAdapter adapter = new ArrayAdapter<String>(getActivity().getApplicationContext(), android.R.layout.simple_list_item_1, mQuestions);
 			adapter.notifyDataSetChanged();
 			listView.setAdapter(adapter);	
 		}
@@ -167,10 +169,8 @@ public class FaqListGUI extends CRComponent implements OnItemClickListener {
 
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-		Faq f = list.get(position);
-		FaqSendGUI faqView = new FaqSendGUI();
-		faqView.setData(f.getId().toString(), f.getPergunta(), f.getResposta());
-		faqView.show(getFragmentManager(), "faqView");
+		// TODO Auto-generated method stub
+		
 	}
 
 }

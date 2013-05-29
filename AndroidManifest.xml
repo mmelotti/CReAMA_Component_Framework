@@ -63,7 +63,7 @@
             android:name="my_components.faq.FaqLoginActivity"
             android:configChanges="orientation|screenSize" >
         </activity>
-        <activity android:name="my_activities.ImageZoomActivity" >
+        <activity android:name="my_components.photo.ImageZoomActivity" >
         </activity>
 
         <service

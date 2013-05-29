@@ -29,31 +29,54 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.example.firstcomponents.R;
+import com.example.my_fragment.CRComponent;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
-public class FaqLoginActivity extends Activity {
+public class FaqLoginGUI extends CRComponent {
 	TextView resultTxt;
 	HttpContext httpContext;
-	
-	String login = "admin";
-	String password = "123";
 	String urlLogin = FaqActivity.url + "/users/9/login";
 	String urlList = FaqActivity.url + "/faq/4/list?_format=json";
 	String urlSave = FaqActivity.url + "/faq/4";
+
+	EditText editLogin, editPassword;
+	Button btnSubmit;
 	
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.faq_login);
-		new GetListAsyncTask(this).execute();
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		Dialog d = getDialog();
+		if (d != null)	// componente está sendo mostrado como dialog
+			d.setTitle("FAQ Login");
+		
+		View view = inflater.inflate(R.layout.faq_login, container, false);
+		btnSubmit = (Button) view.findViewById(R.id.btnSubmit);
+		editLogin = (EditText) view.findViewById(R.id.editLogin);
+		editPassword = (EditText) view.findViewById(R.id.editPassword);
+		
+		btnSubmit.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				new LoginAsyncTask(getActivity().getApplicationContext()).execute();		
+			}
+		});
+		
+		return view;
 	}
 	
 	public static String convertStreamToString(InputStream is) {
@@ -118,41 +141,29 @@ public class FaqLoginActivity extends Activity {
 	}
 
 	// ASyncTask
-	public class GetListAsyncTask extends AsyncTask<Void, Void, String> {
-		private Context context;
-		private ProgressDialog progressDialog;
+	public class LoginAsyncTask extends AsyncTask<Void, Void, String> {
 
-		public GetListAsyncTask(Context context) {
-			this.context = context;
-			progressDialog = new ProgressDialog(context);
-		}
+		public LoginAsyncTask(Context context) {
 
-		@Override
-		protected void onPreExecute() {
-			progressDialog.setTitle("Espere");
-			progressDialog.setMessage("Fazendo login...");
-			progressDialog.show();
 		}
 
 		@Override
 		protected String doInBackground(Void... p) {
-			String result;
-			httpContext = new BasicHttpContext();			
+			httpContext = new BasicHttpContext();	
+			String login = editLogin.getText().toString();
+			String password = editPassword.getText().toString();
 			loginRequest(login, password, httpContext);
 			return "";
 		}
 
 		@Override
 		protected void onPostExecute(String result) {
-			if (progressDialog.isShowing())
-				progressDialog.dismiss();
-
-			Intent loginDone = new Intent(FaqLoginActivity.this, FaqActivity.class);
+			Intent loginDone = new Intent(getActivity(), FaqActivity.class);
 			CookieStore cookies = (CookieStore) httpContext.getAttribute(ClientContext.COOKIE_STORE);
 			List<Cookie> list = cookies.getCookies();
 		
 			loginDone.putExtra("sessionInfo", new SerializableCookie(list.get(0)));
-			FaqLoginActivity.this.startActivity(loginDone);
+			FaqLoginGUI.this.startActivity(loginDone);
 		}
 
 	}
