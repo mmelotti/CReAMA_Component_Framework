@@ -6,12 +6,12 @@ import de.greenrobot.daogenerator.Schema;
 
 public class GWDaoGenerator {
 
-	static String pack = "my_components.";
+	static String pack = "com.gw.android.my_components.";
 
 	public static void main(String[] args) throws Exception {
 		Schema schema = new Schema(1, "my_components");
 
-		schema.setDefaultJavaPackageDao("database");
+		schema.setDefaultJavaPackageDao("com.gw.android.database");
 
 		// componentes
 		Entity com = addComment(schema);
@@ -20,6 +20,7 @@ public class GWDaoGenerator {
 		addBinomio(schema);
 		addCoord(schema);
 		addFaq(schema);
+		addRequest(schema);
 		Entity rating = addRating(schema);
 		addRatingToComment(schema, com, rating);
 
@@ -33,7 +34,7 @@ public class GWDaoGenerator {
 	private static void addNewComponent(Schema schema, Entity ent) {
 		ent.addIdProperty();
 		ent.addLongProperty("targetId");
-		ent.setSuperclass("com.example.my_fragment.ComponentSimpleModel");
+		ent.setSuperclass("com.gw.android.my_fragment.ComponentSimpleModel");
 		ent.setJavaPackageDao(ent.getJavaPackage());
 	}
 
@@ -44,7 +45,6 @@ public class GWDaoGenerator {
 		photo.addByteArrayProperty("photoBytes");
 		photo.addStringProperty("text");
 		photo.addDateProperty("date");
-
 	}
 	
 	private static void addFaq(Schema schema) {
@@ -123,4 +123,13 @@ public class GWDaoGenerator {
 		binomio.addIntProperty("translucida");
 	}
 
+	private static void addRequest(Schema schema) {
+		Entity request = schema.addEntity("Request");
+		request.setJavaPackage(pack + "request");
+		addNewComponent(schema, request);
+		request.addStringProperty("url").notNull();
+		request.addStringProperty("type").notNull();
+		request.addStringProperty("keyValuePairs");
+	}
+	
 }
