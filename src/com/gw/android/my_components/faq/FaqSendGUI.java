@@ -6,6 +6,7 @@ import com.gw.android.database.DaoMaster;
 import com.gw.android.database.DaoSession;
 import com.gw.android.database.DaoMaster.DevOpenHelper;
 import com.gw.android.my_activities.FaqActivity;
+import com.gw.android.my_components.comment.CommentDao;
 import com.gw.android.my_components.request.Request;
 import com.gw.android.my_components.request.RequestUtils;
 import com.gw.android.my_fragment.CRComponent;
@@ -33,6 +34,8 @@ public class FaqSendGUI extends CRComponent implements OnClickListener {
 	DefaultHttpClient client = new DefaultHttpClient();
 	Button btnSubmit;
 	EditText editQuestion, editAnswer;
+	private FaqDao faqDao;
+	private DaoSession daoSession;
 
 	public static FaqDao initFaqDao(Activity a) {
 		DevOpenHelper helper = new DaoMaster.DevOpenHelper(a, "faqs-db", null);
@@ -43,7 +46,7 @@ public class FaqSendGUI extends CRComponent implements OnClickListener {
 	}
 	
 	public void setData(String id, String question, String answer) {
-		this.id = id;
+		this.id = id; //string vazia eh nova pergunta-resposta
 		this.question = question;
 		this.answer = answer;
 	}
@@ -103,4 +106,30 @@ public class FaqSendGUI extends CRComponent implements OnClickListener {
 		saveRequest(id, question, answer);
 	}
 
+	
+	public void newOne(Faq faq){
+		initFaqDao();
+		faqDao.insert(faq);
+		closeDao();
+	}
+	
+	public void changeOne(){
+		
+		
+	}
+	
+	public void initFaqDao() {
+		//Log.i("en initi", "aquiii");
+		DevOpenHelper helper = new DaoMaster.DevOpenHelper(getActivity(),
+				"faqs-db", null);
+		SQLiteDatabase db = helper.getWritableDatabase();
+		DaoMaster daoMaster = new DaoMaster(db);
+		daoSession = daoMaster.newSession();
+		faqDao = daoSession.getFaqDao();
+	}
+	
+	public void closeDao() {
+		faqDao.getDatabase().close();
+	}
+	
 }
