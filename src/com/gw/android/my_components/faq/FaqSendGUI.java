@@ -1,33 +1,23 @@
 package com.gw.android.my_components.faq;
 
-import java.util.ArrayList;
-import java.util.List;
-
-
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.cookie.Cookie;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.impl.cookie.BasicClientCookie;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.util.EntityUtils;
-
 import com.gw.android.R;
 import com.gw.android.database.DaoMaster;
 import com.gw.android.database.DaoSession;
 import com.gw.android.database.DaoMaster.DevOpenHelper;
 import com.gw.android.my_activities.FaqActivity;
+import com.gw.android.my_components.request.Request;
+import com.gw.android.my_components.request.RequestUtils;
 import com.gw.android.my_fragment.CRComponent;
+import com.loopj.android.http.AsyncHttpResponseHandler;
 
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.database.sqlite.SQLiteDatabase;
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -59,38 +49,6 @@ public class FaqSendGUI extends CRComponent implements OnClickListener {
 	}
 
 	@Override
-	public void onSaveInstanceState(Bundle outState) {
-		super.onSaveInstanceState(outState);
-		List<Cookie> cookies = client.getCookieStore().getCookies();
-		if (!cookies.isEmpty()) {
-			Cookie sessionInfo = cookies.get(0);
-			outState.putSerializable("sessionInfo", new SerializableCookie(
-					sessionInfo));
-		}
-	}
-
-	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
-		SerializableCookie cookie = null;
-
-		if (savedInstanceState == null) {
-			cookie = (SerializableCookie) getActivity().getIntent().getExtras()
-					.getSerializable("sessionInfo");
-		} else if (client.getCookieStore().getCookies().isEmpty()
-				&& savedInstanceState.containsKey("sessionInfo")) {
-			cookie = (SerializableCookie) savedInstanceState
-					.getSerializable("sessionInfo");
-		} else
-			return;
-
-		BasicClientCookie newCookie = new BasicClientCookie(cookie.getName(),
-				cookie.getValue());
-		newCookie.setDomain(cookie.getDomain());
-		client.getCookieStore().addCookie(newCookie);
-	}
-
-	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		
@@ -109,52 +67,40 @@ public class FaqSendGUI extends CRComponent implements OnClickListener {
 		return view;
 	}
 
-	// ASyncTask
-	public class SendFaqAsyncTask extends AsyncTask<Void, Void, String> {
+	String saveRequest(String id, String pergunta, String resposta) {
+		Request request = new Request(null, null, urlSave, "post", "faq.id--"
+				+ id + "__faq.pergunta--" + pergunta + "__faq.resposta--"
+				+ resposta);
+		RequestUtils.makeRequest(request, getActivity(),
+				new AsyncHttpResponseHandler() {
+					@Override
+					public void onSuccess(String response) {
+						Log.e("onsuccess", response);
+						Toast.makeText(getActivity(), "Enviado!",
+								Toast.LENGTH_SHORT).show();
+						if (FaqSendGUI.this.getDialog() != null) 
+							// Sendo mostrado como dialog
+							FaqSendGUI.this.dismiss();
+					}
 
-		@Override
-		protected String doInBackground(Void... p) {
-			String result;
+					@Override
+					public void onFailure(Throwable t) {
+						Log.e("onfailure", "batata");
+					}
 
-			result = saveRequest(id, question, answer);
-			return result;
-		}
-
-		@Override
-		protected void onPostExecute(String result) {
-			Toast.makeText(getActivity(), "Enviado!", Toast.LENGTH_SHORT)
-					.show();
-			if (FaqSendGUI.this.getDialog() != null) // Sendo mostrado como dialog
-				FaqSendGUI.this.dismiss();
-		}
-
-	}
-
-	public String saveRequest(String id, String pergunta, String resposta) {
-		HttpPost request = new HttpPost(urlSave);
-		List<NameValuePair> params = new ArrayList<NameValuePair>();
-		params.add(new BasicNameValuePair("faq.id", id));
-		params.add(new BasicNameValuePair("faq.pergunta", pergunta));
-		params.add(new BasicNameValuePair("faq.resposta", resposta));
-
-		try {
-			UrlEncodedFormEntity entity = new UrlEncodedFormEntity(params,
-					"UTF-8");
-			request.setEntity(entity);
-			HttpResponse responseCreate = client.execute(request);
-			return EntityUtils.toString(responseCreate.getEntity());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return null;
+					@Override
+					public void onFinish() {
+						Log.e("onfinish", "batata");
+					}
+				});
+		return "";
 	}
 
 	@Override
 	public void onClick(View arg0) {
 		question = editQuestion.getText().toString();
 		answer = editAnswer.getText().toString();
-		new SendFaqAsyncTask().execute();
+		saveRequest(id, question, answer);
 	}
 
 }

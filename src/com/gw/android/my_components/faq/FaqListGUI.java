@@ -1,19 +1,9 @@
 package com.gw.android.my_components.faq;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.cookie.Cookie;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.impl.cookie.BasicClientCookie;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -22,13 +12,14 @@ import com.gw.android.database.DaoMaster;
 import com.gw.android.database.DaoSession;
 import com.gw.android.database.DaoMaster.DevOpenHelper;
 import com.gw.android.my_activities.FaqActivity;
+import com.gw.android.my_components.request.Request;
+import com.gw.android.my_components.request.RequestUtils;
 import com.gw.android.my_fragment.CRComponent;
-
+import com.loopj.android.http.AsyncHttpResponseHandler;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.database.sqlite.SQLiteDatabase;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -56,36 +47,9 @@ public class FaqListGUI extends CRComponent implements OnItemClickListener {
 	}
 
 	@Override
-	public void onSaveInstanceState(Bundle outState) {
-		super.onSaveInstanceState(outState);
-		List<Cookie> cookies = client.getCookieStore().getCookies();
-		if (!cookies.isEmpty()) {
-			Cookie sessionInfo = cookies.get(0);
-			outState.putSerializable("sessionInfo", new SerializableCookie(sessionInfo));
-		}
-	}
-
-	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		SerializableCookie cookie = null;
-
-		if (savedInstanceState == null) {
-			cookie = (SerializableCookie) getActivity().getIntent().getExtras()
-					.getSerializable("sessionInfo");
-		} else if (client.getCookieStore().getCookies().isEmpty()
-				&& savedInstanceState.containsKey("sessionInfo")) {
-			cookie = (SerializableCookie) savedInstanceState
-					.getSerializable("sessionInfo");
-		} else
-			return;
-
-		BasicClientCookie newCookie = new BasicClientCookie(cookie.getName(),
-				cookie.getValue());
-		newCookie.setDomain(cookie.getDomain());
-		client.getCookieStore().addCookie(newCookie);
-
-		new GetListAsyncTask().execute();
+		listRequest();
 	}
 
 	@Override
@@ -97,42 +61,48 @@ public class FaqListGUI extends CRComponent implements OnItemClickListener {
 		return view;
 	}
 
-	String convertStreamToString(InputStream is) {
-		BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-		StringBuilder sb = new StringBuilder();
-		String line = null;
+	void listRequest() {
+		Request request = new Request(null, null, urlList, "get", null);
+		RequestUtils.makeRequest(request, getActivity(),
+				new AsyncHttpResponseHandler() {
+					@Override
+					public void onSuccess(String response) {
+						Log.e("list onsuccess", response);
 
-		try {
-			while ((line = reader.readLine()) != null)
-				sb.append(line + "\n");
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				is.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		return sb.toString();
+						parseJSON(response);
+						mQuestions.clear();
+						for (Faq f : list)
+							mQuestions.add(f.getPergunta());
+
+						ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+								getActivity().getApplicationContext(),
+								android.R.layout.simple_list_item_1, mQuestions);
+						adapter.notifyDataSetChanged();
+						listView.setAdapter(adapter);
+					}
+
+					@Override
+					public void onFailure(Throwable t) {
+						Log.e("list onfailure", "batata");
+					}
+
+					@Override
+					public void onFinish() {
+						Log.e("list onfinish", "batata");
+					}
+				});
 	}
 
-	void listRequest() {
-		HttpGet requestList = new HttpGet(urlList);
-		Log.e("list request", "entrou ");
-
+	void parseJSON(String response) {
 		try {
-			HttpResponse response = client.execute(requestList);
-			HttpEntity entity = response.getEntity();
+			JSONObject json = new JSONObject(response);
 
-			InputStream instream = entity.getContent();
-			JSONObject json = new JSONObject(convertStreamToString(instream));
 			JSONArray nameArray = json.names();
 			JSONArray valArray = json.toJSONArray(nameArray);
 			JSONArray arrayResults = valArray.getJSONArray(0);
 
 			for (int j = 0; j < arrayResults.length(); j++) {
-				JSONObject object = arrayResults.getJSONObject(j);			
+				JSONObject object = arrayResults.getJSONObject(j);
 				Long id = Long.parseLong(object.get("id").toString());
 				String pergunta = object.get("pergunta").toString();
 				String resposta = object.get("resposta").toString();
@@ -143,31 +113,9 @@ public class FaqListGUI extends CRComponent implements OnItemClickListener {
 		}
 	}
 
-	// ASyncTask
-	public class GetListAsyncTask extends AsyncTask<Void, Void, String> {
-
-		@Override
-		protected String doInBackground(Void... p) {
-			listRequest();
-
-			mQuestions.clear();
-			for (Faq f : list)
-				mQuestions.add(f.getPergunta());
-			
-			return null;
-		}
-
-		@Override
-		protected void onPostExecute(String result) {
-			ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity().getApplicationContext(), android.R.layout.simple_list_item_1, mQuestions);
-			adapter.notifyDataSetChanged();
-			listView.setAdapter(adapter);	
-		}
-
-	}
-
 	@Override
-	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+	public void onItemClick(AdapterView<?> parent, View view, int position,
+			long id) {
 		Faq f = list.get(position);
 		FaqSendGUI faqView = new FaqSendGUI();
 		faqView.setData(f.getId().toString(), f.getPergunta(), f.getResposta());

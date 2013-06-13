@@ -1,6 +1,5 @@
 package com.gw.android.my_activities;
 
-
 import com.gw.android.R;
 import com.gw.android.my_components.faq.FaqListGUI;
 import com.gw.android.my_components.faq.FaqSendGUI;
@@ -9,7 +8,7 @@ import com.gw.android.my_fragment.CRActivity;
 import android.os.Bundle;
 
 public class FaqActivity extends CRActivity {
-	static String ip = "192.168.3.106";
+	static String ip = "192.168.3.104";
 	public static  String url = "http://" + ip
 			+ ":8080/GW-Application-FAQ/groupware-workbench";
 	
