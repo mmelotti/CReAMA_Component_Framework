@@ -66,6 +66,8 @@
         <service
             android:name="com.gw.android.components.sensor_service.SensorManagerService"
             android:enabled="true" />
+        <service android:name="com.gw.android.components.connection_manager.ConnectionManager"/>
+        
     </application>
-
+    
 </manifest>
