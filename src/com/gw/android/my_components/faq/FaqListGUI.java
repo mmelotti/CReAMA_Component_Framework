@@ -137,6 +137,7 @@ public class FaqListGUI extends CRComponent implements OnItemClickListener {
 	
 	public void newOne(Faq faq){
 		initFaqDao();
+		//TODO
 		//gera id unico, mas tem que ter relacao com id do server
 		//falta fazer isso
 		Long newId = ComponentSimpleModel.getUniqueId(getActivity());
@@ -146,6 +147,7 @@ public class FaqListGUI extends CRComponent implements OnItemClickListener {
 	}
 	
 	public void changeOne(){
+		//TODO
 		//pega id do server de todos, e compara com o que ta no cache para atualizar
 		//ou simplesmente deleta tudo cria novos ids locais
 		

@@ -14,6 +14,9 @@ import com.loopj.android.http.RequestParams;
 
 public class RequestUtils {
 
+	private static RequestDao dao;
+	private static boolean salvarRequest=false;
+	
 	public static boolean sendRequest(Request r, boolean tryLater,
 			RequestDoneListener listener) {
 
@@ -51,10 +54,28 @@ public class RequestUtils {
 		client.setCookieStore(myCookieStore);
 		RequestParams params = stringToParams(request.getKeyValuePairs());
 
+		
+		//TODO tem que passar para assinatura do metodo - salvarRequest
+		if(salvarRequest){
+			salvaRequest(context,request);
+		}
+		
+		
 		if (request.getType().equals("get"))
 			client.get(request.getUrl(), params, handler);
 		else
 			client.post(request.getUrl(), params, handler);
 	}
 
+	
+	public static void salvaRequest(Context c,Request r){
+		dao = initRequestDao(c);
+		dao.insert(r);
+		closeDao();
+	}
+	
+	public static void closeDao() {
+		dao.getDatabase().close();
+	}
+	
 }
