@@ -15,6 +15,7 @@ import com.gw.android.my_activities.FaqActivity;
 import com.gw.android.my_components.request.Request;
 import com.gw.android.my_components.request.RequestUtils;
 import com.gw.android.my_fragment.CRComponent;
+import com.gw.android.my_fragment.ComponentSimpleModel;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
 import android.annotation.SuppressLint;
@@ -37,6 +38,10 @@ public class FaqListGUI extends CRComponent implements OnItemClickListener {
 	ListView listView;
 	List<Faq> list = new ArrayList<Faq>();
 	List<String> mQuestions = new ArrayList<String>();
+	private boolean conectado=false;
+	private FaqDao faqDao;
+	private DaoSession daoSession;
+	
 
 	public static FaqDao initFaqDao(Activity a) {
 		DevOpenHelper helper = new DaoMaster.DevOpenHelper(a, "faqs-db", null);
@@ -63,6 +68,11 @@ public class FaqListGUI extends CRComponent implements OnItemClickListener {
 
 	void listRequest() {
 		Request request = new Request(null, null, urlList, "get", null);
+		
+		//se nao estiver conectado, nem vale ir para a fila de request
+		//se estiver conectado, vai tentar buscar no servidor as perguntas/respostas
+		//depois salva no cache para acesso offline
+		if(conectado){
 		RequestUtils.makeRequest(request, getActivity(),
 				new AsyncHttpResponseHandler() {
 					@Override
@@ -91,6 +101,9 @@ public class FaqListGUI extends CRComponent implements OnItemClickListener {
 						Log.e("list onfinish", "batata");
 					}
 				});
+		}
+		
+		
 	}
 
 	void parseJSON(String response) {
@@ -121,5 +134,36 @@ public class FaqListGUI extends CRComponent implements OnItemClickListener {
 		faqView.setData(f.getId().toString(), f.getPergunta(), f.getResposta());
 		faqView.show(getFragmentManager(), "faqView");
 	}
+	
+	public void newOne(Faq faq){
+		initFaqDao();
+		//gera id unico, mas tem que ter relacao com id do server
+		//falta fazer isso
+		Long newId = ComponentSimpleModel.getUniqueId(getActivity());
+		faq.setId(newId);
+		faqDao.insert(faq);
+		closeDao();
+	}
+	
+	public void changeOne(){
+		//pega id do server de todos, e compara com o que ta no cache para atualizar
+		//ou simplesmente deleta tudo cria novos ids locais
+		
+	}
+	
+	public void initFaqDao() {
+		//Log.i("en initi", "aquiii");
+		DevOpenHelper helper = new DaoMaster.DevOpenHelper(getActivity(),
+				"faqs-db", null);
+		SQLiteDatabase db = helper.getWritableDatabase();
+		DaoMaster daoMaster = new DaoMaster(db);
+		daoSession = daoMaster.newSession();
+		faqDao = daoSession.getFaqDao();
+	}
+	
+	public void closeDao() {
+		faqDao.getDatabase().close();
+	}
+	
 
 }
