@@ -10,6 +10,7 @@ import com.gw.android.my_components.comment.CommentDao;
 import com.gw.android.my_components.request.Request;
 import com.gw.android.my_components.request.RequestUtils;
 import com.gw.android.my_fragment.CRComponent;
+import com.gw.android.my_fragment.ComponentSimpleModel;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
 
@@ -36,6 +37,7 @@ public class FaqSendGUI extends CRComponent implements OnClickListener {
 	EditText editQuestion, editAnswer;
 	private FaqDao faqDao;
 	private DaoSession daoSession;
+	private boolean conectado=false;
 
 	public static FaqDao initFaqDao(Activity a) {
 		DevOpenHelper helper = new DaoMaster.DevOpenHelper(a, "faqs-db", null);
@@ -74,6 +76,11 @@ public class FaqSendGUI extends CRComponent implements OnClickListener {
 		Request request = new Request(null, null, urlSave, "post", "faq.id--"
 				+ id + "__faq.pergunta--" + pergunta + "__faq.resposta--"
 				+ resposta);
+		
+		//poe na fila de request primeiro, para o servico consumir
+		//se estiver conectado, vai tentar enviar pro servidor
+		//de qualquer maneira, salva no cache
+		if(conectado){
 		RequestUtils.makeRequest(request, getActivity(),
 				new AsyncHttpResponseHandler() {
 					@Override
@@ -96,6 +103,17 @@ public class FaqSendGUI extends CRComponent implements OnClickListener {
 						Log.e("onfinish", "batata");
 					}
 				});
+		}
+		
+		if(id.equals("")){
+			Faq faq = new Faq();
+			faq.setPergunta(pergunta);
+			faq.setResposta(resposta);
+			newOne(new Faq());
+		}else{
+			changeOne();
+		}
+		
 		return "";
 	}
 
@@ -109,6 +127,9 @@ public class FaqSendGUI extends CRComponent implements OnClickListener {
 	
 	public void newOne(Faq faq){
 		initFaqDao();
+		//gera id unico
+		Long newId = ComponentSimpleModel.getUniqueId(getActivity());
+		faq.setId(newId);
 		faqDao.insert(faq);
 		closeDao();
 	}
