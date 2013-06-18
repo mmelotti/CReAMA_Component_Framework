@@ -102,13 +102,15 @@ public abstract class CRComponent extends GenericComponent {
 	protected ConnectionManager getConnectionManager() {
 		return mBoundService;
 	}
-	
+	 
+	// Método chamado quando o componente se conecta ao ConnectionManager
 	protected void onBind() {
 		
 	}
-	
+
+	// Método chamado quando o componente se desconecta do ConnectionManager
 	protected void onUnbind() {
-		
+		 
 	}
 	
 	private ServiceConnection mConnection = new ServiceConnection() {

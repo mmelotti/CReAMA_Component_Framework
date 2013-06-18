@@ -27,9 +27,10 @@ public class PhotoDao extends AbstractDao<Photo, Long> {
     public static class Properties {
         public final static Property Id = new Property(0, Long.class, "id", true, "_id");
         public final static Property TargetId = new Property(1, Long.class, "targetId", false, "TARGET_ID");
-        public final static Property PhotoBytes = new Property(2, byte[].class, "photoBytes", false, "PHOTO_BYTES");
-        public final static Property Text = new Property(3, String.class, "text", false, "TEXT");
-        public final static Property Date = new Property(4, java.util.Date.class, "date", false, "DATE");
+        public final static Property ServerId = new Property(2, Long.class, "serverId", false, "SERVER_ID");
+        public final static Property PhotoBytes = new Property(3, byte[].class, "photoBytes", false, "PHOTO_BYTES");
+        public final static Property Text = new Property(4, String.class, "text", false, "TEXT");
+        public final static Property Date = new Property(5, java.util.Date.class, "date", false, "DATE");
     };
 
 
@@ -47,9 +48,10 @@ public class PhotoDao extends AbstractDao<Photo, Long> {
         db.execSQL("CREATE TABLE " + constraint + "'PHOTO' (" + //
                 "'_id' INTEGER PRIMARY KEY ," + // 0: id
                 "'TARGET_ID' INTEGER," + // 1: targetId
-                "'PHOTO_BYTES' BLOB," + // 2: photoBytes
-                "'TEXT' TEXT," + // 3: text
-                "'DATE' INTEGER);"); // 4: date
+                "'SERVER_ID' INTEGER," + // 2: serverId
+                "'PHOTO_BYTES' BLOB," + // 3: photoBytes
+                "'TEXT' TEXT," + // 4: text
+                "'DATE' INTEGER);"); // 5: date
     }
 
     /** Drops the underlying database table. */
@@ -73,19 +75,24 @@ public class PhotoDao extends AbstractDao<Photo, Long> {
             stmt.bindLong(2, targetId);
         }
  
+        Long serverId = entity.getServerId();
+        if (serverId != null) {
+            stmt.bindLong(3, serverId);
+        }
+ 
         byte[] photoBytes = entity.getPhotoBytes();
         if (photoBytes != null) {
-            stmt.bindBlob(3, photoBytes);
+            stmt.bindBlob(4, photoBytes);
         }
  
         String text = entity.getText();
         if (text != null) {
-            stmt.bindString(4, text);
+            stmt.bindString(5, text);
         }
  
         java.util.Date date = entity.getDate();
         if (date != null) {
-            stmt.bindLong(5, date.getTime());
+            stmt.bindLong(6, date.getTime());
         }
     }
 
@@ -101,9 +108,10 @@ public class PhotoDao extends AbstractDao<Photo, Long> {
         Photo entity = new Photo( //
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
             cursor.isNull(offset + 1) ? null : cursor.getLong(offset + 1), // targetId
-            cursor.isNull(offset + 2) ? null : cursor.getBlob(offset + 2), // photoBytes
-            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // text
-            cursor.isNull(offset + 4) ? null : new java.util.Date(cursor.getLong(offset + 4)) // date
+            cursor.isNull(offset + 2) ? null : cursor.getLong(offset + 2), // serverId
+            cursor.isNull(offset + 3) ? null : cursor.getBlob(offset + 3), // photoBytes
+            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // text
+            cursor.isNull(offset + 5) ? null : new java.util.Date(cursor.getLong(offset + 5)) // date
         );
         return entity;
     }
@@ -113,9 +121,10 @@ public class PhotoDao extends AbstractDao<Photo, Long> {
     public void readEntity(Cursor cursor, Photo entity, int offset) {
         entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
         entity.setTargetId(cursor.isNull(offset + 1) ? null : cursor.getLong(offset + 1));
-        entity.setPhotoBytes(cursor.isNull(offset + 2) ? null : cursor.getBlob(offset + 2));
-        entity.setText(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
-        entity.setDate(cursor.isNull(offset + 4) ? null : new java.util.Date(cursor.getLong(offset + 4)));
+        entity.setServerId(cursor.isNull(offset + 2) ? null : cursor.getLong(offset + 2));
+        entity.setPhotoBytes(cursor.isNull(offset + 3) ? null : cursor.getBlob(offset + 3));
+        entity.setText(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
+        entity.setDate(cursor.isNull(offset + 5) ? null : new java.util.Date(cursor.getLong(offset + 5)));
      }
     
     /** @inheritdoc */

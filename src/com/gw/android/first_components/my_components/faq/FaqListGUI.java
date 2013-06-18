@@ -121,7 +121,7 @@ public class FaqListGUI extends CRComponent implements OnItemClickListener {
 				Long id = Long.parseLong(object.get("id").toString());
 				String pergunta = object.get("pergunta").toString();
 				String resposta = object.get("resposta").toString();
-				list.add(new Faq(id, null, pergunta, resposta));
+				list.add(new Faq(id, null, null, pergunta, resposta));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

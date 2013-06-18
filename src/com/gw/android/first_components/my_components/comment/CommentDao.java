@@ -27,8 +27,9 @@ public class CommentDao extends AbstractDao<Comment, Long> {
     public static class Properties {
         public final static Property Id = new Property(0, Long.class, "id", true, "_id");
         public final static Property TargetId = new Property(1, Long.class, "targetId", false, "TARGET_ID");
-        public final static Property Text = new Property(2, String.class, "text", false, "TEXT");
-        public final static Property Date = new Property(3, java.util.Date.class, "date", false, "DATE");
+        public final static Property ServerId = new Property(2, Long.class, "serverId", false, "SERVER_ID");
+        public final static Property Text = new Property(3, String.class, "text", false, "TEXT");
+        public final static Property Date = new Property(4, java.util.Date.class, "date", false, "DATE");
     };
 
 
@@ -46,8 +47,9 @@ public class CommentDao extends AbstractDao<Comment, Long> {
         db.execSQL("CREATE TABLE " + constraint + "'COMMENT' (" + //
                 "'_id' INTEGER PRIMARY KEY ," + // 0: id
                 "'TARGET_ID' INTEGER," + // 1: targetId
-                "'TEXT' TEXT NOT NULL ," + // 2: text
-                "'DATE' INTEGER);"); // 3: date
+                "'SERVER_ID' INTEGER," + // 2: serverId
+                "'TEXT' TEXT NOT NULL ," + // 3: text
+                "'DATE' INTEGER);"); // 4: date
     }
 
     /** Drops the underlying database table. */
@@ -70,11 +72,16 @@ public class CommentDao extends AbstractDao<Comment, Long> {
         if (targetId != null) {
             stmt.bindLong(2, targetId);
         }
-        stmt.bindString(3, entity.getText());
+ 
+        Long serverId = entity.getServerId();
+        if (serverId != null) {
+            stmt.bindLong(3, serverId);
+        }
+        stmt.bindString(4, entity.getText());
  
         java.util.Date date = entity.getDate();
         if (date != null) {
-            stmt.bindLong(4, date.getTime());
+            stmt.bindLong(5, date.getTime());
         }
     }
 
@@ -90,8 +97,9 @@ public class CommentDao extends AbstractDao<Comment, Long> {
         Comment entity = new Comment( //
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
             cursor.isNull(offset + 1) ? null : cursor.getLong(offset + 1), // targetId
-            cursor.getString(offset + 2), // text
-            cursor.isNull(offset + 3) ? null : new java.util.Date(cursor.getLong(offset + 3)) // date
+            cursor.isNull(offset + 2) ? null : cursor.getLong(offset + 2), // serverId
+            cursor.getString(offset + 3), // text
+            cursor.isNull(offset + 4) ? null : new java.util.Date(cursor.getLong(offset + 4)) // date
         );
         return entity;
     }
@@ -101,8 +109,9 @@ public class CommentDao extends AbstractDao<Comment, Long> {
     public void readEntity(Cursor cursor, Comment entity, int offset) {
         entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
         entity.setTargetId(cursor.isNull(offset + 1) ? null : cursor.getLong(offset + 1));
-        entity.setText(cursor.getString(offset + 2));
-        entity.setDate(cursor.isNull(offset + 3) ? null : new java.util.Date(cursor.getLong(offset + 3)));
+        entity.setServerId(cursor.isNull(offset + 2) ? null : cursor.getLong(offset + 2));
+        entity.setText(cursor.getString(offset + 3));
+        entity.setDate(cursor.isNull(offset + 4) ? null : new java.util.Date(cursor.getLong(offset + 4)));
      }
     
     /** @inheritdoc */

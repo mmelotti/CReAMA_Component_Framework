@@ -8,6 +8,7 @@ public class Binomio extends com.gw.android.first_components.my_fragment.Compone
 
     private Long id;
     private Long targetId;
+    private Long serverId;
     private Integer fechada;
     private Integer aberta;
     private Integer simples;
@@ -26,9 +27,10 @@ public class Binomio extends com.gw.android.first_components.my_fragment.Compone
         this.id = id;
     }
 
-    public Binomio(Long id, Long targetId, Integer fechada, Integer aberta, Integer simples, Integer complexa, Integer vertical, Integer horizontal, Integer simetrica, Integer assimetrica, Integer opaca, Integer translucida) {
+    public Binomio(Long id, Long targetId, Long serverId, Integer fechada, Integer aberta, Integer simples, Integer complexa, Integer vertical, Integer horizontal, Integer simetrica, Integer assimetrica, Integer opaca, Integer translucida) {
         this.id = id;
         this.targetId = targetId;
+        this.serverId = serverId;
         this.fechada = fechada;
         this.aberta = aberta;
         this.simples = simples;
@@ -55,6 +57,14 @@ public class Binomio extends com.gw.android.first_components.my_fragment.Compone
 
     public void setTargetId(Long targetId) {
         this.targetId = targetId;
+    }
+
+    public Long getServerId() {
+        return serverId;
+    }
+
+    public void setServerId(Long serverId) {
+        this.serverId = serverId;
     }
 
     public Integer getFechada() {

@@ -8,6 +8,7 @@ public class Photo extends com.gw.android.first_components.my_fragment.Component
 
     private Long id;
     private Long targetId;
+    private Long serverId;
     private byte[] photoBytes;
     private String text;
     private java.util.Date date;
@@ -19,9 +20,10 @@ public class Photo extends com.gw.android.first_components.my_fragment.Component
         this.id = id;
     }
 
-    public Photo(Long id, Long targetId, byte[] photoBytes, String text, java.util.Date date) {
+    public Photo(Long id, Long targetId, Long serverId, byte[] photoBytes, String text, java.util.Date date) {
         this.id = id;
         this.targetId = targetId;
+        this.serverId = serverId;
         this.photoBytes = photoBytes;
         this.text = text;
         this.date = date;
@@ -41,6 +43,14 @@ public class Photo extends com.gw.android.first_components.my_fragment.Component
 
     public void setTargetId(Long targetId) {
         this.targetId = targetId;
+    }
+
+    public Long getServerId() {
+        return serverId;
+    }
+
+    public void setServerId(Long serverId) {
+        this.serverId = serverId;
     }
 
     public byte[] getPhotoBytes() {

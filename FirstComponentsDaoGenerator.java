@@ -4,14 +4,14 @@ import de.greenrobot.daogenerator.DaoGenerator;
 import de.greenrobot.daogenerator.Entity;
 import de.greenrobot.daogenerator.Schema;
 
-public class GWDaoGenerator {
+public class FirstComponentsDaoGenerator {
 
-	static String pack = "com.gw.android.my_components.";
+	static String pack = "com.gw.android.first_components.my_components.";
 
 	public static void main(String[] args) throws Exception {
 		Schema schema = new Schema(1, "my_components");
 
-		schema.setDefaultJavaPackageDao("com.gw.android.database");
+		schema.setDefaultJavaPackageDao("com.gw.android.first_components.database");
 
 		// componentes
 		Entity com = addComment(schema);
@@ -30,7 +30,8 @@ public class GWDaoGenerator {
 	private static void addNewComponent(Schema schema, Entity ent) {
 		ent.addIdProperty();
 		ent.addLongProperty("targetId");
-		ent.setSuperclass("com.gw.android.my_fragment.ComponentSimpleModel");
+		ent.addLongProperty("serverId");
+		ent.setSuperclass("com.gw.android.first_components.my_fragment.ComponentSimpleModel");
 		ent.setJavaPackageDao(ent.getJavaPackage());
 	}
 

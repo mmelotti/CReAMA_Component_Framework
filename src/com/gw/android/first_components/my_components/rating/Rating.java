@@ -8,6 +8,7 @@ public class Rating extends com.gw.android.first_components.my_fragment.Componen
 
     private Long id;
     private Long targetId;
+    private Long serverId;
     private float value;
 
     public Rating() {
@@ -17,9 +18,10 @@ public class Rating extends com.gw.android.first_components.my_fragment.Componen
         this.id = id;
     }
 
-    public Rating(Long id, Long targetId, float value) {
+    public Rating(Long id, Long targetId, Long serverId, float value) {
         this.id = id;
         this.targetId = targetId;
+        this.serverId = serverId;
         this.value = value;
     }
 
@@ -37,6 +39,14 @@ public class Rating extends com.gw.android.first_components.my_fragment.Componen
 
     public void setTargetId(Long targetId) {
         this.targetId = targetId;
+    }
+
+    public Long getServerId() {
+        return serverId;
+    }
+
+    public void setServerId(Long serverId) {
+        this.serverId = serverId;
     }
 
     public float getValue() {

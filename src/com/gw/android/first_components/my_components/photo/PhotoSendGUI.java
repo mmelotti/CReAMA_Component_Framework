@@ -56,7 +56,7 @@ public class PhotoSendGUI extends CRComponent {
 				
 				byte[] bArray = PhotoUtils.bitmapToByteArray(bitmap);
 				Photo photo = new Photo(ComponentSimpleModel.getUniqueId(ctx),
-						null, bArray, null, new Date());
+						null, null, bArray, null, new Date());
 
 				PhotoDao photoDao = PhotoUtils.initPhotoDao(ctx);
 				long id = photoDao.insert(photo);

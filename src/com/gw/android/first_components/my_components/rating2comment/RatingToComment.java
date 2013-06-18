@@ -8,6 +8,7 @@ public class RatingToComment extends com.gw.android.first_components.my_fragment
 
     private Long id;
     private Long targetId;
+    private Long serverId;
 
     public RatingToComment() {
     }
@@ -16,9 +17,10 @@ public class RatingToComment extends com.gw.android.first_components.my_fragment
         this.id = id;
     }
 
-    public RatingToComment(Long id, Long targetId) {
+    public RatingToComment(Long id, Long targetId, Long serverId) {
         this.id = id;
         this.targetId = targetId;
+        this.serverId = serverId;
     }
 
     public Long getId() {
@@ -35,6 +37,14 @@ public class RatingToComment extends com.gw.android.first_components.my_fragment
 
     public void setTargetId(Long targetId) {
         this.targetId = targetId;
+    }
+
+    public Long getServerId() {
+        return serverId;
+    }
+
+    public void setServerId(Long serverId) {
+        this.serverId = serverId;
     }
 
 }

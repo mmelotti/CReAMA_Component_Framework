@@ -96,7 +96,7 @@ public class RatingViewGUI extends CRComponent implements
 			public void onClick(View v) {
 				Long newId = ComponentSimpleModel.getUniqueId(getActivity());
 				
-				rating = new Rating(newId, newTarget, ratingClickable.getRating());
+				rating = new Rating(newId, newTarget, null, ratingClickable.getRating());
 
 				initRatingDao();
 				ratingDao.insert(rating);

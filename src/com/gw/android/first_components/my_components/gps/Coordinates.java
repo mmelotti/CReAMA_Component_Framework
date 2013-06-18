@@ -8,6 +8,7 @@ public class Coordinates extends com.gw.android.first_components.my_fragment.Com
 
     private Long id;
     private Long targetId;
+    private Long serverId;
     private double latitude;
     private double longitude;
     private String addressLine1;
@@ -21,9 +22,10 @@ public class Coordinates extends com.gw.android.first_components.my_fragment.Com
         this.id = id;
     }
 
-    public Coordinates(Long id, Long targetId, double latitude, double longitude, String addressLine1, String addressLine2, String addressLine3) {
+    public Coordinates(Long id, Long targetId, Long serverId, double latitude, double longitude, String addressLine1, String addressLine2, String addressLine3) {
         this.id = id;
         this.targetId = targetId;
+        this.serverId = serverId;
         this.latitude = latitude;
         this.longitude = longitude;
         this.addressLine1 = addressLine1;
@@ -45,6 +47,14 @@ public class Coordinates extends com.gw.android.first_components.my_fragment.Com
 
     public void setTargetId(Long targetId) {
         this.targetId = targetId;
+    }
+
+    public Long getServerId() {
+        return serverId;
+    }
+
+    public void setServerId(Long serverId) {
+        this.serverId = serverId;
     }
 
     public double getLatitude() {

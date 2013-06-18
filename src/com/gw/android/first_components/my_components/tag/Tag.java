@@ -8,6 +8,7 @@ public class Tag extends com.gw.android.first_components.my_fragment.ComponentSi
 
     private Long id;
     private Long targetId;
+    private Long serverId;
     /** Not-null value. */
     private String tag;
 
@@ -18,9 +19,10 @@ public class Tag extends com.gw.android.first_components.my_fragment.ComponentSi
         this.id = id;
     }
 
-    public Tag(Long id, Long targetId, String tag) {
+    public Tag(Long id, Long targetId, Long serverId, String tag) {
         this.id = id;
         this.targetId = targetId;
+        this.serverId = serverId;
         this.tag = tag;
     }
 
@@ -38,6 +40,14 @@ public class Tag extends com.gw.android.first_components.my_fragment.ComponentSi
 
     public void setTargetId(Long targetId) {
         this.targetId = targetId;
+    }
+
+    public Long getServerId() {
+        return serverId;
+    }
+
+    public void setServerId(Long serverId) {
+        this.serverId = serverId;
     }
 
     /** Not-null value. */

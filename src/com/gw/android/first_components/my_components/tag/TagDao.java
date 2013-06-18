@@ -27,7 +27,8 @@ public class TagDao extends AbstractDao<Tag, Long> {
     public static class Properties {
         public final static Property Id = new Property(0, Long.class, "id", true, "_id");
         public final static Property TargetId = new Property(1, Long.class, "targetId", false, "TARGET_ID");
-        public final static Property Tag = new Property(2, String.class, "tag", false, "TAG");
+        public final static Property ServerId = new Property(2, Long.class, "serverId", false, "SERVER_ID");
+        public final static Property Tag = new Property(3, String.class, "tag", false, "TAG");
     };
 
 
@@ -45,7 +46,8 @@ public class TagDao extends AbstractDao<Tag, Long> {
         db.execSQL("CREATE TABLE " + constraint + "'TAG' (" + //
                 "'_id' INTEGER PRIMARY KEY ," + // 0: id
                 "'TARGET_ID' INTEGER," + // 1: targetId
-                "'TAG' TEXT NOT NULL );"); // 2: tag
+                "'SERVER_ID' INTEGER," + // 2: serverId
+                "'TAG' TEXT NOT NULL );"); // 3: tag
     }
 
     /** Drops the underlying database table. */
@@ -68,7 +70,12 @@ public class TagDao extends AbstractDao<Tag, Long> {
         if (targetId != null) {
             stmt.bindLong(2, targetId);
         }
-        stmt.bindString(3, entity.getTag());
+ 
+        Long serverId = entity.getServerId();
+        if (serverId != null) {
+            stmt.bindLong(3, serverId);
+        }
+        stmt.bindString(4, entity.getTag());
     }
 
     /** @inheritdoc */
@@ -83,7 +90,8 @@ public class TagDao extends AbstractDao<Tag, Long> {
         Tag entity = new Tag( //
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
             cursor.isNull(offset + 1) ? null : cursor.getLong(offset + 1), // targetId
-            cursor.getString(offset + 2) // tag
+            cursor.isNull(offset + 2) ? null : cursor.getLong(offset + 2), // serverId
+            cursor.getString(offset + 3) // tag
         );
         return entity;
     }
@@ -93,7 +101,8 @@ public class TagDao extends AbstractDao<Tag, Long> {
     public void readEntity(Cursor cursor, Tag entity, int offset) {
         entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
         entity.setTargetId(cursor.isNull(offset + 1) ? null : cursor.getLong(offset + 1));
-        entity.setTag(cursor.getString(offset + 2));
+        entity.setServerId(cursor.isNull(offset + 2) ? null : cursor.getLong(offset + 2));
+        entity.setTag(cursor.getString(offset + 3));
      }
     
     /** @inheritdoc */

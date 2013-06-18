@@ -87,9 +87,9 @@ public class GPSListener extends CRComponent {
 		Address ad = GPSViewGUI.getAddress(ctx, array[0], array[1]);
 		
 		if (ad != null) 
-			coord = new Coordinates(ComponentSimpleModel.getUniqueId(ctx), target, array[0], array[1], ad.getAddressLine(0), ad.getAddressLine(1), ad.getAddressLine(2));
+			coord = new Coordinates(ComponentSimpleModel.getUniqueId(ctx), target, null, array[0], array[1], ad.getAddressLine(0), ad.getAddressLine(1), ad.getAddressLine(2));
 		else
-			coord = new Coordinates(ComponentSimpleModel.getUniqueId(ctx), target, array[0], array[1], null, null, null);
+			coord = new Coordinates(ComponentSimpleModel.getUniqueId(ctx), target, null, array[0], array[1], null, null, null);
 		
 		return coord;
 	}

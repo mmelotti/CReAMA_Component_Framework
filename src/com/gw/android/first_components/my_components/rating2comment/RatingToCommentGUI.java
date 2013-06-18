@@ -104,7 +104,7 @@ public class RatingToCommentGUI extends CRComponent {
 	public void createNew() {
 		Long newId = ComponentSimpleModel.getUniqueId(getActivity());
 		Log.i("composed", " com target " + newTarget);
-		rating2c = new RatingToComment(newId, newTarget);
+		rating2c = new RatingToComment(newId, newTarget, null);
 		rating2cDao.insert(rating2c);
 	}
 

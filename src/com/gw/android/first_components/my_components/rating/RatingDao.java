@@ -27,7 +27,8 @@ public class RatingDao extends AbstractDao<Rating, Long> {
     public static class Properties {
         public final static Property Id = new Property(0, Long.class, "id", true, "_id");
         public final static Property TargetId = new Property(1, Long.class, "targetId", false, "TARGET_ID");
-        public final static Property Value = new Property(2, float.class, "value", false, "VALUE");
+        public final static Property ServerId = new Property(2, Long.class, "serverId", false, "SERVER_ID");
+        public final static Property Value = new Property(3, float.class, "value", false, "VALUE");
     };
 
 
@@ -45,7 +46,8 @@ public class RatingDao extends AbstractDao<Rating, Long> {
         db.execSQL("CREATE TABLE " + constraint + "'RATING' (" + //
                 "'_id' INTEGER PRIMARY KEY ," + // 0: id
                 "'TARGET_ID' INTEGER," + // 1: targetId
-                "'VALUE' REAL NOT NULL );"); // 2: value
+                "'SERVER_ID' INTEGER," + // 2: serverId
+                "'VALUE' REAL NOT NULL );"); // 3: value
     }
 
     /** Drops the underlying database table. */
@@ -68,7 +70,12 @@ public class RatingDao extends AbstractDao<Rating, Long> {
         if (targetId != null) {
             stmt.bindLong(2, targetId);
         }
-        stmt.bindDouble(3, entity.getValue());
+ 
+        Long serverId = entity.getServerId();
+        if (serverId != null) {
+            stmt.bindLong(3, serverId);
+        }
+        stmt.bindDouble(4, entity.getValue());
     }
 
     /** @inheritdoc */
@@ -83,7 +90,8 @@ public class RatingDao extends AbstractDao<Rating, Long> {
         Rating entity = new Rating( //
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
             cursor.isNull(offset + 1) ? null : cursor.getLong(offset + 1), // targetId
-            cursor.getFloat(offset + 2) // value
+            cursor.isNull(offset + 2) ? null : cursor.getLong(offset + 2), // serverId
+            cursor.getFloat(offset + 3) // value
         );
         return entity;
     }
@@ -93,7 +101,8 @@ public class RatingDao extends AbstractDao<Rating, Long> {
     public void readEntity(Cursor cursor, Rating entity, int offset) {
         entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
         entity.setTargetId(cursor.isNull(offset + 1) ? null : cursor.getLong(offset + 1));
-        entity.setValue(cursor.getFloat(offset + 2));
+        entity.setServerId(cursor.isNull(offset + 2) ? null : cursor.getLong(offset + 2));
+        entity.setValue(cursor.getFloat(offset + 3));
      }
     
     /** @inheritdoc */

@@ -27,16 +27,17 @@ public class BinomioDao extends AbstractDao<Binomio, Long> {
     public static class Properties {
         public final static Property Id = new Property(0, Long.class, "id", true, "_id");
         public final static Property TargetId = new Property(1, Long.class, "targetId", false, "TARGET_ID");
-        public final static Property Fechada = new Property(2, Integer.class, "fechada", false, "FECHADA");
-        public final static Property Aberta = new Property(3, Integer.class, "aberta", false, "ABERTA");
-        public final static Property Simples = new Property(4, Integer.class, "simples", false, "SIMPLES");
-        public final static Property Complexa = new Property(5, Integer.class, "complexa", false, "COMPLEXA");
-        public final static Property Vertical = new Property(6, Integer.class, "vertical", false, "VERTICAL");
-        public final static Property Horizontal = new Property(7, Integer.class, "horizontal", false, "HORIZONTAL");
-        public final static Property Simetrica = new Property(8, Integer.class, "simetrica", false, "SIMETRICA");
-        public final static Property Assimetrica = new Property(9, Integer.class, "assimetrica", false, "ASSIMETRICA");
-        public final static Property Opaca = new Property(10, Integer.class, "opaca", false, "OPACA");
-        public final static Property Translucida = new Property(11, Integer.class, "translucida", false, "TRANSLUCIDA");
+        public final static Property ServerId = new Property(2, Long.class, "serverId", false, "SERVER_ID");
+        public final static Property Fechada = new Property(3, Integer.class, "fechada", false, "FECHADA");
+        public final static Property Aberta = new Property(4, Integer.class, "aberta", false, "ABERTA");
+        public final static Property Simples = new Property(5, Integer.class, "simples", false, "SIMPLES");
+        public final static Property Complexa = new Property(6, Integer.class, "complexa", false, "COMPLEXA");
+        public final static Property Vertical = new Property(7, Integer.class, "vertical", false, "VERTICAL");
+        public final static Property Horizontal = new Property(8, Integer.class, "horizontal", false, "HORIZONTAL");
+        public final static Property Simetrica = new Property(9, Integer.class, "simetrica", false, "SIMETRICA");
+        public final static Property Assimetrica = new Property(10, Integer.class, "assimetrica", false, "ASSIMETRICA");
+        public final static Property Opaca = new Property(11, Integer.class, "opaca", false, "OPACA");
+        public final static Property Translucida = new Property(12, Integer.class, "translucida", false, "TRANSLUCIDA");
     };
 
 
@@ -54,16 +55,17 @@ public class BinomioDao extends AbstractDao<Binomio, Long> {
         db.execSQL("CREATE TABLE " + constraint + "'BINOMIO' (" + //
                 "'_id' INTEGER PRIMARY KEY ," + // 0: id
                 "'TARGET_ID' INTEGER," + // 1: targetId
-                "'FECHADA' INTEGER," + // 2: fechada
-                "'ABERTA' INTEGER," + // 3: aberta
-                "'SIMPLES' INTEGER," + // 4: simples
-                "'COMPLEXA' INTEGER," + // 5: complexa
-                "'VERTICAL' INTEGER," + // 6: vertical
-                "'HORIZONTAL' INTEGER," + // 7: horizontal
-                "'SIMETRICA' INTEGER," + // 8: simetrica
-                "'ASSIMETRICA' INTEGER," + // 9: assimetrica
-                "'OPACA' INTEGER," + // 10: opaca
-                "'TRANSLUCIDA' INTEGER);"); // 11: translucida
+                "'SERVER_ID' INTEGER," + // 2: serverId
+                "'FECHADA' INTEGER," + // 3: fechada
+                "'ABERTA' INTEGER," + // 4: aberta
+                "'SIMPLES' INTEGER," + // 5: simples
+                "'COMPLEXA' INTEGER," + // 6: complexa
+                "'VERTICAL' INTEGER," + // 7: vertical
+                "'HORIZONTAL' INTEGER," + // 8: horizontal
+                "'SIMETRICA' INTEGER," + // 9: simetrica
+                "'ASSIMETRICA' INTEGER," + // 10: assimetrica
+                "'OPACA' INTEGER," + // 11: opaca
+                "'TRANSLUCIDA' INTEGER);"); // 12: translucida
     }
 
     /** Drops the underlying database table. */
@@ -87,54 +89,59 @@ public class BinomioDao extends AbstractDao<Binomio, Long> {
             stmt.bindLong(2, targetId);
         }
  
+        Long serverId = entity.getServerId();
+        if (serverId != null) {
+            stmt.bindLong(3, serverId);
+        }
+ 
         Integer fechada = entity.getFechada();
         if (fechada != null) {
-            stmt.bindLong(3, fechada);
+            stmt.bindLong(4, fechada);
         }
  
         Integer aberta = entity.getAberta();
         if (aberta != null) {
-            stmt.bindLong(4, aberta);
+            stmt.bindLong(5, aberta);
         }
  
         Integer simples = entity.getSimples();
         if (simples != null) {
-            stmt.bindLong(5, simples);
+            stmt.bindLong(6, simples);
         }
  
         Integer complexa = entity.getComplexa();
         if (complexa != null) {
-            stmt.bindLong(6, complexa);
+            stmt.bindLong(7, complexa);
         }
  
         Integer vertical = entity.getVertical();
         if (vertical != null) {
-            stmt.bindLong(7, vertical);
+            stmt.bindLong(8, vertical);
         }
  
         Integer horizontal = entity.getHorizontal();
         if (horizontal != null) {
-            stmt.bindLong(8, horizontal);
+            stmt.bindLong(9, horizontal);
         }
  
         Integer simetrica = entity.getSimetrica();
         if (simetrica != null) {
-            stmt.bindLong(9, simetrica);
+            stmt.bindLong(10, simetrica);
         }
  
         Integer assimetrica = entity.getAssimetrica();
         if (assimetrica != null) {
-            stmt.bindLong(10, assimetrica);
+            stmt.bindLong(11, assimetrica);
         }
  
         Integer opaca = entity.getOpaca();
         if (opaca != null) {
-            stmt.bindLong(11, opaca);
+            stmt.bindLong(12, opaca);
         }
  
         Integer translucida = entity.getTranslucida();
         if (translucida != null) {
-            stmt.bindLong(12, translucida);
+            stmt.bindLong(13, translucida);
         }
     }
 
@@ -150,16 +157,17 @@ public class BinomioDao extends AbstractDao<Binomio, Long> {
         Binomio entity = new Binomio( //
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
             cursor.isNull(offset + 1) ? null : cursor.getLong(offset + 1), // targetId
-            cursor.isNull(offset + 2) ? null : cursor.getInt(offset + 2), // fechada
-            cursor.isNull(offset + 3) ? null : cursor.getInt(offset + 3), // aberta
-            cursor.isNull(offset + 4) ? null : cursor.getInt(offset + 4), // simples
-            cursor.isNull(offset + 5) ? null : cursor.getInt(offset + 5), // complexa
-            cursor.isNull(offset + 6) ? null : cursor.getInt(offset + 6), // vertical
-            cursor.isNull(offset + 7) ? null : cursor.getInt(offset + 7), // horizontal
-            cursor.isNull(offset + 8) ? null : cursor.getInt(offset + 8), // simetrica
-            cursor.isNull(offset + 9) ? null : cursor.getInt(offset + 9), // assimetrica
-            cursor.isNull(offset + 10) ? null : cursor.getInt(offset + 10), // opaca
-            cursor.isNull(offset + 11) ? null : cursor.getInt(offset + 11) // translucida
+            cursor.isNull(offset + 2) ? null : cursor.getLong(offset + 2), // serverId
+            cursor.isNull(offset + 3) ? null : cursor.getInt(offset + 3), // fechada
+            cursor.isNull(offset + 4) ? null : cursor.getInt(offset + 4), // aberta
+            cursor.isNull(offset + 5) ? null : cursor.getInt(offset + 5), // simples
+            cursor.isNull(offset + 6) ? null : cursor.getInt(offset + 6), // complexa
+            cursor.isNull(offset + 7) ? null : cursor.getInt(offset + 7), // vertical
+            cursor.isNull(offset + 8) ? null : cursor.getInt(offset + 8), // horizontal
+            cursor.isNull(offset + 9) ? null : cursor.getInt(offset + 9), // simetrica
+            cursor.isNull(offset + 10) ? null : cursor.getInt(offset + 10), // assimetrica
+            cursor.isNull(offset + 11) ? null : cursor.getInt(offset + 11), // opaca
+            cursor.isNull(offset + 12) ? null : cursor.getInt(offset + 12) // translucida
         );
         return entity;
     }
@@ -169,16 +177,17 @@ public class BinomioDao extends AbstractDao<Binomio, Long> {
     public void readEntity(Cursor cursor, Binomio entity, int offset) {
         entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
         entity.setTargetId(cursor.isNull(offset + 1) ? null : cursor.getLong(offset + 1));
-        entity.setFechada(cursor.isNull(offset + 2) ? null : cursor.getInt(offset + 2));
-        entity.setAberta(cursor.isNull(offset + 3) ? null : cursor.getInt(offset + 3));
-        entity.setSimples(cursor.isNull(offset + 4) ? null : cursor.getInt(offset + 4));
-        entity.setComplexa(cursor.isNull(offset + 5) ? null : cursor.getInt(offset + 5));
-        entity.setVertical(cursor.isNull(offset + 6) ? null : cursor.getInt(offset + 6));
-        entity.setHorizontal(cursor.isNull(offset + 7) ? null : cursor.getInt(offset + 7));
-        entity.setSimetrica(cursor.isNull(offset + 8) ? null : cursor.getInt(offset + 8));
-        entity.setAssimetrica(cursor.isNull(offset + 9) ? null : cursor.getInt(offset + 9));
-        entity.setOpaca(cursor.isNull(offset + 10) ? null : cursor.getInt(offset + 10));
-        entity.setTranslucida(cursor.isNull(offset + 11) ? null : cursor.getInt(offset + 11));
+        entity.setServerId(cursor.isNull(offset + 2) ? null : cursor.getLong(offset + 2));
+        entity.setFechada(cursor.isNull(offset + 3) ? null : cursor.getInt(offset + 3));
+        entity.setAberta(cursor.isNull(offset + 4) ? null : cursor.getInt(offset + 4));
+        entity.setSimples(cursor.isNull(offset + 5) ? null : cursor.getInt(offset + 5));
+        entity.setComplexa(cursor.isNull(offset + 6) ? null : cursor.getInt(offset + 6));
+        entity.setVertical(cursor.isNull(offset + 7) ? null : cursor.getInt(offset + 7));
+        entity.setHorizontal(cursor.isNull(offset + 8) ? null : cursor.getInt(offset + 8));
+        entity.setSimetrica(cursor.isNull(offset + 9) ? null : cursor.getInt(offset + 9));
+        entity.setAssimetrica(cursor.isNull(offset + 10) ? null : cursor.getInt(offset + 10));
+        entity.setOpaca(cursor.isNull(offset + 11) ? null : cursor.getInt(offset + 11));
+        entity.setTranslucida(cursor.isNull(offset + 12) ? null : cursor.getInt(offset + 12));
      }
     
     /** @inheritdoc */

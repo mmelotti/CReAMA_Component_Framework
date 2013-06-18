@@ -27,6 +27,7 @@ public class RatingToCommentDao extends AbstractDao<RatingToComment, Long> {
     public static class Properties {
         public final static Property Id = new Property(0, Long.class, "id", true, "_id");
         public final static Property TargetId = new Property(1, Long.class, "targetId", false, "TARGET_ID");
+        public final static Property ServerId = new Property(2, Long.class, "serverId", false, "SERVER_ID");
     };
 
 
@@ -43,7 +44,8 @@ public class RatingToCommentDao extends AbstractDao<RatingToComment, Long> {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "'RATING_TO_COMMENT' (" + //
                 "'_id' INTEGER PRIMARY KEY ," + // 0: id
-                "'TARGET_ID' INTEGER);"); // 1: targetId
+                "'TARGET_ID' INTEGER," + // 1: targetId
+                "'SERVER_ID' INTEGER);"); // 2: serverId
     }
 
     /** Drops the underlying database table. */
@@ -66,6 +68,11 @@ public class RatingToCommentDao extends AbstractDao<RatingToComment, Long> {
         if (targetId != null) {
             stmt.bindLong(2, targetId);
         }
+ 
+        Long serverId = entity.getServerId();
+        if (serverId != null) {
+            stmt.bindLong(3, serverId);
+        }
     }
 
     /** @inheritdoc */
@@ -79,7 +86,8 @@ public class RatingToCommentDao extends AbstractDao<RatingToComment, Long> {
     public RatingToComment readEntity(Cursor cursor, int offset) {
         RatingToComment entity = new RatingToComment( //
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
-            cursor.isNull(offset + 1) ? null : cursor.getLong(offset + 1) // targetId
+            cursor.isNull(offset + 1) ? null : cursor.getLong(offset + 1), // targetId
+            cursor.isNull(offset + 2) ? null : cursor.getLong(offset + 2) // serverId
         );
         return entity;
     }
@@ -89,6 +97,7 @@ public class RatingToCommentDao extends AbstractDao<RatingToComment, Long> {
     public void readEntity(Cursor cursor, RatingToComment entity, int offset) {
         entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
         entity.setTargetId(cursor.isNull(offset + 1) ? null : cursor.getLong(offset + 1));
+        entity.setServerId(cursor.isNull(offset + 2) ? null : cursor.getLong(offset + 2));
      }
     
     /** @inheritdoc */

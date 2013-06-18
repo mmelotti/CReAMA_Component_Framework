@@ -27,8 +27,9 @@ public class FaqDao extends AbstractDao<Faq, Long> {
     public static class Properties {
         public final static Property Id = new Property(0, Long.class, "id", true, "_id");
         public final static Property TargetId = new Property(1, Long.class, "targetId", false, "TARGET_ID");
-        public final static Property Pergunta = new Property(2, String.class, "pergunta", false, "PERGUNTA");
-        public final static Property Resposta = new Property(3, String.class, "resposta", false, "RESPOSTA");
+        public final static Property ServerId = new Property(2, Long.class, "serverId", false, "SERVER_ID");
+        public final static Property Pergunta = new Property(3, String.class, "pergunta", false, "PERGUNTA");
+        public final static Property Resposta = new Property(4, String.class, "resposta", false, "RESPOSTA");
     };
 
 
@@ -46,8 +47,9 @@ public class FaqDao extends AbstractDao<Faq, Long> {
         db.execSQL("CREATE TABLE " + constraint + "'FAQ' (" + //
                 "'_id' INTEGER PRIMARY KEY ," + // 0: id
                 "'TARGET_ID' INTEGER," + // 1: targetId
-                "'PERGUNTA' TEXT," + // 2: pergunta
-                "'RESPOSTA' TEXT);"); // 3: resposta
+                "'SERVER_ID' INTEGER," + // 2: serverId
+                "'PERGUNTA' TEXT," + // 3: pergunta
+                "'RESPOSTA' TEXT);"); // 4: resposta
     }
 
     /** Drops the underlying database table. */
@@ -71,14 +73,19 @@ public class FaqDao extends AbstractDao<Faq, Long> {
             stmt.bindLong(2, targetId);
         }
  
+        Long serverId = entity.getServerId();
+        if (serverId != null) {
+            stmt.bindLong(3, serverId);
+        }
+ 
         String pergunta = entity.getPergunta();
         if (pergunta != null) {
-            stmt.bindString(3, pergunta);
+            stmt.bindString(4, pergunta);
         }
  
         String resposta = entity.getResposta();
         if (resposta != null) {
-            stmt.bindString(4, resposta);
+            stmt.bindString(5, resposta);
         }
     }
 
@@ -94,8 +101,9 @@ public class FaqDao extends AbstractDao<Faq, Long> {
         Faq entity = new Faq( //
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
             cursor.isNull(offset + 1) ? null : cursor.getLong(offset + 1), // targetId
-            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // pergunta
-            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3) // resposta
+            cursor.isNull(offset + 2) ? null : cursor.getLong(offset + 2), // serverId
+            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // pergunta
+            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4) // resposta
         );
         return entity;
     }
@@ -105,8 +113,9 @@ public class FaqDao extends AbstractDao<Faq, Long> {
     public void readEntity(Cursor cursor, Faq entity, int offset) {
         entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
         entity.setTargetId(cursor.isNull(offset + 1) ? null : cursor.getLong(offset + 1));
-        entity.setPergunta(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
-        entity.setResposta(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
+        entity.setServerId(cursor.isNull(offset + 2) ? null : cursor.getLong(offset + 2));
+        entity.setPergunta(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
+        entity.setResposta(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
      }
     
     /** @inheritdoc */
