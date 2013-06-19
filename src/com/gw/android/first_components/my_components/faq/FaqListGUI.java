@@ -103,6 +103,20 @@ public class FaqListGUI extends CRComponent implements OnItemClickListener {
 						Log.e("list onfinish", "batata");
 					}
 				});
+		}else{//pega no cache
+			Log.e("list onsuccess", " sem conexao");
+
+			//preenche list para mostrar no view
+			mQuestions.clear();
+			for (Faq f : list)
+				mQuestions.add(f.getPergunta());
+
+			ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+					getActivity().getApplicationContext(),
+					android.R.layout.simple_list_item_1, mQuestions);
+			adapter.notifyDataSetChanged();
+			listView.setAdapter(adapter);
+			
 		}
 		
 	}
@@ -117,10 +131,12 @@ public class FaqListGUI extends CRComponent implements OnItemClickListener {
 
 			for (int j = 0; j < arrayResults.length(); j++) {
 				JSONObject object = arrayResults.getJSONObject(j);
-				Long id = Long.parseLong(object.get("id").toString());
+				Long idServ = Long.parseLong(object.get("id").toString());
 				String pergunta = object.get("pergunta").toString();
 				String resposta = object.get("resposta").toString();
-				list.add(new Faq(id, null, null, pergunta, resposta));
+				Faq novo = new Faq(0L, 0L, idServ, pergunta, resposta);				
+				novo=newOnePersistence(novo); //gera Id unico, entao pega atualizado
+				list.add(novo);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -136,7 +152,7 @@ public class FaqListGUI extends CRComponent implements OnItemClickListener {
 		faqView.show(getFragmentManager(), "faqView");
 	}
 	
-	public void newOne(Faq faq){
+	public Faq newOnePersistence(Faq faq){
 		initFaqDao();
 		//TODO
 		//gera id unico, mas tem que ter relacao com id do server
@@ -145,6 +161,7 @@ public class FaqListGUI extends CRComponent implements OnItemClickListener {
 		faq.setId(newId);
 		faqDao.insert(faq);
 		closeDao();
+		return faq;
 	}
 	
 	public void changeOne(){
