@@ -1,5 +1,7 @@
 package com.gw.android.first_components.my_components.faq;
 
+import java.util.List;
+
 import org.apache.http.impl.client.DefaultHttpClient;
 import com.gw.android.R;
 import com.gw.android.components.connection_manager.AsyncRequestHandler;
@@ -8,6 +10,9 @@ import com.gw.android.first_components.database.DaoMaster;
 import com.gw.android.first_components.database.DaoSession;
 import com.gw.android.first_components.database.DaoMaster.DevOpenHelper;
 import com.gw.android.first_components.my_activities.FaqActivity;
+import com.gw.android.first_components.my_components.comment.Comment;
+import com.gw.android.first_components.my_components.faq.FaqDao.Properties;
+
 import com.gw.android.first_components.my_fragment.CRComponent;
 import com.gw.android.first_components.my_fragment.ComponentSimpleModel;
 import android.annotation.SuppressLint;
@@ -133,7 +138,16 @@ public class FaqSendGUI extends CRComponent implements OnClickListener {
 	
 	public void changeOne(String id,Faq faq){
 		//busca o que ta no BD para atualizar
+		//parei aqui, fui pro treino, falta deletar!!
+		List<Faq> lista = faqDao.queryBuilder().where(Properties.Pergunta.eq(faq.getPergunta())).build().list();
 		
+	}
+	
+	public void faqDelete(Faq faq){
+		initFaqDao();
+		
+		
+		closeDao();
 	}
 	
 	public void initFaqDao() {
