@@ -101,14 +101,14 @@ public class FaqSendGUI extends CRComponent implements OnClickListener {
 					}
 				});
 		}
-		
+		Faq faq = new Faq();
+		faq.setPergunta(pergunta);
+		faq.setResposta(resposta);
 		if(id.equals("")){
-			Faq faq = new Faq();
-			faq.setPergunta(pergunta);
-			faq.setResposta(resposta);
-			newOne(new Faq());
+			
+			newOnePersistence(new Faq());
 		}else{
-			changeOne();
+			changeOne(id,faq);
 		}
 		
 		return "";
@@ -122,7 +122,7 @@ public class FaqSendGUI extends CRComponent implements OnClickListener {
 	}
 
 	
-	public void newOne(Faq faq){
+	public void newOnePersistence(Faq faq){
 		initFaqDao();
 		//gera id unico
 		Long newId = ComponentSimpleModel.getUniqueId(getActivity());
@@ -131,8 +131,8 @@ public class FaqSendGUI extends CRComponent implements OnClickListener {
 		closeDao();
 	}
 	
-	public void changeOne(){
-		
+	public void changeOne(String id,Faq faq){
+		//busca o que ta no BD para atualizar
 		
 	}
 	
