@@ -78,6 +78,7 @@ public class CommentSendGUI extends CRComponent {
 				return false;
 			}
 		});
+		
 		if(idTarget==-1L){
 			idTarget = getComponentTarget().getCurrentInstanceId();
 		}

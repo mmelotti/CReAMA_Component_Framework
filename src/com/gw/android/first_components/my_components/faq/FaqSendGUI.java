@@ -2,6 +2,7 @@ package com.gw.android.first_components.my_components.faq;
 
 import org.apache.http.impl.client.DefaultHttpClient;
 import com.gw.android.R;
+import com.gw.android.components.connection_manager.AsyncRequestHandler;
 import com.gw.android.components.request.Request;
 import com.gw.android.first_components.database.DaoMaster;
 import com.gw.android.first_components.database.DaoSession;
@@ -9,9 +10,6 @@ import com.gw.android.first_components.database.DaoMaster.DevOpenHelper;
 import com.gw.android.first_components.my_activities.FaqActivity;
 import com.gw.android.first_components.my_fragment.CRComponent;
 import com.gw.android.first_components.my_fragment.ComponentSimpleModel;
-import com.loopj.android.http.AsyncHttpResponseHandler;
-
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
@@ -80,7 +78,7 @@ public class FaqSendGUI extends CRComponent implements OnClickListener {
 		//de qualquer maneira, salva no cache
 		if(conectado){
 			getConnectionManager().makeRequest(request, getActivity(),
-				new AsyncHttpResponseHandler() {
+				new AsyncRequestHandler() {
 					@Override
 					public void onSuccess(String response) {
 						Log.e("onsuccess", response);
@@ -89,10 +87,11 @@ public class FaqSendGUI extends CRComponent implements OnClickListener {
 						if (FaqSendGUI.this.getDialog() != null) 
 							// Sendo mostrado como dialog
 							FaqSendGUI.this.dismiss();
+						reloadActivity();
 					}
 
 					@Override
-					public void onFailure(Throwable t) {
+					public void onFailure(Throwable t, String arg1) {
 						Log.e("onfailure", "batata");
 					}
 

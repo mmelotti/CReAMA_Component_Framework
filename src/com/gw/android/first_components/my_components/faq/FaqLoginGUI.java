@@ -1,11 +1,10 @@
 package com.gw.android.first_components.my_components.faq;
 
 import com.gw.android.R;
+import com.gw.android.components.connection_manager.AsyncRequestHandler;
 import com.gw.android.components.request.Request;
 import com.gw.android.first_components.my_activities.FaqActivity;
 import com.gw.android.first_components.my_fragment.CRComponent;
-import com.loopj.android.http.AsyncHttpResponseHandler;
-
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -57,7 +56,7 @@ public class FaqLoginGUI extends CRComponent {
 		Request request = new Request(null, urlLogin, "post",
 				"user.login--" + login + "__user.password--" + password);
 		getConnectionManager().makeRequest(request, getActivity(),
-				new AsyncHttpResponseHandler() {
+				new AsyncRequestHandler() {
 					@Override
 					public void onSuccess(String response) {
 						//Log.e("onsuccess", response); 
@@ -66,7 +65,7 @@ public class FaqLoginGUI extends CRComponent {
 					}
 					
 					@Override
-					public void onFailure(Throwable t) {
+					public void onFailure(Throwable t, String arg1) {
 						Log.e("onfailure", "batata"); 
 					}
 					

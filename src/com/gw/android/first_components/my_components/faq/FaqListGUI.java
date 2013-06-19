@@ -8,6 +8,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.gw.android.R;
+import com.gw.android.components.connection_manager.AsyncRequestHandler;
 import com.gw.android.components.request.Request;
 import com.gw.android.first_components.database.DaoMaster;
 import com.gw.android.first_components.database.DaoSession;
@@ -15,8 +16,6 @@ import com.gw.android.first_components.database.DaoMaster.DevOpenHelper;
 import com.gw.android.first_components.my_activities.FaqActivity;
 import com.gw.android.first_components.my_fragment.CRComponent;
 import com.gw.android.first_components.my_fragment.ComponentSimpleModel;
-import com.loopj.android.http.AsyncHttpResponseHandler;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.database.sqlite.SQLiteDatabase;
@@ -75,9 +74,9 @@ public class FaqListGUI extends CRComponent implements OnItemClickListener {
 		//se nao estiver conectado, nem vale ir para a fila de request
 		//se estiver conectado, vai tentar buscar no servidor as perguntas/respostas
 		//depois salva no cache para acesso offline
-		if(conectado){
-		getConnectionManager().makeRequest(request, getActivity(),
-				new AsyncHttpResponseHandler() {
+		if (conectado) {
+			getConnectionManager().makeRequest(request, getActivity(),
+				new AsyncRequestHandler() {
 					@Override
 					public void onSuccess(String response) {
 						Log.e("list onsuccess", response);
@@ -95,7 +94,7 @@ public class FaqListGUI extends CRComponent implements OnItemClickListener {
 					}
 
 					@Override
-					public void onFailure(Throwable t) {
+					public void onFailure(Throwable t, String arg1) {
 						Log.e("list onfailure", "batata");
 					}
 
