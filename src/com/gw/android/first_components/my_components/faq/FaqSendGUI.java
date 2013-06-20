@@ -47,9 +47,9 @@ public class FaqSendGUI extends CRComponent implements OnClickListener {
 		DaoSession daoSession = daoMaster.newSession();
 		return daoSession.getFaqDao();
 	}
-	
+
 	public void setData(String id, String question, String answer) {
-		this.id = id; //string vazia eh nova pergunta-resposta
+		this.id = id; // string vazia eh nova pergunta-resposta
 		this.question = question;
 		this.answer = answer;
 	}
@@ -57,65 +57,68 @@ public class FaqSendGUI extends CRComponent implements OnClickListener {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		
+
 		Dialog d = getDialog();
-		if (d != null)	// componente está sendo mostrado como dialog
+		if (d != null) // componente está sendo mostrado como dialog
 			d.setTitle("FAQ");
-		
+
 		View view = inflater.inflate(R.layout.faq_send, container, false);
 		editQuestion = (EditText) view.findViewById(R.id.editQuestion);
 		editAnswer = (EditText) view.findViewById(R.id.editAnswer);
 		btnSubmit = (Button) view.findViewById(R.id.btnSubmit);
 		btnSubmit.setOnClickListener(this);
-		
+
 		editQuestion.setText(question);
 		editAnswer.setText(answer);
 		return view;
 	}
 
 	String saveRequest(String id, String pergunta, String resposta) {
-		Request request = new Request(null, urlSave, "post", "faq.id--"
-				+ id + "__faq.pergunta--" + pergunta + "__faq.resposta--"
-				+ resposta);
-		
-		//poe na fila de request primeiro, para o servico consumir
-		//se estiver conectado, vai tentar enviar pro servidor
-		//de qualquer maneira, salva no cache
-		if(conectado){
+		Request request = new Request(null, urlSave, "post", "faq.id--" + id
+				+ "__faq.pergunta--" + pergunta + "__faq.resposta--" + resposta);
+
+		// poe na fila de request primeiro, para o servico consumir
+		// se estiver conectado, vai tentar enviar pro servidor
+		// de qualquer maneira, salva no cache
+		if (conectado) {
 			getConnectionManager().makeRequest(request, getActivity(),
-				new AsyncRequestHandler() {
-					@Override
-					public void onSuccess(String response) {
-						Log.e("onsuccess", response);
-						Toast.makeText(getActivity(), "Enviado!",
-								Toast.LENGTH_SHORT).show();
-						if (FaqSendGUI.this.getDialog() != null) 
-							// Sendo mostrado como dialog
-							FaqSendGUI.this.dismiss();
-						reloadActivity();
-					}
+					new AsyncRequestHandler() {
+						@Override
+						public void onSuccess(String response) {
+							Log.e("onsuccess", response);
+							Toast.makeText(getActivity(), "Enviado!",
+									Toast.LENGTH_SHORT).show();
+							if (FaqSendGUI.this.getDialog() != null)
+								// Sendo mostrado como dialog
+								FaqSendGUI.this.dismiss();
+							reloadActivity();
+						}
 
-					@Override
-					public void onFailure(Throwable t, String arg1) {
-						Log.e("onfailure", "batata");
-					}
+						@Override
+						public void onFailure(Throwable t, String arg1) {
+							Log.e("onfailure", "batata");
+						}
 
-					@Override
-					public void onFinish() {
-						Log.e("onfinish", "batata");
-					}
-				});
+						@Override
+						public void onFinish() {
+							Log.e("onfinish", "batata");
+						}
+					});
 		}
 		Faq faq = new Faq();
 		faq.setPergunta(pergunta);
 		faq.setResposta(resposta);
-		if(id.equals("")){
-			
+		// operacoes no cache
+		if (id.equals("")) {// nao tem no server, pode ser novo, mas tem que ver
+							// se ja nao ta no cache! TODO faltando idLocal
 			newOnePersistence(new Faq());
-		}else{
-			changeOne(id,faq);
+			// mesmo se nao tive conectado salva no cache, se cair conexao ele
+			// ainda pode alterar
+
+		} else {// nao eh um novo
+			changeOne(id, faq);
 		}
-		
+
 		return "";
 	}
 
@@ -126,32 +129,49 @@ public class FaqSendGUI extends CRComponent implements OnClickListener {
 		saveRequest(id, question, answer);
 	}
 
-	
-	public void newOnePersistence(Faq faq){
+	public void newOnePersistence(Faq faq) {
 		initFaqDao();
-		//gera id unico
+		// gera id unico
 		Long newId = ComponentSimpleModel.getUniqueId(getActivity());
 		faq.setId(newId);
 		faqDao.insert(faq);
 		closeDao();
 	}
-	
-	public void changeOne(String id,Faq faq){
-		//busca o que ta no BD para atualizar
-		//parei aqui, fui pro treino, falta deletar!!
-		List<Faq> lista = faqDao.queryBuilder().where(Properties.Pergunta.eq(faq.getPergunta())).build().list();
-		
-	}
-	
-	public void faqDelete(Faq faq){
+
+	public void changeOne(String idS, Faq faq) {
+		// busca o que ta no BD para atualizar
+		// parei aqui, fui pro treino, falta deletar!!
+		Long id = Long.parseLong(idS);
+		Faq antigo = null;
+		Faq atualizado = faq;
 		initFaqDao();
-		
-		
+		List<Faq> lista = faqDao.queryBuilder()
+				.where(Properties.ServerId.eq(id)).build().list();
+		closeDao();
+
+		for (Faq f : lista) {
+			antigo = f; // eh pra ter soh um na lista
+		}
+
+		if (antigo != null) {// ele ta mexendo online e ja tem id do server
+			atualizado.setServerId(antigo.getServerId());
+		}
+
+		// de qualquer maneira insere o atualizado e deleta o antigo
+		initFaqDao();
+		faqDao.insert(atualizado);
+		faqDao.delete(antigo);
 		closeDao();
 	}
-	
+
+	public void faqDelete(Faq faq) {
+		initFaqDao();
+
+		closeDao();
+	}
+
 	public void initFaqDao() {
-		//Log.i("en initi", "aquiii");
+		// Log.i("en initi", "aquiii");
 		DevOpenHelper helper = new DaoMaster.DevOpenHelper(getActivity(),
 				"faqs-db", null);
 		SQLiteDatabase db = helper.getWritableDatabase();
@@ -159,9 +179,9 @@ public class FaqSendGUI extends CRComponent implements OnClickListener {
 		daoSession = daoMaster.newSession();
 		faqDao = daoSession.getFaqDao();
 	}
-	
+
 	public void closeDao() {
 		faqDao.getDatabase().close();
 	}
-	
+
 }
