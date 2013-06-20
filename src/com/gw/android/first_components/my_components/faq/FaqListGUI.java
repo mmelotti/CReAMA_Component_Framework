@@ -14,6 +14,7 @@ import com.gw.android.first_components.database.DaoMaster;
 import com.gw.android.first_components.database.DaoSession;
 import com.gw.android.first_components.database.DaoMaster.DevOpenHelper;
 import com.gw.android.first_components.my_activities.FaqActivity;
+import com.gw.android.first_components.my_components.faq.FaqDao.Properties;
 import com.gw.android.first_components.my_fragment.CRComponent;
 import com.gw.android.first_components.my_fragment.ComponentSimpleModel;
 import android.annotation.SuppressLint;
@@ -39,7 +40,6 @@ public class FaqListGUI extends CRComponent implements OnItemClickListener {
 	private boolean conectado = true;
 	private FaqDao faqDao;
 	private DaoSession daoSession;
-	
 
 	public static FaqDao initFaqDao(Activity a) {
 		DevOpenHelper helper = new DaoMaster.DevOpenHelper(a, "faqs-db", null);
@@ -53,7 +53,7 @@ public class FaqListGUI extends CRComponent implements OnItemClickListener {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 	}
-	
+
 	@Override
 	protected void onBind() {
 		listRequest();
@@ -70,43 +70,46 @@ public class FaqListGUI extends CRComponent implements OnItemClickListener {
 
 	void listRequest() {
 		Request request = new Request(null, urlList, "get", null);
-		
-		//se nao estiver conectado, nem vale ir para a fila de request
-		//se estiver conectado, vai tentar buscar no servidor as perguntas/respostas
-		//depois salva no cache para acesso offline
+
+		// se nao estiver conectado, nem vale ir para a fila de request
+		// se estiver conectado, vai tentar buscar no servidor as
+		// perguntas/respostas
+		// depois salva no cache para acesso offline
 		if (conectado) {
 			getConnectionManager().makeRequest(request, getActivity(),
-				new AsyncRequestHandler() {
-					@Override
-					public void onSuccess(String response) {
-						Log.e("list onsuccess", response);
+					new AsyncRequestHandler() {
+						@Override
+						public void onSuccess(String response) {
+							Log.e("list onsuccess", response);
 
-						parseJSON(response);
-						mQuestions.clear();
-						for (Faq f : list)
-							mQuestions.add(f.getPergunta());
+							parseJSON(response);
+							mQuestions.clear();
+							for (Faq f : list)
+								mQuestions.add(f.getPergunta());
 
-						ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-								getActivity().getApplicationContext(),
-								android.R.layout.simple_list_item_1, mQuestions);
-						adapter.notifyDataSetChanged();
-						listView.setAdapter(adapter);
-					}
+							ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+									getActivity().getApplicationContext(),
+									android.R.layout.simple_list_item_1,
+									mQuestions);
+							adapter.notifyDataSetChanged();
+							listView.setAdapter(adapter);
+						}
 
-					@Override
-					public void onFailure(Throwable t, String arg1) {
-						Log.e("list onfailure", "batata");
-					}
+						@Override
+						public void onFailure(Throwable t, String arg1) {
+							Log.e("list onfailure", "batata");
+						}
 
-					@Override
-					public void onFinish() {
-						Log.e("list onfinish", "batata");
-					}
-				});
-		}else{//pega no cache
+						@Override
+						public void onFinish() {
+							Log.e("list onfinish", "batata");
+						}
+					});
+		} else {// pega no cache
 			Log.e("list onsuccess", " sem conexao");
 
-			//preenche list para mostrar no view
+			// preenche list (from cache) para mostrar no view
+			fillList();
 			mQuestions.clear();
 			for (Faq f : list)
 				mQuestions.add(f.getPergunta());
@@ -116,9 +119,9 @@ public class FaqListGUI extends CRComponent implements OnItemClickListener {
 					android.R.layout.simple_list_item_1, mQuestions);
 			adapter.notifyDataSetChanged();
 			listView.setAdapter(adapter);
-			
+
 		}
-		
+
 	}
 
 	void parseJSON(String response) {
@@ -129,18 +132,35 @@ public class FaqListGUI extends CRComponent implements OnItemClickListener {
 			JSONArray valArray = json.toJSONArray(nameArray);
 			JSONArray arrayResults = valArray.getJSONArray(0);
 
+			// apaga tudo no cache para reecriar...por enquanto fazemos isso
+			apagaNoCache();
+			// so pode executar isso se tiver conectado
+
 			for (int j = 0; j < arrayResults.length(); j++) {
 				JSONObject object = arrayResults.getJSONObject(j);
 				Long idServ = Long.parseLong(object.get("id").toString());
 				String pergunta = object.get("pergunta").toString();
 				String resposta = object.get("resposta").toString();
-				Faq novo = new Faq(0L, 0L, idServ, pergunta, resposta);				
-				novo=newOnePersistence(novo); //gera Id unico, entao pega atualizado
+
+				// cria novo faq para mandar pro cache
+				Faq novo = new Faq(0L, 0L, idServ, pergunta, resposta);
+				novo = newOnePersistence(novo); // gera Id unico, entao retorna
+												// atualizado
 				list.add(novo);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	public void apagaNoCache() {
+		initFaqDao();
+		List<Faq> lista = faqDao.queryBuilder().build().list();
+		// faz uma busca e apaga um por um
+		for (Faq f : lista) {
+			faqDao.delete(f);
+		}
+		closeDao();
 	}
 
 	@Override
@@ -151,28 +171,18 @@ public class FaqListGUI extends CRComponent implements OnItemClickListener {
 		faqView.setData(f.getId().toString(), f.getPergunta(), f.getResposta());
 		faqView.show(getFragmentManager(), "faqView");
 	}
-	
-	public Faq newOnePersistence(Faq faq){
+
+	public Faq newOnePersistence(Faq faq) {
 		initFaqDao();
-		//TODO
-		//gera id unico, mas tem que ter relacao com id do server
-		//falta fazer isso
 		Long newId = ComponentSimpleModel.getUniqueId(getActivity());
 		faq.setId(newId);
 		faqDao.insert(faq);
 		closeDao();
 		return faq;
 	}
-	
-	public void changeOne(){
-		//TODO
-		//pega id do server de todos, e compara com o que ta no cache para atualizar
-		//ou simplesmente deleta tudo cria novos ids locais
-		
-	}
-	
+
 	public void initFaqDao() {
-		//Log.i("en initi", "aquiii");
+		// Log.i("en initi", "aquiii");
 		DevOpenHelper helper = new DaoMaster.DevOpenHelper(getActivity(),
 				"faqs-db", null);
 		SQLiteDatabase db = helper.getWritableDatabase();
@@ -180,9 +190,14 @@ public class FaqListGUI extends CRComponent implements OnItemClickListener {
 		daoSession = daoMaster.newSession();
 		faqDao = daoSession.getFaqDao();
 	}
-	
+
 	public void closeDao() {
 		faqDao.getDatabase().close();
 	}
-	
+
+	public void fillList() {
+		initFaqDao();
+		list = faqDao.queryBuilder().build().list();
+		closeDao();
+	}
 }
