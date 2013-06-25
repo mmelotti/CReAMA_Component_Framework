@@ -32,7 +32,8 @@ import android.widget.Toast;
 @SuppressLint("ValidFragment")
 public class FaqSendGUI extends CRComponent implements OnClickListener {
 	static String urlSave = FaqActivity.url + "/faq/4";
-	String question = "", answer = "", id = "";
+	private String question = "", answer = "", idLocal = "",idServer = "";
+	Long idlocal=0L;
 	DefaultHttpClient client = new DefaultHttpClient();
 	Button btnSubmit;
 	EditText editQuestion, editAnswer;
@@ -48,10 +49,11 @@ public class FaqSendGUI extends CRComponent implements OnClickListener {
 		return daoSession.getFaqDao();
 	}
 
-	public void setData(String id, String question, String answer) {
-		this.id = id; // string vazia eh nova pergunta-resposta
+	public void setData(String id, String question, String answer,String idServer) {
+		this.idLocal = id; // string vazia eh nova pergunta-resposta
 		this.question = question;
 		this.answer = answer;
+		this.idServer=idServer;
 	}
 
 	@Override
@@ -126,7 +128,7 @@ public class FaqSendGUI extends CRComponent implements OnClickListener {
 	public void onClick(View arg0) {
 		question = editQuestion.getText().toString();
 		answer = editAnswer.getText().toString();
-		saveRequest(id, question, answer);
+		saveRequest(idLocal, question, answer);//esse id vindo do list eh o local TODO
 	}
 
 	public void newOnePersistence(Faq faq) {
