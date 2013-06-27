@@ -76,7 +76,7 @@ public class FaqSendGUI extends CRComponent implements OnClickListener {
 	}
 
 	String saveRequest(String id, String pergunta, String resposta) {
-		Request request = new Request(null, urlSave, "post", "faq.id--" + id
+		Request request = new Request(null, urlSave, "post", "faq.id--" + idServer
 				+ "__faq.pergunta--" + pergunta + "__faq.resposta--" + resposta);
 
 		// poe na fila de request primeiro, para o servico consumir
@@ -111,9 +111,9 @@ public class FaqSendGUI extends CRComponent implements OnClickListener {
 		faq.setPergunta(pergunta);
 		faq.setResposta(resposta);
 		// operacoes no cache
-		if (id.equals("")) {// nao tem no server, pode ser novo, mas tem que ver
+		if (idServer.equals("")) {// nao tem no server, pode ser novo, mas tem que ver
 							// se ja nao ta no cache! TODO faltando idLocal
-			newOnePersistence(new Faq());
+			newOnePersistence(faq);
 			// mesmo se nao tive conectado salva no cache, se cair conexao ele
 			// ainda pode alterar
 

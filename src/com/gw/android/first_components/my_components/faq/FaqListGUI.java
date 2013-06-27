@@ -169,7 +169,7 @@ public class FaqListGUI extends CRComponent implements OnItemClickListener {
 		Faq f = list.get(position);
 		FaqSendGUI faqView = new FaqSendGUI();
 		faqView.setData(f.getId().toString(), f.getPergunta(), f.getResposta(),
-				f.getServerId().toString());
+				f.getServerId()+"");
 		faqView.show(getFragmentManager(), "faqView");
 	}
 
