@@ -32,8 +32,8 @@ import android.widget.Toast;
 @SuppressLint("ValidFragment")
 public class FaqSendGUI extends CRComponent implements OnClickListener {
 	static String urlSave = FaqActivity.url + "/faq/4";
-	private String question = "", answer = "", idLocal = "",idServer = "";
-	Long idlocal=0L;
+	private String question = "", answer = "", idLocal = "", idServer = "";
+	Long idlocal = 0L;
 	DefaultHttpClient client = new DefaultHttpClient();
 	Button btnSubmit;
 	EditText editQuestion, editAnswer;
@@ -49,11 +49,12 @@ public class FaqSendGUI extends CRComponent implements OnClickListener {
 		return daoSession.getFaqDao();
 	}
 
-	public void setData(String id, String question, String answer,String idServer) {
+	public void setData(String id, String question, String answer,
+			String idServer) {
 		this.idLocal = id; // string vazia eh nova pergunta-resposta
 		this.question = question;
 		this.answer = answer;
-		this.idServer=idServer;
+		this.idServer = idServer;
 	}
 
 	@Override
@@ -75,9 +76,10 @@ public class FaqSendGUI extends CRComponent implements OnClickListener {
 		return view;
 	}
 
-	String saveRequest(String id, String pergunta, String resposta) {
-		Request request = new Request(null, urlSave, "post", "faq.id--" + idServer
-				+ "__faq.pergunta--" + pergunta + "__faq.resposta--" + resposta);
+	String saveRequest(String idLocal, String pergunta, String resposta) {
+		Request request = new Request(null, urlSave, "post", "faq.id--"
+				+ idServer + "__faq.pergunta--" + pergunta + "__faq.resposta--"
+				+ resposta);
 
 		// poe na fila de request primeiro, para o servico consumir
 		// se estiver conectado, vai tentar enviar pro servidor
@@ -111,14 +113,21 @@ public class FaqSendGUI extends CRComponent implements OnClickListener {
 		faq.setPergunta(pergunta);
 		faq.setResposta(resposta);
 		// operacoes no cache
-		if (idServer.equals("")) {// nao tem no server, pode ser novo, mas tem que ver
-							// se ja nao ta no cache! TODO faltando idLocal
-			newOnePersistence(faq);
-			// mesmo se nao tive conectado salva no cache, se cair conexao ele
+		if (idServer.equals("")) {// nao tem no server, pode ser novo, mas tem
+									// que ver se ja nao ta no cache!
+
+			if (idLocal.equals("")) {//nao tem no cache
+				
+				newOnePersistence(faq);
+			} else {//tem, entao update
+				changeOne(idLocal, faq);
+			}
+
+			// mesmo se nao tiver conectado salva no cache, se cair conexao ele
 			// ainda pode alterar
 
 		} else {// nao eh um novo
-			changeOne(id, faq);
+			changeOne(idLocal, faq);
 		}
 
 		return "";
@@ -128,7 +137,8 @@ public class FaqSendGUI extends CRComponent implements OnClickListener {
 	public void onClick(View arg0) {
 		question = editQuestion.getText().toString();
 		answer = editAnswer.getText().toString();
-		saveRequest(idLocal, question, answer);//esse id vindo do list eh o local TODO
+		saveRequest(idLocal, question, answer);// 
+												
 	}
 
 	public void newOnePersistence(Faq faq) {
@@ -140,15 +150,15 @@ public class FaqSendGUI extends CRComponent implements OnClickListener {
 		closeDao();
 	}
 
-	public void changeOne(String idS, Faq faq) {
+	public void changeOne(String idL, Faq faq) {
 		// busca o que ta no BD para atualizar
 		// parei aqui, fui pro treino, falta deletar!!
-		Long id = Long.parseLong(idS);
+		Long id = Long.parseLong(idL);
 		Faq antigo = null;
 		Faq atualizado = faq;
 		initFaqDao();
 		List<Faq> lista = faqDao.queryBuilder()
-				.where(Properties.ServerId.eq(id)).build().list();
+				.where(Properties.Id.eq(id)).build().list();
 		closeDao();
 
 		for (Faq f : lista) {

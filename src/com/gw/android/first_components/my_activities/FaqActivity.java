@@ -8,7 +8,7 @@ import com.gw.android.first_components.my_fragment.CRActivity;
 import android.os.Bundle;
 
 public class FaqActivity extends CRActivity {
-	static String ip = "192.168.1.143";
+	static String ip = "192.168.1.119";
 	public static  String url = "http://" + ip
 			+ ":8080/GW-Application-FAQ/groupware-workbench";
 	
