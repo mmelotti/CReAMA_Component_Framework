@@ -13,8 +13,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 
 public class SensoresActivity extends Activity implements OnClickListener {
-	SensorServiceListener sensorListener;
-	Intent startIntent;
+	private SensorServiceListener sensorListener;
+	private Intent startIntent;
 	boolean acelOn = false, lumOn = false, magOn = false, GPSOn = false;
 
 	@Override
@@ -66,6 +66,7 @@ public class SensoresActivity extends Activity implements OnClickListener {
 			Log.e("array nulo", "o sensor ainda nao registrou nenhum valor");
 	}
 
+	@Override
 	protected void onPause() {
 		super.onPause();
 		sensorListener.stopListening();
