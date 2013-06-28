@@ -8,7 +8,6 @@ import com.gw.android.first_components.my_fragment.CRComponent;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -38,6 +37,10 @@ public class FaqLoginGUI extends CRComponent {
 		editLogin = (EditText) view.findViewById(R.id.editLogin);
 		editPassword = (EditText) view.findViewById(R.id.editPassword);
 		
+		// TODO apagar isso aqui, é só pra teste
+		editLogin.setText("admin");
+		editPassword.setText("123");
+		
 		btnSubmit.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -51,8 +54,8 @@ public class FaqLoginGUI extends CRComponent {
 	}
 
 	String loginRequest(String login, String password) {
-		login = "admin";
-		password = "123";
+		//login = "admin";
+		//password = "123";
 		Request request = new Request(null, urlLogin, "post",
 				"user.login--" + login + "__user.password--" + password);
 		getConnectionManager().makeRequest(request, getActivity(),
@@ -62,16 +65,6 @@ public class FaqLoginGUI extends CRComponent {
 						//Log.e("onsuccess", response); 
 						Intent loginDone = new Intent(getActivity(), FaqActivity.class);		
 						FaqLoginGUI.this.startActivity(loginDone);
-					}
-					
-					@Override
-					public void onFailure(Throwable t, String arg1) {
-						Log.e("onfailure", "batata"); 
-					}
-					
-					@Override
-					public void onFinish() {
-						Log.e("onfinish", "batata");
 					}
 				});
 		return "";

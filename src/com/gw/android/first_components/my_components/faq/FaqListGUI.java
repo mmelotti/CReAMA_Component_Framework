@@ -14,7 +14,6 @@ import com.gw.android.first_components.database.DaoMaster;
 import com.gw.android.first_components.database.DaoSession;
 import com.gw.android.first_components.database.DaoMaster.DevOpenHelper;
 import com.gw.android.first_components.my_activities.FaqActivity;
-import com.gw.android.first_components.my_components.faq.FaqDao.Properties;
 import com.gw.android.first_components.my_fragment.CRComponent;
 import com.gw.android.first_components.my_fragment.ComponentSimpleModel;
 import android.annotation.SuppressLint;
@@ -94,16 +93,6 @@ public class FaqListGUI extends CRComponent implements OnItemClickListener {
 							adapter.notifyDataSetChanged();
 							listView.setAdapter(adapter);
 						}
-
-						@Override
-						public void onFailure(Throwable t, String arg1) {
-							Log.e("list onfailure", "batata");
-						}
-
-						@Override
-						public void onFinish() {
-							Log.e("list onfinish", "batata");
-						}
 					});
 		} else {// pega no cache
 			Log.e("list onsuccess", " sem conexao");
@@ -119,7 +108,6 @@ public class FaqListGUI extends CRComponent implements OnItemClickListener {
 					android.R.layout.simple_list_item_1, mQuestions);
 			adapter.notifyDataSetChanged();
 			listView.setAdapter(adapter);
-
 		}
 
 	}

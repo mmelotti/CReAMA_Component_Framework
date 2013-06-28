@@ -10,7 +10,6 @@ import com.gw.android.first_components.database.DaoMaster;
 import com.gw.android.first_components.database.DaoSession;
 import com.gw.android.first_components.database.DaoMaster.DevOpenHelper;
 import com.gw.android.first_components.my_activities.FaqActivity;
-import com.gw.android.first_components.my_components.comment.Comment;
 import com.gw.android.first_components.my_components.faq.FaqDao.Properties;
 
 import com.gw.android.first_components.my_fragment.CRComponent;
@@ -86,7 +85,7 @@ public class FaqSendGUI extends CRComponent implements OnClickListener {
 		// de qualquer maneira, salva no cache
 		if (conectado) {
 			getConnectionManager().makeRequest(request, getActivity(),
-					new AsyncRequestHandler() {
+					new AsyncRequestHandler(true) {
 						@Override
 						public void onSuccess(String response) {
 							Log.e("onsuccess", response);
@@ -96,16 +95,6 @@ public class FaqSendGUI extends CRComponent implements OnClickListener {
 								// Sendo mostrado como dialog
 								FaqSendGUI.this.dismiss();
 							reloadActivity();
-						}
-
-						@Override
-						public void onFailure(Throwable t, String arg1) {
-							Log.e("onfailure", "batata");
-						}
-
-						@Override
-						public void onFinish() {
-							Log.e("onfinish", "batata");
 						}
 					});
 		}
