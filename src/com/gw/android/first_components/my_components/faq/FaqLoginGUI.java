@@ -18,7 +18,7 @@ import android.widget.TextView;
 
 public class FaqLoginGUI extends CRComponent { 
 	TextView resultTxt;
-	String urlLogin = FaqActivity.url + "/users/9/login";
+	String urlLogin = FaqActivity.url + "/users/9/login"; 
 	String urlList = FaqActivity.url + "/faq/4/list?_format=json";
 	String urlSave = FaqActivity.url + "/faq/4";
 
