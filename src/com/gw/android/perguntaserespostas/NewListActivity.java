@@ -16,7 +16,7 @@ import com.gw.android.first_components.my_fragment.ComponentNaming;
 import com.gw.android.first_components.my_fragment.Dependency;
 
 public class NewListActivity extends CRActivity {
-
+	//so separei as classes mesmo, tentei refazer, mas vamos ter que mudar muita coisa
 	private PhotoViewGUI photo;
 	private boolean gambiarraFlag = false;
 	private ComponentNaming commentView, commentSend, photoView, rating, binomio,binAverage;
