@@ -3,8 +3,9 @@ package com.gw.android.first_components.my_components.faq;
 import com.gw.android.R;
 import com.gw.android.components.connection_manager.AsyncRequestHandler;
 import com.gw.android.components.request.Request;
-import com.gw.android.first_components.my_activities.FaqActivity;
 import com.gw.android.first_components.my_fragment.CRComponent;
+import com.gw.android.perguntaserespostas.FaqActivity;
+
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;

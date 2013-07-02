@@ -9,11 +9,12 @@ import com.gw.android.components.request.Request;
 import com.gw.android.first_components.database.DaoMaster;
 import com.gw.android.first_components.database.DaoSession;
 import com.gw.android.first_components.database.DaoMaster.DevOpenHelper;
-import com.gw.android.first_components.my_activities.FaqActivity;
 import com.gw.android.first_components.my_components.faq.FaqDao.Properties;
 
 import com.gw.android.first_components.my_fragment.CRComponent;
 import com.gw.android.first_components.my_fragment.ComponentSimpleModel;
+import com.gw.android.perguntaserespostas.FaqActivity;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;

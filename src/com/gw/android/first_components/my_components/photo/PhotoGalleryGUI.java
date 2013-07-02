@@ -17,9 +17,9 @@ import android.widget.GridView;
 import com.gw.android.R;
 import com.gw.android.first_components.database.DaoMaster;
 import com.gw.android.first_components.database.DaoMaster.DevOpenHelper;
-import com.gw.android.first_components.my_activities.NewListActivity;
 import com.gw.android.first_components.my_components.photo.PhotoDao.Properties;
 import com.gw.android.first_components.my_fragment.CRComponent;
+import com.gw.android.perguntaserespostas.NewListActivity;
 
 
 @SuppressLint("ValidFragment")
