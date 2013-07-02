@@ -71,7 +71,7 @@ public class SensoresActivity extends Activity implements OnClickListener {
 		super.onPause();
 		sensorListener.stopListening();
 	}
-	//nada
+
 	@Override
 	protected void onResume() {
 		super.onResume();
