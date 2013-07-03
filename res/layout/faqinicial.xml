@@ -16,14 +16,14 @@
         android:id="@+id/btnFaqUm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="left"
+        android:layout_gravity="center_horizontal"
         android:text="Conteúdo Principal" />
 
     <Button
         android:id="@+id/btnFaqDois"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="right"
+        android:layout_gravity="center_horizontal"
         android:text="Outro Conteúdo" />
 
 </LinearLayout>
