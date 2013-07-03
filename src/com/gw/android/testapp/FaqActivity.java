@@ -13,6 +13,7 @@ import android.util.Log;
 
 public class FaqActivity extends CRActivity {
 	static String ip = "200.137.66.94"; 
+	
 	private Intent startIntent;
 	private SensorServiceListener sensorListener;
 	

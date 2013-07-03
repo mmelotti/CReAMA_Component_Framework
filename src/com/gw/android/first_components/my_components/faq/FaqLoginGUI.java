@@ -5,6 +5,7 @@ import com.gw.android.components.connection_manager.AsyncRequestHandler;
 import com.gw.android.components.request.Request;
 import com.gw.android.first_components.my_fragment.CRComponent;
 import com.gw.android.testapp.FaqActivity;
+import com.gw.android.testapp.FaqInicialActivity;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -64,7 +65,7 @@ public class FaqLoginGUI extends CRComponent {
 					@Override
 					public void onSuccess(String response) {
 						//Log.e("onsuccess", response); 
-						Intent loginDone = new Intent(getActivity(), FaqActivity.class);		
+						Intent loginDone = new Intent(getActivity(), FaqInicialActivity.class);		
 						FaqLoginGUI.this.startActivity(loginDone);
 					}
 				});
