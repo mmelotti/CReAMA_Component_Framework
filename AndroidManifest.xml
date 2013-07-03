@@ -36,7 +36,7 @@
         <activity android:name="com.gw.android.first_components.my_components.tag.TagActivity" />
     
         <activity android:name="com.gw.android.perguntaserespostas.TagActivity" />
-        <activity android:name="com.gw.android.perguntaserespostas.FaqActivity" />
+        <activity android:name="com.gw.android.testapp.FaqActivity" />
         <activity android:name="com.gw.android.perguntaserespostas.SensoresActivity" />
         <activity
             android:name="com.gw.android.perguntaserespostas.CoordCommentActivity"

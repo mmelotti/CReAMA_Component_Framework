@@ -15,7 +15,7 @@ import com.gw.android.first_components.database.DaoSession;
 import com.gw.android.first_components.database.DaoMaster.DevOpenHelper;
 import com.gw.android.first_components.my_fragment.CRComponent;
 import com.gw.android.first_components.my_fragment.ComponentSimpleModel;
-import com.gw.android.perguntaserespostas.FaqActivity;
+import com.gw.android.testapp.FaqActivity;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
