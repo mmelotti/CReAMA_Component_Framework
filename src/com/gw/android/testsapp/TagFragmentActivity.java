@@ -1,4 +1,4 @@
-package com.gw.android.perguntaserespostas;
+package com.gw.android.testsapp;
 /*package my_activities;
 
 import com.example.firstcomponents.R;

@@ -1,4 +1,4 @@
-package com.gw.android.perguntaserespostas;
+package com.gw.android.testsapp;
 
 import java.util.ArrayList;
 
@@ -15,19 +15,17 @@ import com.gw.android.first_components.my_fragment.CRComponent;
 import com.gw.android.first_components.my_fragment.ComponentNaming;
 import com.gw.android.first_components.my_fragment.Dependency;
 
-public class CoordCommentActivity extends CRActivity {
-
+public class NewListActivity extends CRActivity {
+	//so separei as classes mesmo, tentei refazer, mas vamos ter que mudar muita coisa
 	private PhotoViewGUI photo;
 	private boolean gambiarraFlag = false;
-	private ComponentNaming commentView, commentSend, photoView, coordView,
-			coordSend;
+	private ComponentNaming commentView, commentSend, photoView, rating, binomio,binAverage;
 	private long idPhoto;
 	private Long photoId;
 
 	protected void photoNotFound() {
 		gambiarraFlag = true;
-		Toast.makeText(this,
-				"Foto não encontrada. Verifique se já existe alguma foto.",
+		Toast.makeText(this, "Foto não encontrada. Verifique se já existe alguma foto.",
 				Toast.LENGTH_SHORT).show();
 		finish();
 	}
@@ -41,7 +39,7 @@ public class CoordCommentActivity extends CRActivity {
 		setContentView(R.layout.activity_fragment_runtime);
 
 		// set targets
-
+		
 		setMyList();
 		addSomething();
 	}
@@ -53,24 +51,22 @@ public class CoordCommentActivity extends CRActivity {
 		idPhoto = photo.getCurrentInstanceId();
 
 		setDependencies(new ArrayList<Dependency>());
-
-		commentView = new ComponentNaming(Constants.CommentViewGUIName,
-				Constants.CommentViewGUIName + "1");
-		commentSend = new ComponentNaming(Constants.CommentSendGUIName,
-				Constants.CommentSendGUIName + "1");
-		photoView = new ComponentNaming(Constants.PhotoViewGUIName,
-				Constants.PhotoViewGUIName + "1");
-
-		coordView = new ComponentNaming(Constants.GPSViewGUIName, "GPS");
-		coordSend = new ComponentNaming(Constants.GPSListenerName, "GPSsend");
-
-		Log.i("adding", "binomio gui");
-
+		
+		commentView = new ComponentNaming(Constants.CommentViewGUIName, Constants.CommentViewGUIName+"1");
+		commentSend = new ComponentNaming(Constants.CommentSendGUIName, Constants.CommentSendGUIName+"1");
+		photoView = new ComponentNaming(Constants.PhotoViewGUIName, Constants.PhotoViewGUIName+"1");
+		rating = new ComponentNaming(Constants.RatingViewGUIName, Constants.RatingViewGUIName+"1");
+		binomio = new ComponentNaming(Constants.BinomioGUIName, "Binomio1");
+		binAverage = new ComponentNaming(Constants.BinomioAverageGUIName, "Binomio2");
+		
+		Log.i("adding","binomio gui");
+		
+		addDependency(new Dependency(binomio, photoView, false));
 		addDependency(new Dependency(commentView, photoView, true));
-		addDependency(new Dependency(coordView, commentView, false));
+		addDependency(new Dependency(rating, commentView, false));
 		addDependency(new Dependency(commentSend, photoView, false));
-		addDependency(new Dependency(coordSend, commentSend, false));
-
+		addDependency(new Dependency(binAverage, photoView, false));
+		
 		photo.setNick(photoView.getNickName());
 	}
 
@@ -106,7 +102,7 @@ public class CoordCommentActivity extends CRActivity {
 	public void deletarAlgo(Long target, CRComponent component) {
 		callbackRemove(target, component.getNick());
 	}
-
+	
 	@Override
 	public void inserirAlgo(Long target, CRComponent component) {
 		callbackAdd(target, component.getNick());

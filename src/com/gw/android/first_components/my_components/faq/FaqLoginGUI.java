@@ -4,8 +4,8 @@ import com.gw.android.R;
 import com.gw.android.components.connection_manager.AsyncRequestHandler;
 import com.gw.android.components.request.Request;
 import com.gw.android.first_components.my_fragment.CRComponent;
-import com.gw.android.testapp.FaqActivity;
-import com.gw.android.testapp.FaqInicialActivity;
+import com.gw.android.perguntaserespostas.FaqActivity;
+import com.gw.android.perguntaserespostas.FaqInicialActivity;
 
 import android.app.Dialog;
 import android.content.Intent;

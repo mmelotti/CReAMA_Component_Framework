@@ -1,4 +1,4 @@
-package com.gw.android.perguntaserespostas;
+package com.gw.android.testsapp;
 
 
 import com.gw.android.R;

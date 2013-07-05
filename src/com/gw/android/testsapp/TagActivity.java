@@ -1,4 +1,4 @@
-package com.gw.android.perguntaserespostas;
+package com.gw.android.testsapp;
 
 import java.util.ArrayList;
 
@@ -15,17 +15,20 @@ import com.gw.android.first_components.my_fragment.CRComponent;
 import com.gw.android.first_components.my_fragment.ComponentNaming;
 import com.gw.android.first_components.my_fragment.Dependency;
 
-public class NewListActivity extends CRActivity {
-	//so separei as classes mesmo, tentei refazer, mas vamos ter que mudar muita coisa
+public class TagActivity extends CRActivity {
+
 	private PhotoViewGUI photo;
 	private boolean gambiarraFlag = false;
-	private ComponentNaming commentView, commentSend, photoView, rating, binomio,binAverage;
+
+	private ComponentNaming tagView, tagSend, photoView,binAverage;
+	
 	private long idPhoto;
-	private Long photoId;
+	Long photoId;
 
 	protected void photoNotFound() {
 		gambiarraFlag = true;
-		Toast.makeText(this, "Foto não encontrada. Verifique se já existe alguma foto.",
+		Toast.makeText(this,
+				"Foto não encontrada. Verifique se já existe alguma foto.",
 				Toast.LENGTH_SHORT).show();
 		finish();
 	}
@@ -50,24 +53,25 @@ public class NewListActivity extends CRActivity {
 		// rating.setComponentTarget(photo);
 		idPhoto = photo.getCurrentInstanceId();
 
+		Dependency d;
 		setDependencies(new ArrayList<Dependency>());
 		
-		commentView = new ComponentNaming(Constants.CommentViewGUIName, Constants.CommentViewGUIName+"1");
-		commentSend = new ComponentNaming(Constants.CommentSendGUIName, Constants.CommentSendGUIName+"1");
+		tagView = new ComponentNaming(Constants.TagViewGUIName, Constants.TagViewGUIName+"1");
+		tagSend = new ComponentNaming(Constants.TagSendGUIName, Constants.TagSendGUIName+"1");
 		photoView = new ComponentNaming(Constants.PhotoViewGUIName, Constants.PhotoViewGUIName+"1");
-		rating = new ComponentNaming(Constants.RatingViewGUIName, Constants.RatingViewGUIName+"1");
-		binomio = new ComponentNaming(Constants.BinomioGUIName, "Binomio1");
 		binAverage = new ComponentNaming(Constants.BinomioAverageGUIName, "Binomio2");
 		
 		Log.i("adding","binomio gui");
 		
-		addDependency(new Dependency(binomio, photoView, false));
-		addDependency(new Dependency(commentView, photoView, true));
-		addDependency(new Dependency(rating, commentView, false));
-		addDependency(new Dependency(commentSend, photoView, false));
-		addDependency(new Dependency(binAverage, photoView, false));
+		d = new Dependency(tagView,photoView, true);
+		addDependency(d);
+		d=new Dependency(tagSend,photoView,false);
+		addDependency(d);	
+		d = new Dependency(binAverage,photoView, false);
+		addDependency(d);
 		
 		photo.setNick(photoView.getNickName());
+		
 	}
 
 	public void instanciarComponents() {
@@ -101,11 +105,6 @@ public class NewListActivity extends CRActivity {
 	@Override
 	public void deletarAlgo(Long target, CRComponent component) {
 		callbackRemove(target, component.getNick());
-	}
-	
-	@Override
-	public void inserirAlgo(Long target, CRComponent component) {
-		callbackAdd(target, component.getNick());
 	}
 
 }

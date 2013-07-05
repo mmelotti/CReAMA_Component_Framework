@@ -19,7 +19,7 @@ import com.gw.android.first_components.database.DaoMaster;
 import com.gw.android.first_components.database.DaoMaster.DevOpenHelper;
 import com.gw.android.first_components.my_components.photo.PhotoDao.Properties;
 import com.gw.android.first_components.my_fragment.CRComponent;
-import com.gw.android.perguntaserespostas.NewListActivity;
+import com.gw.android.testsapp.NewListActivity;
 
 
 @SuppressLint("ValidFragment")

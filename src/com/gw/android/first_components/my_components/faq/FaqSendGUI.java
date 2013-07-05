@@ -13,7 +13,7 @@ import com.gw.android.first_components.my_components.faq.FaqDao.Properties;
 
 import com.gw.android.first_components.my_fragment.CRComponent;
 import com.gw.android.first_components.my_fragment.ComponentSimpleModel;
-import com.gw.android.testapp.FaqActivity;
+import com.gw.android.perguntaserespostas.FaqActivity;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -31,7 +31,8 @@ import android.widget.Toast;
 
 @SuppressLint("ValidFragment")
 public class FaqSendGUI extends CRComponent implements OnClickListener {
-	static String urlSave = FaqActivity.url + "/faq/4";
+	static private String faqUrl="4";
+	static String urlSave = FaqActivity.url + "/faq/"+faqUrl;
 	private String question = "", answer = "", idLocal = "", idServer = "";
 	Long idlocal = 0L;
 	DefaultHttpClient client = new DefaultHttpClient();

@@ -15,7 +15,7 @@ import com.gw.android.first_components.database.DaoSession;
 import com.gw.android.first_components.database.DaoMaster.DevOpenHelper;
 import com.gw.android.first_components.my_fragment.CRComponent;
 import com.gw.android.first_components.my_fragment.ComponentSimpleModel;
-import com.gw.android.testapp.FaqActivity;
+import com.gw.android.perguntaserespostas.FaqActivity;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -32,7 +32,10 @@ import android.widget.ListView;
 
 @SuppressLint("ValidFragment")
 public class FaqListGUI extends CRComponent implements OnItemClickListener {
-	String urlList = FaqActivity.url + "/faq/4/list?_format=json";
+	
+	private String faqUrl="4";
+	String urlList = FaqActivity.url + "/faq/"+faqUrl+"/list?_format=json";
+	
 	DefaultHttpClient client = new DefaultHttpClient();
 	ListView listView;
 	List<Faq> list = new ArrayList<Faq>();

@@ -1,4 +1,4 @@
-package com.gw.android.testapp;
+package com.gw.android.perguntaserespostas;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -29,7 +29,7 @@ public class FaqInicialActivity extends CRActivity {
 				// Intent(MainActivity.this,TagFragmentActivity.class);
 				Intent trocatela2 = new Intent(FaqInicialActivity.this,
 						FaqActivity.class);
-				trocatela2.putExtra("faq","um");
+				trocatela2.putExtra("faq","4");
 				FaqInicialActivity.this.startActivity(trocatela2);
 				// MainActivity.this.finish();
 			}
@@ -42,7 +42,7 @@ public class FaqInicialActivity extends CRActivity {
 				// Intent(MainActivity.this,TagFragmentActivity.class);
 				Intent trocatela2 = new Intent(FaqInicialActivity.this,
 						FaqActivity.class);
-				trocatela2.putExtra("faq","dois");
+				trocatela2.putExtra("faq","1");
 				FaqInicialActivity.this.startActivity(trocatela2);
 				// MainActivity.this.finish();
 			}

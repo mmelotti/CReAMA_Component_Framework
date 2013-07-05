@@ -1,4 +1,4 @@
-package com.gw.android.perguntaserespostas;
+package com.gw.android.testsapp;
 
 import java.util.ArrayList;
 
@@ -15,15 +15,14 @@ import com.gw.android.first_components.my_fragment.CRComponent;
 import com.gw.android.first_components.my_fragment.ComponentNaming;
 import com.gw.android.first_components.my_fragment.Dependency;
 
-public class TagActivity extends CRActivity {
+public class CoordCommentActivity extends CRActivity {
 
 	private PhotoViewGUI photo;
 	private boolean gambiarraFlag = false;
-
-	private ComponentNaming tagView, tagSend, photoView,binAverage;
-	
+	private ComponentNaming commentView, commentSend, photoView, coordView,
+			coordSend;
 	private long idPhoto;
-	Long photoId;
+	private Long photoId;
 
 	protected void photoNotFound() {
 		gambiarraFlag = true;
@@ -42,7 +41,7 @@ public class TagActivity extends CRActivity {
 		setContentView(R.layout.activity_fragment_runtime);
 
 		// set targets
-		
+
 		setMyList();
 		addSomething();
 	}
@@ -53,25 +52,26 @@ public class TagActivity extends CRActivity {
 		// rating.setComponentTarget(photo);
 		idPhoto = photo.getCurrentInstanceId();
 
-		Dependency d;
 		setDependencies(new ArrayList<Dependency>());
-		
-		tagView = new ComponentNaming(Constants.TagViewGUIName, Constants.TagViewGUIName+"1");
-		tagSend = new ComponentNaming(Constants.TagSendGUIName, Constants.TagSendGUIName+"1");
-		photoView = new ComponentNaming(Constants.PhotoViewGUIName, Constants.PhotoViewGUIName+"1");
-		binAverage = new ComponentNaming(Constants.BinomioAverageGUIName, "Binomio2");
-		
-		Log.i("adding","binomio gui");
-		
-		d = new Dependency(tagView,photoView, true);
-		addDependency(d);
-		d=new Dependency(tagSend,photoView,false);
-		addDependency(d);	
-		d = new Dependency(binAverage,photoView, false);
-		addDependency(d);
-		
+
+		commentView = new ComponentNaming(Constants.CommentViewGUIName,
+				Constants.CommentViewGUIName + "1");
+		commentSend = new ComponentNaming(Constants.CommentSendGUIName,
+				Constants.CommentSendGUIName + "1");
+		photoView = new ComponentNaming(Constants.PhotoViewGUIName,
+				Constants.PhotoViewGUIName + "1");
+
+		coordView = new ComponentNaming(Constants.GPSViewGUIName, "GPS");
+		coordSend = new ComponentNaming(Constants.GPSListenerName, "GPSsend");
+
+		Log.i("adding", "binomio gui");
+
+		addDependency(new Dependency(commentView, photoView, true));
+		addDependency(new Dependency(coordView, commentView, false));
+		addDependency(new Dependency(commentSend, photoView, false));
+		addDependency(new Dependency(coordSend, commentSend, false));
+
 		photo.setNick(photoView.getNickName());
-		
 	}
 
 	public void instanciarComponents() {
@@ -105,6 +105,11 @@ public class TagActivity extends CRActivity {
 	@Override
 	public void deletarAlgo(Long target, CRComponent component) {
 		callbackRemove(target, component.getNick());
+	}
+
+	@Override
+	public void inserirAlgo(Long target, CRComponent component) {
+		callbackAdd(target, component.getNick());
 	}
 
 }

@@ -1,4 +1,4 @@
-package com.gw.android.testapp;
+package com.gw.android.perguntaserespostas;
 
 import com.gw.android.R;
 import com.gw.android.components.sensor_service.SensorManagerService;
