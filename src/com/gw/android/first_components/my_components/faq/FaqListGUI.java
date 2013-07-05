@@ -32,10 +32,10 @@ import android.widget.ListView;
 
 @SuppressLint("ValidFragment")
 public class FaqListGUI extends CRComponent implements OnItemClickListener {
-	
-	private String faqUrl="4";
-	String urlList = FaqActivity.url + "/faq/"+faqUrl+"/list?_format=json";
-	
+
+	private String faqUrl = "4";
+	String urlList = FaqActivity.url + "/faq/" + faqUrl + "/list?_format=json";
+
 	DefaultHttpClient client = new DefaultHttpClient();
 	ListView listView;
 	List<Faq> list = new ArrayList<Faq>();
@@ -68,12 +68,14 @@ public class FaqListGUI extends CRComponent implements OnItemClickListener {
 		View view = inflater.inflate(R.layout.faq_list, container, false);
 		listView = (ListView) view.findViewById(R.id.listView);
 		listView.setOnItemClickListener(this);
+
 		return view;
 	}
 
 	void listRequest() {
 		Request request = new Request(null, urlList, "get", null);
-
+		
+		Log.i("fazendo request list", urlList);
 		// se nao estiver conectado, nem vale ir para a fila de request
 		// se estiver conectado, vai tentar buscar no servidor as
 		// perguntas/respostas
@@ -161,7 +163,7 @@ public class FaqListGUI extends CRComponent implements OnItemClickListener {
 		Faq f = list.get(position);
 		FaqSendGUI faqView = new FaqSendGUI();
 		faqView.setData(f.getId().toString(), f.getPergunta(), f.getResposta(),
-				f.getServerId()+"");
+				f.getServerId() + "");
 		faqView.show(getFragmentManager(), "faqView");
 	}
 
@@ -192,5 +194,10 @@ public class FaqListGUI extends CRComponent implements OnItemClickListener {
 		initFaqDao();
 		list = faqDao.queryBuilder().build().list();
 		closeDao();
+	}
+
+	public void setUrlVariable(String v) {
+		faqUrl = v;
+		urlList = FaqActivity.url + "/faq/" + faqUrl + "/list?_format=json";
 	}
 }

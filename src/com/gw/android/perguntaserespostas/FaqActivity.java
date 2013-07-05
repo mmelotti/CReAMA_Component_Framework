@@ -35,10 +35,25 @@ public class FaqActivity extends CRActivity {
 		sensorListener.startListening();
 		ligar();
 		
+		
+		Bundle extras = getIntent().getExtras(); 
+		String faq;
+
+		if (extras != null) {
+		    faq = extras.getString("faq");
+		    // and get whatever type user account id is
+		}else{
+			faq="4";//nao deve vir errado, mas...
+		}
+		
+		
+		
 		startTransaction();
 		FaqListGUI faqList = new FaqListGUI();
+		faqList.setUrlVariable(faq);
 		FaqSendGUI faqSend = new FaqSendGUI();
-
+		faqSend.setUrlVariable(faq);
+		
 		addGUIComponent(R.id.root, faqList);
 		addGUIComponent(R.id.root, faqSend);
 		finishTransaction();

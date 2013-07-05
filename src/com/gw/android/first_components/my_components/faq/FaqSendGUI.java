@@ -31,8 +31,8 @@ import android.widget.Toast;
 
 @SuppressLint("ValidFragment")
 public class FaqSendGUI extends CRComponent implements OnClickListener {
-	static private String faqUrl="4";
-	static String urlSave = FaqActivity.url + "/faq/"+faqUrl;
+	static private String faqUrl = "4";
+	static String urlSave = FaqActivity.url + "/faq/" + faqUrl;
 	private String question = "", answer = "", idLocal = "", idServer = "";
 	Long idlocal = 0L;
 	DefaultHttpClient client = new DefaultHttpClient();
@@ -74,6 +74,7 @@ public class FaqSendGUI extends CRComponent implements OnClickListener {
 
 		editQuestion.setText(question);
 		editAnswer.setText(answer);
+
 		return view;
 	}
 
@@ -81,7 +82,9 @@ public class FaqSendGUI extends CRComponent implements OnClickListener {
 		Request request = new Request(null, urlSave, "post", "faq.id--"
 				+ idServer + "__faq.pergunta--" + pergunta + "__faq.resposta--"
 				+ resposta);
-
+		
+		Log.i("fazendo request save", urlSave);
+		
 		// poe na fila de request primeiro, para o servico consumir
 		// se estiver conectado, vai tentar enviar pro servidor
 		// de qualquer maneira, salva no cache
@@ -107,10 +110,10 @@ public class FaqSendGUI extends CRComponent implements OnClickListener {
 		if (idServer.equals("")) {// nao tem no server, pode ser novo, mas tem
 									// que ver se ja nao ta no cache!
 
-			if (idLocal.equals("")) {//nao tem no cache
-				
+			if (idLocal.equals("")) {// nao tem no cache
+
 				newOnePersistence(faq);
-			} else {//tem, entao update
+			} else {// tem, entao update
 				changeOne(idLocal, faq);
 			}
 
@@ -128,8 +131,8 @@ public class FaqSendGUI extends CRComponent implements OnClickListener {
 	public void onClick(View arg0) {
 		question = editQuestion.getText().toString();
 		answer = editAnswer.getText().toString();
-		saveRequest(idLocal, question, answer);// 
-												
+		saveRequest(idLocal, question, answer);//
+
 	}
 
 	public void newOnePersistence(Faq faq) {
@@ -148,8 +151,8 @@ public class FaqSendGUI extends CRComponent implements OnClickListener {
 		Faq antigo = null;
 		Faq atualizado = faq;
 		initFaqDao();
-		List<Faq> lista = faqDao.queryBuilder()
-				.where(Properties.Id.eq(id)).build().list();
+		List<Faq> lista = faqDao.queryBuilder().where(Properties.Id.eq(id))
+				.build().list();
 		closeDao();
 
 		for (Faq f : lista) {
@@ -185,6 +188,11 @@ public class FaqSendGUI extends CRComponent implements OnClickListener {
 
 	public void closeDao() {
 		faqDao.getDatabase().close();
+	}
+
+	public void setUrlVariable(String v) {
+		faqUrl = v;
+		urlSave = FaqActivity.url + "/faq/" + faqUrl;
 	}
 
 }
