@@ -4,11 +4,10 @@ import com.gw.android.R;
 import com.gw.android.components.connection_manager.AsyncRequestHandler;
 import com.gw.android.components.request.Request;
 import com.gw.android.first_components.my_fragment.CRComponent;
-import com.gw.android.perguntaserespostas.FaqActivity;
-import com.gw.android.perguntaserespostas.FaqInicialActivity;
 
 import android.app.Dialog;
-import android.content.Intent;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,12 +19,23 @@ import android.widget.TextView;
 
 public class FaqLoginGUI extends CRComponent { 
 	TextView resultTxt;
-	String urlLogin = FaqActivity.url + "/users/9/login"; 
-	String urlList = FaqActivity.url + "/faq/4/list?_format=json";
-	String urlSave = FaqActivity.url + "/faq/4";
+	String urlLogin; 
 
 	EditText editLogin, editPassword; 
 	Button btnSubmit; 
+	
+	AsyncRequestHandler myHandler;
+	
+	public void setCallback(AsyncRequestHandler h) {
+		myHandler = h;
+	}
+	
+	private String getUrl() {
+		SharedPreferences testPrefs = getActivity()
+				.getApplication()
+				.getSharedPreferences("test_prefs", Context.MODE_PRIVATE);
+		return testPrefs.getString("faq_base_url", "");
+	}
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -33,6 +43,8 @@ public class FaqLoginGUI extends CRComponent {
 		Dialog d = getDialog();
 		if (d != null)	// componente está sendo mostrado como dialog
 			d.setTitle("FAQ Login");
+
+		urlLogin = getUrl() + "/users/9/login"; 
 		
 		View view = inflater.inflate(R.layout.faq_login, container, false);
 		btnSubmit = (Button) view.findViewById(R.id.btnSubmit);
@@ -56,19 +68,9 @@ public class FaqLoginGUI extends CRComponent {
 	}
 
 	String loginRequest(String login, String password) {
-		//login = "admin";
-		//password = "123";
 		Request request = new Request(null, urlLogin, "post",
 				"user.login--" + login + "__user.password--" + password);
-		getConnectionManager().makeRequest(request, getActivity(),
-				new AsyncRequestHandler() {
-					@Override
-					public void onSuccess(String response) {
-						//Log.e("onsuccess", response); 
-						Intent loginDone = new Intent(getActivity(), FaqInicialActivity.class);		
-						FaqLoginGUI.this.startActivity(loginDone);
-					}
-				});
+		getConnectionManager().makeRequest(request, getActivity(), myHandler);
 		return "";
 	}
 }

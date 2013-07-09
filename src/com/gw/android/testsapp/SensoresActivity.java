@@ -22,7 +22,7 @@ public class SensoresActivity extends Activity implements OnClickListener {
 		int sensorType = 0;
 		boolean turnOn = false;
 
-		switch (v.getId()) {
+/*		switch (v.getId()) {
 		case R.id.btnAcel:
 			sensorType = Sensor.TYPE_ACCELEROMETER;
 			acelOn = !acelOn;
@@ -55,7 +55,7 @@ public class SensoresActivity extends Activity implements OnClickListener {
 			sensorType = 0;
 			break;
 		}
-
+*/
 		sendBroadcast(sensorType, turnOn);
 
 		double[] array = sensorListener.getSensorValues(sensorType);

@@ -1,6 +1,5 @@
 package com.gw.android.testsapp;
 
-
 import com.gw.android.R;
 import com.gw.android.first_components.my_components.faq.FaqLoginGUI;
 import com.gw.android.first_components.my_components.photo.PhotoGalleryGUI;

@@ -13,14 +13,14 @@ import com.gw.android.first_components.my_components.faq.FaqDao.Properties;
 
 import com.gw.android.first_components.my_fragment.CRComponent;
 import com.gw.android.first_components.my_fragment.ComponentSimpleModel;
-import com.gw.android.perguntaserespostas.FaqActivity;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -32,7 +32,7 @@ import android.widget.Toast;
 @SuppressLint("ValidFragment")
 public class FaqSendGUI extends CRComponent implements OnClickListener {
 	static private String faqUrl = "4";
-	static String urlSave = FaqActivity.url + "/faq/" + faqUrl;
+	String url, urlSave;
 	private String question = "", answer = "", idLocal = "", idServer = "";
 	Long idlocal = 0L;
 	DefaultHttpClient client = new DefaultHttpClient();
@@ -41,6 +41,13 @@ public class FaqSendGUI extends CRComponent implements OnClickListener {
 	private FaqDao faqDao;
 	private DaoSession daoSession;
 	private boolean conectado = true;
+	
+	private String getUrl() {
+		SharedPreferences testPrefs = getActivity()
+				.getApplication()
+				.getSharedPreferences("test_prefs", Context.MODE_PRIVATE);
+		return testPrefs.getString("faq_base_url", "");
+	}
 
 	public static FaqDao initFaqDao(Activity a) {
 		DevOpenHelper helper = new DaoMaster.DevOpenHelper(a, "faqs-db", null);
@@ -66,6 +73,9 @@ public class FaqSendGUI extends CRComponent implements OnClickListener {
 		if (d != null) // componente está sendo mostrado como dialog
 			d.setTitle("FAQ");
 
+		url = getUrl();
+		urlSave = url + "/faq/" + faqUrl;
+		
 		View view = inflater.inflate(R.layout.faq_send, container, false);
 		editQuestion = (EditText) view.findViewById(R.id.editQuestion);
 		editAnswer = (EditText) view.findViewById(R.id.editAnswer);
@@ -82,9 +92,7 @@ public class FaqSendGUI extends CRComponent implements OnClickListener {
 		Request request = new Request(null, urlSave, "post", "faq.id--"
 				+ idServer + "__faq.pergunta--" + pergunta + "__faq.resposta--"
 				+ resposta);
-		
-		Log.i("fazendo request save", urlSave);
-		
+				
 		// poe na fila de request primeiro, para o servico consumir
 		// se estiver conectado, vai tentar enviar pro servidor
 		// de qualquer maneira, salva no cache
@@ -93,7 +101,6 @@ public class FaqSendGUI extends CRComponent implements OnClickListener {
 					new AsyncRequestHandler(true) {
 						@Override
 						public void onSuccess(String response) {
-							Log.e("onsuccess", response);
 							Toast.makeText(getActivity(), "Enviado!",
 									Toast.LENGTH_SHORT).show();
 							if (FaqSendGUI.this.getDialog() != null)
@@ -132,7 +139,6 @@ public class FaqSendGUI extends CRComponent implements OnClickListener {
 		question = editQuestion.getText().toString();
 		answer = editAnswer.getText().toString();
 		saveRequest(idLocal, question, answer);//
-
 	}
 
 	public void newOnePersistence(Faq faq) {
@@ -172,12 +178,10 @@ public class FaqSendGUI extends CRComponent implements OnClickListener {
 
 	public void faqDelete(Faq faq) {
 		initFaqDao();
-
 		closeDao();
 	}
 
 	public void initFaqDao() {
-		// Log.i("en initi", "aquiii");
 		DevOpenHelper helper = new DaoMaster.DevOpenHelper(getActivity(),
 				"faqs-db", null);
 		SQLiteDatabase db = helper.getWritableDatabase();
@@ -192,7 +196,7 @@ public class FaqSendGUI extends CRComponent implements OnClickListener {
 
 	public void setUrlVariable(String v) {
 		faqUrl = v;
-		urlSave = FaqActivity.url + "/faq/" + faqUrl;
+		urlSave = url + "/faq/" + faqUrl;
 	}
 
 }
