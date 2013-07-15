@@ -116,7 +116,7 @@ public abstract class CRComponent extends GenericComponent {
 	private ConnectionManager mBoundService;
 	private boolean mIsBound = false;
 	
-	protected ConnectionManager getConnectionManager() {
+	protected ConnectionManager  getConnectionManager() {
 		return mBoundService;
 	}
 	 
