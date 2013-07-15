@@ -1,7 +1,6 @@
 package com.gw.android.first_components.my_components.faq;
 
 import com.gw.android.R;
-import com.gw.android.components.connection_manager.AsyncRequestHandler;
 import com.gw.android.components.request.Request;
 import com.gw.android.first_components.my_fragment.CRComponent;
 
@@ -23,12 +22,6 @@ public class FaqLoginGUI extends CRComponent {
 
 	EditText editLogin, editPassword; 
 	Button btnSubmit; 
-	
-	AsyncRequestHandler myHandler;
-	
-	public void setCallback(AsyncRequestHandler h) {
-		myHandler = h;
-	}
 	
 	private String getUrl() {
 		SharedPreferences testPrefs = getActivity()
@@ -70,7 +63,7 @@ public class FaqLoginGUI extends CRComponent {
 	String loginRequest(String login, String password) {
 		Request request = new Request(null, urlLogin, "post",
 				"user.login--" + login + "__user.password--" + password);
-		getConnectionManager().makeRequest(request, getActivity(), myHandler);
+		makeRequest(request);
 		return "";
 	}
 }

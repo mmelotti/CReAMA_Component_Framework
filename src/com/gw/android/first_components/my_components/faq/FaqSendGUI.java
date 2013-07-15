@@ -27,7 +27,6 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 @SuppressLint("ValidFragment")
 public class FaqSendGUI extends CRComponent implements OnClickListener {
@@ -84,52 +83,54 @@ public class FaqSendGUI extends CRComponent implements OnClickListener {
 
 		editQuestion.setText(question);
 		editAnswer.setText(answer);
-
+		
+		initializeCallback();
 		return view;
+	}
+
+	private void initializeCallback() {
+		// Seta callback para quando terminar a requisição de envio
+		AsyncRequestHandler mHandler = new AsyncRequestHandler(true) {
+			@Override
+			public void onSuccess(String response) {
+				if (FaqSendGUI.this.getDialog() != null)
+					// Sendo mostrado como dialog
+					FaqSendGUI.this.dismiss();
+				reloadActivity();
+			}
+		};
+		setComponentRequestCallback(mHandler);
 	}
 
 	String saveRequest(String idLocal, String pergunta, String resposta) {
 		Request request = new Request(null, urlSave, "post", "faq.id--"
 				+ idServer + "__faq.pergunta--" + pergunta + "__faq.resposta--"
 				+ resposta);
-				
+		
 		// poe na fila de request primeiro, para o servico consumir
 		// se estiver conectado, vai tentar enviar pro servidor
 		// de qualquer maneira, salva no cache
-		if (conectado) {
-			getConnectionManager().makeRequest(request, getActivity(),
-					new AsyncRequestHandler(true) {
-						@Override
-						public void onSuccess(String response) {
-							Toast.makeText(getActivity(), "Enviado!",
-									Toast.LENGTH_SHORT).show();
-							if (FaqSendGUI.this.getDialog() != null)
-								// Sendo mostrado como dialog
-								FaqSendGUI.this.dismiss();
-							reloadActivity();
-						}
-					});
-		}
+		if (conectado)
+			makeRequest(request);		
+
 		Faq faq = new Faq();
 		faq.setPergunta(pergunta);
 		faq.setResposta(resposta);
+		
 		// operacoes no cache
-		if (idServer.equals("")) {// nao tem no server, pode ser novo, mas tem
-									// que ver se ja nao ta no cache!
+		if (idServer.equals("")) {
+			// nao tem no server, pode ser novo, mas tem que ver se já nao está no cache!
 
-			if (idLocal.equals("")) {// nao tem no cache
-
+			if (idLocal.equals("")) // nao tem no cache
 				newOnePersistence(faq);
-			} else {// tem, entao update
+			else // tem, entao update
 				changeOne(idLocal, faq);
-			}
 
 			// mesmo se nao tiver conectado salva no cache, se cair conexao ele
 			// ainda pode alterar
 
-		} else {// nao eh um novo
+		} else // nao eh um novo
 			changeOne(idLocal, faq);
-		}
 
 		return "";
 	}
@@ -138,7 +139,7 @@ public class FaqSendGUI extends CRComponent implements OnClickListener {
 	public void onClick(View arg0) {
 		question = editQuestion.getText().toString();
 		answer = editAnswer.getText().toString();
-		saveRequest(idLocal, question, answer);//
+		saveRequest(idLocal, question, answer);
 	}
 
 	public void newOnePersistence(Faq faq) {

@@ -118,12 +118,6 @@ public class MainActivity extends CRActivity {
 	}
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.activity_main_first, menu);
-		return true;
-	}
-
-	@Override
 	public void configurarTargets() {
 		// TODO Auto-generated method stub
 

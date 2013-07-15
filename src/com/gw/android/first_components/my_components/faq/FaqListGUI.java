@@ -29,6 +29,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 @SuppressLint("ValidFragment")
 public class FaqListGUI extends CRComponent implements OnItemClickListener {
@@ -78,6 +79,24 @@ public class FaqListGUI extends CRComponent implements OnItemClickListener {
 		View view = inflater.inflate(R.layout.faq_list, container, false);
 		listView = (ListView) view.findViewById(R.id.listView);
 		listView.setOnItemClickListener(this);
+		
+		AsyncRequestHandler mHandler = new AsyncRequestHandler() {
+			@Override
+			public void onSuccess(String response) {
+				parseJSON(response);
+				mQuestions.clear();
+				for (Faq f : list)
+					mQuestions.add(f.getPergunta());
+
+				ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+						getActivity().getApplicationContext(),
+						android.R.layout.simple_list_item_1,
+						mQuestions);
+				adapter.notifyDataSetChanged();
+				listView.setAdapter(adapter);
+			}
+		};
+		setComponentRequestCallback(mHandler);
 
 		return view;
 	}
@@ -89,25 +108,10 @@ public class FaqListGUI extends CRComponent implements OnItemClickListener {
 		// se estiver conectado, vai tentar buscar no servidor as
 		// perguntas/respostas
 		// depois salva no cache para acesso offline
-		if (conectado) {
-			getConnectionManager().makeRequest(request, getActivity(),
-					new AsyncRequestHandler() {
-						@Override
-						public void onSuccess(String response) {
-							parseJSON(response);
-							mQuestions.clear();
-							for (Faq f : list)
-								mQuestions.add(f.getPergunta());
-
-							ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-									getActivity().getApplicationContext(),
-									android.R.layout.simple_list_item_1,
-									mQuestions);
-							adapter.notifyDataSetChanged();
-							listView.setAdapter(adapter);
-						}
-					});
-		} else {// pega no cache
+		
+		if (conectado)
+			makeRequest(request);					
+		else {// pega no cache
 			// preenche list (from cache) para mostrar no view
 			fillList();
 			mQuestions.clear();
@@ -131,9 +135,9 @@ public class FaqListGUI extends CRComponent implements OnItemClickListener {
 			JSONArray valArray = json.toJSONArray(nameArray);
 			JSONArray arrayResults = valArray.getJSONArray(0);
 
-			// apaga tudo no cache para reecriar...por enquanto fazemos isso
+			// apaga tudo no cache para recriar... por enquanto fazemos isso
 			apagaNoCache();
-			// so pode executar isso se tiver conectado
+			// só pode executar isso se tiver conectado
 
 			for (int j = 0; j < arrayResults.length(); j++) {
 				JSONObject object = arrayResults.getJSONObject(j);
@@ -165,10 +169,20 @@ public class FaqListGUI extends CRComponent implements OnItemClickListener {
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
+		AsyncRequestHandler saveHandler = new AsyncRequestHandler() {
+			@Override
+			public void onSuccess(String arg1) {
+				Toast.makeText(getActivity(),
+						"Pergunta salva!", Toast.LENGTH_SHORT)
+						.show();
+			}
+		};
+		
 		Faq f = list.get(position);
 		FaqSendGUI faqView = new FaqSendGUI();
 		faqView.setData(f.getId().toString(), f.getPergunta(), f.getResposta(),
 				f.getServerId() + "");
+		faqView.setApplicationRequestCallback(saveHandler);
 		faqView.show(getFragmentManager(), "faqView");
 	}
 
@@ -182,7 +196,6 @@ public class FaqListGUI extends CRComponent implements OnItemClickListener {
 	}
 
 	public void initFaqDao() {
-		// Log.i("en initi", "aquiii");
 		DevOpenHelper helper = new DaoMaster.DevOpenHelper(getActivity(),
 				"faqs-db", null);
 		SQLiteDatabase db = helper.getWritableDatabase();

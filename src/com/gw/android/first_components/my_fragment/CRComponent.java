@@ -3,7 +3,9 @@ package com.gw.android.first_components.my_fragment;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.gw.android.components.connection_manager.AsyncRequestHandler;
 import com.gw.android.components.connection_manager.ConnectionManager;
+import com.gw.android.components.request.Request;
 
 import android.app.Activity;
 import android.content.ComponentName;
@@ -17,6 +19,9 @@ import android.widget.Toast;
 public abstract class CRComponent extends GenericComponent {
 
 	private CRActivity controlActivity;
+
+	private AsyncRequestHandler componentHandler = new AsyncRequestHandler();
+	private AsyncRequestHandler applicationHandler = new AsyncRequestHandler();
 
 	private RequestListener component = null;
 	private String nick;
@@ -94,6 +99,18 @@ public abstract class CRComponent extends GenericComponent {
 	public void submittedFrom(Long target){
 		
 	}
+	
+	protected void setComponentRequestCallback(AsyncRequestHandler h) {
+		componentHandler = h;
+	}
+	
+	public void setApplicationRequestCallback(AsyncRequestHandler h) {
+		applicationHandler = h;
+	}
+	
+	protected void makeRequest(Request request) {
+		getConnectionManager().makeRequest(request, getActivity(), componentHandler, applicationHandler);
+	}
 
 	// Código de comunicação com o serviço ConnectionManager
 	private ConnectionManager mBoundService;
@@ -123,8 +140,6 @@ public abstract class CRComponent extends GenericComponent {
 	    	
 	        mBoundService = ((ConnectionManager.LocalBinder)service).getService(); 
 	        onBind();
-	        // Tell the user about this for our demo.
-	        Toast.makeText(getActivity(), "Conectou ao serviço", Toast.LENGTH_SHORT).show();
 	    }
 
 	    public void onServiceDisconnected(ComponentName className) {
