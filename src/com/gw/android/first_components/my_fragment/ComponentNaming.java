@@ -2,14 +2,13 @@ package com.gw.android.first_components.my_fragment;
 
 public class ComponentNaming {
 
-	
-	private String guiName,nickName;
-	
-	public ComponentNaming(String a,String b){
-		guiName=a;
-		nickName=b;
+	private String guiName, nickName;
+
+	public ComponentNaming(String a, String b) {
+		guiName = a;
+		nickName = b;
 	}
-	
+
 	public String getGuiName() {
 		return guiName;
 	}
@@ -25,6 +24,5 @@ public class ComponentNaming {
 	public void setNickName(String nickName) {
 		this.nickName = nickName;
 	}
-	
-	
+
 }

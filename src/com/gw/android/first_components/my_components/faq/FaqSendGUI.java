@@ -30,7 +30,7 @@ import android.widget.EditText;
 
 @SuppressLint("ValidFragment")
 public class FaqSendGUI extends CRComponent implements OnClickListener {
-	static private String faqUrl = "4";
+	private int faqUrl;
 	String url, urlSave;
 	private String question = "", answer = "", idLocal = "", idServer = "";
 	Long idlocal = 0L;
@@ -73,6 +73,7 @@ public class FaqSendGUI extends CRComponent implements OnClickListener {
 			d.setTitle("FAQ");
 
 		url = getUrl();
+		faqUrl = getCollabletId();
 		urlSave = url + "/faq/" + faqUrl;
 		
 		View view = inflater.inflate(R.layout.faq_send, container, false);
@@ -195,8 +196,9 @@ public class FaqSendGUI extends CRComponent implements OnClickListener {
 		faqDao.getDatabase().close();
 	}
 
-	public void setUrlVariable(String v) {
-		faqUrl = v;
+	public void setUrlVariable(String faq) {
+		setNick(faq);
+		faqUrl = getCollabletId();
 		urlSave = url + "/faq/" + faqUrl;
 	}
 

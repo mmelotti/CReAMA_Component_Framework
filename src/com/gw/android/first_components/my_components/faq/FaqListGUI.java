@@ -34,7 +34,7 @@ import android.widget.Toast;
 @SuppressLint("ValidFragment")
 public class FaqListGUI extends CRComponent implements OnItemClickListener {
 
-	private String faqUrl = "4";
+	private int faqUrl;
 	String url, urlList;
 
 	DefaultHttpClient client = new DefaultHttpClient();
@@ -74,6 +74,7 @@ public class FaqListGUI extends CRComponent implements OnItemClickListener {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		url = getUrl();
+		faqUrl = getCollabletId();
 		urlList = url + "/faq/" + faqUrl + "/list?_format=json";
 		
 		View view = inflater.inflate(R.layout.faq_list, container, false);
@@ -182,6 +183,7 @@ public class FaqListGUI extends CRComponent implements OnItemClickListener {
 		FaqSendGUI faqView = new FaqSendGUI();
 		faqView.setData(f.getId().toString(), f.getPergunta(), f.getResposta(),
 				f.getServerId() + "");
+		faqView.setNick(getNick());
 		faqView.setApplicationRequestCallback(saveHandler);
 		faqView.show(getFragmentManager(), "faqView");
 	}
@@ -213,9 +215,10 @@ public class FaqListGUI extends CRComponent implements OnItemClickListener {
 		list = faqDao.queryBuilder().build().list();
 		closeDao();
 	}
-
-	public void setUrlVariable(String v) {
-		faqUrl = v;
+	
+	public void setUrlVariable(String faq) {
+		setNick(faq);
+		faqUrl = getCollabletId();
 		urlList = url + "/faq/" + faqUrl + "/list?_format=json";
 	}
 }

@@ -37,7 +37,7 @@ public class FaqLoginGUI extends CRComponent {
 		if (d != null)	// componente está sendo mostrado como dialog
 			d.setTitle("FAQ Login");
 
-		urlLogin = getUrl() + "/users/9/login"; 
+		urlLogin = getUrl() + "/users/"+ getCollabletId() +"/login"; 
 		
 		View view = inflater.inflate(R.layout.faq_login, container, false);
 		btnSubmit = (Button) view.findViewById(R.id.btnSubmit);

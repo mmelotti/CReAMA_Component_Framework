@@ -82,12 +82,16 @@ public abstract class CRComponent extends GenericComponent {
 	public void setNick(String nick) {
 		this.nick = nick;
 	}
+	
+	public int getCollabletId() {
+		Activity a = getActivity();
+		int resId = a.getResources().getIdentifier(getNick(), "integer", a.getPackageName());
+		return a.getResources().getInteger(resId);
+	}
 
-	public void enviou(){
-		if(component!=null){
-			sendMessage(MSG_ENVIOU);
-		}
-		
+	public void enviou() {
+		if(component!=null)
+			sendMessage(MSG_ENVIOU);		
 	}
 	
 	public List<ComponentSimpleModel> getListSimple(Long target, Activity a) {
