@@ -20,6 +20,7 @@ public class FirstComponentsDaoGenerator {
 		addBinomio(schema);
 		addCoord(schema);
 		addFaq(schema);
+		addUser(schema);
 		Entity rating = addRating(schema);
 		addRatingToComment(schema, com, rating);
 
@@ -50,6 +51,19 @@ public class FirstComponentsDaoGenerator {
 		addNewComponent(schema, faq);
 		faq.addStringProperty("pergunta");
 		faq.addStringProperty("resposta");
+	}
+	
+	private static void addUser(Schema schema) {
+		Entity faq = schema.addEntity("User");
+		faq.setJavaPackage(pack + "user");
+		addNewComponent(schema, faq);
+		faq.addStringProperty("usuario");
+		faq.addStringProperty("sobrenome");
+		faq.addStringProperty("escolaridade");
+		faq.addStringProperty("curso");
+		faq.addStringProperty("instituicao");
+		faq.addStringProperty("ocupacao");
+		faq.addStringProperty("email");
 	}
 
 	private static Entity addComment(Schema schema) {
