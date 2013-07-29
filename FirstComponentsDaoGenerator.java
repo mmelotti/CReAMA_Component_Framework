@@ -54,17 +54,18 @@ public class FirstComponentsDaoGenerator {
 	}
 	
 	private static void addUser(Schema schema) {
-		Entity faq = schema.addEntity("User");
-		faq.setJavaPackage(pack + "user");
-		addNewComponent(schema, faq);
-		faq.addStringProperty("usuario");
-		faq.addStringProperty("sobrenome");
-		faq.addStringProperty("escolaridade");
-		faq.addStringProperty("curso");
-		faq.addStringProperty("instituicao");
-		faq.addStringProperty("ocupacao");
-		faq.addStringProperty("email");
+		Entity user = schema.addEntity("User");
+		user.setJavaPackage(pack + "user");
+		addNewComponent(schema, user);
+		user.addStringProperty("usuario");
+		user.addStringProperty("sobrenome");
+		user.addStringProperty("escolaridade");
+		user.addStringProperty("curso");
+		user.addStringProperty("instituicao");
+		user.addStringProperty("ocupacao");
+		user.addStringProperty("email");
 	}
+
 
 	private static Entity addComment(Schema schema) {
 		Entity com = schema.addEntity("Comment");
