@@ -114,10 +114,9 @@ public abstract class CRComponent extends GenericComponent {
 	}
 
 	protected void makeRequest(Request request) {
-		if(getActivity()==null){
+		if(getActivity() == null) {
 			
-		}
-		else{
+		} else{
 			getConnectionManager().makeRequest(request, getActivity(),
 					componentHandler, applicationHandler);
 		}
