@@ -2,38 +2,43 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
+    android:padding="3dp"
+    android:background="#000000"
     android:orientation="vertical" >
 
     <TextView
         android:id="@+id/userLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Usuário: " />
-	
-     <TextView
+        android:text="Usuário: "
+        android:textColor="#ffffff" />
+
+    <TextView
         android:id="@+id/userName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Nome: " />
-     
-      <TextView
+        android:text="Nome: "
+        android:textColor="#ffffff" />
+
+    <TextView
         android:id="@+id/userId"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Id: " />
-      
-       <TextView
+        android:text="Id: "
+        android:textColor="#ffffff" />
+
+    <TextView
         android:id="@+id/userPass"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Senha: " />
-       
-         
-         <TextView
+        android:text="Senha: "
+        android:textColor="#ffffff" />
+
+    <TextView
         android:id="@+id/userEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Email: " />
-   
+        android:text="Email: "
+        android:textColor="#ffffff" />
 
 </LinearLayout>

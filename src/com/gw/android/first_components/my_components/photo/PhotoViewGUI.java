@@ -89,7 +89,7 @@ public class PhotoViewGUI extends CRComponent {
 		proxima = (Button) view.findViewById(R.id.imagem_proxima);
 		image = (ImageView) view.findViewById(R.id.imageView1);
 		
-		/* http://arquigrafia.org.br/photo/img-thumb/2230?_log=no
+		/* 	
 		http://arquigrafia.org.br/photo/img-crop/2230?_log=no
 		http://arquigrafia.org.br/photo/img-show/2230.jpeg
 		 */
