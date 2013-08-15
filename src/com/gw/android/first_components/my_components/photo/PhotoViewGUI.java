@@ -2,7 +2,6 @@ package com.gw.android.first_components.my_components.photo;
 
 import java.util.List;
 
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -26,7 +25,6 @@ import com.gw.android.first_components.database.DaoMaster.DevOpenHelper;
 import com.gw.android.first_components.my_components.photo.PhotoDao.Properties;
 import com.gw.android.first_components.my_fragment.CRComponent;
 
-
 @SuppressLint("ValidFragment")
 public class PhotoViewGUI extends CRComponent {
 
@@ -34,6 +32,7 @@ public class PhotoViewGUI extends CRComponent {
 	private Button proxima, anterior;
 	private Photo photo;
 	private PhotoDao photoDao;
+	private boolean showNavigation = false;
 
 	public PhotoViewGUI(Long imageId) {
 		setCurrent(imageId);
@@ -47,14 +46,11 @@ public class PhotoViewGUI extends CRComponent {
 
 	public void preDefined() {
 		setGeneralGUIId(3);
-
 	}
 
 	public void zoomPhoto() {
 		Intent i = new Intent(getActivity(), ImageZoomActivity.class);
 		i.putExtra("image", photo.getPhotoBytes());
-		// ActivityOptions opts =
-		// ActivityOptions.makeThumbnailScaleUpAnimation(view, bitmap, 0, 0);
 		startActivity(i);
 	}
 
@@ -92,7 +88,15 @@ public class PhotoViewGUI extends CRComponent {
 		anterior = (Button) view.findViewById(R.id.imagem_anterior);
 		proxima = (Button) view.findViewById(R.id.imagem_proxima);
 		image = (ImageView) view.findViewById(R.id.imageView1);
-
+		
+		/* http://arquigrafia.org.br/photo/img-thumb/2230?_log=no
+		http://arquigrafia.org.br/photo/img-crop/2230?_log=no
+		http://arquigrafia.org.br/photo/img-show/2230.jpeg
+		 */
+		
+		if (!showNavigation)
+			hidePreviousNext();
+		
 		image.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -140,6 +144,15 @@ public class PhotoViewGUI extends CRComponent {
 		});
 
 		return view; 
+	}
+	
+	public void showNavigation(boolean b) {
+		showNavigation = b;
+	}
+	
+	private void hidePreviousNext() {
+		anterior.setVisibility(View.GONE);
+		proxima.setVisibility(View.GONE);
 	}
 
 	private Long proximaImagem() {
