@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.gw.android.R;
+import com.gw.android.components.request.Request;
 import com.gw.android.first_components.database.DaoMaster;
 import com.gw.android.first_components.database.DaoMaster.DevOpenHelper;
 import com.gw.android.first_components.my_components.photo.PhotoDao.Properties;
@@ -33,6 +34,13 @@ public class PhotoGalleryGUI extends CRComponent {
 	private PicAdapter imgAdapt;
 	private TextView description;
 	List<Photo> list;
+	
+	private boolean conectado=true;
+	private String photoIdUrl;
+	
+	String ip = "200.137.66.94";
+	String url = "http://" + ip
+			+ ":8080/GW-Application-Arquigrafia/groupware-workbench";
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -96,6 +104,26 @@ public class PhotoGalleryGUI extends CRComponent {
 		return photoDao;
 	}
 
+	
+	@Override
+	protected void onBind() {
+		getPhotosIdRequest();
+	}
+
+	void getPhotosIdRequest() {
+		Request request = new Request(null, photoIdUrl, "get", null);
+		// se nao estiver conectado, nem vale ir para a fila de request
+		// se estiver conectado, vai tentar buscar no servidor as
+
+		// depois salva no cache para acesso offline
+		if (conectado)
+			makeRequest(request);
+		else {// pega no cache
+			//preencheCampos();
+		}
+	}
+	
+	
 	// Classe auxiliar
 	public class PicAdapter extends BaseAdapter {
 
@@ -157,6 +185,7 @@ public class PhotoGalleryGUI extends CRComponent {
 		public long getItemId(int position) {
 			return position;
 		}
+
 
 		// get view specifies layout and display options for each thumbnail in
 		// the gallery

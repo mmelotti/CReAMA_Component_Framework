@@ -22,7 +22,7 @@ public class UserViewGUI extends CRComponent {
 	private String urlView;
 	int userUrl;
 	private boolean conectado = true;
-	private TextView login, name, email,id;
+	private TextView login, name, email, id;
 
 	String ip = "200.137.66.94";
 	String url = "http://" + ip
@@ -58,7 +58,6 @@ public class UserViewGUI extends CRComponent {
 			}
 		};
 		setComponentRequestCallback(mHandler);
-
 		return view;
 	}
 
@@ -69,20 +68,15 @@ public class UserViewGUI extends CRComponent {
 
 	void viewRequest() {
 		Request request = new Request(null, urlView, "get", null);
-
 		// se nao estiver conectado, nem vale ir para a fila de request
 		// se estiver conectado, vai tentar buscar no servidor as
 
 		// depois salva no cache para acesso offline
-
 		if (conectado)
 			makeRequest(request);
 		else {// pega no cache
-
 			preencheCampos();
-
 		}
-
 	}
 
 	public void preencheCampos() {
