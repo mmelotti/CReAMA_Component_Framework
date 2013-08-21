@@ -2,6 +2,9 @@ package com.gw.android.first_components.my_components.photo;
 
 import java.util.List;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -15,15 +18,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Gallery;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.gw.android.R;
+import com.gw.android.components.connection_manager.AsyncRequestHandler;
 import com.gw.android.components.request.Request;
 import com.gw.android.first_components.database.DaoMaster;
 import com.gw.android.first_components.database.DaoMaster.DevOpenHelper;
+import com.gw.android.first_components.my_components.faq.Faq;
 import com.gw.android.first_components.my_components.photo.PhotoDao.Properties;
 import com.gw.android.first_components.my_fragment.CRComponent;
 
@@ -34,13 +40,16 @@ public class PhotoGalleryGUI extends CRComponent {
 	private PicAdapter imgAdapt;
 	private TextView description;
 	List<Photo> list;
-	
-	private boolean conectado=true;
+
+	private boolean conectado = true;
 	private String photoIdUrl;
-	
+
 	String ip = "200.137.66.94";
 	String url = "http://" + ip
 			+ ":8080/GW-Application-Arquigrafia/groupware-workbench";
+	private String jsonTestUrl = "" + "http://" + ip
+			+ ":8080/GW-Application-Arquigrafia/tresfotos.json";
+	private String urlPhotoArquigrafia = "http://www.arquigrafia.org.br/photo/";
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -92,7 +101,53 @@ public class PhotoGalleryGUI extends CRComponent {
 		 * getActivity().startActivity(trocatela); } });
 		 */
 
+		AsyncRequestHandler mHandler = new AsyncRequestHandler() {
+			@Override
+			public void onSuccess(String response) {
+				parseAndDownload(response);
+				Log.i("Onsucces e Parser ", " id=");
+
+			}
+		};
+		setComponentRequestCallback(mHandler);
+
 		return view;
+	}
+
+	void parseAndDownload(String response) {
+		try {
+			JSONObject json = new JSONObject(response);
+
+			JSONArray nameArray = json.names();
+			JSONArray valArray = json.toJSONArray(nameArray);
+			JSONArray arrayResults = valArray.getJSONArray(0);
+
+			// apaga tudo no cache para recriar... por enquanto fazemos isso
+			// apagaNoCache();
+			// só pode executar isso se tiver conectado
+
+			Log.i("Parseando ", " antes do for");
+
+			for (int j = 0; j < arrayResults.length(); j++) {
+				JSONObject object = arrayResults.getJSONObject(j);
+				Long idServ = Long.parseLong(object.get("id").toString());
+				String nome = object.get("nomeArquivo").toString();
+
+				Log.i("Parseando ", " id=" + idServ);
+				Log.i("Parseando ", " arq=" + nome);
+				
+				getOnePhotoRequest(Long.toString(idServ));
+
+				/*
+				 * // cria novo faq para mandar pro cache Faq novo = new Faq(0L,
+				 * 0L, idServ, pergunta, resposta); novo =
+				 * newOnePersistence(novo); // gera Id unico, entao retorna //
+				 * atualizado list.add(novo);
+				 */
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public static PhotoDao initPhotoDao(Context ctx) {
@@ -104,14 +159,15 @@ public class PhotoGalleryGUI extends CRComponent {
 		return photoDao;
 	}
 
-	
 	@Override
 	protected void onBind() {
 		getPhotosIdRequest();
+		Log.i("ONBIND ", " after");
 	}
 
-	void getPhotosIdRequest() {
-		Request request = new Request(null, photoIdUrl, "get", null);
+	public void createSimpleRequest(String url, String type) {
+		Request request = new Request(null, url, type, null);
+
 		// se nao estiver conectado, nem vale ir para a fila de request
 		// se estiver conectado, vai tentar buscar no servidor as
 
@@ -119,11 +175,20 @@ public class PhotoGalleryGUI extends CRComponent {
 		if (conectado)
 			makeRequest(request);
 		else {// pega no cache
-			//preencheCampos();
+				// preencheCampos();
 		}
 	}
-	
-	
+
+	private void getPhotosIdRequest() {
+
+		createSimpleRequest(jsonTestUrl, "get");
+
+	}
+
+	private void getOnePhotoRequest(String id) {
+
+	}
+
 	// Classe auxiliar
 	public class PicAdapter extends BaseAdapter {
 
@@ -185,7 +250,6 @@ public class PhotoGalleryGUI extends CRComponent {
 		public long getItemId(int position) {
 			return position;
 		}
-
 
 		// get view specifies layout and display options for each thumbnail in
 		// the gallery
