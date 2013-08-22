@@ -50,18 +50,16 @@ public class PhotoGalleryGUI extends CRComponent {
 	private String jsonTestUrl = "" + "http://" + ip
 			+ ":8080/GW-Application-Arquigrafia/tresfotos.json";
 	private String urlPhotoArquigrafia = "http://www.arquigrafia.org.br/photo/";
-	
+
 	private String urlOneImage = "http://arquigrafia.org.br/photo/img-crop/";
 	private String urlEndImage = "?_log=no";
-	
-			
-	/*IMAGENS ARQUIGRAFIA
-	http://arquigrafia.org.br/photo/img-thumb/2230?_log=no
-	http://arquigrafia.org.br/photo/img-crop/2230?_log=no
-	http://arquigrafia.org.br/photo/img-show/2230.jpeg
 
-			*/
-	
+	/*
+	 * IMAGENS ARQUIGRAFIA
+	 * http://arquigrafia.org.br/photo/img-thumb/2230?_log=no
+	 * http://arquigrafia.org.br/photo/img-crop/2230?_log=no
+	 * http://arquigrafia.org.br/photo/img-show/2230.jpeg
+	 */
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -139,25 +137,29 @@ public class PhotoGalleryGUI extends CRComponent {
 			// só pode executar isso se tiver conectado
 
 			Log.i("Parseando ", " antes do for");
-			//se for dados de varias fotos, manda request para cada uma
-			
-			//senao for, eh apenas a imagem de uma foto
-			for (int j = 0; j < arrayResults.length(); j++) {
-				JSONObject object = arrayResults.getJSONObject(j);
-				Long idServ = Long.parseLong(object.get("id").toString());
-				String nome = object.get("nomeArquivo").toString();
 
-				Log.i("Parseando ", " id=" + idServ);
-				Log.i("Parseando ", " arq=" + nome);
-				
-				getOnePhotoRequest(Long.toString(idServ));
+			if (nameArray.getString(0).toString().equals("photos")) {
+				// se for dados de varias fotos, manda request para cada uma
+				for (int j = 0; j < arrayResults.length(); j++) {
+					JSONObject object = arrayResults.getJSONObject(j);
+					Long idServ = Long.parseLong(object.get("id").toString());
+					String nome = object.get("nomeArquivo").toString();
 
-				/*
-				 * // cria novo faq para mandar pro cache Faq novo = new Faq(0L,
-				 * 0L, idServ, pergunta, resposta); novo =
-				 * newOnePersistence(novo); // gera Id unico, entao retorna //
-				 * atualizado list.add(novo);
-				 */
+					Log.i("Parseando ", " id=" + idServ);
+					Log.i("Parseando ", " arq=" + nome);
+
+					// getOnePhotoRequest(Long.toString(idServ));
+
+					/*
+					 * // cria novo faq para mandar pro cache Faq novo = new
+					 * Faq(0L, 0L, idServ, pergunta, resposta); novo =
+					 * newOnePersistence(novo); // gera Id unico, entao retorna
+					 * // atualizado list.add(novo);
+					 */
+				}
+			} else if (nameArray.getString(0).toString().equals("photo")) {
+				// senao for, eh apenas a imagem de uma foto
+
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -200,14 +202,12 @@ public class PhotoGalleryGUI extends CRComponent {
 	}
 
 	private void getOnePhotoRequest(String id) {
-		createSimpleRequest(urlPhotoArquigrafia+id, "get");
+		createSimpleRequest(urlPhotoArquigrafia + id, "get");
 	}
-	
-	private void getTheImage(String id){
-		createSimpleRequest(urlOneImage+id+urlEndImage,"get");
+
+	private void getTheImage(String id) {
+		createSimpleRequest(urlOneImage + id + urlEndImage, "get");
 	}
-	
-	
 
 	// Classe auxiliar
 	public class PicAdapter extends BaseAdapter {
