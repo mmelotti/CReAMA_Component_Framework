@@ -50,6 +50,18 @@ public class PhotoGalleryGUI extends CRComponent {
 	private String jsonTestUrl = "" + "http://" + ip
 			+ ":8080/GW-Application-Arquigrafia/tresfotos.json";
 	private String urlPhotoArquigrafia = "http://www.arquigrafia.org.br/photo/";
+	
+	private String urlOneImage = "http://arquigrafia.org.br/photo/img-crop/";
+	private String urlEndImage = "?_log=no";
+	
+			
+	/*IMAGENS ARQUIGRAFIA
+	http://arquigrafia.org.br/photo/img-thumb/2230?_log=no
+	http://arquigrafia.org.br/photo/img-crop/2230?_log=no
+	http://arquigrafia.org.br/photo/img-show/2230.jpeg
+
+			*/
+	
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -127,7 +139,9 @@ public class PhotoGalleryGUI extends CRComponent {
 			// só pode executar isso se tiver conectado
 
 			Log.i("Parseando ", " antes do for");
-
+			//se for dados de varias fotos, manda request para cada uma
+			
+			//senao for, eh apenas a imagem de uma foto
 			for (int j = 0; j < arrayResults.length(); j++) {
 				JSONObject object = arrayResults.getJSONObject(j);
 				Long idServ = Long.parseLong(object.get("id").toString());
@@ -186,8 +200,14 @@ public class PhotoGalleryGUI extends CRComponent {
 	}
 
 	private void getOnePhotoRequest(String id) {
-
+		createSimpleRequest(urlPhotoArquigrafia+id, "get");
 	}
+	
+	private void getTheImage(String id){
+		createSimpleRequest(urlOneImage+id+urlEndImage,"get");
+	}
+	
+	
 
 	// Classe auxiliar
 	public class PicAdapter extends BaseAdapter {
