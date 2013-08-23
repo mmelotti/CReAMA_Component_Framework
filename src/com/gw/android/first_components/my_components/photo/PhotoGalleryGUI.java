@@ -117,14 +117,15 @@ public class PhotoGalleryGUI extends CRComponent {
 			@Override
 			public void onSuccess(String response) {
 				if (response.startsWith("{\"photos\":")) {// fotos aleatorias
-					parseAndDownload(response);
+					parseArrayJSON(response);
 				} else if (response.startsWith("{\"photo\":")) {// dados de uma
 																// foto
-					parseOnePhoto(response);
+					parseOnePhotoJSON(response);
 
 				} else {// apenas a imagem
 					Log.i("Fez fownload da imagem", " sim!");
 					Log.i("one photo request test", response);
+					saveImageAfterDownload(response);
 				}
 				Log.i("Onsucces e Parser ", " id=");
 
@@ -135,7 +136,11 @@ public class PhotoGalleryGUI extends CRComponent {
 		return view;
 	}
 
-	void parseOnePhoto(String r) {
+	void saveImageAfterDownload(String r) {
+		// tenho que saber qual imagem eh pra salvar com as info
+	}
+
+	void parseOnePhotoJSON(String r) {
 		Log.i("Parseando uma foto", " inicio");
 		JSONObject object;
 		try {
@@ -158,7 +163,7 @@ public class PhotoGalleryGUI extends CRComponent {
 
 	}
 
-	void parseAndDownload(String response) {
+	void parseArrayJSON(String response) {
 		try {
 			JSONObject json = new JSONObject(response);
 
