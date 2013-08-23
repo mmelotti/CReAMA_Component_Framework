@@ -121,8 +121,10 @@ public class PhotoGalleryGUI extends CRComponent {
 				} else if (response.startsWith("{\"photo\":")) {// dados de uma
 																// foto
 					parseOnePhoto(response);
+
 				} else {// apenas a imagem
 					Log.i("Fez fownload da imagem", " sim!");
+					Log.i("one photo request test", response);
 				}
 				Log.i("Onsucces e Parser ", " id=");
 
@@ -135,22 +137,19 @@ public class PhotoGalleryGUI extends CRComponent {
 
 	void parseOnePhoto(String r) {
 		Log.i("Parseando uma foto", " inicio");
-		JSONObject json;
+		JSONObject object;
 		try {
-			json = new JSONObject(r);
+			object = new JSONObject(r);
 
-			JSONArray nameArray = json.names();
-			JSONArray valArray = json.toJSONArray(nameArray);
-			JSONArray arrayResults = valArray.getJSONArray(0);
+			// Log.i("Parseando uma foto", " objeto=" + object.toString());
 
-			for (int j = 0; j < arrayResults.length(); j++) {
-				JSONObject object = arrayResults.getJSONObject(j);
-				Long idServ = Long.parseLong(object.get("id").toString());
-				String nome = object.get("name").toString();
+			JSONObject photoObject = object.getJSONObject("photo");
 
-				Log.i("Parseando uma foto", " name=" + nome);
-				getTheImage(Long.toString(idServ));
-			}
+			String nome = photoObject.get("name").toString();
+			Long idServ = Long.parseLong(photoObject.get("id").toString());
+
+			Log.i("Parseando uma foto", " name=" + nome);
+			getTheImage(Long.toString(idServ));
 
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
