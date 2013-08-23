@@ -3,6 +3,7 @@ package com.gw.android.first_components.my_components.photo;
 import java.util.List;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
@@ -50,6 +51,7 @@ public class PhotoGalleryGUI extends CRComponent {
 	private String jsonTestUrl = "" + "http://" + ip
 			+ ":8080/GW-Application-Arquigrafia/tresfotos.json";
 	private String urlPhotoArquigrafia = "http://www.arquigrafia.org.br/photo/";
+	private String urlEndArquigrafia = "?_format=json";
 
 	private String urlOneImage = "http://arquigrafia.org.br/photo/img-crop/";
 	private String urlEndImage = "?_log=no";
@@ -114,7 +116,14 @@ public class PhotoGalleryGUI extends CRComponent {
 		AsyncRequestHandler mHandler = new AsyncRequestHandler() {
 			@Override
 			public void onSuccess(String response) {
-				parseAndDownload(response);
+				if (response.startsWith("{\"photos\":")) {// fotos aleatorias
+					parseAndDownload(response);
+				} else if (response.startsWith("{\"photo\":")) {// dados de uma
+																// foto
+					parseOnePhoto(response);
+				} else {// apenas a imagem
+					Log.i("Fez fownload da imagem", " sim!");
+				}
 				Log.i("Onsucces e Parser ", " id=");
 
 			}
@@ -122,6 +131,32 @@ public class PhotoGalleryGUI extends CRComponent {
 		setComponentRequestCallback(mHandler);
 
 		return view;
+	}
+
+	void parseOnePhoto(String r) {
+		Log.i("Parseando uma foto", " inicio");
+		JSONObject json;
+		try {
+			json = new JSONObject(r);
+
+			JSONArray nameArray = json.names();
+			JSONArray valArray = json.toJSONArray(nameArray);
+			JSONArray arrayResults = valArray.getJSONArray(0);
+
+			for (int j = 0; j < arrayResults.length(); j++) {
+				JSONObject object = arrayResults.getJSONObject(j);
+				Long idServ = Long.parseLong(object.get("id").toString());
+				String nome = object.get("name").toString();
+
+				Log.i("Parseando uma foto", " name=" + nome);
+				getTheImage(Long.toString(idServ));
+			}
+
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 
 	void parseAndDownload(String response) {
@@ -132,46 +167,26 @@ public class PhotoGalleryGUI extends CRComponent {
 			JSONArray valArray = json.toJSONArray(nameArray);
 			JSONArray arrayResults = valArray.getJSONArray(0);
 
-			// apaga tudo no cache para recriar... por enquanto fazemos isso
-			// apagaNoCache();
 			// só pode executar isso se tiver conectado
 
-			
+			// dados de varias fotos, manda request para cada uma
+			for (int j = 0; j < arrayResults.length(); j++) {
+				JSONObject object = arrayResults.getJSONObject(j);
+				Long idServ = Long.parseLong(object.get("id").toString());
+				String nome = object.get("nomeArquivo").toString();
 
-			if (nameArray.getString(0).toString().equals("photos")) {
-				// se for dados de varias fotos, manda request para cada uma
-				for (int j = 0; j < arrayResults.length(); j++) {
-					JSONObject object = arrayResults.getJSONObject(j);
-					Long idServ = Long.parseLong(object.get("id").toString());
-					String nome = object.get("nomeArquivo").toString();
+				Log.i("Parseando varias fotos", " id=" + idServ);
 
-					Log.i("Parseando varias fotos", " id=" + idServ);
-					
+				getOnePhotoRequest(Long.toString(idServ));
 
-					 getOnePhotoRequest(Long.toString(idServ));
-
-					/*
-					 * // cria novo faq para mandar pro cache Faq novo = new
-					 * Faq(0L, 0L, idServ, pergunta, resposta); novo =
-					 * newOnePersistence(novo); // gera Id unico, entao retorna
-					 * // atualizado list.add(novo);
-					 */
-				}
-			} else if (nameArray.getString(0).toString().equals("photo")) {
-				// senao for, resposta dos dados de uma foto
-				for (int j = 0; j < arrayResults.length(); j++) {
-					JSONObject object = arrayResults.getJSONObject(j);
-					Long idServ = Long.parseLong(object.get("id").toString());
-					String nome = object.get("name").toString();
-
-					Log.i("Parseando uma foto", " name=" + nome);
-					getTheImage(Long.toString(idServ));
-				}
-				
-				
-			}else {//aqui eh a propria imagem
-				Log.i("Fez fownload da imagem", " sim!");
+				/*
+				 * // cria novo faq para mandar pro cache Faq novo = new Faq(0L,
+				 * 0L, idServ, pergunta, resposta); novo =
+				 * newOnePersistence(novo); // gera Id unico, entao retorna //
+				 * atualizado list.add(novo);
+				 */
 			}
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -213,7 +228,7 @@ public class PhotoGalleryGUI extends CRComponent {
 	}
 
 	private void getOnePhotoRequest(String id) {
-		createSimpleRequest(urlPhotoArquigrafia + id, "get");
+		createSimpleRequest(urlPhotoArquigrafia + id + urlEndArquigrafia, "get");
 	}
 
 	private void getTheImage(String id) {
