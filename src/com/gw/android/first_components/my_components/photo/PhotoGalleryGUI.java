@@ -136,7 +136,7 @@ public class PhotoGalleryGUI extends CRComponent {
 			// apagaNoCache();
 			// só pode executar isso se tiver conectado
 
-			Log.i("Parseando ", " antes do for");
+			
 
 			if (nameArray.getString(0).toString().equals("photos")) {
 				// se for dados de varias fotos, manda request para cada uma
@@ -145,10 +145,10 @@ public class PhotoGalleryGUI extends CRComponent {
 					Long idServ = Long.parseLong(object.get("id").toString());
 					String nome = object.get("nomeArquivo").toString();
 
-					Log.i("Parseando ", " id=" + idServ);
-					Log.i("Parseando ", " arq=" + nome);
+					Log.i("Parseando varias fotos", " id=" + idServ);
+					
 
-					// getOnePhotoRequest(Long.toString(idServ));
+					 getOnePhotoRequest(Long.toString(idServ));
 
 					/*
 					 * // cria novo faq para mandar pro cache Faq novo = new
@@ -158,8 +158,19 @@ public class PhotoGalleryGUI extends CRComponent {
 					 */
 				}
 			} else if (nameArray.getString(0).toString().equals("photo")) {
-				// senao for, eh apenas a imagem de uma foto
+				// senao for, resposta dos dados de uma foto
+				for (int j = 0; j < arrayResults.length(); j++) {
+					JSONObject object = arrayResults.getJSONObject(j);
+					Long idServ = Long.parseLong(object.get("id").toString());
+					String nome = object.get("name").toString();
 
+					Log.i("Parseando uma foto", " name=" + nome);
+					getTheImage(Long.toString(idServ));
+				}
+				
+				
+			}else {//aqui eh a propria imagem
+				Log.i("Fez fownload da imagem", " sim!");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
