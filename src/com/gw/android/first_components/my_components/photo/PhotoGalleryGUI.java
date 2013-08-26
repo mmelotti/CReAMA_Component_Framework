@@ -115,8 +115,10 @@ public class PhotoGalleryGUI extends CRComponent {
 
 		AsyncRequestHandler mHandler = new AsyncRequestHandler() {
 			@Override
-			public void onSuccess(String response) {
+			public void onSuccess(String response,Request request) {
+				Log.i("ON SUCCES APP", " id");
 				if (response.startsWith("{\"photos\":")) {// fotos aleatorias
+					Log.i("antes parse array", " id");
 					parseArrayJSON(response);
 				} else if (response.startsWith("{\"photo\":")) {// dados de uma
 																// foto
@@ -125,6 +127,11 @@ public class PhotoGalleryGUI extends CRComponent {
 				} else {// apenas a imagem
 					Log.i("Fez fownload da imagem", " sim!");
 					Log.i("one photo request test", response);
+					String url = request.getUrl();
+					String auxArray[] = url.split("/");
+					auxArray = auxArray[auxArray.length].split("?");
+					String photoServerId = auxArray[0];
+					Log.i("ID SERVER", photoServerId);
 					saveImageAfterDownload(response);
 				}
 				Log.i("Onsucces e Parser ", " id=");
@@ -164,9 +171,10 @@ public class PhotoGalleryGUI extends CRComponent {
 	}
 
 	void parseArrayJSON(String response) {
+		Log.i("Desnto parse array", " id=");
 		try {
 			JSONObject json = new JSONObject(response);
-
+			
 			JSONArray nameArray = json.names();
 			JSONArray valArray = json.toJSONArray(nameArray);
 			JSONArray arrayResults = valArray.getJSONArray(0);

@@ -93,7 +93,7 @@ public class FaqSendGUI extends CRComponent implements OnClickListener {
 		// Seta callback para quando terminar a requisição de envio
 		AsyncRequestHandler mHandler = new AsyncRequestHandler(true) {
 			@Override
-			public void onSuccess(String response) {
+			public void onSuccess(String response, Request r) {
 				if (FaqSendGUI.this.getDialog() != null)
 					// Sendo mostrado como dialog
 					FaqSendGUI.this.dismiss();

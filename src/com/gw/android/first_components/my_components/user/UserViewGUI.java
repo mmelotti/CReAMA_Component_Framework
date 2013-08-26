@@ -53,7 +53,7 @@ public class UserViewGUI extends CRComponent {
 
 		AsyncRequestHandler mHandler = new AsyncRequestHandler() {
 			@Override
-			public void onSuccess(String response) {
+			public void onSuccess(String response, Request request) {
 				atualizarAfterSucces();
 			}
 		};

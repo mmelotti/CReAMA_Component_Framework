@@ -83,7 +83,7 @@ public class FaqListGUI extends CRComponent implements OnItemClickListener {
 		
 		AsyncRequestHandler mHandler = new AsyncRequestHandler() {
 			@Override
-			public void onSuccess(String response) {
+			public void onSuccess(String response, Request r) {
 				parseJSON(response);
 				mQuestions.clear();
 				for (Faq f : list)
@@ -172,7 +172,7 @@ public class FaqListGUI extends CRComponent implements OnItemClickListener {
 			long id) {
 		AsyncRequestHandler saveHandler = new AsyncRequestHandler() {
 			@Override
-			public void onSuccess(String arg1) {
+			public void onSuccess(String arg1,Request r) {
 				Toast.makeText(getActivity(),
 						"Pergunta salva!", Toast.LENGTH_SHORT)
 						.show();
