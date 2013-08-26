@@ -38,7 +38,21 @@ public class CommentSendGUI extends CRComponent {
 	private EditText edit;
 	private Long idTarget = Long.valueOf(-1);
 	Bundle extras;
+	private boolean conectado = true;
+	
+	private String urlPostComment="http://www.arquigrafia.org.br/photo/";
 
+	/*
+	 * 
+	 * 
+	 * 
+	 * http://www.arquigrafia.org.br/photo/1821
+	 * post
+	 * commentMgr.entity	1821
+commentMgr.userId	1
+commentMgr.text	teste
+	 */
+	
 	public CommentSendGUI(Long idTarget) {
 		this.idTarget = idTarget;
 		
@@ -109,10 +123,19 @@ public class CommentSendGUI extends CRComponent {
 		initCommentDao();
 		commentDao.insert(comentario);
 		closeDao();
+		
+		if(conectado){
+			sendToServer();
+		}
+		
 		((CRActivity) getActivity()).inserirAlgo(newId, this);
 		//getControlActivity().inserirAlgo(newId, this);
 	}
 
+	private void sendToServer(){
+		
+	}
+	
 	public void initCommentDao() {
 		//Log.i("en initi", "aquiii");
 		DevOpenHelper helper = new DaoMaster.DevOpenHelper(getActivity(),

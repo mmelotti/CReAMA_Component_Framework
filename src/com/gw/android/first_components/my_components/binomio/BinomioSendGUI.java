@@ -43,7 +43,39 @@ public class BinomioSendGUI extends CRComponent {
 	private static final String KEY_RIGHT_TEXT_VIEW = "rightTextView";
 	private static final String KEY_BINOMIO = "binomio";
 
-	
+	/*
+	 * 
+	 * 
+	 * http://www.arquigrafia.org.br/18/photo_avaliation/1821
+	 * 
+	 * 
+	 * binomialMgr.binomialFirst...	Aberta
+binomialMgr.binomialSecon...	Fechada
+binomialMgr.binomialValue...	50
+binomialMgr.binomialIdUse...	1
+binomialMgr.binomialFirst...	Complexa
+binomialMgr.binomialSecon...	Simples
+binomialMgr.binomialValue...	50
+binomialMgr.binomialIdUse...	1
+binomialMgr.binomialFirst...	Horizontal
+binomialMgr.binomialSecon...	Vertical
+binomialMgr.binomialValue...	50
+binomialMgr.binomialIdUse...	1
+binomialMgr.binomialFirst...	Interna
+binomialMgr.binomialSecon...	Externa
+binomialMgr.binomialValue...	50
+binomialMgr.binomialIdUse...	1
+binomialMgr.binomialFirst...	Simétrica
+binomialMgr.binomialSecon...	Assimétrica
+binomialMgr.binomialValue...	50
+binomialMgr.binomialIdUse...	1
+binomialMgr.binomialFirst...	Translúcida
+binomialMgr.binomialSecon...	Opaca
+binomialMgr.binomialValue...	50
+binomialMgr.binomialIdUse...	1
+saveBinomial	
+	 * 
+	 */
 
 	public BinomioSendGUI() {
 
