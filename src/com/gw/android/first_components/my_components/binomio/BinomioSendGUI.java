@@ -18,7 +18,8 @@ import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import com.gw.android.R;import com.gw.android.first_components.database.DaoMaster;
+import com.gw.android.R;import com.gw.android.components.request.Request;
+import com.gw.android.first_components.database.DaoMaster;
 import com.gw.android.first_components.database.DaoSession;
 import com.gw.android.first_components.database.DaoMaster.DevOpenHelper;
 import com.gw.android.first_components.my_components.tag.TagDao.Properties;
@@ -33,7 +34,7 @@ public class BinomioSendGUI extends CRComponent {
 
 	private BinomioDao binomioDao;
 	private DaoSession daoSession;
-	
+	private boolean conectado = true;
 	
 	private int[] values = iniciarBinomios();
 
@@ -42,6 +43,7 @@ public class BinomioSendGUI extends CRComponent {
 	private static final String KEY_LEFT_TEXT_VIEW = "leftTextView";
 	private static final String KEY_RIGHT_TEXT_VIEW = "rightTextView";
 	private static final String KEY_BINOMIO = "binomio";
+	private String urlPostAvaliation = "http://www.arquigrafia.org.br/18/photo_avaliation/";
 
 	/*
 	 * 
@@ -49,6 +51,7 @@ public class BinomioSendGUI extends CRComponent {
 	 * http://www.arquigrafia.org.br/18/photo_avaliation/1821
 	 * 
 	 * 
+	 *
 	 * binomialMgr.binomialFirst...	Aberta
 binomialMgr.binomialSecon...	Fechada
 binomialMgr.binomialValue...	50
@@ -75,6 +78,62 @@ binomialMgr.binomialValue...	50
 binomialMgr.binomialIdUse...	1
 saveBinomial	
 	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * Content-Disposition: form-data; name="binomialMgr.binomialFirst[21]"
+	 * Aberta -----------------------------11311232393095 Content-Disposition:
+	 * form-data; name="binomialMgr.binomialSecond[21]" Fechada
+	 * -----------------------------11311232393095 Content-Disposition:
+	 * form-data; name="binomialMgr.binomialValue[21]" 50
+	 * -----------------------------11311232393095 Content-Disposition:
+	 * form-data; name="binomialMgr.binomialIdUser[21]" 1
+	 * -----------------------------11311232393095 Content-Disposition:
+	 * form-data; name="binomialMgr.binomialFirst[19]" Complexa
+	 * -----------------------------11311232393095 Content-Disposition:
+	 * form-data; name="binomialMgr.binomialSecond[19]" Simples
+	 * -----------------------------11311232393095 Content-Disposition:
+	 * form-data; name="binomialMgr.binomialValue[19]" 50
+	 * -----------------------------11311232393095 Content-Disposition:
+	 * form-data; name="binomialMgr.binomialIdUser[19]" 1
+	 * -----------------------------11311232393095 Content-Disposition:
+	 * form-data; name="binomialMgr.binomialFirst[13]" Horizontal
+	 * -----------------------------11311232393095 Content-Disposition:
+	 * form-data; name="binomialMgr.binomialSecond[13]" Vertical
+	 * -----------------------------11311232393095 Content-Disposition:
+	 * form-data; name="binomialMgr.binomialValue[13]" 50
+	 * -----------------------------11311232393095 Content-Disposition:
+	 * form-data; name="binomialMgr.binomialIdUser[13]" 1
+	 * -----------------------------11311232393095 Content-Disposition:
+	 * form-data; name="binomialMgr.binomialFirst[20]" Interna
+	 * -----------------------------11311232393095 Content-Disposition:
+	 * form-data; name="binomialMgr.binomialSecond[20]" Externa
+	 * -----------------------------11311232393095 Content-Disposition:
+	 * form-data; name="binomialMgr.binomialValue[20]" 50
+	 * -----------------------------11311232393095 Content-Disposition:
+	 * form-data; name="binomialMgr.binomialIdUser[20]" 1
+	 * -----------------------------11311232393095 Content-Disposition:
+	 * form-data; name="binomialMgr.binomialFirst[16]" Simétrica
+	 * -----------------------------11311232393095 Content-Disposition:
+	 * form-data; name="binomialMgr.binomialSecond[16]" Assimétrica
+	 * -----------------------------11311232393095 Content-Disposition:
+	 * form-data; name="binomialMgr.binomialValue[16]" 50
+	 * -----------------------------11311232393095 Content-Disposition:
+	 * form-data; name="binomialMgr.binomialIdUser[16]" 1
+	 * -----------------------------11311232393095 Content-Disposition:
+	 * form-data; name="binomialMgr.binomialFirst[14]" Translúcida
+	 * -----------------------------11311232393095 Content-Disposition:
+	 * form-data; name="binomialMgr.binomialSecond[14]" Opaca
+	 * -----------------------------11311232393095 Content-Disposition:
+	 * form-data; name="binomialMgr.binomialValue[14]" 50
+	 * -----------------------------11311232393095 Content-Disposition:
+	 * form-data; name="binomialMgr.binomialIdUser[14]" 1
+	 * -----------------------------11311232393095 Content-Disposition:
+	 * form-data; name="saveBinomial"
 	 */
 
 	public BinomioSendGUI() {
@@ -126,6 +185,9 @@ saveBinomial
 				binomioDao.insert(b);
 
 				closeDao();
+				if(conectado)
+				sendToServer(b);
+				
 				reloadActivity();
 			}
 		});
@@ -135,6 +197,50 @@ saveBinomial
 		return view;
 	}
 
+	
+	private void sendToServer(Binomio binomio){
+		//o ultimo parece ser vazio sempre
+		
+		//TODO FALTA INTERNA EXTERNA!!!!
+		Request request = new Request(null, urlPostAvaliation, "post",
+				"binomialMgr.binomialFirst[21]--" + "Aberta" + 
+		"__binomialMgr.binomialSecond[21]--" + "Fechada"
+						+ "__binomialMgr.binomialValue[21]--" + binomio.getAberta()+
+						"__binomialMgr.binomialIdUser[21]--"+ "1"+
+						
+						"__binomialMgr.binomialFrist[19]--" +"Complexa"+
+						"__binomialMgr.binomialSecond[19]--" + "Simples"+
+						"__binomialMgr.binomialValue[19]--" +binomio.getComplexa() +
+						"__binomialMgr.binomialIdUser[19]--" +"1" +
+						
+						"__binomialMgr.binomialFrist[13]--" +"Horizontal"+
+						"__binomialMgr.binomialSecond[13]--" + "Vertical"+
+						"__binomialMgr.binomialValue[13]--" +binomio.getHorizontal() +
+						"__binomialMgr.binomialIdUser[13]--" +"1" +
+						
+						"__binomialMgr.binomialFrist[20]--" +"Interna"+
+						"__binomialMgr.binomialSecond[20]--" + "Externa"+
+						"__binomialMgr.binomialValue[20]--" +binomio.getHorizontal() +
+						"__binomialMgr.binomialIdUser[20]--" +"1" +
+						
+						"__binomialMgr.binomialFrist[16]--" +"Simetrica"+
+						"__binomialMgr.binomialSecond[16]--" + "Assimetrica"+
+						"__binomialMgr.binomialValue[16]--" +"" +
+						"__binomialMgr.binomialIdUser[16]--" +"1" +
+						
+"__binomialMgr.binomialFrist[14]--" +"Translucida"+
+"__binomialMgr.binomialSecond[14]--" + "Opaca"+
+"__binomialMgr.binomialValue[14]--" +binomio.getTranslucida() +
+"__binomialMgr.binomialIdUser[14]--" +"1" );
+				
+		
+		makeRequest(request);		
+		
+		
+		
+		
+	}
+	
 	private void addVariosBinomios(LinearLayout l, LayoutInflater inflater) {
 
 		List<BinomiosArquigrafia> list = new ArrayList<BinomiosArquigrafia>();

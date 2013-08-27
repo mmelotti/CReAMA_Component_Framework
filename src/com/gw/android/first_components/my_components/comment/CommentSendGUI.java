@@ -3,13 +3,13 @@ package com.gw.android.first_components.my_components.comment;
 import java.util.Date;
 
 import com.gw.android.R;
+import com.gw.android.components.request.Request;
 import com.gw.android.first_components.database.DaoMaster;
 import com.gw.android.first_components.database.DaoSession;
 import com.gw.android.first_components.database.DaoMaster.DevOpenHelper;
 import com.gw.android.first_components.my_fragment.CRActivity;
 import com.gw.android.first_components.my_fragment.CRComponent;
 import com.gw.android.first_components.my_fragment.ComponentSimpleModel;
-
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -39,23 +39,22 @@ public class CommentSendGUI extends CRComponent {
 	private Long idTarget = Long.valueOf(-1);
 	Bundle extras;
 	private boolean conectado = true;
-	
-	private String urlPostComment="http://www.arquigrafia.org.br/photo/";
+
+	private String urlPostComment = "http://www.arquigrafia.org.br/photo/";
 
 	/*
 	 * 
 	 * 
 	 * 
-	 * http://www.arquigrafia.org.br/photo/1821
-	 * post
-	 * commentMgr.entity	1821
-commentMgr.userId	1
-commentMgr.text	teste
+	 * http://www.arquigrafia.org.br/photo/1821 post 
+	 * commentMgr.entity 1821
+	 * commentMgr.userId 1 
+	 * commentMgr.text teste
 	 */
-	
+
 	public CommentSendGUI(Long idTarget) {
 		this.idTarget = idTarget;
-		
+
 		preDefined();
 	}
 
@@ -63,11 +62,11 @@ commentMgr.text	teste
 		preDefined();
 	}
 
-	public void preDefined(){
+	public void preDefined() {
 		setGeneralGUIId(4);
-	
+
 	}
-	
+
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
@@ -92,11 +91,11 @@ commentMgr.text	teste
 				return false;
 			}
 		});
-		
-		if(idTarget==-1L){
+
+		if (idTarget == -1L) {
 			idTarget = getComponentTarget().getCurrentInstanceId();
 		}
-		
+
 		button.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -118,26 +117,31 @@ commentMgr.text	teste
 		comentario.setId(newId);
 		comentario.setText(edit.getText().toString());
 		comentario.setTargetId(idTarget);
-	
+
 		edit.setText("");
 		initCommentDao();
 		commentDao.insert(comentario);
 		closeDao();
-		
-		if(conectado){
-			sendToServer();
+
+		if (conectado) {
+			sendToServer(comentario);
 		}
-		
+
 		((CRActivity) getActivity()).inserirAlgo(newId, this);
-		//getControlActivity().inserirAlgo(newId, this);
+		// getControlActivity().inserirAlgo(newId, this);
 	}
 
-	private void sendToServer(){
+	private void sendToServer(Comment coment) {
+		Request request = new Request(null, urlPostComment, "post",
+				"commentMgr.entity--" + "1821" + "__commentMgr.userId--" + "1"
+						+ "__commentMgr.text--" + coment.getText());
+		
+		makeRequest(request);		
 		
 	}
-	
+
 	public void initCommentDao() {
-		//Log.i("en initi", "aquiii");
+		// Log.i("en initi", "aquiii");
 		DevOpenHelper helper = new DaoMaster.DevOpenHelper(getActivity(),
 				"comments-db", null);
 		SQLiteDatabase db = helper.getWritableDatabase();
@@ -147,7 +151,7 @@ commentMgr.text	teste
 	}
 
 	public void initCommentDao(Activity a) {
-		//Log.i("en initi", "aquiii");
+		// Log.i("en initi", "aquiii");
 		DevOpenHelper helper = new DaoMaster.DevOpenHelper(a, "comments-db",
 				null);
 		SQLiteDatabase db = helper.getWritableDatabase();
