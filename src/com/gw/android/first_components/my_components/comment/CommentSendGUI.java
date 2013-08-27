@@ -3,6 +3,7 @@ package com.gw.android.first_components.my_components.comment;
 import java.util.Date;
 
 import com.gw.android.R;
+import com.gw.android.components.connection_manager.AsyncRequestHandler;
 import com.gw.android.components.request.Request;
 import com.gw.android.first_components.database.DaoMaster;
 import com.gw.android.first_components.database.DaoSession;
@@ -131,6 +132,19 @@ public class CommentSendGUI extends CRComponent {
 		// getControlActivity().inserirAlgo(newId, this);
 	}
 
+	
+	private void initializeCallback() {
+		// Seta callback para quando terminar a requisição de envio
+		AsyncRequestHandler mHandler = new AsyncRequestHandler(true) {
+			@Override
+			public void onSuccess(String response, Request r) {
+				
+				reloadActivity();
+			}
+		};
+		setComponentRequestCallback(mHandler);
+	}
+	
 	private void sendToServer(Comment coment) {
 		Request request = new Request(null, urlPostComment, "post",
 				"commentMgr.entity--" + "1821" + "__commentMgr.userId--" + "1"

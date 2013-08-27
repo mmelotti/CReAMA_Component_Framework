@@ -18,10 +18,12 @@ import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import com.gw.android.R;import com.gw.android.components.request.Request;
+import com.gw.android.R;import com.gw.android.components.connection_manager.AsyncRequestHandler;
+import com.gw.android.components.request.Request;
 import com.gw.android.first_components.database.DaoMaster;
 import com.gw.android.first_components.database.DaoSession;
 import com.gw.android.first_components.database.DaoMaster.DevOpenHelper;
+import com.gw.android.first_components.my_components.faq.FaqSendGUI;
 import com.gw.android.first_components.my_components.tag.TagDao.Properties;
 import com.gw.android.first_components.my_fragment.CRComponent;
 import com.gw.android.first_components.my_fragment.ComponentSimpleModel;
@@ -185,8 +187,10 @@ saveBinomial
 				binomioDao.insert(b);
 
 				closeDao();
-				if(conectado)
-				sendToServer(b);
+				if(conectado){
+					sendToServer(b);
+				}
+				
 				
 				reloadActivity();
 			}
@@ -197,6 +201,18 @@ saveBinomial
 		return view;
 	}
 
+	
+	private void initializeCallback() {
+		// Seta callback para quando terminar a requisição de envio
+		AsyncRequestHandler mHandler = new AsyncRequestHandler(true) {
+			@Override
+			public void onSuccess(String response, Request r) {
+				
+				reloadActivity();
+			}
+		};
+		setComponentRequestCallback(mHandler);
+	}
 	
 	private void sendToServer(Binomio binomio){
 		//o ultimo parece ser vazio sempre
@@ -231,7 +247,7 @@ saveBinomial
 "__binomialMgr.binomialFrist[14]--" +"Translucida"+
 "__binomialMgr.binomialSecond[14]--" + "Opaca"+
 "__binomialMgr.binomialValue[14]--" +binomio.getTranslucida() +
-"__binomialMgr.binomialIdUser[14]--" +"1" );
+"__binomialMgr.binomialIdUser[14]--" +"1" + "__saveBinomial--"+"");
 				
 		
 		makeRequest(request);		
@@ -247,8 +263,10 @@ saveBinomial
 		list.add(new BinomiosArquigrafia("Fechada", "Aberta"));
 		list.add(new BinomiosArquigrafia("Simples", "Complexa"));
 		list.add(new BinomiosArquigrafia("Vertical", "Horizontal"));
+		
 		list.add(new BinomiosArquigrafia("Simétrica", "Assimétrica"));
 		list.add(new BinomiosArquigrafia("Opaca", "Translúcida"));
+		list.add(new BinomiosArquigrafia("Externa", "Interna"));
 
 		int i = 0;
 
