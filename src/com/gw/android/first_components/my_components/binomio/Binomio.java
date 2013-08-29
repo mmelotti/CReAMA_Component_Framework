@@ -19,6 +19,8 @@ public class Binomio extends com.gw.android.first_components.my_fragment.Compone
     private Integer assimetrica;
     private Integer opaca;
     private Integer translucida;
+    private Integer interna;
+    private Integer externa;
 
     public Binomio() {
     }
@@ -27,7 +29,7 @@ public class Binomio extends com.gw.android.first_components.my_fragment.Compone
         this.id = id;
     }
 
-    public Binomio(Long id, Long targetId, Long serverId, Integer fechada, Integer aberta, Integer simples, Integer complexa, Integer vertical, Integer horizontal, Integer simetrica, Integer assimetrica, Integer opaca, Integer translucida) {
+    public Binomio(Long id, Long targetId, Long serverId, Integer fechada, Integer aberta, Integer simples, Integer complexa, Integer vertical, Integer horizontal, Integer simetrica, Integer assimetrica, Integer opaca, Integer translucida, Integer interna, Integer externa) {
         this.id = id;
         this.targetId = targetId;
         this.serverId = serverId;
@@ -41,6 +43,8 @@ public class Binomio extends com.gw.android.first_components.my_fragment.Compone
         this.assimetrica = assimetrica;
         this.opaca = opaca;
         this.translucida = translucida;
+        this.interna = interna;
+        this.externa = externa;
     }
 
     public Long getId() {
@@ -146,5 +150,21 @@ public class Binomio extends com.gw.android.first_components.my_fragment.Compone
     public void setTranslucida(Integer translucida) {
         this.translucida = translucida;
     }
+
+	public Integer getInterna() {
+		return interna;
+	}
+
+	public void setInterna(Integer interna) {
+		this.interna = interna;
+	}
+
+	public Integer getExterna() {
+		return externa;
+	}
+
+	public void setExterna(Integer externa) {
+		this.externa = externa;
+	}
 
 }
