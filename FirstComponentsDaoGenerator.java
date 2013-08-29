@@ -4,8 +4,7 @@ import de.greenrobot.daogenerator.DaoGenerator;
 import de.greenrobot.daogenerator.Entity;
 import de.greenrobot.daogenerator.Schema;
 
-public class FirstComponentsDaoGenerator {
-
+public class GWDaoGenerator {
 	static String pack = "com.gw.android.first_components.my_components.";
 
 	public static void main(String[] args) throws Exception {
@@ -65,7 +64,6 @@ public class FirstComponentsDaoGenerator {
 		user.addStringProperty("ocupacao");
 		user.addStringProperty("email");
 	}
-
 
 	private static Entity addComment(Schema schema) {
 		Entity com = schema.addEntity("Comment");
@@ -133,6 +131,8 @@ public class FirstComponentsDaoGenerator {
 		binomio.addIntProperty("assimetrica");
 		binomio.addIntProperty("opaca");
 		binomio.addIntProperty("translucida");
+		binomio.addIntProperty("interna");
+		binomio.addIntProperty("externa");
 	}
 
 }

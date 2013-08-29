@@ -38,6 +38,8 @@ public class BinomioDao extends AbstractDao<Binomio, Long> {
         public final static Property Assimetrica = new Property(10, Integer.class, "assimetrica", false, "ASSIMETRICA");
         public final static Property Opaca = new Property(11, Integer.class, "opaca", false, "OPACA");
         public final static Property Translucida = new Property(12, Integer.class, "translucida", false, "TRANSLUCIDA");
+        public final static Property Interna = new Property(13, Integer.class, "interna", false, "INTERNA");
+        public final static Property Externa = new Property(14, Integer.class, "externa", false, "EXTERNA");
     };
 
 
@@ -65,7 +67,9 @@ public class BinomioDao extends AbstractDao<Binomio, Long> {
                 "'SIMETRICA' INTEGER," + // 9: simetrica
                 "'ASSIMETRICA' INTEGER," + // 10: assimetrica
                 "'OPACA' INTEGER," + // 11: opaca
-                "'TRANSLUCIDA' INTEGER);"); // 12: translucida
+                "'TRANSLUCIDA' INTEGER);"+ // 12: translucida
+    "'INTERNA' INTEGER);" + // 13: interna
+"'EXTERNA' INTEGER);"); // 14: externa
     }
 
     /** Drops the underlying database table. */
