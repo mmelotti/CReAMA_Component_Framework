@@ -32,6 +32,48 @@ public class PhotoSendGUI extends CRComponent {
 				android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI);
 		startActivityForResult(myIntent, PhotoUtils.SELECT_PICTURE);
 	}
+	
+	/*TODO REQUEST - descricao abaixo
+	 * collblet principal
+	 * 	http://www.arquigrafia.org.br/18/
+	 * 
+	 * 
+	 * 
+	 * user.id	
+photoRegister.id	
+foto [APROPRIAIMAGEM CARACTERES ESCROTOS]
+
+ photoRegister.name	maison teste
+photoRegister.imageAuthor	
+photoRegister.state	
+photoRegister.dataCriacao	
+photoRegister.country	Brasil
+photoRegister.district	
+photoRegister.workAuthor	
+photoRegister.street	
+photoRegister.workdate	
+tagMgr.tags	maisonteste, maisonteste2, maisonteste3
+photoRegister.description	
+terms	read
+photoRegister.allowCommer...	YES
+photoRegister.allowModifi...	YES
+enviar	
+
+
+enviar aparentemente vazio, assim como os dois primeiros campos
+	 * 
+	 * 
+	 * 
+	 * 
+25459152783511 Content-Disposition: form-data; name="user.id" 
+
+	 * 25459152783511 Content-Disposition: form-data; name="photoRegister.id"
+	25459152783511 Content-Disposition: form-data; name="foto"; filename="IMAG0064.jpg" Content-Type: image/jpeg
+	 * AQUI VEM OS CARACTERES DA IMAGEM
+	 * 
+	 * (non-Javadoc)
+	 * @see android.support.v4.app.Fragment#onActivityResult(int, int, android.content.Intent)
+	 */
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
