@@ -145,7 +145,7 @@ public class BinomioAverageGUI extends CRComponent {
 			externa=50;
 		}
 
-		int[] data = { fechada, simples, vertical, assimetrica, opaca };
+		int[] data = { fechada, simples, vertical, externa, assimetrica, opaca };
 		return data;
 	}
 
