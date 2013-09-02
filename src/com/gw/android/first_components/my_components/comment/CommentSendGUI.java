@@ -2,6 +2,9 @@ package com.gw.android.first_components.my_components.comment;
 
 import java.util.Date;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import com.gw.android.R;
 import com.gw.android.components.connection_manager.AsyncRequestHandler;
 import com.gw.android.components.request.Request;
@@ -107,6 +110,10 @@ public class CommentSendGUI extends CRComponent {
 		return view;
 	}
 
+	
+	
+	
+	
 	public void submitComent() {
 		// fecha teclado
 		InputMethodManager imm = (InputMethodManager) getActivity()
