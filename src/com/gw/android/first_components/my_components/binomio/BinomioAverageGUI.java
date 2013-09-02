@@ -31,8 +31,8 @@ public class BinomioAverageGUI extends CRComponent {
 	private Long newTarget;
 	//private int nBin = 5;
 	//private View binView;
-	private int fechada = 0, simples = 0, vertical = 0, simetrica = 0,
-			opaca = 0;
+	private int fechada = 0, simples = 0, vertical = 0, assimetrica = 0,
+			opaca = 0, externa=0;
 
 	private BinomioDao binomioDao;
 	private DaoSession daoSession;
@@ -68,7 +68,8 @@ public class BinomioAverageGUI extends CRComponent {
 		list.add(new BinomiosArquigrafia("Fechada", "Aberta"));
 		list.add(new BinomiosArquigrafia("Simples", "Complexa"));
 		list.add(new BinomiosArquigrafia("Vertical", "Horizontal"));
-		list.add(new BinomiosArquigrafia("Simétrica", "Assimétrica"));
+		list.add(new BinomiosArquigrafia("Assimétrica", "Simétrica"));
+		list.add(new BinomiosArquigrafia("Externa", "Interna"));
 		list.add(new BinomiosArquigrafia("Opaca", "Translúcida"));
 
 		int i = 0;
@@ -119,7 +120,8 @@ public class BinomioAverageGUI extends CRComponent {
 			fechada += b.getFechada();
 			simples += b.getSimples();
 			vertical += b.getVertical();
-			simetrica += b.getSimetrica();
+			assimetrica += b.getSimetrica();
+			externa += b.getInterna();
 			opaca += b.getOpaca();
 			Log.i("val!!!","valor= "+ opaca);
 		}
@@ -130,18 +132,20 @@ public class BinomioAverageGUI extends CRComponent {
 			
 			
 			vertical = vertical / lista.size();
-			simetrica = simetrica / lista.size();
+			assimetrica = assimetrica / lista.size();
+			externa = externa/lista.size();
 			opaca = opaca / lista.size();
 			Log.i("val!!!",lista.size()+" opaca media= "+ opaca);
 		} else {
 			fechada = 50;
 			simples = 50;
 			vertical = 50;
-			simetrica = 50;
+			assimetrica = 50;
 			opaca = 50;
+			externa=50;
 		}
 
-		int[] data = { fechada, simples, vertical, simetrica, opaca };
+		int[] data = { fechada, simples, vertical, assimetrica, opaca };
 		return data;
 	}
 
