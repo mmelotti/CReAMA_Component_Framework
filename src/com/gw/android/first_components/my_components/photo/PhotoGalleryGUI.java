@@ -129,8 +129,8 @@ public class PhotoGalleryGUI extends CRComponent {
 					Log.i("one photo request test", response);
 					String url = request.getUrl();
 					String auxArray[] = url.split("/");
-					auxArray = auxArray[auxArray.length].split("?");
-					String photoServerId = auxArray[0];
+					String auxArray2[] = auxArray[auxArray.length-1].split("\\?");
+					String photoServerId = auxArray2[0];
 					Log.i("ID SERVER", photoServerId);
 					saveImageAfterDownload(response);
 				}

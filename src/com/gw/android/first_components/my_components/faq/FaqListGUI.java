@@ -49,7 +49,7 @@ public class FaqListGUI extends CRComponent implements OnItemClickListener {
 		SharedPreferences testPrefs = getActivity()
 				.getApplication()
 				.getSharedPreferences("test_prefs", Context.MODE_PRIVATE);
-		return testPrefs.getString("faq_base_url", "");
+		return testPrefs.getString("base_url", "");
 	}
 
 	public static FaqDao initFaqDao(Activity a) {

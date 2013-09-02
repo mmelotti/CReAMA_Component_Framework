@@ -54,7 +54,7 @@ public class UserViewGUI extends CRComponent {
 		AsyncRequestHandler mHandler = new AsyncRequestHandler() {
 			@Override
 			public void onSuccess(String response, Request request) {
-				atualizarAfterSucces();
+				atualizarAfterSucces(response);
 			}
 		};
 		setComponentRequestCallback(mHandler);
@@ -83,12 +83,15 @@ public class UserViewGUI extends CRComponent {
 		// preenche com oq ta no cache
 	}
 
-	public void atualizarAfterSucces() {
+	public void atualizarAfterSucces(String r) {
 		// TODO parser xml
 		name.setText(name.getText() + "Administrador");
 		email.setText(email.getText() + "admin@arquigrafia.com.br");
 		login.setText(login.getText() + "admin");
 		id.setText(id.getText() + "1");
+		
+		
+		
 	}
 
 }
