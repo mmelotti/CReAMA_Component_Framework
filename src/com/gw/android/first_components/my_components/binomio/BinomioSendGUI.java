@@ -179,10 +179,12 @@ saveBinomial
 				
 				b.setVertical(100-values[2]);
 				b.setHorizontal(values[2]);
-				b.setSimetrica(100-values[3]);
-				b.setAssimetrica(values[3]);
-				b.setOpaca(100-values[4]);
-				b.setTranslucida(values[4]);
+				b.setExterna(100-values[3]);
+				b.setInterna(values[3]);
+				b.setSimetrica(values[4]);
+				b.setAssimetrica(100-values[4]);
+				b.setOpaca(100-values[5]);
+				b.setTranslucida(values[5]);
 				
 				
 				initRatingDao();
@@ -363,7 +365,7 @@ saveBinomial
 
 	public int[] iniciarBinomios() {
 
-		int[] data = { 50, 50,50,50,50 };
+		int[] data = { 50, 50,50,50,50,50 };
 		return data;
 	}
 
