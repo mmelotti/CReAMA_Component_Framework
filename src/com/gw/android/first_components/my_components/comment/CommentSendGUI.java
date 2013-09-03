@@ -97,7 +97,7 @@ public class CommentSendGUI extends CRComponent {
 			}
 		});
 
-		if (idTarget == -1L) {
+		if (idTarget == -1L && teste==false) {
 			idTarget = getComponentTarget().getCurrentInstanceId();
 		}
 
@@ -154,15 +154,15 @@ public class CommentSendGUI extends CRComponent {
 		AsyncRequestHandler mHandler = new AsyncRequestHandler(true) {
 			@Override
 			public void onSuccess(String response, Request r) {
-				
-				reloadActivity();
+				 Log.i("acabou request", "aquiii");
+				//reloadActivity();
 			}
 		};
 		setComponentRequestCallback(mHandler);
 	}
 	
 	private void sendToServer(Comment coment) {
-		Request request = new Request(null, urlPostComment, "post",
+		Request request = new Request(null, urlPostComment+1821, "post",
 				"commentMgr.entity--" + "1821" + "__commentMgr.userId--" + "1"
 						+ "__commentMgr.text--" + coment.getText());
 		

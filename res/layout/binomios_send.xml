@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/binomio_maior"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical" >
 
     <TextView
@@ -19,7 +19,7 @@
     <LinearLayout
         android:id="@+id/binomio_container"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical" >
     </LinearLayout>
 

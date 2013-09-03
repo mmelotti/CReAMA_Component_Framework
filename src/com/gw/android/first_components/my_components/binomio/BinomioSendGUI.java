@@ -33,7 +33,8 @@ import com.gw.android.first_components.my_fragment.ComponentSimpleModel;
 public class BinomioSendGUI extends CRComponent {
 
 	private Long newTarget;
-
+	private boolean teste = true;
+	
 	private BinomioDao binomioDao;
 	private DaoSession daoSession;
 	private boolean conectado = true;
@@ -45,7 +46,7 @@ public class BinomioSendGUI extends CRComponent {
 	private static final String KEY_LEFT_TEXT_VIEW = "leftTextView";
 	private static final String KEY_RIGHT_TEXT_VIEW = "rightTextView";
 	private static final String KEY_BINOMIO = "binomio";
-	private String urlPostAvaliation = "http://www.arquigrafia.org.br/18/photo_avaliation/";
+	private String urlPostAvaliation = "http://www.arquigrafia.org.br/18/photo/";
 
 	/*
 	 * 
@@ -150,7 +151,7 @@ saveBinomial
 	
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.binomios_view, container, false);
+		View view = inflater.inflate(R.layout.binomios_send, container, false);
 
 		Log.i("create", "binomio gui");
 		// Button save = (Button) view.findViewById(R.id.btnBrowse);
@@ -168,7 +169,7 @@ saveBinomial
 
 				Binomio b = new Binomio();
 				b.setId(newId);
-				b.setTargetId(newTarget);
+				
 				
 				b.setFechada(100-values[0]);
 				b.setAberta(values[0]);
@@ -186,17 +187,22 @@ saveBinomial
 				b.setOpaca(100-values[5]);
 				b.setTranslucida(values[5]);
 				
+				if(teste==false){
+					b.setTargetId(newTarget);
+					initRatingDao();
+					binomioDao.insert(b);
+					closeDao();
+					reloadActivity();
+				}
 				
-				initRatingDao();
-				binomioDao.insert(b);
-
-				closeDao();
+				
+				
 				if(conectado){
 					sendToServer(b);
 				}
 				
 				
-				reloadActivity();
+				
 			}
 		});
 
@@ -223,36 +229,40 @@ saveBinomial
 		//o ultimo parece ser vazio sempre
 		
 		//TODO FALTA INTERNA EXTERNA!!!!
-		Request request = new Request(null, urlPostAvaliation, "post",
-				"binomialMgr.binomialFirst[21]--" + "Aberta" + 
-		"__binomialMgr.binomialSecond[21]--" + "Fechada"
-						+ "__binomialMgr.binomialValue[21]--" + binomio.getAberta()+
-						"__binomialMgr.binomialIdUser[21]--"+ "1"+
-						
-						"__binomialMgr.binomialFrist[19]--" +"Complexa"+
-						"__binomialMgr.binomialSecond[19]--" + "Simples"+
-						"__binomialMgr.binomialValue[19]--" +binomio.getComplexa() +
-						"__binomialMgr.binomialIdUser[19]--" +"1" +
-						
-						"__binomialMgr.binomialFrist[13]--" +"Horizontal"+
-						"__binomialMgr.binomialSecond[13]--" + "Vertical"+
-						"__binomialMgr.binomialValue[13]--" +binomio.getHorizontal() +
-						"__binomialMgr.binomialIdUser[13]--" +"1" +
-						
-						"__binomialMgr.binomialFrist[20]--" +"Interna"+
-						"__binomialMgr.binomialSecond[20]--" + "Externa"+
-						"__binomialMgr.binomialValue[20]--" +binomio.getHorizontal() +
-						"__binomialMgr.binomialIdUser[20]--" +"1" +
-						
-						"__binomialMgr.binomialFrist[16]--" +"Simetrica"+
-						"__binomialMgr.binomialSecond[16]--" + "Assimetrica"+
-						"__binomialMgr.binomialValue[16]--" +"" +
-						"__binomialMgr.binomialIdUser[16]--" +"1" +
-						
-"__binomialMgr.binomialFrist[14]--" +"Translucida"+
+		String strData = ("binomialMgr.binomialFirst[21]--" + "Aberta" + 
+				"__binomialMgr.binomialSecond[21]--" + "Fechada" +
+				"__binomialMgr.binomialValue[21]--" + binomio.getAberta()+
+				"__binomialMgr.binomialIdUser[21]--"+ "1"+
+				
+				"__binomialMgr.binomialFirst[19]--" +"Complexa"+
+				"__binomialMgr.binomialSecond[19]--" + "Simples"+
+				"__binomialMgr.binomialValue[19]--" +binomio.getComplexa() +
+				"__binomialMgr.binomialIdUser[19]--" +"1" +
+				
+				"__binomialMgr.binomialFirst[13]--" +"Horizontal"+
+				"__binomialMgr.binomialSecond[13]--" + "Vertical"+
+				"__binomialMgr.binomialValue[13]--" +binomio.getHorizontal() +
+				"__binomialMgr.binomialIdUser[13]--" +"1" +
+				
+				"__binomialMgr.binomialFirst[20]--" +"Interna"+
+				"__binomialMgr.binomialSecond[20]--" + "Externa"+
+				"__binomialMgr.binomialValue[20]--" +binomio.getInterna() +
+				"__binomialMgr.binomialIdUser[20]--" +"1" +
+				
+				"__binomialMgr.binomialFirst[16]--" +"Simétrica"+
+				"__binomialMgr.binomialSecond[16]--" + "Assimétrica"+
+				"__binomialMgr.binomialValue[16]--" +binomio.getSimetrica() +
+				"__binomialMgr.binomialIdUser[16]--" +"1" +
+				
+"__binomialMgr.binomialFirst[14]--" +"Translúcida"+
 "__binomialMgr.binomialSecond[14]--" + "Opaca"+
 "__binomialMgr.binomialValue[14]--" +binomio.getTranslucida() +
-"__binomialMgr.binomialIdUser[14]--" +"1" + "__saveBinomial--"+"");
+"__binomialMgr.binomialIdUser[14]--" +"1"
+
++ "__saveBinomial--"+"");
+		
+		Request request = new Request(null, urlPostAvaliation+1821+"/avaliation", "post", strData);
+						
 				
 		
 		makeRequest(request);		
@@ -268,10 +278,10 @@ saveBinomial
 		list.add(new BinomiosArquigrafia("Fechada", "Aberta"));
 		list.add(new BinomiosArquigrafia("Simples", "Complexa"));
 		list.add(new BinomiosArquigrafia("Vertical", "Horizontal"));
-		
-		list.add(new BinomiosArquigrafia("Simétrica", "Assimétrica"));
-		list.add(new BinomiosArquigrafia("Opaca", "Translúcida"));
 		list.add(new BinomiosArquigrafia("Externa", "Interna"));
+		list.add(new BinomiosArquigrafia("Assimétrica", "Simétrica"));
+		list.add(new BinomiosArquigrafia("Opaca", "Translúcida"));
+		
 
 		int i = 0;
 
