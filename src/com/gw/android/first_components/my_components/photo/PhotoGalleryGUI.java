@@ -1,7 +1,15 @@
 package com.gw.android.first_components.my_components.photo;
 
+import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Date;
 import java.util.List;
 
+import org.apache.http.HttpEntity;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -12,7 +20,9 @@ import android.content.res.TypedArray;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.BitmapFactory.Options;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,6 +43,7 @@ import com.gw.android.first_components.database.DaoMaster.DevOpenHelper;
 import com.gw.android.first_components.my_components.faq.Faq;
 import com.gw.android.first_components.my_components.photo.PhotoDao.Properties;
 import com.gw.android.first_components.my_fragment.CRComponent;
+import com.gw.android.first_components.my_fragment.ComponentSimpleModel;
 
 @SuppressLint("ValidFragment")
 public class PhotoGalleryGUI extends CRComponent {
@@ -49,7 +60,7 @@ public class PhotoGalleryGUI extends CRComponent {
 	String url = "http://" + ip
 			+ ":8080/GW-Application-Arquigrafia/groupware-workbench";
 	private String jsonTestUrl = "" + "http://" + ip
-			+ ":8080/GW-Application-Arquigrafia/tresfotos.json";
+			+ ":8080/GW-Application-FAQN/tresfotos.json";
 	private String urlPhotoArquigrafia = "http://www.arquigrafia.org.br/photo/";
 	private String urlEndArquigrafia = "?_format=json";
 
@@ -71,7 +82,7 @@ public class PhotoGalleryGUI extends CRComponent {
 		picGallery = (Gallery) view.findViewById(R.id.gallery);
 		description = (TextView) view.findViewById(R.id.description);
 
-		photoDao = initPhotoDao(getActivity());
+		photoDao = PhotoUtils.initPhotoDao(getActivity());
 		list = photoDao.queryBuilder().orderAsc(Properties.Id).list();
 		photoDao.getDatabase().close();
 
@@ -112,10 +123,25 @@ public class PhotoGalleryGUI extends CRComponent {
 		 * NewListActivity.class); trocatela.putExtra("nImagem", id);
 		 * getActivity().startActivity(trocatela); } });
 		 */
-
+		
+		AsyncRequestHandler mFileHandler = new AsyncRequestHandler() {
+			@Override
+			public void onSuccess(byte[] b, Request request) {
+				Log.i("MFILEHANDLER - Fez download da imagem", " sim!");
+				String url = request.getUrl();
+				String auxArray[] = url.split("/");
+				String auxArray2[] = auxArray[auxArray.length-1].split("\\?");
+				String photoServerId = auxArray2[0];
+				Log.i("ID SERVER", photoServerId);
+				saveImageAfterDownload(photoServerId, b);
+				imgAdapt.updateAdapter();
+				imgAdapt.notifyDataSetChanged();
+			}
+		};
+		
 		AsyncRequestHandler mHandler = new AsyncRequestHandler() {
 			@Override
-			public void onSuccess(String response,Request request) {
+			public void onSuccess(String response, Request request) {
 				Log.i("ON SUCCES APP", " id");
 				if (response.startsWith("{\"photos\":")) {// fotos aleatorias
 					Log.i("antes parse array", " id");
@@ -123,28 +149,55 @@ public class PhotoGalleryGUI extends CRComponent {
 				} else if (response.startsWith("{\"photo\":")) {// dados de uma
 																// foto
 					parseOnePhotoJSON(response);
-
 				} else {// apenas a imagem
-					Log.i("Fez fownload da imagem", " sim!");
-					Log.i("one photo request test", response);
+					Log.i("Fez download da imagem callback antigo", " sim!");
+					/*Log.i("one photo request test", response);
 					String url = request.getUrl();
 					String auxArray[] = url.split("/");
 					String auxArray2[] = auxArray[auxArray.length-1].split("\\?");
 					String photoServerId = auxArray2[0];
 					Log.i("ID SERVER", photoServerId);
-					saveImageAfterDownload(response);
+					saveImageAfterDownload(photoServerId, b);
+					imgAdapt.updateAdapter();
+					imgAdapt.notifyDataSetChanged();*/
 				}
 				Log.i("Onsucces e Parser ", " id=");
-
 			}
 		};
 		setComponentRequestCallback(mHandler);
-
+		setComponentFileRequestCallback(mFileHandler);
 		return view;
 	}
 
-	void saveImageAfterDownload(String r) {
+	void saveImageAfterDownload(String serverId, byte[] b) {
 		// tenho que saber qual imagem eh pra salvar com as info
+
+		// CONSIGO SALVAR EM ARQUIVO, MAS O BITMAP NADA!
+		FileOutputStream fos = null;
+		try {
+			fos = new FileOutputStream(new File(Environment.getExternalStorageDirectory()+"/teste.jpg"));
+			fos.write(b);
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				fos.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+				
+		photoDao = PhotoUtils.initPhotoDao(getActivity());
+		List<Photo> found = photoDao.queryBuilder()
+				.where(Properties.ServerId.eq(Long.parseLong(serverId))).list();
+		if (found.isEmpty()) {
+			Photo photo = new Photo(
+					ComponentSimpleModel.getUniqueId(getActivity()), null,
+					Long.parseLong(serverId), b, null, new Date());
+			photoDao.insert(photo);
+		}
+
+		photoDao.getDatabase().close();
 	}
 
 	void parseOnePhotoJSON(String r) {
@@ -164,7 +217,6 @@ public class PhotoGalleryGUI extends CRComponent {
 			getTheImage(Long.toString(idServ));
 
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -204,21 +256,27 @@ public class PhotoGalleryGUI extends CRComponent {
 		}
 	}
 
-	public static PhotoDao initPhotoDao(Context ctx) {
-		DevOpenHelper helper = new DaoMaster.DevOpenHelper(ctx, "photos-db",
-				null);
-		SQLiteDatabase db = helper.getWritableDatabase();
-		DaoMaster daoMaster = new DaoMaster(db);
-		PhotoDao photoDao = daoMaster.newSession().getPhotoDao();
-		return photoDao;
-	}
-
 	@Override
 	protected void onBind() {
 		getPhotosIdRequest();
 		Log.i("ONBIND ", " after");
 	}
 
+	public void createSimpleFileRequest(String url, String type) {
+		Request request = new Request(null, url, type, null);
+
+		// se nao estiver conectado, nem vale ir para a fila de request
+		// se estiver conectado, vai tentar buscar no servidor as
+
+		// depois salva no cache para acesso offline
+		if (conectado) {
+			Log.e("Fazendo file request", "aehoo");
+			makeFileRequest(request);
+		} else {// pega no cache
+				// preencheCampos();
+		}
+	}
+	
 	public void createSimpleRequest(String url, String type) {
 		Request request = new Request(null, url, type, null);
 
@@ -234,9 +292,7 @@ public class PhotoGalleryGUI extends CRComponent {
 	}
 
 	private void getPhotosIdRequest() {
-
 		createSimpleRequest(jsonTestUrl, "get");
-
 	}
 
 	private void getOnePhotoRequest(String id) {
@@ -244,7 +300,7 @@ public class PhotoGalleryGUI extends CRComponent {
 	}
 
 	private void getTheImage(String id) {
-		createSimpleRequest(urlOneImage + id + urlEndImage, "get");
+		createSimpleFileRequest(urlOneImage + id + urlEndImage, "get");
 	}
 
 	// Classe auxiliar
@@ -264,8 +320,19 @@ public class PhotoGalleryGUI extends CRComponent {
 
 			// instantiate context
 			galleryContext = c;
-
-			// create bitmap array
+			updateAdapter();
+			
+			// get the styling attributes - use default Android system resources
+			TypedArray styleAttrs = galleryContext
+					.obtainStyledAttributes(R.styleable.PicGallery);
+			// get the background resource
+			defaultItemBackground = styleAttrs.getResourceId(
+					R.styleable.PicGallery_android_galleryItemBackground, 0);
+			// recycle attributes
+			styleAttrs.recycle();
+		}
+		
+		void updateAdapter() {
 			imageBitmaps = new Bitmap[list.size()];
 			// decode the placeholder image
 			// placeholder = BitmapFactory.decodeResource(getResources(),
@@ -282,14 +349,6 @@ public class PhotoGalleryGUI extends CRComponent {
 					imageBitmaps[i] = bm;
 				}
 			}
-			// get the styling attributes - use default Android system resources
-			TypedArray styleAttrs = galleryContext
-					.obtainStyledAttributes(R.styleable.PicGallery);
-			// get the background resource
-			defaultItemBackground = styleAttrs.getResourceId(
-					R.styleable.PicGallery_android_galleryItemBackground, 0);
-			// recycle attributes
-			styleAttrs.recycle();
 		}
 
 		// BaseAdapter methods
@@ -337,6 +396,7 @@ public class PhotoGalleryGUI extends CRComponent {
 		// one
 		public void addPic(Bitmap newPic) {
 			// set at currently selected index
+			
 			imageBitmaps[10] = newPic;
 		}
 

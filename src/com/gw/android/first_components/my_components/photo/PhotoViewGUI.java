@@ -54,17 +54,8 @@ public class PhotoViewGUI extends CRComponent {
 		startActivity(i);
 	}
 
-	public static PhotoDao initPhotoDao(Context ctx) {
-		DevOpenHelper helper = new DaoMaster.DevOpenHelper(ctx, "photos-db",
-				null);
-		SQLiteDatabase db = helper.getWritableDatabase();
-		DaoMaster daoMaster = new DaoMaster(db);
-		PhotoDao photoDao = daoMaster.newSession().getPhotoDao();
-		return photoDao;
-	}
-
 	public static Long searchFirstPhoto(PhotoDao dao, Context ctx) {
-		PhotoDao mDao = (dao == null ? initPhotoDao(ctx) : dao);
+		PhotoDao mDao = (dao == null ? PhotoUtils.initPhotoDao(ctx) : dao);
 		List<Photo> l = mDao.queryBuilder().orderAsc(Properties.Id).build()
 				.list();
 
@@ -83,7 +74,7 @@ public class PhotoViewGUI extends CRComponent {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		photoDao = initPhotoDao(getActivity());
+		photoDao = PhotoUtils.initPhotoDao(getActivity());
 		View view = inflater.inflate(R.layout.imageone, container, false);
 		anterior = (Button) view.findViewById(R.id.imagem_anterior);
 		proxima = (Button) view.findViewById(R.id.imagem_proxima);
@@ -156,7 +147,7 @@ public class PhotoViewGUI extends CRComponent {
 	}
 
 	private Long proximaImagem() {
-		photoDao = initPhotoDao(getActivity());
+		photoDao = PhotoUtils.initPhotoDao(getActivity());
 		List<Photo> l = photoDao.queryBuilder()
 				.where(Properties.Id.gt(getCurrentInstanceId()))
 				.orderAsc(Properties.Id).list();
@@ -166,7 +157,7 @@ public class PhotoViewGUI extends CRComponent {
 	}
 
 	private Long imagemAnterior() {
-		photoDao = initPhotoDao(getActivity());
+		photoDao = PhotoUtils.initPhotoDao(getActivity());
 		List<Photo> l = photoDao.queryBuilder()
 				.where(Properties.Id.lt(getCurrentInstanceId()))
 				.orderDesc(Properties.Id).list();

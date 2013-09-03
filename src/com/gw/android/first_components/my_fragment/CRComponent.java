@@ -23,6 +23,9 @@ public abstract class CRComponent extends GenericComponent {
 	private AsyncRequestHandler componentHandler = new AsyncRequestHandler();
 	private AsyncRequestHandler applicationHandler = new AsyncRequestHandler();
 
+	private AsyncRequestHandler componentFileHandler = new AsyncRequestHandler();
+	private AsyncRequestHandler applicationFileHandler = new AsyncRequestHandler();
+	
 	private RequestListener component = null;
 	private String nick;
 	private static String MSG_ENVIOU = "enviou";
@@ -112,6 +115,14 @@ public abstract class CRComponent extends GenericComponent {
 	public void setApplicationRequestCallback(AsyncRequestHandler h) {
 		applicationHandler = h;
 	}
+	
+	protected void setComponentFileRequestCallback(AsyncRequestHandler h) {
+		componentFileHandler = h;
+	}
+
+	public void setApplicationFileRequestCallback(AsyncRequestHandler h) {
+		applicationFileHandler = h;
+	}
 
 	protected void makeRequest(Request request) {
 		if(getActivity() == null) {
@@ -120,7 +131,15 @@ public abstract class CRComponent extends GenericComponent {
 			getConnectionManager().makeRequest(request, getActivity(),
 					componentHandler, applicationHandler);
 		}
-		
+	}
+	
+	protected void makeFileRequest(Request request) {
+		if(getActivity() == null) {
+			
+		} else{
+			getConnectionManager().makeFileRequest(request, getActivity(), 
+					componentFileHandler, applicationFileHandler);
+		}
 	}
 
 	// Código de comunicação com o serviço ConnectionManager

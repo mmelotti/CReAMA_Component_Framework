@@ -4,6 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
 
 import com.gw.android.first_components.database.DaoMaster;
 import com.gw.android.first_components.database.DaoSession;
@@ -62,6 +63,27 @@ public class PhotoUtils {
 		} catch (FileNotFoundException e) {
 		}
 		return null;
+	}
+	
+	public static Bitmap resizeImage(InputStream in, int size) {
+		// Decode image size
+		BitmapFactory.Options o = new BitmapFactory.Options();
+		o.inJustDecodeBounds = true;
+		BitmapFactory.decodeStream(in, null, o);
+		Log.e("BEFORE RESIZE width e height", o.outWidth + " - " + o.outHeight);
+
+		// Find the correct scale value. It should be the power of 2.
+		int scale = 1;
+		if (o.outHeight < o.outWidth)
+			while (o.outWidth / scale >= size)
+				scale *= 2;
+		else
+			while (o.outHeight / scale >= size)
+				scale *= 2;
+
+		BitmapFactory.Options o2 = new BitmapFactory.Options();
+		o2.inSampleSize = scale;
+		return BitmapFactory.decodeStream(in, null, o2);
 	}
 
 	public static Bitmap resizeImage(File f, int width, int height) {
