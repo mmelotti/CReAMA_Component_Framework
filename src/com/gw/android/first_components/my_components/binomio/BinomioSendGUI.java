@@ -146,6 +146,8 @@ saveBinomial
 		newTarget = t;
 	}
 
+	
+	
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.binomios_view, container, false);
@@ -197,7 +199,8 @@ saveBinomial
 		});
 
 		addVariosBinomios(lCon, inflater);
-
+		initializeCallback();
+		
 		return view;
 	}
 

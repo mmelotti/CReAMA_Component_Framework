@@ -43,6 +43,7 @@ public class CommentSendGUI extends CRComponent {
 	private Long idTarget = Long.valueOf(-1);
 	Bundle extras;
 	private boolean conectado = true;
+	private boolean teste = true;
 
 	private String urlPostComment = "http://www.arquigrafia.org.br/photo/";
 
@@ -107,6 +108,8 @@ public class CommentSendGUI extends CRComponent {
 				reloadActivity();
 			}
 		});
+		
+		initializeCallback();
 		return view;
 	}
 
@@ -116,6 +119,7 @@ public class CommentSendGUI extends CRComponent {
 	
 	public void submitComent() {
 		// fecha teclado
+		
 		InputMethodManager imm = (InputMethodManager) getActivity()
 				.getSystemService(Context.INPUT_METHOD_SERVICE);
 		imm.hideSoftInputFromWindow(edit.getWindowToken(), 0);
@@ -124,18 +128,23 @@ public class CommentSendGUI extends CRComponent {
 		comentario.setDate(new Date());
 		comentario.setId(newId);
 		comentario.setText(edit.getText().toString());
-		comentario.setTargetId(idTarget);
-
+		
 		edit.setText("");
-		initCommentDao();
-		commentDao.insert(comentario);
-		closeDao();
+		
 
 		if (conectado) {
 			sendToServer(comentario);
 		}
+		if(teste==false){
+			comentario.setTargetId(idTarget);
 
-		((CRActivity) getActivity()).inserirAlgo(newId, this);
+			
+			initCommentDao();
+			commentDao.insert(comentario);
+			closeDao();
+			((CRActivity) getActivity()).inserirAlgo(newId, this);
+		}
+		
 		// getControlActivity().inserirAlgo(newId, this);
 	}
 
