@@ -10,6 +10,8 @@ import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
@@ -42,10 +44,19 @@ public class CommentViewGUI extends CRComponent {
 	private String urlTestComment="http://valinhos.ime.usp.br:51080/comments/1/photo/1151?_format=json";
 	private LayoutInflater li;
 	private Comment comment;
+	private Long idTarget;
 
+	private String urlFinalJSON="?_format=json";
+	
 	public CommentViewGUI() {
 		super();
 		preDefined();
+	}
+	
+	public CommentViewGUI(Long target) {
+		super();
+		preDefined();
+		idTarget=target;
 	}
 
 	public CommentViewGUI(ComponentSimpleModel c) {
@@ -98,6 +109,13 @@ public class CommentViewGUI extends CRComponent {
 		return view;
 	}
 
+	private String getUrl() {
+		SharedPreferences testPrefs = getActivity()
+				.getApplication()
+				.getSharedPreferences("test_prefs", Context.MODE_PRIVATE);
+		return testPrefs.getString("base_url", "");
+	}
+	
 	private View refreshComment() {
 		View view = li.inflate(R.layout.comment_view, null);
 		view.findViewById(R.id.button_apaga).setTag("" + comment.getId());
@@ -132,7 +150,7 @@ public class CommentViewGUI extends CRComponent {
 	}
 
 	public void getCommentsRequest() {
-		Request request = new Request(null, urlTestComment, "get", null);
+		Request request = new Request(null, getUrl()+"/comments/"+getCollabletId()+"/photo/"+idTarget+urlFinalJSON, "get", null);
 		makeRequest(request);
 	}
 
@@ -147,7 +165,7 @@ public class CommentViewGUI extends CRComponent {
 
 			//commentsObject = object.getJSONObject("comments");
 
-			//Long idTarget = "url";
+			
 			JSONArray nameArray = commentsObject.names();
 			JSONArray valArray = commentsObject.toJSONArray(nameArray);
 			JSONArray arrayResults = valArray.getJSONArray(0);

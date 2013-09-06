@@ -10,6 +10,8 @@ import org.json.JSONObject;
 
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
@@ -50,7 +52,9 @@ public class BinomioAverageGUI extends CRComponent {
 	
 	private boolean conectado=true,teste=true;
 	private String urlGetBinomio = "http://valinhos.ime.usp.br:51080/evaluations/5/photo/73?_format=json";
-
+	private String urlFinalJSON="?_format=json";
+	
+	
 	private static final String KEY_LEFT_TEXT_VIEW = "leftTextView";
 	private static final String KEY_RIGHT_TEXT_VIEW = "rightTextView";
 	private static final String KEY_BINOMIO = "binomio";
@@ -59,6 +63,14 @@ public class BinomioAverageGUI extends CRComponent {
 		newTarget = t;
 	}
 
+	private String getUrl() {
+		SharedPreferences testPrefs = getActivity()
+				.getApplication()
+				.getSharedPreferences("test_prefs", Context.MODE_PRIVATE);
+		return testPrefs.getString("base_url", "");
+	}
+	
+	
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.binomios_average, container, false);
@@ -187,7 +199,7 @@ public class BinomioAverageGUI extends CRComponent {
 	}
 
 	public void getBinomioRequest() {
-		Request request = new Request(null, urlGetBinomio, "get", null);
+		Request request = new Request(null, getUrl()+"/evaluations/"+getCollabletId()+"/photo/"+newTarget+urlFinalJSON, "get", null);
 		makeRequest(request);
 	}
 	
