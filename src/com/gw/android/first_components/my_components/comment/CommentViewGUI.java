@@ -36,9 +36,10 @@ public class CommentViewGUI extends CRComponent {
 
 	private CommentDao commentDao;
 	private DaoSession daoSession;
+	private boolean conectado=true, teste=true;
 
-	private String urlTestComment = "http://200.137.66.94:8080/GW-Application-Arquigrafia/comment.json";
-
+	//private String urlTestComment = "http://200.137.66.94:8080/GW-Application-Arquigrafia/comment.json";
+	private String urlTestComment="http://valinhos.ime.usp.br:51080/comments/1/photo/1151?_format=json";
 	private LayoutInflater li;
 	private Comment comment;
 
@@ -76,7 +77,24 @@ public class CommentViewGUI extends CRComponent {
 
 		li = inflater;
 		View view = inflater.inflate(R.layout.comment_view, container, false);
-		view = refreshComment();
+		
+		AsyncRequestHandler mHandler = new AsyncRequestHandler() {
+			@Override
+			public void onSuccess(String response, Request request) {
+				parseCommentsJSON(response);
+
+				Log.i("Onsucces e Parser coments ", " id=");
+
+			}
+		};
+		setComponentRequestCallback(mHandler);
+		
+		if(!teste){
+			view = refreshComment();
+		}
+		
+		
+		
 		return view;
 	}
 
@@ -104,17 +122,6 @@ public class CommentViewGUI extends CRComponent {
 					}
 				});
 
-		AsyncRequestHandler mHandler = new AsyncRequestHandler() {
-			@Override
-			public void onSuccess(String response, Request request) {
-				parseCommentsJSON(response);
-
-				Log.i("Onsucces e Parser coments ", " id=");
-
-			}
-		};
-		setComponentRequestCallback(mHandler);
-
 		return view;
 	}
 
@@ -133,24 +140,26 @@ public class CommentViewGUI extends CRComponent {
 		Log.i("Parseando commentarios", " inicio");
 		JSONObject object;
 		try {
-			object = new JSONObject(r);
+			JSONObject commentsObject ;
+			commentsObject = new JSONObject(r);
 
 			// Log.i("Parseando uma foto", " objeto=" + object.toString());
 
-			JSONObject commentsObject = object.getJSONObject("comment");
+			//commentsObject = object.getJSONObject("comments");
 
-			Long idTarget = Long.parseLong(commentsObject.get("targetId")
-					.toString());
+			//Long idTarget = "url";
 			JSONArray nameArray = commentsObject.names();
 			JSONArray valArray = commentsObject.toJSONArray(nameArray);
 			JSONArray arrayResults = valArray.getJSONArray(0);
-			Log.i("Parseando comentario", " foto= " + idTarget);
+			Log.i("Parseando comentario antes for", " foto= " );
 			for (int j = 0; j < arrayResults.length(); j++) {
-				JSONObject ob = arrayResults.getJSONObject(j);
-				Long idServ = Long.parseLong(ob.get("id").toString());
+				JSONObject oneComment = arrayResults.getJSONObject(j);
+				JSONObject userObject = oneComment.getJSONObject("user");
+				String userName = userObject.get("name").toString();
+				Long idServ = Long.parseLong(oneComment.get("id").toString());
 
-				String text = commentsObject.get("text").toString();
-				Log.i("Parseando comentario", " text= " + text + idServ);
+				String text = oneComment.get("text").toString();
+				Log.i("Parseando comentario", " text= " + text + idServ+userName);
 			}
 
 		} catch (JSONException e) {

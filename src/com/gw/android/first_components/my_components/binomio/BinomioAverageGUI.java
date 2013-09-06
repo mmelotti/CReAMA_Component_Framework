@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 
 import android.annotation.SuppressLint;
 import android.database.sqlite.SQLiteDatabase;
@@ -17,6 +21,8 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.gw.android.R;
+import com.gw.android.components.connection_manager.AsyncRequestHandler;
+import com.gw.android.components.request.Request;
 import com.gw.android.first_components.database.DaoMaster;
 import com.gw.android.first_components.database.DaoSession;
 import com.gw.android.first_components.database.DaoMaster.DevOpenHelper;
@@ -36,8 +42,14 @@ public class BinomioAverageGUI extends CRComponent {
 
 	private BinomioDao binomioDao;
 	private DaoSession daoSession;
-
-
+	
+	private List<BinomiosArquigrafia> list;
+	private int[] values;
+	private LinearLayout l;
+	private LayoutInflater inflater;
+	
+	private boolean conectado=true,teste=true;
+	private String urlGetBinomio = "valinhos.ime.usp.br:51080/evaluations/5/photo/73?_format=json";
 
 	private static final String KEY_LEFT_TEXT_VIEW = "leftTextView";
 	private static final String KEY_RIGHT_TEXT_VIEW = "rightTextView";
@@ -56,7 +68,16 @@ public class BinomioAverageGUI extends CRComponent {
 		LinearLayout lCon = (LinearLayout) view
 				.findViewById(R.id.binomio_container_average);
 
-		
+		AsyncRequestHandler mHandler = new AsyncRequestHandler() {
+			@Override
+			public void onSuccess(String response, Request request) {
+				//parseBinomioJSON(response);
+
+				Log.i("Onsucces ParserBINOMIO ", " id=");
+
+			}
+		};
+		setComponentRequestCallback(mHandler);
 
 		addVariosBinomios(lCon, inflater);
 
@@ -64,17 +85,29 @@ public class BinomioAverageGUI extends CRComponent {
 	}
 
 	private void addVariosBinomios(LinearLayout l, LayoutInflater inflater) {
-		List<BinomiosArquigrafia> list = new ArrayList<BinomiosArquigrafia>();
+		list = new ArrayList<BinomiosArquigrafia>();
 		list.add(new BinomiosArquigrafia("Fechada", "Aberta"));
 		list.add(new BinomiosArquigrafia("Simples", "Complexa"));
 		list.add(new BinomiosArquigrafia("Vertical", "Horizontal"));
-		list.add(new BinomiosArquigrafia("Assimétrica", "Simétrica"));
 		list.add(new BinomiosArquigrafia("Externa", "Interna"));
+		list.add(new BinomiosArquigrafia("Assimétrica", "Simétrica"));
 		list.add(new BinomiosArquigrafia("Opaca", "Translúcida"));
 
+		
+		
+		if(conectado){
+			values = averageBinomiosFromServer();
+		}else{
+			values = averageBinomiosDatabase(newTarget);
+		}
+		
+		preencherBinomios(l, inflater);
+		this.l=l;
+		this.inflater=inflater;
+	}
+	
+	private void preencherBinomios(LinearLayout l, LayoutInflater inflater){
 		int i = 0;
-		int[] values = averageBinomios(newTarget);
-
 		for (BinomiosArquigrafia binomio : list) {
 			View v = inflater.inflate(R.layout.binomio, null);
 			TextView left, right;
@@ -112,8 +145,66 @@ public class BinomioAverageGUI extends CRComponent {
 			i++;
 		}
 	}
+	
+	
+	public void parseBinomioJSON(String r) {
+		Log.i("Parseando commentarios", " inicio");
+		JSONObject object;
+		try {
+			JSONObject commentsObject ;
+			commentsObject = new JSONObject(r);
 
-	public int[] averageBinomios(Long idTarget) {
+			// Log.i("Parseando uma foto", " objeto=" + object.toString());
+
+			//commentsObject = object.getJSONObject("comments");
+
+			//Long idTarget = "url";
+			JSONArray nameArray = commentsObject.names();
+			JSONArray valArray = commentsObject.toJSONArray(nameArray);
+			JSONArray arrayResults = valArray.getJSONArray(0);
+			Log.i("Parseando comentario antes for", " foto= " );
+			for (int j = 0; j < arrayResults.length(); j++) {
+				JSONObject oneComment = arrayResults.getJSONObject(j);
+				JSONObject userObject = oneComment.getJSONObject("user");
+				String userName = userObject.get("name").toString();
+				Long idServ = Long.parseLong(oneComment.get("id").toString());
+
+				String text = oneComment.get("text").toString();
+				Log.i("Parseando comentario", " text= " + text + idServ+userName);
+			}
+
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+	
+	@Override
+	protected void onBind() {
+		getBinomioRequest();
+		Log.i("ONBIND ", " request BINOMIO");
+	}
+
+	public void getBinomioRequest() {
+		Request request = new Request(null, urlGetBinomio, "get", null);
+		makeRequest(request);
+	}
+	
+	public int[] averageBinomiosFromServer() {
+		
+		fechada = 50;
+		simples = 50;
+		vertical = 50;
+		assimetrica = 50;
+		opaca = 50;
+		externa=50;
+		
+		int[] data = { fechada, simples, vertical, externa, assimetrica, opaca };
+		return data;
+	}
+	
+	public int[] averageBinomiosDatabase(Long idTarget) {
 		List<Binomio> lista = getAllFromTarget(idTarget);
 
 		for (Binomio b : lista) {
