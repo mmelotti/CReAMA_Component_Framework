@@ -49,7 +49,7 @@ public class BinomioAverageGUI extends CRComponent {
 	private LayoutInflater inflater;
 	
 	private boolean conectado=true,teste=true;
-	private String urlGetBinomio = "valinhos.ime.usp.br:51080/evaluations/5/photo/73?_format=json";
+	private String urlGetBinomio = "http://valinhos.ime.usp.br:51080/evaluations/5/photo/73?_format=json";
 
 	private static final String KEY_LEFT_TEXT_VIEW = "leftTextView";
 	private static final String KEY_RIGHT_TEXT_VIEW = "rightTextView";
@@ -71,7 +71,7 @@ public class BinomioAverageGUI extends CRComponent {
 		AsyncRequestHandler mHandler = new AsyncRequestHandler() {
 			@Override
 			public void onSuccess(String response, Request request) {
-				//parseBinomioJSON(response);
+				parseBinomioJSON(response);
 
 				Log.i("Onsucces ParserBINOMIO ", " id=");
 
@@ -148,29 +148,29 @@ public class BinomioAverageGUI extends CRComponent {
 	
 	
 	public void parseBinomioJSON(String r) {
-		Log.i("Parseando commentarios", " inicio");
+		Log.i("Parseando binomio", " inicio");
 		JSONObject object;
 		try {
-			JSONObject commentsObject ;
-			commentsObject = new JSONObject(r);
+			JSONObject binomiosObject ;
+			binomiosObject = new JSONObject(r);
 
 			// Log.i("Parseando uma foto", " objeto=" + object.toString());
 
 			//commentsObject = object.getJSONObject("comments");
 
 			//Long idTarget = "url";
-			JSONArray nameArray = commentsObject.names();
-			JSONArray valArray = commentsObject.toJSONArray(nameArray);
+			JSONArray nameArray = binomiosObject.names();
+			JSONArray valArray = binomiosObject.toJSONArray(nameArray);
 			JSONArray arrayResults = valArray.getJSONArray(0);
 			Log.i("Parseando comentario antes for", " foto= " );
 			for (int j = 0; j < arrayResults.length(); j++) {
-				JSONObject oneComment = arrayResults.getJSONObject(j);
-				JSONObject userObject = oneComment.getJSONObject("user");
-				String userName = userObject.get("name").toString();
-				Long idServ = Long.parseLong(oneComment.get("id").toString());
+				JSONObject oneBinomio = arrayResults.getJSONObject(j);
+				JSONObject binomialObject = oneBinomio.getJSONObject("binomial");
+				String firstName = binomialObject.get("firstName").toString();
+				Long value = Long.parseLong(oneBinomio.get("evaluationPosition").toString());
 
-				String text = oneComment.get("text").toString();
-				Log.i("Parseando comentario", " text= " + text + idServ+userName);
+				
+				Log.i("Parseando comentario", " text= " +  value+firstName);
 			}
 
 		} catch (JSONException e) {
