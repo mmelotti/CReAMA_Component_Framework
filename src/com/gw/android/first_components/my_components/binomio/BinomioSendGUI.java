@@ -6,6 +6,8 @@ import java.util.List;
 
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
@@ -147,7 +149,12 @@ saveBinomial
 		newTarget = t;
 	}
 
-	
+	private String getUrl() {
+		SharedPreferences testPrefs = getActivity()
+				.getApplication()
+				.getSharedPreferences("test_prefs", Context.MODE_PRIVATE);
+		return testPrefs.getString("base_url", "");
+	}
 	
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -261,7 +268,7 @@ saveBinomial
 
 + "__saveBinomial--"+"");
 		
-		Request request = new Request(null, urlPostAvaliation+1821+"/avaliation", "post", strData);
+		Request request = new Request(null, getUrl()+18+"/photo/"+newTarget+"/avaliation", "post", strData);
 						
 				
 		

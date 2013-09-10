@@ -16,6 +16,7 @@ import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
@@ -124,6 +125,7 @@ public class PhotoGalleryGUI extends CRComponent {
 		 * getActivity().startActivity(trocatela); } });
 		 */
 		
+		
 		AsyncRequestHandler mFileHandler = new AsyncRequestHandler() {
 			@Override
 			public void onSuccess(byte[] b, Request request) {
@@ -167,6 +169,14 @@ public class PhotoGalleryGUI extends CRComponent {
 		setComponentRequestCallback(mHandler);
 		setComponentFileRequestCallback(mFileHandler);
 		return view;
+	}
+	
+	
+	private String getUrl() {
+		SharedPreferences testPrefs = getActivity()
+				.getApplication()
+				.getSharedPreferences("test_prefs", Context.MODE_PRIVATE);
+		return testPrefs.getString("base_url", "");
 	}
 
 	void saveImageAfterDownload(String serverId, byte[] b) {
@@ -296,11 +306,11 @@ public class PhotoGalleryGUI extends CRComponent {
 	}
 
 	private void getOnePhotoRequest(String id) {
-		createSimpleRequest(urlPhotoArquigrafia + id + urlEndArquigrafia, "get");
+		createSimpleRequest(getUrl() +"/photo/"+ id + urlEndArquigrafia, "get");
 	}
 
 	private void getTheImage(String id) {
-		createSimpleFileRequest(urlOneImage + id + urlEndImage, "get");
+		createSimpleFileRequest(getUrl() +"/photo/img-crop/" + id + urlEndImage, "get");
 	}
 
 	// Classe auxiliar

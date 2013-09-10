@@ -18,6 +18,7 @@ import com.gw.android.first_components.my_fragment.ComponentSimpleModel;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
@@ -161,8 +162,15 @@ public class CommentSendGUI extends CRComponent {
 		setComponentRequestCallback(mHandler);
 	}
 	
+	private String getUrl() {
+		SharedPreferences testPrefs = getActivity()
+				.getApplication()
+				.getSharedPreferences("test_prefs", Context.MODE_PRIVATE);
+		return testPrefs.getString("base_url", "");
+	}
+	
 	private void sendToServer(Comment coment) {
-		Request request = new Request(null, urlPostComment+1821, "post",
+		Request request = new Request(null, getUrl()+"/photo/"+idTarget, "post",
 				"commentMgr.entity--" + "1821" + "__commentMgr.userId--" + "1"
 						+ "__commentMgr.text--" + coment.getText());
 		
