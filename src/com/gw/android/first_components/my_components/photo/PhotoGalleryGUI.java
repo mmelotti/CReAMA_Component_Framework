@@ -172,13 +172,6 @@ public class PhotoGalleryGUI extends CRComponent {
 	}
 	
 	
-	private String getUrl() {
-		SharedPreferences testPrefs = getActivity()
-				.getApplication()
-				.getSharedPreferences("test_prefs", Context.MODE_PRIVATE);
-		return testPrefs.getString("base_url", "");
-	}
-
 	void saveImageAfterDownload(String serverId, byte[] b) {
 		// tenho que saber qual imagem eh pra salvar com as info
 
@@ -306,11 +299,11 @@ public class PhotoGalleryGUI extends CRComponent {
 	}
 
 	private void getOnePhotoRequest(String id) {
-		createSimpleRequest(getUrl() +"/photo/"+ id + urlEndArquigrafia, "get");
+		createSimpleRequest(getBaseUrl() +"/photo/"+ id + urlEndArquigrafia, "get");
 	}
 
 	private void getTheImage(String id) {
-		createSimpleFileRequest(getUrl() +"/photo/img-crop/" + id + urlEndImage, "get");
+		createSimpleFileRequest(getBaseUrl() +"/photo/img-crop/" + id + urlEndImage, "get");
 	}
 
 	// Classe auxiliar

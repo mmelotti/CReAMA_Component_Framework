@@ -12,6 +12,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.os.IBinder;
 import android.support.v4.app.FragmentTransaction;
 import android.widget.Toast;
@@ -197,6 +198,13 @@ public abstract class CRComponent extends GenericComponent {
 		mIsBound = true;
 	}
 
+	public String getBaseUrl() {
+		SharedPreferences testPrefs = getActivity()
+				.getApplication()
+				.getSharedPreferences("test_prefs", Context.MODE_PRIVATE);
+		return testPrefs.getString("base_url", "");
+	}
+	
 	void doUnbindService() {
 		if (mIsBound) {
 			// Detach our existing connection.

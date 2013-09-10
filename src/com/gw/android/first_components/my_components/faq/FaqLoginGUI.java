@@ -23,12 +23,7 @@ public class FaqLoginGUI extends CRComponent {
 	EditText editLogin, editPassword; 
 	Button btnSubmit; 
 	
-	private String getUrl() {
-		SharedPreferences testPrefs = getActivity()
-				.getApplication()
-				.getSharedPreferences("test_prefs", Context.MODE_PRIVATE);
-		return testPrefs.getString("base_url", "");
-	}
+	
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -37,7 +32,7 @@ public class FaqLoginGUI extends CRComponent {
 		if (d != null)	// componente está sendo mostrado como dialog
 			d.setTitle("FAQ Login");
 
-		urlLogin = getUrl() + "/users/"+ getCollabletId() +"/login"; 
+		urlLogin = getBaseUrl() + "/users/"+ getCollabletId() +"/login"; 
 		
 		View view = inflater.inflate(R.layout.faq_login, container, false);
 		btnSubmit = (Button) view.findViewById(R.id.btnSubmit);
