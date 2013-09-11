@@ -1,7 +1,11 @@
 package com.gw.android.first_components.my_components.user;
 
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +21,7 @@ import com.gw.android.first_components.my_fragment.CRComponent;
 
 public class UserViewGUI extends CRComponent {
 
-	//private LayoutInflater li;
+	// private LayoutInflater li;
 	private String urlView;
 	int userUrl;
 	private boolean conectado = true;
@@ -27,14 +31,12 @@ public class UserViewGUI extends CRComponent {
 	String url = "http://" + ip
 			+ ":8080/GW-Application-Arquigrafia/groupware-workbench";
 
-	
-
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		setControlActivity((CRActivity) getActivity());
 
-		//li = inflater;
+		// li = inflater;
 		View view = inflater.inflate(R.layout.user_view, container, false);
 
 		// url = getUrl();
@@ -80,13 +82,35 @@ public class UserViewGUI extends CRComponent {
 
 	public void atualizarAfterSucces(String r) {
 		// TODO parser xml
-		name.setText(name.getText() + "Administrador");
-		email.setText(email.getText() + "admin@arquigrafia.com.br");
-		login.setText(login.getText() + "admin");
-		id.setText(id.getText() + "1");
-		
-		
-		
+
+		String uName = "";
+		String uLogin = "";
+		String uEmail = "";
+		Long uId = 0L;
+
+		try {
+			JSONObject us, userObject;
+			us = new JSONObject(r);
+
+			userObject = us.getJSONObject("user");
+			uLogin = userObject.get("login").toString();
+			uEmail = userObject.get("email").toString();
+			uName = userObject.get("name").toString();
+
+			uId = Long.parseLong(userObject.get("id").toString());
+
+			Log.i("Parseando user", " name= " + uName + uId);
+
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		name.setText(name.getText() + uName);
+		email.setText(email.getText() + uEmail);
+		login.setText(login.getText() + uLogin);
+		id.setText(id.getText() + "" + uId);
+
 	}
 
 }
