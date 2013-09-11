@@ -160,12 +160,7 @@ public class CommentViewGUI extends CRComponent {
 		try {
 			JSONObject commentsObject ;
 			commentsObject = new JSONObject(r);
-
-			// Log.i("Parseando uma foto", " objeto=" + object.toString());
-
-			//commentsObject = object.getJSONObject("comments");
-
-			
+	
 			JSONArray nameArray = commentsObject.names();
 			JSONArray valArray = commentsObject.toJSONArray(nameArray);
 			JSONArray arrayResults = valArray.getJSONArray(0);
