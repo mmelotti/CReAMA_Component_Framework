@@ -63,14 +63,6 @@ public class BinomioAverageGUI extends CRComponent {
 		newTarget = t;
 	}
 
-	private String getUrl() {
-		SharedPreferences testPrefs = getActivity()
-				.getApplication()
-				.getSharedPreferences("test_prefs", Context.MODE_PRIVATE);
-		return testPrefs.getString("base_url", "");
-	}
-	
-	
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.binomios_average, container, false);
@@ -83,7 +75,8 @@ public class BinomioAverageGUI extends CRComponent {
 		AsyncRequestHandler mHandler = new AsyncRequestHandler() {
 			@Override
 			public void onSuccess(String response, Request request) {
-				parseBinomioJSON(response);
+				parseJSONePreenche(response);
+				
 
 				Log.i("Onsucces ParserBINOMIO ", " id=");
 
@@ -159,18 +152,13 @@ public class BinomioAverageGUI extends CRComponent {
 	}
 	
 	
-	public void parseBinomioJSON(String r) {
+	public void parseJSONePreenche(String r) {
 		Log.i("Parseando binomio", " inicio");
 		JSONObject object;
 		try {
 			JSONObject binomiosObject ;
 			binomiosObject = new JSONObject(r);
 
-			// Log.i("Parseando uma foto", " objeto=" + object.toString());
-
-			//commentsObject = object.getJSONObject("comments");
-
-			//Long idTarget = "url";
 			JSONArray nameArray = binomiosObject.names();
 			JSONArray valArray = binomiosObject.toJSONArray(nameArray);
 			JSONArray arrayResults = valArray.getJSONArray(0);
@@ -181,8 +169,8 @@ public class BinomioAverageGUI extends CRComponent {
 				String firstName = binomialObject.get("firstName").toString();
 				Long value = Long.parseLong(oneBinomio.get("evaluationPosition").toString());
 
-				
-				Log.i("Parseando comentario", " text= " +  value+firstName);
+				values[j] = Integer.parseInt(oneBinomio.get("evaluationPosition").toString());
+				//Log.i("Parseando comentario", " text= " +  value+firstName);
 			}
 
 		} catch (JSONException e) {
@@ -199,7 +187,7 @@ public class BinomioAverageGUI extends CRComponent {
 	}
 
 	public void getBinomioRequest() {
-		Request request = new Request(null, getUrl()+"/evaluations/"+getCollabletId()+"/photo/"+newTarget+urlFinalJSON, "get", null);
+		Request request = new Request(null, getBaseUrl()+"/evaluations/"+getCollabletId()+"/photo/"+newTarget+urlFinalJSON, "get", null);
 		makeRequest(request);
 	}
 	
