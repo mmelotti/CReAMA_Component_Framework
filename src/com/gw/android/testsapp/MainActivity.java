@@ -1,10 +1,10 @@
 package com.gw.android.testsapp;
 
 import com.gw.android.R;
-import com.gw.android.first_components.my_components.faq.FaqLoginGUI;
 import com.gw.android.first_components.my_components.photo.PhotoGalleryGUI;
 import com.gw.android.first_components.my_components.photo.PhotoSendGUI;
 import com.gw.android.first_components.my_components.photo.PhotoViewGUI;
+import com.gw.android.first_components.my_components.user.DoLoginGUI;
 import com.gw.android.first_components.my_fragment.CRActivity;
 
 import android.os.Bundle;
@@ -73,7 +73,7 @@ public class MainActivity extends CRActivity {
 		buttonLogin.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				FaqLoginGUI login = new FaqLoginGUI();
+				DoLoginGUI login = new DoLoginGUI();
 				login.show(getSupportFragmentManager(), "login");
 			}
 		});

@@ -1,12 +1,11 @@
-package com.gw.android.first_components.my_components.faq;
+package com.gw.android.first_components.my_components.user;
 
 import com.gw.android.R;
 import com.gw.android.components.request.Request;
 import com.gw.android.first_components.my_fragment.CRComponent;
 
 import android.app.Dialog;
-import android.content.Context;
-import android.content.SharedPreferences;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-public class FaqLoginGUI extends CRComponent { 
+public class DoLoginGUI extends CRComponent { 
 	TextView resultTxt;
 	String urlLogin; 
 

@@ -1,24 +1,23 @@
 package com.gw.android.first_components.my_components.user;
 
-import android.content.Context;
-import android.content.SharedPreferences;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+
 import android.widget.TextView;
 
 import com.gw.android.R;
 import com.gw.android.components.connection_manager.AsyncRequestHandler;
 import com.gw.android.components.request.Request;
-import com.gw.android.first_components.my_components.faq.Faq;
+
 import com.gw.android.first_components.my_fragment.CRActivity;
 import com.gw.android.first_components.my_fragment.CRComponent;
 
 public class UserViewGUI extends CRComponent {
 
-	private LayoutInflater li;
+	//private LayoutInflater li;
 	private String urlView;
 	int userUrl;
 	private boolean conectado = true;
@@ -28,23 +27,19 @@ public class UserViewGUI extends CRComponent {
 	String url = "http://" + ip
 			+ ":8080/GW-Application-Arquigrafia/groupware-workbench";
 
-	private String getUrl() {
-		SharedPreferences testPrefs = getActivity().getApplication()
-				.getSharedPreferences("test_prefs", Context.MODE_PRIVATE);
-		return testPrefs.getString("arquigrafia_base_url", "");
-	}
+	
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		setControlActivity((CRActivity) getActivity());
 
-		li = inflater;
+		//li = inflater;
 		View view = inflater.inflate(R.layout.user_view, container, false);
 
 		// url = getUrl();
 		userUrl = 1;
-		urlView = url + "/users/" + userUrl + "?_format=json";
+		urlView = getBaseUrl() + "/users/" + userUrl + "?_format=json";
 
 		name = (TextView) view.findViewById(R.id.userName);
 		email = (TextView) view.findViewById(R.id.userEmail);
