@@ -75,10 +75,16 @@ public class BinomioAverageGUI extends CRComponent {
 		AsyncRequestHandler mHandler = new AsyncRequestHandler() {
 			@Override
 			public void onSuccess(String response, Request request) {
-				parseJSONePreenche(response);
-				
+				parseBinomioJSON(response);
+				preencherBinomios();
 
 				Log.i("Onsucces ParserBINOMIO ", " id=");
+
+			}
+			@Override
+			public void onFailure(Throwable t, String response) {
+				
+				preencherBinomios();
 
 			}
 		};
@@ -106,23 +112,24 @@ public class BinomioAverageGUI extends CRComponent {
 			values = averageBinomiosDatabase(newTarget);
 		}
 		
-		preencherBinomios(l, inflater);
 		this.l=l;
 		this.inflater=inflater;
+		//preencherBinomios();
+		
 	}
 	
-	private void preencherBinomios(LinearLayout l, LayoutInflater inflater){
+	private void preencherBinomios(){
 		int i = 0;
 		for (BinomiosArquigrafia binomio : list) {
-			View v = inflater.inflate(R.layout.binomio, null);
+			View v = this.inflater.inflate(R.layout.binomio, null);
 			TextView left, right;
 			left = (TextView) v.findViewById(R.id.label_left);
 			right = (TextView) v.findViewById(R.id.label_right);
 			left.setText(binomio.getLeft());
 			right.setText(binomio.getRight());
 
-			binomio.setLeftValue(100 - values[i]);
-			binomio.setRightValue(values[i]);
+			binomio.setLeftValue(values[i]);
+			binomio.setRightValue(100-values[i]);
 
 			final TextView seekbarLeftValueText = (TextView) v
 					.findViewById(R.id.seekbar_value_left);
@@ -133,7 +140,7 @@ public class BinomioAverageGUI extends CRComponent {
 			seekbarRightValueText.setText(Integer.toString(binomio
 					.getLeftValue()) + "%");
 
-			l.addView(v);
+			this.l.addView(v);
 
 			SeekBar seekbar = (SeekBar) v.findViewById(R.id.seekbar);
 			seekbar.setHorizontalScrollBarEnabled(true);
@@ -152,7 +159,7 @@ public class BinomioAverageGUI extends CRComponent {
 	}
 	
 	
-	public void parseJSONePreenche(String r) {
+	public void parseBinomioJSON(String r) {
 		Log.i("Parseando binomio", " inicio");
 		JSONObject object;
 		try {
