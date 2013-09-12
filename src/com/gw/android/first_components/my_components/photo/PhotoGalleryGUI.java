@@ -1,36 +1,24 @@
 package com.gw.android.first_components.my_components.photo;
 
-import java.io.BufferedInputStream;
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.http.HttpEntity;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.res.TypedArray;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.BitmapFactory.Options;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Gallery;
 import android.widget.ImageView;
@@ -39,9 +27,6 @@ import android.widget.TextView;
 import com.gw.android.R;
 import com.gw.android.components.connection_manager.AsyncRequestHandler;
 import com.gw.android.components.request.Request;
-import com.gw.android.first_components.database.DaoMaster;
-import com.gw.android.first_components.database.DaoMaster.DevOpenHelper;
-import com.gw.android.first_components.my_components.faq.Faq;
 import com.gw.android.first_components.my_components.photo.PhotoDao.Properties;
 import com.gw.android.first_components.my_fragment.CRComponent;
 import com.gw.android.first_components.my_fragment.ComponentSimpleModel;
@@ -67,7 +52,7 @@ public class PhotoGalleryGUI extends CRComponent {
 
 	private String urlOneImage = "http://arquigrafia.org.br/photo/img-crop/";
 	private String urlEndImage = "?_log=no";
-
+	
 	/*
 	 * IMAGENS ARQUIGRAFIA
 	 * http://arquigrafia.org.br/photo/img-thumb/2230?_log=no
@@ -81,21 +66,7 @@ public class PhotoGalleryGUI extends CRComponent {
 		View view = inflater.inflate(R.layout.image_gallery, container, false);
 
 		picGallery = (Gallery) view.findViewById(R.id.gallery);
-		description = (TextView) view.findViewById(R.id.description);
-
-		photoDao = PhotoUtils.initPhotoDao(getActivity());
-		list = photoDao.queryBuilder().orderAsc(Properties.Id).list();
-		photoDao.getDatabase().close();
-
-		Photo photo = null;
-		if (!list.isEmpty()) {
-			photo = list.get(0);
-		}
-
-		if (photo != null) {
-			byte[] data = photo.getPhotoBytes();
-			Bitmap bm = BitmapFactory.decodeByteArray(data, 0, data.length);
-		}
+		description = (TextView) view.findViewById(R.id.description); 
 
 		imgAdapt = new PicAdapter(getActivity());
 		picGallery.setAdapter(imgAdapt);
@@ -112,19 +83,7 @@ public class PhotoGalleryGUI extends CRComponent {
 			public void onNothingSelected(AdapterView<?> arg0) {
 				// Do nothing
 			}
-		});
-
-		/*
-		 * GridView gridview = (GridView) view.findViewById(R.id.gridview);
-		 * gridview.setAdapter(new GalleryAdapter(getActivity(), l));
-		 * 
-		 * gridview.setOnItemClickListener(new OnItemClickListener() { public
-		 * void onItemClick(AdapterView<?> parent, View v, int position, long
-		 * id) { Intent trocatela = new Intent(getActivity(),
-		 * NewListActivity.class); trocatela.putExtra("nImagem", id);
-		 * getActivity().startActivity(trocatela); } });
-		 */
-		
+		});		
 		
 		AsyncRequestHandler mFileHandler = new AsyncRequestHandler() {
 			@Override
@@ -171,34 +130,20 @@ public class PhotoGalleryGUI extends CRComponent {
 		return view;
 	}
 	
-	
 	void saveImageAfterDownload(String serverId, byte[] b) {
 		// tenho que saber qual imagem eh pra salvar com as info
-
-		// CONSIGO SALVAR EM ARQUIVO, MAS O BITMAP NADA!
-		FileOutputStream fos = null;
-		try {
-			fos = new FileOutputStream(new File(Environment.getExternalStorageDirectory()+"/teste.jpg"));
-			fos.write(b);
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				fos.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
 				
 		photoDao = PhotoUtils.initPhotoDao(getActivity());
 		List<Photo> found = photoDao.queryBuilder()
 				.where(Properties.ServerId.eq(Long.parseLong(serverId))).list();
 		if (found.isEmpty()) {
+			Log.d("SALVANDO", "SERVER ID NÃO EXISTE");
 			Photo photo = new Photo(
 					ComponentSimpleModel.getUniqueId(getActivity()), null,
 					Long.parseLong(serverId), b, null, new Date());
 			photoDao.insert(photo);
-		}
+		} else
+			Log.d("SALVANDO", "SERVER ID EXISTENTE");
 
 		photoDao.getDatabase().close();
 	}
@@ -273,7 +218,6 @@ public class PhotoGalleryGUI extends CRComponent {
 
 		// depois salva no cache para acesso offline
 		if (conectado) {
-			Log.e("Fazendo file request", "aehoo");
 			makeFileRequest(request);
 		} else {// pega no cache
 				// preencheCampos();
@@ -320,7 +264,6 @@ public class PhotoGalleryGUI extends CRComponent {
 
 		// constructor
 		public PicAdapter(Context c) {
-
 			// instantiate context
 			galleryContext = c;
 			updateAdapter();
@@ -336,10 +279,10 @@ public class PhotoGalleryGUI extends CRComponent {
 		}
 		
 		void updateAdapter() {
+			photoDao = PhotoUtils.initPhotoDao(getActivity());
+			list = photoDao.queryBuilder().orderAsc(Properties.Id).list();
+			photoDao.getDatabase().close();
 			imageBitmaps = new Bitmap[list.size()];
-			// decode the placeholder image
-			// placeholder = BitmapFactory.decodeResource(getResources(),
-			// R.drawable.ic_launcher);
 
 			// set placeholder as all thumbnail images in the gallery initially
 			for (int i = 0; i < imageBitmaps.length; i++) {
@@ -391,22 +334,6 @@ public class PhotoGalleryGUI extends CRComponent {
 			imageView.setBackgroundResource(defaultItemBackground);
 			// return the view
 			return imageView;
-		}
-
-		// custom methods for this app
-
-		// helper method to add a bitmap to the gallery when the user chooses
-		// one
-		public void addPic(Bitmap newPic) {
-			// set at currently selected index
-			
-			imageBitmaps[10] = newPic;
-		}
-
-		// return bitmap at specified position for larger display
-		public Bitmap getPic(int posn) {
-			// return bitmap at posn index
-			return imageBitmaps[posn];
 		}
 	}
 }
