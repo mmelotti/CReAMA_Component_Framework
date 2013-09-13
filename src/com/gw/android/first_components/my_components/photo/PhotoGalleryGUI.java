@@ -53,6 +53,16 @@ public class PhotoGalleryGUI extends CRComponent {
 	private String urlOneImage = "http://arquigrafia.org.br/photo/img-crop/";
 	private String urlEndImage = "?_log=no";
 	
+	private boolean getOnlyLocal = true;
+	
+	public PhotoGalleryGUI(boolean getLocal){
+		getOnlyLocal = getLocal;
+	}
+	
+	public PhotoGalleryGUI(){
+		
+	}
+	
 	/*
 	 * IMAGENS ARQUIGRAFIA
 	 * http://arquigrafia.org.br/photo/img-thumb/2230?_log=no
@@ -77,6 +87,7 @@ public class PhotoGalleryGUI extends CRComponent {
 					int position, long id) {
 				description.setText(list.get(position).getText());
 				Log.e("view", " " + position);
+				onItemSelectedApplication(parent, v, position, id);
 			}
 
 			@Override
@@ -84,6 +95,18 @@ public class PhotoGalleryGUI extends CRComponent {
 				// Do nothing
 			}
 		});		
+		
+		picGallery.setOnItemClickListener(new AdapterView.OnItemClickListener()
+		{
+		    @Override
+		    public void onItemClick(AdapterView<?> parent, View view, int position, long arg3)
+		    {
+		        // TODO Auto-generated method stub
+		    	onItemClickApplication(parent, view, position, arg3);
+		    }
+		});
+		
+
 		
 		AsyncRequestHandler mFileHandler = new AsyncRequestHandler() {
 			@Override
@@ -130,6 +153,18 @@ public class PhotoGalleryGUI extends CRComponent {
 		return view;
 	}
 	
+	public void onItemSelectedApplication(AdapterView<?> parent, View v,
+			int position, long id){
+		
+	}
+	
+	 public void onItemClickApplication(AdapterView<?> parent, View view, int position, long arg3)
+	    {
+	        // TODO Auto-generated method stub
+
+	    }
+	
+	
 	void saveImageAfterDownload(String serverId, byte[] b) {
 		// tenho que saber qual imagem eh pra salvar com as info
 				
@@ -138,9 +173,11 @@ public class PhotoGalleryGUI extends CRComponent {
 				.where(Properties.ServerId.eq(Long.parseLong(serverId))).list();
 		if (found.isEmpty()) {
 			Log.d("SALVANDO", "SERVER ID NÃO EXISTE");
+			Long newI = ComponentSimpleModel.getUniqueId(getActivity());
 			Photo photo = new Photo(
-					ComponentSimpleModel.getUniqueId(getActivity()), null,
+					newI, null,
 					Long.parseLong(serverId), b, null, new Date());
+			Log.d("SALVANDO", "id= "+newI);
 			photoDao.insert(photo);
 		} else
 			Log.d("SALVANDO", "SERVER ID EXISTENTE");
@@ -206,7 +243,10 @@ public class PhotoGalleryGUI extends CRComponent {
 
 	@Override
 	protected void onBind() {
-		getPhotosIdRequest();
+		if(getOnlyLocal=false){
+			getPhotosIdRequest();
+		}
+		
 		Log.i("ONBIND ", " after");
 	}
 
