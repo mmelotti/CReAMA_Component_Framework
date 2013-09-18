@@ -42,6 +42,7 @@ public class PhotoUtils {
 	// reduz a imagem para ocupar menos memória
 	public static Bitmap resizeImage(File f, int size) {
 		try {
+
 			// Decode image size
 			BitmapFactory.Options o = new BitmapFactory.Options();
 			o.inJustDecodeBounds = true;

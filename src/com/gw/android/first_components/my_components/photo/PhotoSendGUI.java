@@ -104,7 +104,7 @@ enviar aparentemente vazio, assim como os dois primeiros campos
 	
 	void saveInDatabase(String filepath, Context ctx) {
 		File f = new File(filepath);
-		Bitmap bitmap = PhotoUtils.resizeImage(f, 768);
+		Bitmap bitmap = PhotoUtils.resizeImage(f, 1024);
 		Log.e("AFTER RESIZE width e height", bitmap.getWidth() + " - " + bitmap.getHeight());
 		
 		byte[] bArray = PhotoUtils.bitmapToByteArray(bitmap);

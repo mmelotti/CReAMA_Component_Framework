@@ -15,8 +15,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
+import android.widget.Gallery;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.gw.android.R;
@@ -91,7 +94,7 @@ public class PhotoViewGUI extends CRComponent {
 		image.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				zoomPhoto();
+				//zoomPhoto();
 			}
 		});
 
@@ -104,10 +107,13 @@ public class PhotoViewGUI extends CRComponent {
 			byte[] data = photo.getPhotoBytes();
 			Bitmap bm = BitmapFactory.decodeByteArray(data, 0, data.length);
 			Log.e("width e height", bm.getWidth() + " - " + bm.getHeight());
-			//bm = Bitmap.createScaledBitmap(bm, 256, 256, true);	// diminui a imagem
+			//final float scale = getActivity().getResources().getDisplayMetrics().density;
+			//bm = Bitmap.createScaledBitmap(bm, (int) (600 * scale + 0.5f), (int) (500 * scale + 0.5f), true);	// diminui a imagem 
+			//image.setLayoutParams(new LinearLayout.LayoutParams((int) (300 * scale + 0.5f), (int) (300 * scale + 0.5f)));
+			image.setAdjustViewBounds(true);
 			image.setImageBitmap(bm);
 		} else {
-			Toast.makeText(getActivity(), "Ainda não há fotos para exibir!",
+			Toast.makeText(getActivity(), "Ainda não há fotos para exibir!", 
 					Toast.LENGTH_SHORT).show();
 			getActivity().finish();
 		}
