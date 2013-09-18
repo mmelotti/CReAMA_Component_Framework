@@ -368,7 +368,11 @@ public class PhotoGalleryGUI extends CRComponent {
 			// specify the bitmap at this position in the array
 			imageView.setImageBitmap(imageBitmaps[position]);
 			// set layout options
-			imageView.setLayoutParams(new Gallery.LayoutParams(200, 180));
+			final float scale = getActivity().getResources().getDisplayMetrics().density;
+			//int pixels = (int) (dps * scale + 0.5f);
+			imageView.setLayoutParams(new Gallery.LayoutParams((int) (200 * scale + 0.5f), (int) (150 * scale + 0.5f)));
+			
+			//imageView.setLayoutParams(new Gallery.LayoutParams(200, 180));
 			// 400, 300 fica gigante no meu!
 			// 300, 200 fica legal ateh mas vou diminuir mais
 			// 200. 180 ficou perfeito
