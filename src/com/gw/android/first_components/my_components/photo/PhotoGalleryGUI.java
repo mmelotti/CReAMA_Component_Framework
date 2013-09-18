@@ -37,6 +37,7 @@ public class PhotoGalleryGUI extends CRComponent {
 	private Gallery picGallery;
 	private PicAdapter imgAdapt;
 	private TextView description;
+	private int currentSelected=0;
 	List<Photo> list;
 
 	private boolean conectado = true;
@@ -55,8 +56,9 @@ public class PhotoGalleryGUI extends CRComponent {
 	
 	private boolean getOnlyLocal = true;
 	
-	public PhotoGalleryGUI(boolean getLocal){
+	public PhotoGalleryGUI(boolean getLocal, int current){
 		getOnlyLocal = getLocal;
+		currentSelected = current;
 	}
 	
 	public PhotoGalleryGUI(){
@@ -80,6 +82,7 @@ public class PhotoGalleryGUI extends CRComponent {
 
 		imgAdapt = new PicAdapter(getActivity());
 		picGallery.setAdapter(imgAdapt);
+		
 		picGallery.setOnItemSelectedListener(new OnItemSelectedListener() {
 
 			@Override
@@ -87,6 +90,7 @@ public class PhotoGalleryGUI extends CRComponent {
 					int position, long id) {
 				description.setText(list.get(position).getText());
 				Log.e("view", " " + position);
+				currentSelected=position;
 				onItemSelectedApplication(parent, v, position, id);
 			}
 
@@ -150,6 +154,7 @@ public class PhotoGalleryGUI extends CRComponent {
 		};
 		setComponentRequestCallback(mHandler);
 		setComponentFileRequestCallback(mFileHandler);
+		picGallery.setSelection(currentSelected);
 		return view;
 	}
 	
