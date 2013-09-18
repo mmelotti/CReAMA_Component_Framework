@@ -91,7 +91,7 @@ public class PhotoGalleryGUI extends CRComponent {
 				description.setText(list.get(position).getText());
 				Log.e("view", " " + position);
 				currentSelected=position;
-				onItemSelectedApplication(parent, v, position, id);
+				onItemSelectedApplication(parent, v, position, id, list.get(position));
 			}
 
 			@Override
@@ -106,7 +106,7 @@ public class PhotoGalleryGUI extends CRComponent {
 		    public void onItemClick(AdapterView<?> parent, View view, int position, long arg3)
 		    {
 		        // TODO Auto-generated method stub
-		    	onItemClickApplication(parent, view, position, arg3);
+		    	onItemClickApplication(parent, view, position, arg3, list.get(position));
 		    }
 		});
 		
@@ -159,11 +159,11 @@ public class PhotoGalleryGUI extends CRComponent {
 	}
 	
 	public void onItemSelectedApplication(AdapterView<?> parent, View v,
-			int position, long id){
+			int position, long id, Photo photo){
 		
 	}
 	
-	 public void onItemClickApplication(AdapterView<?> parent, View view, int position, long arg3)
+	 public void onItemClickApplication(AdapterView<?> parent, View view, int position, long arg3, Photo photo)
 	    {
 	        // TODO Auto-generated method stub
 
