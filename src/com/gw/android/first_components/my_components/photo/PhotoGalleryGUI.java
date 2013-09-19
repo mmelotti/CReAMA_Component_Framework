@@ -366,10 +366,10 @@ public class PhotoGalleryGUI extends CRComponent {
 			// create the view
 			ImageView imageView = new ImageView(galleryContext);
 			// specify the bitmap at this position in the array
-			imageView.setImageBitmap(imageBitmaps[position]);
+			//imageView.setImageBitmap(imageBitmaps[position]);
+			final float scale = getActivity().getResources().getDisplayMetrics().density;
+			imageView.setImageBitmap(Bitmap.createScaledBitmap(imageBitmaps[position], (int) (200 * scale + 0.5f), (int) (150 * scale + 0.5f), true));
 			// set layout options
-			final float scale = getActivity().getResources().getDisplayMetrics().density; 
-			//int pixels = (int) (dps * scale + 0.5f);
 			imageView.setLayoutParams(new Gallery.LayoutParams((int) (200 * scale + 0.5f), (int) (150 * scale + 0.5f)));
 		 
 			//imageView.setLayoutParams(new Gallery.LayoutParams(200, 180));
