@@ -46,8 +46,8 @@ public class PhotoGalleryGUI extends CRComponent {
 	String ip = "200.137.66.94";
 	String url = "http://" + ip
 			+ ":8080/GW-Application-Arquigrafia/groupware-workbench";
-	private String jsonTestUrl = "" + "http://" + ip
-			+ ":8080/GW-Application-FAQN/tresfotos.json";
+	private String jsonTestUrl = ""
+			+ "http://valinhos.ime.usp.br:51080/photos/7/amount/2";
 	private String urlPhotoArquigrafia = "http://www.arquigrafia.org.br/photo/";
 	private String urlEndArquigrafia = "?_format=json";
 
@@ -89,7 +89,7 @@ public class PhotoGalleryGUI extends CRComponent {
 			public void onItemSelected(AdapterView<?> parent, View v,
 					int position, long id) {
 				description.setText(list.get(position).getText());
-				Log.e("view", " " + position);
+
 				currentGallerySelected = position;
 				onItemSelectedApplication(parent, v, position, id,
 						list.get(position));
@@ -131,7 +131,7 @@ public class PhotoGalleryGUI extends CRComponent {
 			@Override
 			public void onSuccess(String response, Request request) {
 				Log.i("ON SUCCES APP", " id");
-				if (response.startsWith("{\"photos\":")) {// fotos aleatorias
+				if (response.startsWith("[")) {// fotos aleatorias
 					Log.i("antes parse array", " id");
 					parseArrayJSON(response);
 				} else if (response.startsWith("{\"photo\":")) {// dados de uma
@@ -214,17 +214,14 @@ public class PhotoGalleryGUI extends CRComponent {
 	void parseArrayJSON(String response) {
 		Log.i("Desnto parse array", " id=");
 		try {
-			JSONObject json = new JSONObject(response);
-
-			JSONArray nameArray = json.names();
-			JSONArray valArray = json.toJSONArray(nameArray);
-			JSONArray arrayResults = valArray.getJSONArray(0);
+			// JSONObject json = new JSONObject(response);
+			JSONArray nameArray = new JSONArray(response);
 
 			// só pode executar isso se tiver conectado
 
 			// dados de varias fotos, manda request para cada uma
-			for (int j = 0; j < arrayResults.length(); j++) {
-				JSONObject object = arrayResults.getJSONObject(j);
+			for (int j = 0; j < nameArray.length(); j++) {
+				JSONObject object = nameArray.getJSONObject(j);
 				Long idServ = Long.parseLong(object.get("id").toString());
 				String nome = object.get("nomeArquivo").toString();
 
@@ -249,6 +246,7 @@ public class PhotoGalleryGUI extends CRComponent {
 	protected void onBind() {
 		if (getOnlyLocal == false) {
 			getPhotosIdRequest();
+			Log.i("ON Bbind", " FEZ REQUEST");
 		}
 
 	}
