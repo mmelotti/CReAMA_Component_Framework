@@ -37,7 +37,7 @@ public class PhotoGalleryGUI extends CRComponent {
 	private Gallery picGallery;
 	private PicAdapter imgAdapt;
 	private TextView description;
-	private int currentSelected=0;
+	private int currentGallerySelected = 0;
 	List<Photo> list;
 
 	private boolean conectado = true;
@@ -53,18 +53,18 @@ public class PhotoGalleryGUI extends CRComponent {
 
 	private String urlOneImage = "http://arquigrafia.org.br/photo/img-crop/";
 	private String urlEndImage = "?_log=no";
-	
+
 	private boolean getOnlyLocal = true;
-	
-	public PhotoGalleryGUI(boolean getLocal, int current){
+
+	public PhotoGalleryGUI(boolean getLocal, int current) {
 		getOnlyLocal = getLocal;
-		currentSelected = current;
+		currentGallerySelected = current;
 	}
-	
-	public PhotoGalleryGUI(){
-		
+
+	public PhotoGalleryGUI() {
+
 	}
-	
+
 	/*
 	 * IMAGENS ARQUIGRAFIA
 	 * http://arquigrafia.org.br/photo/img-thumb/2230?_log=no
@@ -78,11 +78,11 @@ public class PhotoGalleryGUI extends CRComponent {
 		View view = inflater.inflate(R.layout.image_gallery, container, false);
 
 		picGallery = (Gallery) view.findViewById(R.id.gallery);
-		description = (TextView) view.findViewById(R.id.description); 
+		description = (TextView) view.findViewById(R.id.description);
 
 		imgAdapt = new PicAdapter(getActivity());
 		picGallery.setAdapter(imgAdapt);
-		
+
 		picGallery.setOnItemSelectedListener(new OnItemSelectedListener() {
 
 			@Override
@@ -90,35 +90,35 @@ public class PhotoGalleryGUI extends CRComponent {
 					int position, long id) {
 				description.setText(list.get(position).getText());
 				Log.e("view", " " + position);
-				currentSelected=position;
-				onItemSelectedApplication(parent, v, position, id, list.get(position));
+				currentGallerySelected = position;
+				onItemSelectedApplication(parent, v, position, id,
+						list.get(position));
 			}
 
 			@Override
 			public void onNothingSelected(AdapterView<?> arg0) {
 				// Do nothing
 			}
-		});		
-		
-		picGallery.setOnItemClickListener(new AdapterView.OnItemClickListener()
-		{
-		    @Override
-		    public void onItemClick(AdapterView<?> parent, View view, int position, long arg3)
-		    {
-		        // TODO Auto-generated method stub
-		    	onItemClickApplication(parent, view, position, arg3, list.get(position));
-		    }
 		});
-		
 
-		
+		picGallery
+				.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+					@Override
+					public void onItemClick(AdapterView<?> parent, View view,
+							int position, long arg3) {
+						// TODO Auto-generated method stub
+						onItemClickApplication(parent, view, position, arg3,
+								list.get(position));
+					}
+				});
+
 		AsyncRequestHandler mFileHandler = new AsyncRequestHandler() {
 			@Override
 			public void onSuccess(byte[] b, Request request) {
 				Log.i("MFILEHANDLER - Fez download da imagem", " sim!");
 				String url = request.getUrl();
 				String auxArray[] = url.split("/");
-				String auxArray2[] = auxArray[auxArray.length-1].split("\\?");
+				String auxArray2[] = auxArray[auxArray.length - 1].split("\\?");
 				String photoServerId = auxArray2[0];
 				Log.i("ID SERVER", photoServerId);
 				saveImageAfterDownload(photoServerId, b);
@@ -126,7 +126,7 @@ public class PhotoGalleryGUI extends CRComponent {
 				imgAdapt.notifyDataSetChanged();
 			}
 		};
-		
+
 		AsyncRequestHandler mHandler = new AsyncRequestHandler() {
 			@Override
 			public void onSuccess(String response, Request request) {
@@ -139,50 +139,49 @@ public class PhotoGalleryGUI extends CRComponent {
 					parseOnePhotoJSON(response);
 				} else {// apenas a imagem
 					Log.i("Fez download da imagem callback antigo", " sim!");
-					/*Log.i("one photo request test", response);
-					String url = request.getUrl();
-					String auxArray[] = url.split("/");
-					String auxArray2[] = auxArray[auxArray.length-1].split("\\?");
-					String photoServerId = auxArray2[0];
-					Log.i("ID SERVER", photoServerId);
-					saveImageAfterDownload(photoServerId, b);
-					imgAdapt.updateAdapter();
-					imgAdapt.notifyDataSetChanged();*/
+					/*
+					 * Log.i("one photo request test", response); String url =
+					 * request.getUrl(); String auxArray[] = url.split("/");
+					 * String auxArray2[] =
+					 * auxArray[auxArray.length-1].split("\\?"); String
+					 * photoServerId = auxArray2[0]; Log.i("ID SERVER",
+					 * photoServerId); saveImageAfterDownload(photoServerId, b);
+					 * imgAdapt.updateAdapter();
+					 * imgAdapt.notifyDataSetChanged();
+					 */
 				}
 				Log.i("Onsucces e Parser ", " id=");
 			}
 		};
 		setComponentRequestCallback(mHandler);
 		setComponentFileRequestCallback(mFileHandler);
-		picGallery.setSelection(currentSelected);
+		picGallery.setSelection(currentGallerySelected);
 		return view;
 	}
-	
-	public void onItemSelectedApplication(AdapterView<?> parent, View v,
-			int position, long id, Photo photo){
-		
-	}
-	
-	 public void onItemClickApplication(AdapterView<?> parent, View view, int position, long arg3, Photo photo)
-	    {
-	        // TODO Auto-generated method stub
 
-	    }
-	
-	
+	public void onItemSelectedApplication(AdapterView<?> parent, View v,
+			int position, long id, Photo photo) {
+
+	}
+
+	public void onItemClickApplication(AdapterView<?> parent, View view,
+			int position, long arg3, Photo photo) {
+		// TODO Auto-generated method stub
+
+	}
+
 	void saveImageAfterDownload(String serverId, byte[] b) {
 		// tenho que saber qual imagem eh pra salvar com as info
-				
+
 		photoDao = PhotoUtils.initPhotoDao(getActivity());
 		List<Photo> found = photoDao.queryBuilder()
 				.where(Properties.ServerId.eq(Long.parseLong(serverId))).list();
 		if (found.isEmpty()) {
 			Log.d("SALVANDO", "SERVER ID NÃO EXISTE");
 			Long newI = ComponentSimpleModel.getUniqueId(getActivity());
-			Photo photo = new Photo(
-					newI, null,
-					Long.parseLong(serverId), b, null, new Date());
-			Log.d("SALVANDO", "id= "+newI);
+			Photo photo = new Photo(newI, null, Long.parseLong(serverId), b,
+					null, new Date());
+			Log.d("SALVANDO", "id= " + newI);
 			photoDao.insert(photo);
 		} else
 			Log.d("SALVANDO", "SERVER ID EXISTENTE");
@@ -216,7 +215,7 @@ public class PhotoGalleryGUI extends CRComponent {
 		Log.i("Desnto parse array", " id=");
 		try {
 			JSONObject json = new JSONObject(response);
-			
+
 			JSONArray nameArray = json.names();
 			JSONArray valArray = json.toJSONArray(nameArray);
 			JSONArray arrayResults = valArray.getJSONArray(0);
@@ -248,11 +247,10 @@ public class PhotoGalleryGUI extends CRComponent {
 
 	@Override
 	protected void onBind() {
-		if(getOnlyLocal=false){
+		if (getOnlyLocal == false) {
 			getPhotosIdRequest();
 		}
-		
-		Log.i("ONBIND ", " after");
+
 	}
 
 	public void createSimpleFileRequest(String url, String type) {
@@ -268,7 +266,7 @@ public class PhotoGalleryGUI extends CRComponent {
 				// preencheCampos();
 		}
 	}
-	
+
 	public void createSimpleRequest(String url, String type) {
 		Request request = new Request(null, url, type, null);
 
@@ -288,11 +286,13 @@ public class PhotoGalleryGUI extends CRComponent {
 	}
 
 	private void getOnePhotoRequest(String id) {
-		createSimpleRequest(getBaseUrl() +"/photo/"+ id + urlEndArquigrafia, "get");
+		createSimpleRequest(getBaseUrl() + "/photo/" + id + urlEndArquigrafia,
+				"get");
 	}
 
 	private void getTheImage(String id) {
-		createSimpleFileRequest(getBaseUrl() +"/photo/img-crop/" + id + urlEndImage, "get");
+		createSimpleFileRequest(getBaseUrl() + "/photo/img-crop/" + id
+				+ urlEndImage, "get");
 	}
 
 	// Classe auxiliar
@@ -312,7 +312,7 @@ public class PhotoGalleryGUI extends CRComponent {
 			// instantiate context
 			galleryContext = c;
 			updateAdapter();
-			
+
 			// get the styling attributes - use default Android system resources
 			TypedArray styleAttrs = galleryContext
 					.obtainStyledAttributes(R.styleable.PicGallery);
@@ -322,7 +322,7 @@ public class PhotoGalleryGUI extends CRComponent {
 			// recycle attributes
 			styleAttrs.recycle();
 		}
-		
+
 		void updateAdapter() {
 			photoDao = PhotoUtils.initPhotoDao(getActivity());
 			list = photoDao.queryBuilder().orderAsc(Properties.Id).list();
@@ -366,13 +366,17 @@ public class PhotoGalleryGUI extends CRComponent {
 			// create the view
 			ImageView imageView = new ImageView(galleryContext);
 			// specify the bitmap at this position in the array
-			//imageView.setImageBitmap(imageBitmaps[position]);
-			final float scale = getActivity().getResources().getDisplayMetrics().density;
-			imageView.setImageBitmap(Bitmap.createScaledBitmap(imageBitmaps[position], (int) (200 * scale + 0.5f), (int) (150 * scale + 0.5f), true));
+			// imageView.setImageBitmap(imageBitmaps[position]);
+			final float scale = getActivity().getResources()
+					.getDisplayMetrics().density;
+			imageView.setImageBitmap(Bitmap.createScaledBitmap(
+					imageBitmaps[position], (int) (200 * scale + 0.5f),
+					(int) (150 * scale + 0.5f), true));
 			// set layout options
-			imageView.setLayoutParams(new Gallery.LayoutParams((int) (200 * scale + 0.5f), (int) (150 * scale + 0.5f)));
-		 
-			//imageView.setLayoutParams(new Gallery.LayoutParams(200, 180));
+			imageView.setLayoutParams(new Gallery.LayoutParams(
+					(int) (200 * scale + 0.5f), (int) (150 * scale + 0.5f)));
+
+			// imageView.setLayoutParams(new Gallery.LayoutParams(200, 180));
 			// 400, 300 fica gigante no meu!
 			// 300, 200 fica legal ateh mas vou diminuir mais
 			// 200. 180 ficou perfeito
