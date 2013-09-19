@@ -52,7 +52,9 @@ public class PhotoGalleryGUI extends CRComponent {
 	private String urlEndArquigrafia = "?_format=json";
 
 	private String urlOneImage = "http://arquigrafia.org.br/photo/img-crop/";
-	private String urlEndImage = "?_log=no";
+	private String urlEndImageCrop = "?_log=no";
+	private String urlEndImageBig = ".jpeg";
+	private String imageType = "/img-show/";
 
 	private boolean getOnlyLocal = true;
 
@@ -118,7 +120,10 @@ public class PhotoGalleryGUI extends CRComponent {
 				Log.i("MFILEHANDLER - Fez download da imagem", " sim!");
 				String url = request.getUrl();
 				String auxArray[] = url.split("/");
-				String auxArray2[] = auxArray[auxArray.length - 1].split("\\?");
+				//String auxArray2[] = auxArray[auxArray.length - 1].split("\\?");
+				Log.i("MFILEHANDLER - Fez download da imagem", auxArray[auxArray.length - 1]);
+				String auxArray2[] = auxArray[auxArray.length - 1].split(".j");
+				
 				String photoServerId = auxArray2[0];
 				Log.i("ID SERVER", photoServerId);
 				saveImageAfterDownload(photoServerId, b);
@@ -289,8 +294,8 @@ public class PhotoGalleryGUI extends CRComponent {
 	}
 
 	private void getTheImage(String id) {
-		createSimpleFileRequest(getBaseUrl() + "/photo/img-crop/" + id
-				+ urlEndImage, "get");
+		createSimpleFileRequest(getBaseUrl() + "/photo"+imageType + id
+				+ urlEndImageBig, "get");
 	}
 
 	// Classe auxiliar
