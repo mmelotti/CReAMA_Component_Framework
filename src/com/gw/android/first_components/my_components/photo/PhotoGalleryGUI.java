@@ -328,10 +328,12 @@ public class PhotoGalleryGUI extends CRComponent {
 
 		void updateAdapter() {
 			photoDao = PhotoUtils.initPhotoDao(getActivity());
-			list = photoDao.queryBuilder().orderAsc(Properties.Id).list();
+			list = photoDao.queryBuilder().orderDesc(Properties.Id).list();
 			photoDao.getDatabase().close();
-			imageBitmaps = new Bitmap[list.size()];
-
+			
+			imageBitmaps = new Bitmap[list.size() < 6 ? list.size() : 6];
+			final float scale = getActivity().getResources().getDisplayMetrics().density;
+			
 			// set placeholder as all thumbnail images in the gallery initially
 			for (int i = 0; i < imageBitmaps.length; i++) {
 				Photo photo = list.get(i);
@@ -340,9 +342,13 @@ public class PhotoGalleryGUI extends CRComponent {
 					byte[] data = photo.getPhotoBytes();
 					Bitmap bm = BitmapFactory.decodeByteArray(data, 0,
 							data.length);
-					imageBitmaps[i] = bm;
+					imageBitmaps[i] = Bitmap.createScaledBitmap(
+							bm, (int) (180 * scale + 0.5f),
+							(int) (140 * scale + 0.5f), true);
+					bm.recycle();
 				}
 			}
+			System.gc();
 		}
 
 		// BaseAdapter methods
@@ -372,12 +378,10 @@ public class PhotoGalleryGUI extends CRComponent {
 			// imageView.setImageBitmap(imageBitmaps[position]);
 			final float scale = getActivity().getResources()
 					.getDisplayMetrics().density;
-			imageView.setImageBitmap(Bitmap.createScaledBitmap(
-					imageBitmaps[position], (int) (200 * scale + 0.5f),
-					(int) (150 * scale + 0.5f), true));
+			imageView.setImageBitmap(imageBitmaps[position]);
 			// set layout options
 			imageView.setLayoutParams(new Gallery.LayoutParams(
-					(int) (200 * scale + 0.5f), (int) (150 * scale + 0.5f)));
+					(int) (170 * scale + 0.5f), (int) (140 * scale + 0.5f)));
 
 			// imageView.setLayoutParams(new Gallery.LayoutParams(200, 180));
 			// 400, 300 fica gigante no meu!

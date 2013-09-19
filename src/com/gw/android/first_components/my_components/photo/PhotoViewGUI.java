@@ -107,11 +107,10 @@ public class PhotoViewGUI extends CRComponent {
 			byte[] data = photo.getPhotoBytes();
 			Bitmap bm = BitmapFactory.decodeByteArray(data, 0, data.length);
 			Log.e("width e height", bm.getWidth() + " - " + bm.getHeight());
-			//final float scale = getActivity().getResources().getDisplayMetrics().density;
-			//bm = Bitmap.createScaledBitmap(bm, (int) (600 * scale + 0.5f), (int) (500 * scale + 0.5f), true);	// diminui a imagem 
-			//image.setLayoutParams(new LinearLayout.LayoutParams((int) (300 * scale + 0.5f), (int) (300 * scale + 0.5f)));
-			image.setAdjustViewBounds(true);
-			image.setImageBitmap(bm);
+			final float scale = getActivity().getResources().getDisplayMetrics().density;
+			Bitmap scaledBm = Bitmap.createScaledBitmap(bm, (int) (400 * scale + 0.5f), (int) (300 * scale + 0.5f), true);	// diminui a imagem 
+			bm.recycle();
+			image.setImageBitmap(scaledBm); 
 		} else {
 			Toast.makeText(getActivity(), "Ainda não há fotos para exibir!", 
 					Toast.LENGTH_SHORT).show();
