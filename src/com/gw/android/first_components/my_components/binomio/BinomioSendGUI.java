@@ -268,7 +268,7 @@ saveBinomial
 
 + "__saveBinomial--"+"");
 		
-		Request request = new Request(null, getUrl()+18+"/photo/"+newTarget+"/avaliation", "post", strData);
+		Request request = new Request(null, getUrl()+"/18"+"/photo/"+newTarget+"/avaliation", "post", strData);
 						
 				
 		

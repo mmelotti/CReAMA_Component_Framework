@@ -37,7 +37,7 @@ public class PhotoGalleryGUI extends CRComponent {
 	private Gallery picGallery;
 	private PicAdapter imgAdapt;
 	private TextView description;
-	private int currentGallerySelected = 0;
+	private int currentGallerySelected = -1;
 	List<Photo> list;
 
 	private boolean conectado = true;
@@ -62,6 +62,12 @@ public class PhotoGalleryGUI extends CRComponent {
 		getOnlyLocal = getLocal;
 		currentGallerySelected = current;
 	}
+	
+	public PhotoGalleryGUI(boolean getLocal) {
+		getOnlyLocal = getLocal;
+		
+	}
+
 
 	public PhotoGalleryGUI() {
 
@@ -160,7 +166,10 @@ public class PhotoGalleryGUI extends CRComponent {
 		};
 		setComponentRequestCallback(mHandler);
 		setComponentFileRequestCallback(mFileHandler);
-		picGallery.setSelection(currentGallerySelected);
+		if(currentGallerySelected!=-1){
+			picGallery.setSelection(currentGallerySelected);
+		}
+		
 		return view;
 	}
 
@@ -379,6 +388,10 @@ public class PhotoGalleryGUI extends CRComponent {
 			final float scale = getActivity().getResources()
 					.getDisplayMetrics().density;
 			imageView.setImageBitmap(imageBitmaps[position]);
+			//TODO da primeira vez que iniciei eu precisei
+			// comentar a linha acima pq dava pau no array
+			
+			
 			// set layout options
 			imageView.setLayoutParams(new Gallery.LayoutParams(
 					(int) (170 * scale + 0.5f), (int) (140 * scale + 0.5f)));
