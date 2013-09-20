@@ -129,6 +129,7 @@ public class ComponentDefinitions {
 	public List<ComponentSimpleModel> listToMany(String name, Long target,
 			Activity a) {
 		CRComponent g = getComponent(target, name);
+		//TODO ta apenas para comentario
 		return g.getListSimple(target, a);
 	}
 

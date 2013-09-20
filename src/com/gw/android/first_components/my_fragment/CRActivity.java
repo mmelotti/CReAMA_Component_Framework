@@ -146,7 +146,7 @@ public abstract class CRActivity extends FragmentActivity {
 		dependencies.add(d);
 	}
 
-	public void addOther(ComponentNaming s, ComponentSimpleModel c, int id) {
+	public void addGuiComponentToMany(ComponentNaming s, ComponentSimpleModel c, int id) {
 
 		// addOne(s,c);
 
@@ -158,7 +158,7 @@ public abstract class CRActivity extends FragmentActivity {
 
 	}
 
-	public void addOther(ComponentNaming s, Long target, int id) {
+	public void addGuiComponent(ComponentNaming s, Long target, int id) {
 		ComponentDefinitions cd = new ComponentDefinitions();
 		CRComponent one = cd.getComponent(target, s.getGuiName());
 		one.setNick(s.getNickName());
@@ -174,11 +174,11 @@ public abstract class CRActivity extends FragmentActivity {
 							.getGuiName(), target);
 
 					for (ComponentSimpleModel model : m) {
-						addOther(d.getSource(), model, R.id.menu_lin);
+						addGuiComponentToMany(d.getSource(), model, R.id.menu_lin);
 						verDependenciaString(d.getSource(), model.getId());
 					}
 				} else {
-					addOther(d.getSource(), target, R.id.menu_lin);
+					addGuiComponent(d.getSource(), target, R.id.menu_lin);
 					verDependenciaString(d.getSource(), target);
 				}
 

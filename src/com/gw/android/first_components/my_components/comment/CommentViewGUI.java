@@ -2,6 +2,7 @@ package com.gw.android.first_components.my_components.comment;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.json.JSONArray;
@@ -38,36 +39,38 @@ public class CommentViewGUI extends CRComponent {
 
 	private CommentDao commentDao;
 	private DaoSession daoSession;
-	private boolean conectado=true, teste=true,binded=false,doRequest=false;
-	private List<Comment> lista;
-	
+	private boolean conectado = true, teste = true, binded = false,
+			isList = false, doRequest = false, parsed = false;
+	private List<Comment> lista = new ArrayList();
+	private ViewGroup containerFromCreate;
 
-	//private String urlTestComment = "http://200.137.66.94:8080/GW-Application-Arquigrafia/comment.json";
-	private String urlTestComment="http://valinhos.ime.usp.br:51080/comments/1/photo/1151?_format=json";
-	private LayoutInflater li;
+	// private String urlTestComment =
+	// "http://200.137.66.94:8080/GW-Application-Arquigrafia/comment.json";
+	private String urlTestComment = "http://valinhos.ime.usp.br:51080/comments/1/photo/1151?_format=json";
+	private LayoutInflater LayoutInflaterFromCreate;
 	private Comment comment;
 	private Long idTarget;
 
-	private String urlFinalJSON="?_format=json";
-	
+	private String urlFinalJSON = "?_format=json";
+
 	public CommentViewGUI() {
 		super();
 		preDefined();
 	}
-	
+
 	public CommentViewGUI(Long target) {
 		super();
 		preDefined();
-		idTarget=target;
+		idTarget = target;
 	}
 
-	public CommentViewGUI(Long target,boolean request) {
+	public CommentViewGUI(Long target, boolean request) {
 		super();
 		preDefined();
-		idTarget=target;
-		doRequest=request;
+		idTarget = target;
+		doRequest = request;
 	}
-	
+
 	public CommentViewGUI(ComponentSimpleModel c) {
 		comment = (Comment) c;
 		preDefined();
@@ -95,9 +98,10 @@ public class CommentViewGUI extends CRComponent {
 			Bundle savedInstanceState) {
 		setControlActivity((CRActivity) getActivity());
 
-		li = inflater;
-		View view = inflater.inflate(R.layout.comment_view, container, false);
-		
+		LayoutInflaterFromCreate = inflater;
+		containerFromCreate = container;
+		View view = new View(getActivity());
+
 		AsyncRequestHandler mHandler = new AsyncRequestHandler() {
 			@Override
 			public void onSuccess(String response, Request request) {
@@ -108,25 +112,49 @@ public class CommentViewGUI extends CRComponent {
 			}
 		};
 		setComponentRequestCallback(mHandler);
-		
-		if(!teste){
-			view = refreshComment();
+
+		if (!teste) {
+			//view = refreshComment();
 		}
-		
-		
-		
+
 		return view;
 	}
 
 	private String getUrl() {
-		SharedPreferences testPrefs = getActivity()
-				.getApplication()
+		SharedPreferences testPrefs = getActivity().getApplication()
 				.getSharedPreferences("test_prefs", Context.MODE_PRIVATE);
 		return testPrefs.getString("base_url", "");
 	}
+
+	private View refreshComment(Comment c){
+		View view = LayoutInflaterFromCreate.inflate(R.layout.comment_view, containerFromCreate, false);
+		view.findViewById(R.id.button_apaga).setTag("" + c.getId());
+		((TextView) view.findViewById(R.id.body)).setText(""
+				+ c.getText());
+		DateFormat df = DateFormat.getDateTimeInstance(DateFormat.SHORT,
+				DateFormat.SHORT);
+		((TextView) view.findViewById(R.id.date)).setText("Enviado em "
+				+ df.format(c.getDate()));
+		((ImageButton) view.findViewById(R.id.button_apaga))
+				.setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						Long id = Long.valueOf(v.getTag().toString());
+						Comment c = findCommentById(id);
+						if (c != null) {
+							initCommentDao();
+							//deleteOne(c);
+							closeDao();
+							reloadActivity();
+						}
+					}
+				});
+
+		return view;
+	}
 	
 	private View refreshComment() {
-		View view = li.inflate(R.layout.comment_view, null);
+		View view = LayoutInflaterFromCreate.inflate(R.layout.comment_view, null);
 		view.findViewById(R.id.button_apaga).setTag("" + comment.getId());
 		((TextView) view.findViewById(R.id.body)).setText(""
 				+ comment.getText());
@@ -154,16 +182,15 @@ public class CommentViewGUI extends CRComponent {
 
 	@Override
 	protected void onBind() {
-		if(doRequest){
-			getCommentsRequest();
-		}
-		
-		
+		getCommentsRequest();
+		binded = true;
 		Log.i("ONBIND ", " after");
 	}
 
 	public void getCommentsRequest() {
-		Request request = new Request(null, getUrl()+"/comments/"+getCollabletId()+"/photo/"+idTarget+urlFinalJSON, "get", null);
+		Request request = new Request(null, getUrl() + "/comments/"
+				+ getCollabletId() + "/photo/" + idTarget + urlFinalJSON,
+				"get", null);
 		makeRequest(request);
 	}
 
@@ -171,13 +198,13 @@ public class CommentViewGUI extends CRComponent {
 		Log.i("Parseando commentarios", " inicio");
 		JSONObject object;
 		try {
-			JSONObject commentsObject ;
+			JSONObject commentsObject;
 			commentsObject = new JSONObject(r);
-	
+
 			JSONArray nameArray = commentsObject.names();
 			JSONArray valArray = commentsObject.toJSONArray(nameArray);
 			JSONArray arrayResults = valArray.getJSONArray(0);
-			Log.i("Parseando comentario antes for", " foto= " );
+			Log.i("Parseando comentario antes for", " foto= ");
 			for (int j = 0; j < arrayResults.length(); j++) {
 				JSONObject oneComment = arrayResults.getJSONObject(j);
 				JSONObject userObject = oneComment.getJSONObject("user");
@@ -185,9 +212,16 @@ public class CommentViewGUI extends CRComponent {
 				Long idServ = Long.parseLong(oneComment.get("id").toString());
 
 				String text = oneComment.get("text").toString();
-				Log.i("Parseando comentario", " text= " + text + idServ+userName);
+				Comment comment = new Comment(0L, idTarget, idServ, text,
+						new Date());
+				lista.add(comment);
+				Log.i("Parseando comentario", " text= " + text + idServ
+						+ userName);
+				
+				View view = refreshComment(comment);
+				containerFromCreate.addView(view);
 			}
-			binded=true;
+			parsed = true;
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -229,26 +263,18 @@ public class CommentViewGUI extends CRComponent {
 	public List<ComponentSimpleModel> getListSimple(Long target, Activity a) {
 		ArrayList<ComponentSimpleModel> list = new ArrayList<ComponentSimpleModel>();
 
-		while(binded==false){
-			
-		}
-		
-		
-		
-		if(teste==true){
+		Log.i("LISTA ANTES binded", "ok");
+
+		if (teste == true) {
 			initCommentDao(a);
 			lista = commentDao.queryBuilder()
 					.where(Properties.TargetId.eq(target)).build().list();
 			commentDao.getDatabase().close();
-			
 		}
-		
 
 		for (int i = 0; i < lista.size(); i++) {
 			list.add(lista.get(i));
 		}
-
-		
 
 		return list;
 	}
