@@ -26,6 +26,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
 import android.text.SpannableString;
+import android.text.TextUtils;
 import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -80,9 +81,8 @@ public class TagViewGUI extends CRComponent {
 		stringList = "nadaAinda";
 
 		// sublinhado
-		SpannableString spanString = new SpannableString(stringList);
-		spanString.setSpan(new UnderlineSpan(), 0, spanString.length(), 0);
-		tags.setText(spanString);
+
+		tags.setText(underlinedText(stringList));
 		// tags.setTe
 
 		// set listener para mudar de tela, tag by tag
@@ -101,6 +101,20 @@ public class TagViewGUI extends CRComponent {
 		// setMyMessenger(t);
 
 		return view;
+	}
+
+	public SpannableString underlinedText(String beforeUnder) {
+		SpannableString spanString = new SpannableString(beforeUnder);
+		spanString.setSpan(new UnderlineSpan(), 0, spanString.length(), 0);
+
+		return spanString;
+	}
+
+	public SpannableString notUnderlinedText(String beforeUnder, String not) {
+		SpannableString spanString = new SpannableString(beforeUnder);
+		spanString.setSpan(new UnderlineSpan(), 0, spanString.length(), 0);
+		SpannableString notUnder = new SpannableString(not);
+		return spanString;
 	}
 
 	@Override
@@ -124,11 +138,19 @@ public class TagViewGUI extends CRComponent {
 			JSONArray nameArray = tagsObject.names();
 			JSONArray valArray = tagsObject.toJSONArray(nameArray);
 			JSONArray arrayResults = valArray.getJSONArray(0);
-
+			tags.setText("");
 			for (int j = 0; j < arrayResults.length(); j++) {
 				JSONObject oneTag = arrayResults.getJSONObject(j);
 				String tagName = oneTag.get("name").toString();
 				Long idServ = Long.parseLong(oneTag.get("id").toString());
+
+				SpannableString s = underlinedText(tagName);
+
+				if (j == 0) {
+					tags.setText(underlinedText(tagName));
+				} else {
+					tags.setText(TextUtils.concat(tags.getText(), ", ", s));
+				}
 				Log.i("Parseando tags", " text= " + idServ + tagName);
 			}
 
