@@ -38,7 +38,9 @@ public class CommentViewGUI extends CRComponent {
 
 	private CommentDao commentDao;
 	private DaoSession daoSession;
-	private boolean conectado=true, teste=true;
+	private boolean conectado=true, teste=true,binded=false,doRequest=false;
+	private List<Comment> lista;
+	
 
 	//private String urlTestComment = "http://200.137.66.94:8080/GW-Application-Arquigrafia/comment.json";
 	private String urlTestComment="http://valinhos.ime.usp.br:51080/comments/1/photo/1151?_format=json";
@@ -59,6 +61,13 @@ public class CommentViewGUI extends CRComponent {
 		idTarget=target;
 	}
 
+	public CommentViewGUI(Long target,boolean request) {
+		super();
+		preDefined();
+		idTarget=target;
+		doRequest=request;
+	}
+	
 	public CommentViewGUI(ComponentSimpleModel c) {
 		comment = (Comment) c;
 		preDefined();
@@ -145,7 +154,11 @@ public class CommentViewGUI extends CRComponent {
 
 	@Override
 	protected void onBind() {
-		getCommentsRequest();
+		if(doRequest){
+			getCommentsRequest();
+		}
+		
+		
 		Log.i("ONBIND ", " after");
 	}
 
@@ -174,7 +187,7 @@ public class CommentViewGUI extends CRComponent {
 				String text = oneComment.get("text").toString();
 				Log.i("Parseando comentario", " text= " + text + idServ+userName);
 			}
-
+			binded=true;
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -216,15 +229,26 @@ public class CommentViewGUI extends CRComponent {
 	public List<ComponentSimpleModel> getListSimple(Long target, Activity a) {
 		ArrayList<ComponentSimpleModel> list = new ArrayList<ComponentSimpleModel>();
 
-		initCommentDao(a);
-		List<Comment> lista = commentDao.queryBuilder()
-				.where(Properties.TargetId.eq(target)).build().list();
+		while(binded==false){
+			
+		}
+		
+		
+		
+		if(teste==true){
+			initCommentDao(a);
+			lista = commentDao.queryBuilder()
+					.where(Properties.TargetId.eq(target)).build().list();
+			commentDao.getDatabase().close();
+			
+		}
+		
 
 		for (int i = 0; i < lista.size(); i++) {
 			list.add(lista.get(i));
 		}
 
-		commentDao.getDatabase().close();
+		
 
 		return list;
 	}
