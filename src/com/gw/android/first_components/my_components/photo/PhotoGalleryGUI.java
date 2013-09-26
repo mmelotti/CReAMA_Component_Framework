@@ -1,5 +1,6 @@
 package com.gw.android.first_components.my_components.photo;
 
+import java.io.ByteArrayInputStream;
 import java.util.Date;
 import java.util.List;
 
@@ -10,8 +11,7 @@ import org.json.JSONObject;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -62,12 +62,10 @@ public class PhotoGalleryGUI extends CRComponent {
 		getOnlyLocal = getLocal;
 		currentGallerySelected = current;
 	}
-	
+
 	public PhotoGalleryGUI(boolean getLocal) {
 		getOnlyLocal = getLocal;
-		
 	}
-
 
 	public PhotoGalleryGUI() {
 
@@ -114,7 +112,6 @@ public class PhotoGalleryGUI extends CRComponent {
 					@Override
 					public void onItemClick(AdapterView<?> parent, View view,
 							int position, long arg3) {
-						// TODO Auto-generated method stub
 						onItemClickApplication(parent, view, position, arg3,
 								list.get(position));
 					}
@@ -126,7 +123,6 @@ public class PhotoGalleryGUI extends CRComponent {
 				Log.i("MFILEHANDLER - Fez download da imagem", " sim!");
 				String url = request.getUrl();
 				String auxArray[] = url.split("/");
-				//String auxArray2[] = auxArray[auxArray.length - 1].split("\\?");
 				Log.i("MFILEHANDLER - Fez download da imagem", auxArray[auxArray.length - 1]);
 				String auxArray2[] = auxArray[auxArray.length - 1].split(".j");
 				
@@ -141,27 +137,13 @@ public class PhotoGalleryGUI extends CRComponent {
 		AsyncRequestHandler mHandler = new AsyncRequestHandler() {
 			@Override
 			public void onSuccess(String response, Request request) {
-				Log.i("ON SUCCES APP", " id");
-				if (response.startsWith("[")) {// fotos aleatorias
+				if (response.startsWith("[")) { // fotos aleatorias
 					Log.i("antes parse array", " id");
 					parseArrayJSON(response);
-				} else if (response.startsWith("{\"photo\":")) {// dados de uma
-																// foto
+				} else if (response.startsWith("{\"photo\":")) { // dados de uma foto
+					Log.i("pegando dados de uma foto", "uma foto");
 					parseOnePhotoJSON(response);
-				} else {// apenas a imagem
-					Log.i("Fez download da imagem callback antigo", " sim!");
-					/*
-					 * Log.i("one photo request test", response); String url =
-					 * request.getUrl(); String auxArray[] = url.split("/");
-					 * String auxArray2[] =
-					 * auxArray[auxArray.length-1].split("\\?"); String
-					 * photoServerId = auxArray2[0]; Log.i("ID SERVER",
-					 * photoServerId); saveImageAfterDownload(photoServerId, b);
-					 * imgAdapt.updateAdapter();
-					 * imgAdapt.notifyDataSetChanged();
-					 */
-				}
-				Log.i("Onsucces e Parser ", " id=");
+				} 
 			}
 		};
 		setComponentRequestCallback(mHandler);
@@ -180,12 +162,10 @@ public class PhotoGalleryGUI extends CRComponent {
 
 	public void onItemClickApplication(AdapterView<?> parent, View view,
 			int position, long arg3, Photo photo) {
-		// TODO Auto-generated method stub
 
 	}
 
 	void saveImageAfterDownload(String serverId, byte[] b) {
-		// tenho que saber qual imagem eh pra salvar com as info
 
 		photoDao = PhotoUtils.initPhotoDao(getActivity());
 		List<Photo> found = photoDao.queryBuilder()
@@ -209,8 +189,6 @@ public class PhotoGalleryGUI extends CRComponent {
 		try {
 			object = new JSONObject(r);
 
-			// Log.i("Parseando uma foto", " objeto=" + object.toString());
-
 			JSONObject photoObject = object.getJSONObject("photo");
 
 			String nome = photoObject.get("name").toString();
@@ -226,14 +204,9 @@ public class PhotoGalleryGUI extends CRComponent {
 	}
 
 	void parseArrayJSON(String response) {
-		Log.i("Desnto parse array", " id=");
 		try {
-			// JSONObject json = new JSONObject(response);
 			JSONArray nameArray = new JSONArray(response);
 
-			// só pode executar isso se tiver conectado
-
-			// dados de varias fotos, manda request para cada uma
 			for (int j = 0; j < nameArray.length(); j++) {
 				JSONObject object = nameArray.getJSONObject(j);
 				Long idServ = Long.parseLong(object.get("id").toString());
@@ -242,13 +215,6 @@ public class PhotoGalleryGUI extends CRComponent {
 				Log.i("Parseando varias fotos", " id=" + idServ);
 
 				getOnePhotoRequest(Long.toString(idServ));
-
-				/*
-				 * // cria novo faq para mandar pro cache Faq novo = new Faq(0L,
-				 * 0L, idServ, pergunta, resposta); novo =
-				 * newOnePersistence(novo); // gera Id unico, entao retorna //
-				 * atualizado list.add(novo);
-				 */
 			}
 
 		} catch (Exception e) {
@@ -260,36 +226,24 @@ public class PhotoGalleryGUI extends CRComponent {
 	protected void onBind() {
 		if (getOnlyLocal == false) {
 			getPhotosIdRequest();
-			Log.i("ON Bbind", " FEZ REQUEST");
+			Log.i("ON Bbind", " FEZ REQUEST"); 
 		}
 
 	}
 
 	public void createSimpleFileRequest(String url, String type) {
 		Request request = new Request(null, url, type, null);
-
-		// se nao estiver conectado, nem vale ir para a fila de request
-		// se estiver conectado, vai tentar buscar no servidor as
-
-		// depois salva no cache para acesso offline
 		if (conectado) {
 			makeFileRequest(request);
-		} else {// pega no cache
-				// preencheCampos();
+		} else { // pega no cache
 		}
-	}
+	} 
 
 	public void createSimpleRequest(String url, String type) {
 		Request request = new Request(null, url, type, null);
-
-		// se nao estiver conectado, nem vale ir para a fila de request
-		// se estiver conectado, vai tentar buscar no servidor as
-
-		// depois salva no cache para acesso offline
 		if (conectado)
 			makeRequest(request);
-		else {// pega no cache
-				// preencheCampos();
+		else { // pega no cache
 		}
 	}
 
@@ -303,25 +257,17 @@ public class PhotoGalleryGUI extends CRComponent {
 	}
 
 	private void getTheImage(String id) {
-		createSimpleFileRequest(getBaseUrl() + "/photo"+imageType + id
+		createSimpleFileRequest(getBaseUrl() + "/photo" + imageType + id
 				+ urlEndImageBig, "get");
 	}
 
 	// Classe auxiliar
 	public class PicAdapter extends BaseAdapter {
-
-		// use the default gallery background image
 		int defaultItemBackground;
-
-		// gallery context
 		private Context galleryContext;
+		private Drawable[] imageDrawables;
 
-		// array to store bitmaps to display
-		private Bitmap[] imageBitmaps;
-
-		// constructor
 		public PicAdapter(Context c) {
-			// instantiate context
 			galleryContext = c;
 			updateAdapter();
 
@@ -340,39 +286,33 @@ public class PhotoGalleryGUI extends CRComponent {
 			list = photoDao.queryBuilder().orderDesc(Properties.Id).list();
 			photoDao.getDatabase().close();
 			
-			imageBitmaps = new Bitmap[list.size() < 6 ? list.size() : 6];
-			final float scale = getActivity().getResources().getDisplayMetrics().density;
+			imageDrawables = new Drawable[list.size() < 6 ? list.size() : 6];
+			// final float scale = getActivity().getResources().getDisplayMetrics().density;
 			
 			// set placeholder as all thumbnail images in the gallery initially
-			for (int i = 0; i < imageBitmaps.length; i++) {
+			for (int i = 0; i < imageDrawables.length; i++) {
 				Photo photo = list.get(i);
 
 				if (photo != null) {
 					byte[] data = photo.getPhotoBytes();
-					Bitmap bm = BitmapFactory.decodeByteArray(data, 0,
-							data.length);
-					imageBitmaps[i] = Bitmap.createScaledBitmap(
-							bm, (int) (180 * scale + 0.5f),
-							(int) (140 * scale + 0.5f), true);
-					bm.recycle();
+					ByteArrayInputStream is = new ByteArrayInputStream(data);
+					imageDrawables[i] = Drawable.createFromStream(is, "image");
 				}
 			}
-			System.gc();
+			//System.gc();
 		}
 
 		// BaseAdapter methods
 
 		// return number of data items i.e. bitmap images
 		public int getCount() {
-			return imageBitmaps.length;
+			return imageDrawables.length;
 		}
 
-		// return item at specified position
 		public Object getItem(int position) {
 			return position;
 		}
 
-		// return item ID at specified position
 		public long getItemId(int position) {
 			return position;
 		}
@@ -380,32 +320,18 @@ public class PhotoGalleryGUI extends CRComponent {
 		// get view specifies layout and display options for each thumbnail in
 		// the gallery
 		public View getView(int position, View convertView, ViewGroup parent) {
-
-			// create the view
 			ImageView imageView = new ImageView(galleryContext);
-			// specify the bitmap at this position in the array
-			// imageView.setImageBitmap(imageBitmaps[position]);
 			final float scale = getActivity().getResources()
 					.getDisplayMetrics().density;
-			imageView.setImageBitmap(imageBitmaps[position]);
-			//TODO da primeira vez que iniciei eu precisei
-			// comentar a linha acima pq dava pau no array
-			
-			
-			// set layout options
-			imageView.setLayoutParams(new Gallery.LayoutParams(
-					(int) (170 * scale + 0.5f), (int) (140 * scale + 0.5f)));
-
+			imageView.setImageDrawable(imageDrawables[position]);			
+			imageView.setLayoutParams(new Gallery.LayoutParams((int) (170 * scale + 0.5f), (int) (140 * scale + 0.5f)));
 			// imageView.setLayoutParams(new Gallery.LayoutParams(200, 180));
 			// 400, 300 fica gigante no meu!
 			// 300, 200 fica legal ateh mas vou diminuir mais
 			// 200. 180 ficou perfeito
 
-			// scale type within view area
 			imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
-			// set default gallery item background
 			imageView.setBackgroundResource(defaultItemBackground);
-			// return the view
 			return imageView;
 		}
 	}

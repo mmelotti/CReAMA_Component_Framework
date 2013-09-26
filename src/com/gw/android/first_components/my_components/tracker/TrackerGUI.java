@@ -29,7 +29,7 @@ public class TrackerGUI extends CRComponent {
         return inflatedView;
     }
 
-    @Override
+    @Override 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mBundle = savedInstanceState;

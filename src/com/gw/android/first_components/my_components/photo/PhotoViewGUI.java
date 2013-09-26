@@ -1,5 +1,6 @@
 package com.gw.android.first_components.my_components.photo;
 
+import java.io.ByteArrayInputStream;
 import java.util.List;
 
 import android.annotation.SuppressLint;
@@ -7,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import android.util.Log;
@@ -99,12 +101,18 @@ public class PhotoViewGUI extends CRComponent {
 		closeDao();
 		if (photo != null) {
 			byte[] data = photo.getPhotoBytes();
-			Bitmap bm = BitmapFactory.decodeByteArray(data, 0, data.length);
+			
+			ByteArrayInputStream is = new ByteArrayInputStream(data);
+			Drawable draw = Drawable.createFromStream(is, "image");
+			image.setImageDrawable(draw);
+			/*Bitmap bm = BitmapFactory.decodeByteArray(data, 0, data.length);
 			Log.e("width e height", bm.getWidth() + " - " + bm.getHeight());
 			final float scale = getActivity().getResources().getDisplayMetrics().density;
 			Bitmap scaledBm = Bitmap.createScaledBitmap(bm, (int) (400 * scale + 0.5f), (int) (300 * scale + 0.5f), true);	// diminui a imagem 
 			bm.recycle();
-			image.setImageBitmap(scaledBm); 
+			image.setImageBitmap(scaledBm); */
+			
+			
 		} else {
 			Toast.makeText(getActivity(), "Ainda não há fotos para exibir!", 
 					Toast.LENGTH_SHORT).show();
