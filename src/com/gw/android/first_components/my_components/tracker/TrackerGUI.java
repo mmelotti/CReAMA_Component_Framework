@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.model.LatLng;
@@ -16,7 +15,7 @@ public class TrackerGUI extends CRComponent {
 
 	private MapView mMapView;
     private GoogleMap mMap;
-    private Bundle mBundle;
+    private Bundle mBundle;    
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -24,8 +23,8 @@ public class TrackerGUI extends CRComponent {
 
         mMapView = (MapView) inflatedView.findViewById(R.id.map);
         mMapView.onCreate(mBundle);
-        setUpMapIfNeeded(inflatedView);
-
+        mMap = ((MapView) inflatedView.findViewById(R.id.map)).getMap();
+        mMap.addMarker(new MarkerOptions().position(new LatLng(-20.27324080467165, -40.30574798583867)).title("UFES"));
         return inflatedView;
     }
 
@@ -33,15 +32,6 @@ public class TrackerGUI extends CRComponent {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mBundle = savedInstanceState;
-    }
-
-    private void setUpMapIfNeeded(View inflatedView) {
-        if (mMap == null) {
-            mMap = ((MapView) inflatedView.findViewById(R.id.map)).getMap();
-            if (mMap != null) {
-            	mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
-            }
-        }
     }
 
     @Override
