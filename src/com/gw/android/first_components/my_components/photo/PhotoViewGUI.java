@@ -110,7 +110,7 @@ public class PhotoViewGUI extends CRComponent {
 			final float scale = getActivity().getResources().getDisplayMetrics().density;
 			Bitmap scaledBm = Bitmap.createScaledBitmap(bm, (int) (400 * scale + 0.5f), (int) (300 * scale + 0.5f), true);	// diminui a imagem 
 			bm.recycle();
-			image.setImageBitmap(scaledBm); */
+			image.setImageBitmap(scaledBm); */ 
 			
 			
 		} else {
