@@ -295,8 +295,11 @@ public class PhotoGalleryGUI extends CRComponent {
 
 				if (photo != null) {
 					byte[] data = photo.getPhotoBytes();
-					ByteArrayInputStream is = new ByteArrayInputStream(data);
-					imageDrawables[i] = Drawable.createFromStream(is, "image");
+					if(data!=null){
+						ByteArrayInputStream is = new ByteArrayInputStream(data);
+						imageDrawables[i] = Drawable.createFromStream(is, "image");
+					}
+					
 				}
 			}
 			//System.gc();
