@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.gw.android.R;
@@ -28,6 +29,8 @@ import com.gw.android.first_components.my_fragment.ComponentSimpleModel;
 
 public class PhotoSendGUI extends CRComponent {
 	String url; 
+	EditText titulo, descricao, autorDaObra, autorDaImagem,  tags;
+	
 	
 	private String getUrl() {
 		SharedPreferences testPrefs = getActivity()
@@ -80,19 +83,19 @@ enviar aparentemente vazio, assim como os dois primeiros campos
 	
 	String uploadRequest(String photopath) {
 		Request request = new Request(null, url, "post",
-				"__tagMgr.tags--" + "maisonteste, victorteste" +
+				"__tagMgr.tags--" + tags.getText() +
 				"__user.id--" + "" +
 				"__photoRegister.id--" + "" +
-				"__photoRegister.name--" + "maisonteste" +
-				"__photoRegister.imageAuthor--" + "" +
+				"__photoRegister.name--" + titulo.getText() +
+				"__photoRegister.imageAuthor--" + autorDaObra.getText() +
 				"__photoRegister.state--" +
 				"__photoRegister.country--" + "Brasil" +
 				"__photoRegister.dataCriacao--" +
 				"__photoRegister.district--" +
-				"__photoRegister.workAuthor--" +
+				"__photoRegister.workAuthor--" +autorDaImagem.getText() +
 				"__photoRegister.street--" +
 				"__photoRegister.workdate--" +
-				"__photoRegister.description--" +
+				"__photoRegister.description--" + descricao.getText()+
 				"__photoRegister.allowCommercialUses--" + "YES" +
 				"__photoRegister.allowModifications--" + "YES" +
 				"__foto--" + "((IS_FILE_TAG))" + photopath +
@@ -165,6 +168,11 @@ enviar aparentemente vazio, assim como os dois primeiros campos
 		View view = inflater.inflate(R.layout.photo_send, container, false);
 
 		Button save = (Button) view.findViewById(R.id.btnBrowse);
+		titulo = (EditText) view.findViewById(R.id.edit_titulo);
+		descricao = (EditText) view.findViewById(R.id.edit_descricao);
+		autorDaObra = (EditText) view.findViewById(R.id.edit_autorobra);
+		autorDaImagem = (EditText) view.findViewById(R.id.edit_autorimagem);
+		tags = (EditText) view.findViewById(R.id.edit_tags);
 
 		save.setOnClickListener(new OnClickListener() {
 			@Override
