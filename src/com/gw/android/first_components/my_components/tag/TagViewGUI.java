@@ -151,7 +151,7 @@ public class TagViewGUI extends CRComponent {
 				} else {
 					tags.setText(TextUtils.concat(tags.getText(), ", ", s));
 				}
-				Log.i("Parseando tags", " text= " + idServ + tagName);
+				//Log.i("Parseando tags", " text= " + idServ + tagName);
 			}
 
 		} catch (JSONException e) {

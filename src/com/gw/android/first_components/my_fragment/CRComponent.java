@@ -226,5 +226,6 @@ public abstract class CRComponent extends GenericComponent {
 		super.onStart();
 		doBindService();
 	}
+	
 
 }
