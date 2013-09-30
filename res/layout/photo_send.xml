@@ -13,116 +13,103 @@
         android:text="Envie uma foto!"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <LinearLayout
+    <TableLayout
+        android:id="@+id/mainTable"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="3dp" >
+        android:layout_margin="3dip"
+        android:paddingLeft="3dip"
+        android:paddingRight="3dip"
+        android:shrinkColumns="1"
+        android:stretchColumns="*" >
 
-        <TextView
-            android:id="@+id/titulo_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Titulo:"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+        <TableRow>
 
-        <EditText
-            android:id="@+id/edit_titulo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10" >
-        </EditText>
-    </LinearLayout>
+            <TextView
+                android:id="@+id/titulo_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Titulo:"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="3dp" >
+            <EditText
+                android:id="@+id/edit_titulo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:gravity="right" >
+            </EditText>
+        </TableRow>
 
-        <TextView
-            android:id="@+id/descricao_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Descrição: "
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+        <TableRow>
 
-        <EditText
-            android:id="@+id/edit_descricao"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10" >
-        </EditText>
-    </LinearLayout>
+            <TextView
+                android:id="@+id/descricao_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Descrição: "
+                android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="3dp" >
+            <EditText
+                android:id="@+id/edit_descricao"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10" >
+            </EditText>
+        </TableRow>
 
-        <TextView
-            android:id="@+id/autorobra_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Autor da obra: "
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+        <TableRow>
 
-        <EditText
-            android:id="@+id/edit_autorobra"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10" >
-        </EditText>
-    </LinearLayout>
+            <TextView
+                android:id="@+id/autorobra_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Autor da obra: "
+                android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="3dp" >
+            <EditText
+                android:id="@+id/edit_autorobra"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10" >
+            </EditText>
+        </TableRow>
 
-        <TextView
-            android:id="@+id/autorimagem_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Autor da imagem: "
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+        <TableRow>
 
-        <EditText
-            android:id="@+id/edit_autorimagem"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10" >
-        </EditText>
-    </LinearLayout>
+            <TextView
+                android:id="@+id/autorimagem_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Autor da imagem: "
+                android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="3dp" >
+            <EditText
+                android:id="@+id/edit_autorimagem"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10" >
+            </EditText>
+        </TableRow>
 
-        <TextView
-            android:id="@+id/tags_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Tags: "
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+        <TableRow>
 
-        <EditText
-            android:id="@+id/edit_tags"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:ems="10" >
-        </EditText>
-    </LinearLayout>
+            <TextView
+                android:id="@+id/tags_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tags: "
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <EditText
+                android:id="@+id/edit_tags"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:ems="10" >
+            </EditText>
+        </TableRow>
+    </TableLayout>
 
     <LinearLayout
         android:layout_width="fill_parent"
