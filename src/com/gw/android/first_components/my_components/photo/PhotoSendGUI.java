@@ -3,6 +3,7 @@ package com.gw.android.first_components.my_components.photo;
 import java.io.File;
 import java.util.Date;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -22,6 +23,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.gw.android.R;
+import com.gw.android.components.connection_manager.AsyncRequestHandler;
 import com.gw.android.components.request.Request;
 import com.gw.android.first_components.my_components.Constants;
 import com.gw.android.first_components.my_fragment.CRComponent;
@@ -145,6 +147,7 @@ enviar aparentemente vazio, assim como os dois primeiros campos
 				String filepath = cursor.getString(columnindex);
 				cursor.close();
 
+				Toast.makeText(getActivity(), "Enviando foto.", Toast.LENGTH_SHORT).show();
 				saveInDatabase(filepath, ctx);
 				uploadRequest(filepath);
 			}
@@ -164,20 +167,48 @@ enviar aparentemente vazio, assim como os dois primeiros campos
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		url = getUrl() + "/photo/"+ getCollabletId() +"/registra"; 
+		setComponentRequestCallback(new AsyncRequestHandler() {
+			@Override
+			public void onSuccess(String arg1, Request request) {
+				new AlertDialog.Builder(getActivity())
+						.setIcon(android.R.drawable.ic_dialog_alert)
+						.setTitle("Upload de foto bem sucedido")
+						.setMessage("Foto enviada com sucesso.")
+						.setNeutralButton("Ok", null).show();
+			}
+
+			@Override
+			public void onFailure(Throwable arg0, String arg1) {
+				new AlertDialog.Builder(getActivity())
+						.setIcon(android.R.drawable.ic_dialog_alert)
+						.setTitle("Upload de foto falhou")
+						.setMessage("A foto não pode ser enviada.")
+						.setNeutralButton("Ok", null).show();
+			}
+		});
 		
 		View view = inflater.inflate(R.layout.photo_send, container, false);
-
-		Button save = (Button) view.findViewById(R.id.btnBrowse);
 		titulo = (EditText) view.findViewById(R.id.edit_titulo);
 		descricao = (EditText) view.findViewById(R.id.edit_descricao);
 		autorDaObra = (EditText) view.findViewById(R.id.edit_autorobra);
 		autorDaImagem = (EditText) view.findViewById(R.id.edit_autorimagem);
 		tags = (EditText) view.findViewById(R.id.edit_tags);
 
-		save.setOnClickListener(new OnClickListener() {
+		view.findViewById(R.id.btnBrowse).setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				chooseFile();
+			}
+		});
+		
+		view.findViewById(R.id.btnclear).setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				titulo.setText("");
+				descricao.setText("");
+				autorDaObra.setText("");
+				autorDaImagem.setText("");
+				tags.setText("");
 			}
 		});
 

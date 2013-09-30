@@ -22,8 +22,6 @@ public class DoLoginGUI extends CRComponent {
 	EditText editLogin, editPassword; 
 	Button btnSubmit; 
 	
-	
-	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
