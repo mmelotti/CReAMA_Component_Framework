@@ -8,9 +8,14 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMap.OnCameraChangeListener;
 import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.gw.android.R;
@@ -42,15 +47,24 @@ public class TrackerGUI extends CRComponent {
 			mMap.addMarker(new MarkerOptions()
 	        .position(new LatLng(c.getLatitude(), c.getLongitude()))
 	        .title("Teste")
-	        .snippet("Marker teste!")
+	        .snippet("Marker teste!").icon(BitmapDescriptorFactory.fromResource(R.drawable.picture))
 	        );
 		}
+	}
+	
+	public OnCameraChangeListener getCameraChangeListener() {
+		return new OnCameraChangeListener() {
+			@Override
+			public void onCameraChange(CameraPosition position) {
+				
+			}
+		};
 	}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View inflatedView = inflater.inflate(R.layout.tracker_layout, container, false);       
-
+        
         mMapView = (MapView) inflatedView.findViewById(R.id.map);
         mMapView.onCreate(mBundle);
         mMap = ((MapView) inflatedView.findViewById(R.id.map)).getMap();
@@ -62,6 +76,13 @@ public class TrackerGUI extends CRComponent {
         coordDao.insert(c);
         c = new Coordinates(null, null, null, -20.2, -40.1, null, null, null);
         coordDao.insert(c);
+        
+		try {
+			MapsInitializer.initialize(getActivity());
+		} catch (GooglePlayServicesNotAvailableException e) {
+			e.printStackTrace();
+		}
+        
         populateMap();
         coordDao.getDatabase().close();
         
