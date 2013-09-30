@@ -5,6 +5,7 @@ import java.util.List;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +29,8 @@ import com.gw.android.first_components.my_fragment.CRComponent;
 
 public class TrackerGUI extends CRComponent {
 
+	List<Coordinates> l;
+	float lastZoom;
 	private MapView mMapView;
     private GoogleMap mMap;
     private Bundle mBundle;  
@@ -41,13 +44,22 @@ public class TrackerGUI extends CRComponent {
 		return daoSession.getCoordinatesDao();
 	}
 	
-	private void populateMap() {
-		List<Coordinates> l = coordDao.loadAll();
+	private void populateMap(float zoom) {
+		mMap.clear();
+		int iconResource;
+		
+		if (zoom <= 6)
+			iconResource = R.drawable.picture_small;
+		else if(zoom <= 12)
+			iconResource = R.drawable.picture_medium;
+		else
+			iconResource = R.drawable.picture_large;
+		
 		for (Coordinates c : l) {
 			mMap.addMarker(new MarkerOptions()
 	        .position(new LatLng(c.getLatitude(), c.getLongitude()))
 	        .title("Teste")
-	        .snippet("Marker teste!").icon(BitmapDescriptorFactory.fromResource(R.drawable.picture))
+	        .snippet("Marker teste!").icon(BitmapDescriptorFactory.fromResource(iconResource))
 	        );
 		}
 	}
@@ -56,7 +68,12 @@ public class TrackerGUI extends CRComponent {
 		return new OnCameraChangeListener() {
 			@Override
 			public void onCameraChange(CameraPosition position) {
-				
+				Log.e("ZOOM", "LEVEL: "+position.zoom);
+				if (lastZoom <= 6 && position.zoom > 6 || 
+						lastZoom <= 12 && lastZoom > 6 && !(position.zoom <= 12 && position.zoom > 6) ||
+						lastZoom > 12 && position.zoom < 12)
+					populateMap(position.zoom);
+				lastZoom = position.zoom;
 			}
 		};
 	}
@@ -69,6 +86,7 @@ public class TrackerGUI extends CRComponent {
         mMapView.onCreate(mBundle);
         mMap = ((MapView) inflatedView.findViewById(R.id.map)).getMap();
         mMap.addMarker(new MarkerOptions().position(new LatLng(-20.27324080467165, -40.30574798583867)).title("UFES"));
+        mMap.setOnCameraChangeListener(getCameraChangeListener());
         
         coordDao = initCoordinatesDao(getActivity());
         coordDao.deleteAll();
@@ -82,8 +100,10 @@ public class TrackerGUI extends CRComponent {
 		} catch (GooglePlayServicesNotAvailableException e) {
 			e.printStackTrace();
 		}
+		l = coordDao.loadAll();
+		lastZoom = 1l;
+        populateMap(1l);
         
-        populateMap();
         coordDao.getDatabase().close();
         
         return inflatedView;
