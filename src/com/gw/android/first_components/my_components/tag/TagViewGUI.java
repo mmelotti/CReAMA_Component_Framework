@@ -78,11 +78,11 @@ public class TagViewGUI extends CRComponent {
 
 		// busca tags para component pela primeira vez
 		// stringList = tag.getTag();
-		stringList = "nadaAinda";
+		stringList = "carregando...";
 
 		// sublinhado
 
-		tags.setText(underlinedText(stringList));
+		tags.setText((stringList));
 		// tags.setTe
 
 		// set listener para mudar de tela, tag by tag
@@ -151,7 +151,7 @@ public class TagViewGUI extends CRComponent {
 				} else {
 					tags.setText(TextUtils.concat(tags.getText(), ", ", s));
 				}
-				//Log.i("Parseando tags", " text= " + idServ + tagName);
+				// Log.i("Parseando tags", " text= " + idServ + tagName);
 			}
 
 		} catch (JSONException e) {
