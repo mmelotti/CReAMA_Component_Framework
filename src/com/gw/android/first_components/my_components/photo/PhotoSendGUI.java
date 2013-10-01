@@ -31,7 +31,7 @@ import com.gw.android.first_components.my_fragment.ComponentSimpleModel;
 
 public class PhotoSendGUI extends CRComponent {
 	String url; 
-	EditText titulo, descricao, autorDaObra, autorDaImagem,  tags;
+	EditText titulo, descricao, autorDaObra, autorDaImagem,  tags, estado, cidade, bairro,logradouro;
 	
 	
 	private String getUrl() {
@@ -90,12 +90,12 @@ enviar aparentemente vazio, assim como os dois primeiros campos
 				"__photoRegister.id--" + "" +
 				"__photoRegister.name--" + titulo.getText() +
 				"__photoRegister.imageAuthor--" + autorDaObra.getText() +
-				"__photoRegister.state--" +
+				"__photoRegister.state--" + estado.getText()+
 				"__photoRegister.country--" + "Brasil" +
 				"__photoRegister.dataCriacao--" +
-				"__photoRegister.district--" +
+				"__photoRegister.district--" + cidade.getText()+
 				"__photoRegister.workAuthor--" +autorDaImagem.getText() +
-				"__photoRegister.street--" +
+				"__photoRegister.street--" + logradouro.getText()+", "+bairro.getText()+
 				"__photoRegister.workdate--" +
 				"__photoRegister.description--" + descricao.getText()+
 				"__photoRegister.allowCommercialUses--" + "YES" +
@@ -192,6 +192,10 @@ enviar aparentemente vazio, assim como os dois primeiros campos
 		descricao = (EditText) view.findViewById(R.id.edit_descricao);
 		autorDaObra = (EditText) view.findViewById(R.id.edit_autorobra);
 		autorDaImagem = (EditText) view.findViewById(R.id.edit_autorimagem);
+		estado = (EditText) view.findViewById(R.id.edit_estado);
+		cidade = (EditText) view.findViewById(R.id.edit_cidade);
+		bairro = (EditText) view.findViewById(R.id.edit_bairro);
+		logradouro = (EditText) view.findViewById(R.id.edit_logradouro);
 		tags = (EditText) view.findViewById(R.id.edit_tags);
 
 		view.findViewById(R.id.btnBrowse).setOnClickListener(new OnClickListener() {
@@ -205,6 +209,10 @@ enviar aparentemente vazio, assim como os dois primeiros campos
 			@Override
 			public void onClick(View v) {
 				titulo.setText("");
+				estado.setText("");
+				cidade.setText("");
+				logradouro.setText("");
+				bairro.setText("");
 				descricao.setText("");
 				autorDaObra.setText("");
 				autorDaImagem.setText("");

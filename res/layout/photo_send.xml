@@ -44,6 +44,74 @@
         <TableRow>
 
             <TextView
+                android:id="@+id/estado_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Estado: "
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <EditText
+                android:id="@+id/edit_estado"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10" >
+            </EditText>
+        </TableRow>
+        
+        <TableRow>
+
+            <TextView
+                android:id="@+id/cidade_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cidade: "
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <EditText
+                android:id="@+id/edit_cidade"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10" >
+            </EditText>
+        </TableRow>
+        
+        <TableRow>
+
+            <TextView
+                android:id="@+id/bairro_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Bairro: "
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <EditText
+                android:id="@+id/edit_bairro"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10" >
+            </EditText>
+        </TableRow>
+        
+        <TableRow>
+
+            <TextView
+                android:id="@+id/logradouro_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Logradouro: "
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <EditText
+                android:id="@+id/edit_logradouro"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10" >
+            </EditText>
+        </TableRow>
+        
+        <TableRow>
+
+            <TextView
                 android:id="@+id/descricao_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
