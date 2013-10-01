@@ -46,8 +46,7 @@ public class PhotoGalleryGUI extends CRComponent {
 	String ip = "200.137.66.94";
 	String url = "http://" + ip
 			+ ":8080/GW-Application-Arquigrafia/groupware-workbench";
-	private String jsonTestUrl = ""
-			+ "http://valinhos.ime.usp.br:51080/photos/7/amount/2";
+	private String jsonTestUrl = "/photos/7/amount/2";
 	private String urlPhotoArquigrafia = "http://www.arquigrafia.org.br/photo/";
 	private String urlEndArquigrafia = "?_format=json";
 
@@ -248,7 +247,7 @@ public class PhotoGalleryGUI extends CRComponent {
 	}
 
 	private void getPhotosIdRequest() {
-		createSimpleRequest(jsonTestUrl, "get");
+		createSimpleRequest(getBaseUrl()+jsonTestUrl, "get");
 	}
 
 	private void getOnePhotoRequest(String id) {
