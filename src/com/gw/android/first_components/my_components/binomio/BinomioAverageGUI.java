@@ -82,7 +82,7 @@ public class BinomioAverageGUI extends CRComponent {
 
 			}
 			@Override
-			public void onFailure(Throwable t, String response) {
+			public void onFailure(Throwable t, String response,Request r) {
 				
 				preencherBinomios();
 

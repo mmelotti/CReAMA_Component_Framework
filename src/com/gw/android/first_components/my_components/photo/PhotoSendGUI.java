@@ -178,7 +178,7 @@ enviar aparentemente vazio, assim como os dois primeiros campos
 			}
 
 			@Override
-			public void onFailure(Throwable arg0, String arg1) {
+			public void onFailure(Throwable arg0, String arg1,Request r) {
 				new AlertDialog.Builder(getActivity())
 						.setIcon(android.R.drawable.ic_dialog_alert)
 						.setTitle("Upload de foto falhou")

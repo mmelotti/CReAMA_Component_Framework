@@ -13,6 +13,7 @@ import com.gw.android.components.request.Request;
 import com.gw.android.first_components.database.DaoMaster;
 import com.gw.android.first_components.database.DaoSession;
 import com.gw.android.first_components.database.DaoMaster.DevOpenHelper;
+import com.gw.android.first_components.my_components.photo.Photo;
 import com.gw.android.first_components.my_components.tag.TagDao.Properties;
 import com.gw.android.first_components.my_fragment.CRComponent;
 import com.gw.android.first_components.my_fragment.ComponentSimpleModel;
@@ -119,7 +120,21 @@ public class TagViewGUI extends CRComponent {
 
 	@Override
 	protected void onBind() {
-		getTagsRequest();
+		// como as tags das fotos sao imutaveis, uma vez que baixar
+		// nao sera necessario baixa-las de novo
+
+		initTagDao();
+		List<Tag> found = tagDao.queryBuilder()
+				.where(Properties.TargetId.eq((idTarget))).list();
+		closeDao();
+		if (found.isEmpty()) {
+			Log.i("ONBIND ", " empty!");
+			getTagsRequest();
+		} else {
+			writeTagsFromDB(found);
+			Log.i("ONBIND ", " NOT empty!");
+		}
+
 		Log.i("ONBIND ", " after");
 	}
 
@@ -130,6 +145,10 @@ public class TagViewGUI extends CRComponent {
 	}
 
 	public void parseTagsJSON(String r) {
+		initTagDao();
+		List<Tag> found = tagDao.queryBuilder()
+				.where(Properties.TargetId.eq((idTarget))).list();
+		closeDao();
 
 		try {
 			JSONObject tagsObject;
@@ -143,6 +162,14 @@ public class TagViewGUI extends CRComponent {
 				JSONObject oneTag = arrayResults.getJSONObject(j);
 				String tagName = oneTag.get("name").toString();
 				Long idServ = Long.parseLong(oneTag.get("id").toString());
+
+				if (found.isEmpty()) {// if has not some tag, write on database
+					Long newI = ComponentSimpleModel.getUniqueId(getActivity());
+					Tag newTag = new Tag(newI, idTarget, idServ, tagName);
+					initTagDao();
+					tagDao.insert(newTag);
+					closeDao();
+				}
 
 				SpannableString s = underlinedText(tagName);
 
@@ -159,6 +186,22 @@ public class TagViewGUI extends CRComponent {
 			e.printStackTrace();
 		}
 
+	}
+
+	public void writeTagsFromDB(List<Tag> tagsList) {
+		int j = 0;
+
+		for (Tag t : tagsList) {
+			SpannableString s = underlinedText(t.getTag());
+
+			if (j == 0) {
+				tags.setText(underlinedText(t.getTag()));
+			} else {
+				tags.setText(TextUtils.concat(tags.getText(), ", ", s));
+			}
+
+			j++;
+		}
 	}
 
 	public void getTagsRequest() {
@@ -181,6 +224,15 @@ public class TagViewGUI extends CRComponent {
 		initTagDao();
 		List<Tag> lista = tagDao.queryBuilder()
 				.where(Properties.TargetId.eq(id)).build().list();
+		closeDao();
+
+		return lista;
+	}
+
+	public List<Tag> getAllFromServerId(Long id) {
+		initTagDao();
+		List<Tag> lista = tagDao.queryBuilder()
+				.where(Properties.ServerId.eq(id)).build().list();
 		closeDao();
 
 		return lista;
