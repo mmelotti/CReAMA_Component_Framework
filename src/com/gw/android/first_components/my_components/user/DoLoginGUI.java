@@ -27,11 +27,11 @@ public class DoLoginGUI extends CRComponent {
 			Bundle savedInstanceState) {
 		Dialog d = getDialog();
 		if (d != null)	// componente está sendo mostrado como dialog
-			d.setTitle("FAQ Login");
+			d.setTitle("Login");
 
 		urlLogin = getBaseUrl() + "/users/"+ getCollabletId() +"/login"; 
 		
-		View view = inflater.inflate(R.layout.faq_login, container, false);
+		View view = inflater.inflate(R.layout.do_login, container, false);
 		btnSubmit = (Button) view.findViewById(R.id.btnSubmit);
 		editLogin = (EditText) view.findViewById(R.id.editLogin);
 		editPassword = (EditText) view.findViewById(R.id.editPassword);
