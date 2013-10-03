@@ -30,6 +30,7 @@ import com.gw.android.first_components.database.DaoMaster;
 import com.gw.android.first_components.database.DaoSession;
 import com.gw.android.first_components.database.DaoMaster.DevOpenHelper;
 import com.gw.android.first_components.my_components.comment.CommentDao.Properties;
+import com.gw.android.first_components.my_components.tag.Tag;
 import com.gw.android.first_components.my_fragment.CRActivity;
 import com.gw.android.first_components.my_fragment.CRComponent;
 import com.gw.android.first_components.my_fragment.ComponentSimpleModel;
@@ -106,15 +107,29 @@ public class CommentViewGUI extends CRComponent {
 			@Override
 			public void onSuccess(String response, Request request) {
 				parseCommentsJSON(response);
+				// OK, parsing one by one
 
 				Log.i("Onsucces e Parser coments ", " id=");
 
+			}
+
+			public void onFailure(Throwable arg0, String arg1, Request request) {
+				initCommentDao();
+				lista = commentDao.queryBuilder()
+						.where(Properties.TargetId.eq((idTarget))).list();
+				closeDao();
+				// not ok, getting comments from DataBase
+				if (!lista.isEmpty()) {
+					refreshFromDB();
+				}
+
+				Log.i("FALHA COMMENTS ", " id=");
 			}
 		};
 		setComponentRequestCallback(mHandler);
 
 		if (!teste) {
-			//view = refreshComment();
+			// view = refreshComment();
 		}
 
 		return view;
@@ -126,11 +141,11 @@ public class CommentViewGUI extends CRComponent {
 		return testPrefs.getString("base_url", "");
 	}
 
-	private View refreshComment(Comment c){
-		View view = LayoutInflaterFromCreate.inflate(R.layout.comment_view, containerFromCreate, false);
+	private View refreshComment(Comment c) {
+		View view = LayoutInflaterFromCreate.inflate(R.layout.comment_view,
+				containerFromCreate, false);
 		view.findViewById(R.id.button_apaga).setTag("" + c.getId());
-		((TextView) view.findViewById(R.id.body)).setText(""
-				+ c.getText());
+		((TextView) view.findViewById(R.id.body)).setText("" + c.getText());
 		DateFormat df = DateFormat.getDateTimeInstance(DateFormat.SHORT,
 				DateFormat.SHORT);
 		((TextView) view.findViewById(R.id.date)).setText("Enviado em "
@@ -143,7 +158,7 @@ public class CommentViewGUI extends CRComponent {
 						Comment c = findCommentById(id);
 						if (c != null) {
 							initCommentDao();
-							//deleteOne(c);
+							// deleteOne(c);
 							closeDao();
 							reloadActivity();
 						}
@@ -152,9 +167,10 @@ public class CommentViewGUI extends CRComponent {
 
 		return view;
 	}
-	
+
 	private View refreshComment() {
-		View view = LayoutInflaterFromCreate.inflate(R.layout.comment_view, null);
+		View view = LayoutInflaterFromCreate.inflate(R.layout.comment_view,
+				null);
 		view.findViewById(R.id.button_apaga).setTag("" + comment.getId());
 		((TextView) view.findViewById(R.id.body)).setText(""
 				+ comment.getText());
@@ -194,9 +210,29 @@ public class CommentViewGUI extends CRComponent {
 		makeRequest(request);
 	}
 
+	public void refreshFromDB() {
+		for (Comment comment : lista) {
+			View view = refreshComment(comment);
+			containerFromCreate.addView(view);
+		}
+
+	}
+
+	public void deleteFromTarget() {
+		initCommentDao();
+		lista = commentDao.queryBuilder()
+				.where(Properties.TargetId.eq((idTarget))).list();
+		for(Comment c:lista){
+			deleteOne(c);
+		}
+		closeDao();
+	}
+
 	public void parseCommentsJSON(String r) {
-		Log.i("Parseando commentarios", " inicio");
-		JSONObject object;
+
+		// got the right comments, we can remove the older ones
+		deleteFromTarget();
+
 		try {
 			JSONObject commentsObject;
 			commentsObject = new JSONObject(r);
@@ -217,7 +253,15 @@ public class CommentViewGUI extends CRComponent {
 				lista.add(comment);
 				Log.i("Parseando comentario", " text= " + text + idServ
 						+ userName);
-				
+
+				// updating comments, adding on DB
+				Long newI = ComponentSimpleModel.getUniqueId(getActivity());
+				Comment newComment = new Comment(newI, idTarget, idServ, text,
+						new Date());
+				initCommentDao();
+				commentDao.insert(newComment);
+				closeDao();
+
 				View view = refreshComment(comment);
 				containerFromCreate.addView(view);
 			}

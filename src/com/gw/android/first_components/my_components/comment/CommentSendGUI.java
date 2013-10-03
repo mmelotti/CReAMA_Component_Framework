@@ -52,10 +52,8 @@ public class CommentSendGUI extends CRComponent {
 	 * 
 	 * 
 	 * 
-	 * http://www.arquigrafia.org.br/photo/1821 post 
-	 * commentMgr.entity 1821
-	 * commentMgr.userId 1 
-	 * commentMgr.text teste
+	 * http://www.arquigrafia.org.br/photo/1821 post commentMgr.entity 1821
+	 * commentMgr.userId 1 commentMgr.text teste
 	 */
 
 	public CommentSendGUI(Long idTarget) {
@@ -98,7 +96,7 @@ public class CommentSendGUI extends CRComponent {
 			}
 		});
 
-		if (idTarget == -1L && teste==false) {
+		if (idTarget == -1L && teste == false) {
 			idTarget = getComponentTarget().getCurrentInstanceId();
 		}
 
@@ -109,18 +107,14 @@ public class CommentSendGUI extends CRComponent {
 				reloadActivity();
 			}
 		});
-		
+
 		initializeCallback();
 		return view;
 	}
 
-	
-	
-	
-	
 	public void submitComent() {
 		// fecha teclado
-		
+
 		InputMethodManager imm = (InputMethodManager) getActivity()
 				.getSystemService(Context.INPUT_METHOD_SERVICE);
 		imm.hideSoftInputFromWindow(edit.getWindowToken(), 0);
@@ -129,53 +123,46 @@ public class CommentSendGUI extends CRComponent {
 		comentario.setDate(new Date());
 		comentario.setId(newId);
 		comentario.setText(edit.getText().toString());
-		
+		comentario.setTargetId(idTarget);
 		edit.setText("");
-		
+		//send data to server
+		sendToServer(comentario);
 
-		if (conectado) {
-			sendToServer(comentario);
-		}
-		if(teste==false){
-			comentario.setTargetId(idTarget);
+		//save the comment on database for offline access	
+		initCommentDao();
+		commentDao.insert(comentario);
+		closeDao();
+		((CRActivity) getActivity()).inserirAlgo(newId, this);
 
-			
-			initCommentDao();
-			commentDao.insert(comentario);
-			closeDao();
-			((CRActivity) getActivity()).inserirAlgo(newId, this);
-		}
-		
 		// getControlActivity().inserirAlgo(newId, this);
 	}
 
-	
 	private void initializeCallback() {
 		// Seta callback para quando terminar a requisição de envio
 		AsyncRequestHandler mHandler = new AsyncRequestHandler(true) {
 			@Override
 			public void onSuccess(String response, Request r) {
-				 Log.i("acabou request", "aquiii");
-				//reloadActivity();
+				Log.i("acabou request", "aquiii");
+				// reloadActivity();
 			}
 		};
 		setComponentRequestCallback(mHandler);
 	}
-	
+
 	private String getUrl() {
-		SharedPreferences testPrefs = getActivity()
-				.getApplication()
+		SharedPreferences testPrefs = getActivity().getApplication()
 				.getSharedPreferences("test_prefs", Context.MODE_PRIVATE);
 		return testPrefs.getString("base_url", "");
 	}
-	
+
 	private void sendToServer(Comment coment) {
-		Request request = new Request(null, getUrl()+"/photo/"+idTarget, "post",
-				"commentMgr.entity--" + "1821" + "__commentMgr.userId--" + "1"
-						+ "__commentMgr.text--" + coment.getText());
-		
-		makeRequest(request);		
-		
+		Request request = new Request(null, getUrl() + "/photo/" + idTarget,
+				"post", "commentMgr.entity--" + "1821"
+						+ "__commentMgr.userId--" + "1" + "__commentMgr.text--"
+						+ coment.getText());
+
+		makeRequest(request);
+
 	}
 
 	public void initCommentDao() {
