@@ -18,13 +18,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.gw.android.R;
 import com.gw.android.components.connection_manager.AsyncRequestHandler;
 import com.gw.android.components.request.Request;
+import com.gw.android.components.sensor_service.SensorManagerService;
+import com.gw.android.components.sensor_service.SensorServiceListener;
 import com.gw.android.first_components.my_components.Constants;
 import com.gw.android.first_components.my_fragment.CRComponent;
 import com.gw.android.first_components.my_fragment.ComponentSimpleModel;
@@ -32,7 +33,10 @@ import com.gw.android.first_components.my_fragment.ComponentSimpleModel;
 public class PhotoSendGUI extends CRComponent {
 	String url; 
 	EditText titulo, descricao, autorDaObra, autorDaImagem,  tags, estado, cidade, bairro,logradouro;
-	
+	private SensorServiceListener sensorListener;
+	Intent startIntent;
+	Context mCtx;
+	double[] coord;
 	
 	private String getUrl() {
 		SharedPreferences testPrefs = getActivity()
@@ -148,6 +152,10 @@ enviar aparentemente vazio, assim como os dois primeiros campos
 				cursor.close();
 
 				Toast.makeText(getActivity(), "Enviando foto.", Toast.LENGTH_SHORT).show();
+				
+				// pode vir coordenada antiga
+				coord = sensorListener.getSensorValues(SensorManagerService.TYPE_GPS);
+				
 				saveInDatabase(filepath, ctx);
 				uploadRequest(filepath);
 			}
@@ -219,7 +227,27 @@ enviar aparentemente vazio, assim como os dois primeiros campos
 				tags.setText("");
 			}
 		});
-
+		
+		mCtx = getActivity().getApplicationContext();
+		sensorListener = new SensorServiceListener(getActivity().getApplicationContext());
+		startIntent = new Intent(mCtx, SensorManagerService.class);
+		mCtx.startService(startIntent);
+		
 		return view;
 	}
+	
+	@Override
+	public void onPause() {
+		super.onPause();
+		sensorListener.stopListening();
+		sensorListener.stopSamplingSensor(SensorManagerService.TYPE_GPS);
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		sensorListener.startListening();
+		sensorListener.startSamplingSensor(SensorManagerService.TYPE_GPS);
+	}
+
 }
