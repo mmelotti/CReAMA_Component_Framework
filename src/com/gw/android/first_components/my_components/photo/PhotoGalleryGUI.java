@@ -23,6 +23,8 @@ import android.widget.BaseAdapter;
 import android.widget.Gallery;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 
 import com.gw.android.R;
 import com.gw.android.components.connection_manager.AsyncRequestHandler;
@@ -225,6 +227,9 @@ public class PhotoGalleryGUI extends CRComponent {
 	protected void onBind() {
 		if (getOnlyLocal == false) {
 			getPhotosIdRequest();
+			Toast.makeText(getActivity(),
+					"Iniciando download das imagens...", Toast.LENGTH_SHORT)
+					.show();
 			Log.i("ON Bbind", " FEZ REQUEST"); 
 		}
 

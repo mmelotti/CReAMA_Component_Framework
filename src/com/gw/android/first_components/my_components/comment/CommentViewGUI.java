@@ -113,6 +113,7 @@ public class CommentViewGUI extends CRComponent {
 
 			}
 
+			@Override
 			public void onFailure(Throwable arg0, String arg1, Request request) {
 				initCommentDao();
 				lista = commentDao.queryBuilder()
