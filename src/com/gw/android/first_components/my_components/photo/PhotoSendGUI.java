@@ -19,9 +19,10 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.Toast;
 
+import com.github.johnpersano.supertoasts.SuperToast;
 import com.gw.android.R;
+import com.gw.android.Utils.SuperToastUtils;
 import com.gw.android.components.connection_manager.AsyncRequestHandler;
 import com.gw.android.components.request.Request;
 import com.gw.android.components.sensor_service.SensorManagerService;
@@ -124,7 +125,8 @@ enviar aparentemente vazio, assim como os dois primeiros campos
 		long id = photoDao.insert(photo);
 		photoDao.getDatabase().close();
 
-		Toast.makeText(ctx, "Foto salva!", Toast.LENGTH_SHORT).show();
+		// Toast.makeText(ctx, "Foto salva!", Toast.LENGTH_SHORT).show();
+		SuperToastUtils.showSuperToast(getActivity(), "Foto salva!");
 		Log.v("Inseriu a foto no banco de dados!", "ID: " + id);
 	}
 
@@ -151,7 +153,8 @@ enviar aparentemente vazio, assim como os dois primeiros campos
 				String filepath = cursor.getString(columnindex);
 				cursor.close();
 
-				Toast.makeText(getActivity(), "Enviando foto.", Toast.LENGTH_SHORT).show();
+				//Toast.makeText(getActivity(), "Enviando foto.", Toast.LENGTH_SHORT).show();
+				SuperToastUtils.showSuperToast(getActivity(), SuperToast.BACKGROUND_GREENTRANSLUCENT, "Enviando foto.");
 				
 				// pode vir coordenada antiga
 				coord = sensorListener.getSensorValues(SensorManagerService.TYPE_GPS);

@@ -3,16 +3,16 @@ package com.gw.android.first_components.my_components.photo;
 import java.io.ByteArrayInputStream;
 import java.util.List;
 
+import uk.co.senab.photoview.PhotoViewAttacher;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
-import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
@@ -25,13 +25,14 @@ import com.gw.android.first_components.my_components.photo.PhotoDao.Properties;
 import com.gw.android.first_components.my_fragment.CRComponent;
 
 @SuppressLint("ValidFragment")
-public class PhotoViewGUI extends CRComponent {
+public class PhotoViewGUI extends CRComponent { 
 
 	private ImageView image;
 	private Button proxima, anterior;
 	private Photo photo;
 	private PhotoDao photoDao;
 	private boolean showNavigation = false;
+	PhotoViewAttacher mAttacher;
 
 	public PhotoViewGUI(Long imageId) {
 		setCurrent(imageId);
@@ -84,15 +85,15 @@ public class PhotoViewGUI extends CRComponent {
 		http://arquigrafia.org.br/photo/img-show/2230.jpeg
 		 */
 		
-		if (!showNavigation)
+		if (!showNavigation) 
 			hidePreviousNext();
 		
-		image.setOnClickListener(new OnClickListener() {
+		/*image.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				//zoomPhoto();
 			}
-		});
+		});*/
 
 		photo = (Photo) photoDao.queryBuilder()
 				.where(Properties.Id.eq(getCurrentInstanceId())).build()
@@ -103,8 +104,10 @@ public class PhotoViewGUI extends CRComponent {
 			byte[] data = photo.getPhotoBytes();
 			
 			ByteArrayInputStream is = new ByteArrayInputStream(data);
-			Drawable draw = Drawable.createFromStream(is, "image");
+			Drawable draw = Drawable.createFromStream(is, "image"); 
 			image.setImageDrawable(draw);
+			mAttacher = new PhotoViewAttacher(image); 
+			
 			/*Bitmap bm = BitmapFactory.decodeByteArray(data, 0, data.length);
 			Log.e("width e height", bm.getWidth() + " - " + bm.getHeight());
 			final float scale = getActivity().getResources().getDisplayMetrics().density;

@@ -23,10 +23,10 @@ import android.widget.BaseAdapter;
 import android.widget.Gallery;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-
+import com.github.johnpersano.supertoasts.SuperToast;
 import com.gw.android.R;
+import com.gw.android.Utils.SuperToastUtils;
 import com.gw.android.components.connection_manager.AsyncRequestHandler;
 import com.gw.android.components.request.Request;
 import com.gw.android.first_components.my_components.photo.PhotoDao.Properties;
@@ -227,9 +227,8 @@ public class PhotoGalleryGUI extends CRComponent {
 	protected void onBind() {
 		if (getOnlyLocal == false) {
 			getPhotosIdRequest();
-			Toast.makeText(getActivity(),
-					"Iniciando download das imagens...", Toast.LENGTH_SHORT)
-					.show();
+			SuperToastUtils.showSuperToast(getActivity(), SuperToast.BACKGROUND_GREENTRANSLUCENT, "Iniciando download das imagens...");
+			// Toast.makeText(getActivity(), "Iniciando download das imagens...", Toast.LENGTH_SHORT).show();
 			Log.i("ON Bbind", " FEZ REQUEST"); 
 		}
 
@@ -287,10 +286,11 @@ public class PhotoGalleryGUI extends CRComponent {
 
 		void updateAdapter() {
 			photoDao = PhotoUtils.initPhotoDao(getActivity());
-			list = photoDao.queryBuilder().orderDesc(Properties.Id).list();
+			list = photoDao.queryBuilder().orderDesc(Properties.Id).limit(6).list();
 			photoDao.getDatabase().close();
-			
-			imageDrawables = new Drawable[list.size() < 6 ? list.size() : 6];
+
+			//imageDrawables = new Drawable[list.size() < 6 ? list.size() : 6];
+			imageDrawables = new Drawable[list.size()];
 			// final float scale = getActivity().getResources().getDisplayMetrics().density;
 			
 			// set placeholder as all thumbnail images in the gallery initially

@@ -1,6 +1,8 @@
 package com.gw.android.first_components.my_components.user;
 
+import com.github.johnpersano.supertoasts.SuperToast;
 import com.gw.android.R;
+import com.gw.android.Utils.SuperToastUtils;
 import com.gw.android.components.request.Request;
 import com.gw.android.first_components.my_fragment.CRComponent;
 
@@ -14,7 +16,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class DoLoginGUI extends CRComponent {
 	TextView resultTxt;
@@ -46,8 +47,8 @@ public class DoLoginGUI extends CRComponent {
 			public void onClick(View v) {
 				String login = editLogin.getText().toString();
 				String password = editPassword.getText().toString();
-				Toast.makeText(getActivity(), "Efetuando login...",
-						Toast.LENGTH_SHORT).show();
+				SuperToastUtils.showSuperToast(getActivity(), SuperToast.BACKGROUND_GREENTRANSLUCENT, "Efetuando login...");
+				// Toast.makeText(getActivity(), "Efetuando login...", Toast.LENGTH_SHORT).show();
 				loginRequest(login, password);
 			}
 		});
