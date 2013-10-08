@@ -167,7 +167,6 @@ public class PhotoGalleryGUI extends CRComponent {
 	}
 
 	void saveImageAfterDownload(String serverId, byte[] b) {
-
 		photoDao = PhotoUtils.initPhotoDao(getActivity());
 		List<Photo> found = photoDao.queryBuilder()
 				.where(Properties.ServerId.eq(Long.parseLong(serverId))).list();

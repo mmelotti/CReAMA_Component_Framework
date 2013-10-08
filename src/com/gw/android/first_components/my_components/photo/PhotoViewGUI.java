@@ -1,6 +1,5 @@
 package com.gw.android.first_components.my_components.photo;
 
-import java.io.ByteArrayInputStream;
 import java.util.List;
 
 import uk.co.senab.photoview.PhotoViewAttacher;
@@ -8,28 +7,24 @@ import uk.co.senab.photoview.PhotoViewAttacher;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
+import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.Toast;
-
 import com.gw.android.R;
 import com.gw.android.first_components.my_components.photo.PhotoDao.Properties;
 import com.gw.android.first_components.my_fragment.CRComponent;
+import com.loopj.android.image.SmartImageView;
 
 @SuppressLint("ValidFragment")
-public class PhotoViewGUI extends CRComponent { 
+public class PhotoViewGUI extends CRComponent {
 
-	private ImageView image;
+	private SmartImageView image;
 	private Button proxima, anterior;
-	private Photo photo;
 	private PhotoDao photoDao;
 	private boolean showNavigation = false;
 	PhotoViewAttacher mAttacher;
@@ -46,12 +41,6 @@ public class PhotoViewGUI extends CRComponent {
 
 	public void preDefined() {
 		setGeneralGUIId(3);
-	}
-
-	public void zoomPhoto() {
-		Intent i = new Intent(getActivity(), ImageZoomActivity.class);
-		i.putExtra("image", photo.getPhotoBytes());
-		startActivity(i);
 	}
 
 	public static Long searchFirstPhoto(PhotoDao dao, Context ctx) {
@@ -73,59 +62,42 @@ public class PhotoViewGUI extends CRComponent {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-
-		photoDao = PhotoUtils.initPhotoDao(getActivity());
 		View view = inflater.inflate(R.layout.imageone, container, false);
 		anterior = (Button) view.findViewById(R.id.imagem_anterior);
 		proxima = (Button) view.findViewById(R.id.imagem_proxima);
-		image = (ImageView) view.findViewById(R.id.imageView1);
-		
-		/* 	
-		http://arquigrafia.org.br/photo/img-crop/2230?_log=no
-		http://arquigrafia.org.br/photo/img-show/2230.jpeg
+		image = (SmartImageView) view.findViewById(R.id.imageView1);
+
+		/*
+		 * http://arquigrafia.org.br/photo/img-crop/2230?_log=no
+		 * http://arquigrafia.org.br/photo/img-show/2230.jpeg
 		 */
-		
-		if (!showNavigation) 
+
+		if (!showNavigation)
 			hidePreviousNext();
-		
-		/*image.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				//zoomPhoto();
-			}
-		});*/
 
-		photo = (Photo) photoDao.queryBuilder()
-				.where(Properties.Id.eq(getCurrentInstanceId())).build()
-				.unique();
+		/*
+		 * image.setOnClickListener(new OnClickListener() {
+		 * 
+		 * @Override public void onClick(View v) { //zoomPhoto(); } });
+		 */
 
-		closeDao();
-		if (photo != null) {
-			byte[] data = photo.getPhotoBytes();
-			
-			ByteArrayInputStream is = new ByteArrayInputStream(data);
-			Drawable draw = Drawable.createFromStream(is, "image"); 
-			image.setImageDrawable(draw);
-			mAttacher = new PhotoViewAttacher(image);
-			mAttacher.setAllowParentInterceptOnEdge(false);
-			
-			/*Bitmap bm = BitmapFactory.decodeByteArray(data, 0, data.length);
-			Log.e("width e height", bm.getWidth() + " - " + bm.getHeight());
-			final float scale = getActivity().getResources().getDisplayMetrics().density;
-			Bitmap scaledBm = Bitmap.createScaledBitmap(bm, (int) (400 * scale + 0.5f), (int) (300 * scale + 0.5f), true);	// diminui a imagem 
-			bm.recycle();
-			image.setImageBitmap(scaledBm); */ 
-			
-			
-		} else {
-			Toast.makeText(getActivity(), "Ainda não há fotos para exibir!", 
-					Toast.LENGTH_SHORT).show();
-			getActivity().finish();
-		}
+		image.setImage(new GWImage(getCurrentInstanceId()));
+		mAttacher = new PhotoViewAttacher(image);
+		mAttacher.setAllowParentInterceptOnEdge(false); 
+
+		/*
+		 * Bitmap bm = BitmapFactory.decodeByteArray(data, 0, data.length);
+		 * Log.e("width e height", bm.getWidth() + " - " + bm.getHeight());
+		 * final float scale =
+		 * getActivity().getResources().getDisplayMetrics().density; Bitmap
+		 * scaledBm = Bitmap.createScaledBitmap(bm, (int) (400 * scale + 0.5f),
+		 * (int) (300 * scale + 0.5f), true); // diminui a imagem bm.recycle();
+		 * image.setImageBitmap(scaledBm);
+		 */
 
 		proxima.setOnClickListener(new OnClickListener() {
 			@Override
-			public void onClick(View v) { 
+			public void onClick(View v) {
 				Intent trocatela = new Intent(getActivity(), getActivity()
 						.getClass());
 				trocatela.putExtra("nImagem", proximaImagem());
@@ -145,13 +117,13 @@ public class PhotoViewGUI extends CRComponent {
 			}
 		});
 
-		return view; 
+		return view;
 	}
-	
+
 	public void showNavigation(boolean b) {
 		showNavigation = b;
 	}
-	
+
 	private void hidePreviousNext() {
 		anterior.setVisibility(View.GONE);
 		proxima.setVisibility(View.GONE);
@@ -179,6 +151,20 @@ public class PhotoViewGUI extends CRComponent {
 
 	public void closeDao() {
 		photoDao.getDatabase().close();
+	}
+
+	@Override
+	public void onPause() {
+		Log.e("Tentando reciclar", "onPause");
+		// ((BitmapDrawable)image.getDrawable()).getBitmap().recycle();
+		super.onPause();
+	}
+
+	@Override 
+	public void onDestroy() {
+		Log.e("Tentando reciclar", "onDestroy");
+		// ((BitmapDrawable)image.getDrawable()).getBitmap().recycle();
+		super.onDestroy();
 	}
 
 }
