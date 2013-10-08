@@ -224,6 +224,7 @@ public abstract class CRComponent extends GenericComponent {
 	@Override
 	public void onStart() {
 		super.onStart();
+		setRetainInstance(true);
 		doBindService();
 	}
 	
