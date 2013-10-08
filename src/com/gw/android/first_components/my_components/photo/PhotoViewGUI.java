@@ -9,12 +9,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.TextView;
+
 import com.gw.android.R;
 import com.gw.android.first_components.my_components.photo.PhotoDao.Properties;
 import com.gw.android.first_components.my_fragment.CRComponent;
@@ -23,11 +24,9 @@ import com.loopj.android.image.SmartImageView;
 @SuppressLint("ValidFragment")
 public class PhotoViewGUI extends CRComponent {
 
-	private SmartImageView image;
+	private TextView photoName;
 	private Button proxima, anterior;
-	private PhotoDao photoDao;
 	private boolean showNavigation = false;
-	PhotoViewAttacher mAttacher;
 
 	public PhotoViewGUI(Long imageId) {
 		setCurrent(imageId);
@@ -47,8 +46,6 @@ public class PhotoViewGUI extends CRComponent {
 		PhotoDao mDao = (dao == null ? PhotoUtils.initPhotoDao(ctx) : dao);
 		List<Photo> l = mDao.queryBuilder().orderAsc(Properties.Id).build()
 				.list();
-
-		// aqui ja pode fechar o BD
 		mDao.getDatabase().close();
 
 		if (l.isEmpty()) {
@@ -63,37 +60,20 @@ public class PhotoViewGUI extends CRComponent {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.imageone, container, false);
+		SmartImageView image = (SmartImageView) view.findViewById(R.id.imageView1);
+
 		anterior = (Button) view.findViewById(R.id.imagem_anterior);
 		proxima = (Button) view.findViewById(R.id.imagem_proxima);
-		image = (SmartImageView) view.findViewById(R.id.imageView1);
-
-		/*
-		 * http://arquigrafia.org.br/photo/img-crop/2230?_log=no
-		 * http://arquigrafia.org.br/photo/img-show/2230.jpeg
-		 */
-
+		photoName = (TextView) view.findViewById(R.id.imageText);
+		
 		if (!showNavigation)
 			hidePreviousNext();
-
-		/*
-		 * image.setOnClickListener(new OnClickListener() {
-		 * 
-		 * @Override public void onClick(View v) { //zoomPhoto(); } });
-		 */
+		
+		photoName.setText(PhotoUtils.getPhotoById(getCurrentInstanceId(), getActivity()).getText());
 
 		image.setImage(new GWImage(getCurrentInstanceId()));
-		mAttacher = new PhotoViewAttacher(image);
+		PhotoViewAttacher mAttacher = new PhotoViewAttacher(image);
 		mAttacher.setAllowParentInterceptOnEdge(false); 
-
-		/*
-		 * Bitmap bm = BitmapFactory.decodeByteArray(data, 0, data.length);
-		 * Log.e("width e height", bm.getWidth() + " - " + bm.getHeight());
-		 * final float scale =
-		 * getActivity().getResources().getDisplayMetrics().density; Bitmap
-		 * scaledBm = Bitmap.createScaledBitmap(bm, (int) (400 * scale + 0.5f),
-		 * (int) (300 * scale + 0.5f), true); // diminui a imagem bm.recycle();
-		 * image.setImageBitmap(scaledBm);
-		 */
 
 		proxima.setOnClickListener(new OnClickListener() {
 			@Override
@@ -130,27 +110,23 @@ public class PhotoViewGUI extends CRComponent {
 	}
 
 	private Long proximaImagem() {
-		photoDao = PhotoUtils.initPhotoDao(getActivity());
+		PhotoDao photoDao = PhotoUtils.initPhotoDao(getActivity());
 		List<Photo> l = photoDao.queryBuilder()
 				.where(Properties.Id.gt(getCurrentInstanceId()))
 				.orderAsc(Properties.Id).list();
-		closeDao();
+		photoDao.getDatabase().close();
 		return (l.isEmpty() ? getCurrentInstanceId() : ((Photo) l.get(0))
 				.getId());
 	}
 
 	private Long imagemAnterior() {
-		photoDao = PhotoUtils.initPhotoDao(getActivity());
+		PhotoDao photoDao = PhotoUtils.initPhotoDao(getActivity());
 		List<Photo> l = photoDao.queryBuilder()
 				.where(Properties.Id.lt(getCurrentInstanceId()))
 				.orderDesc(Properties.Id).list();
-		closeDao();
+		photoDao.getDatabase().close();
 		return (l.isEmpty() ? getCurrentInstanceId() : ((Photo) l.get(0))
 				.getId());
-	}
-
-	public void closeDao() {
-		photoDao.getDatabase().close();
 	}
 
 }

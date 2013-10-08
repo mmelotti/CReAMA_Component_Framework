@@ -32,7 +32,7 @@ import com.loopj.android.image.SmartImageView;
 
 @SuppressLint("ValidFragment")
 public class PhotoGalleryGUI extends CRComponent {
-	public static int MAX_GALLERY_PHOTOS = 12;
+	public static int MAX_GALLERY_PHOTOS = 10;
 	private PhotoDao photoDao;
 	private Gallery picGallery;
 	private PicAdapter imgAdapt;

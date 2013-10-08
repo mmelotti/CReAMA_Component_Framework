@@ -35,7 +35,6 @@ public class PhotoSendGUI extends CRComponent {
 	String url; 
 	EditText titulo, descricao, autorDaObra, autorDaImagem,  tags, estado, cidade, bairro,logradouro;
 	private SensorServiceListener sensorListener;
-	Intent startIntent;
 	Context mCtx;
 	double[] coord;
 	
@@ -95,19 +94,27 @@ enviar aparentemente vazio, assim como os dois primeiros campos
 				"__photoRegister.id--" + "" +
 				"__photoRegister.name--" + titulo.getText() +
 				"__photoRegister.imageAuthor--" + autorDaObra.getText() +
-				"__photoRegister.state--" + estado.getText()+
+				"__photoRegister.state--" + estado.getText() +
 				"__photoRegister.country--" + "Brasil" +
 				"__photoRegister.dataCriacao--" +
-				"__photoRegister.district--" + cidade.getText()+
+				"__photoRegister.district--" + cidade.getText() +
 				"__photoRegister.workAuthor--" +autorDaImagem.getText() +
-				"__photoRegister.street--" + logradouro.getText()+", "+bairro.getText()+
+				"__photoRegister.street--" + logradouro.getText() + ", " + bairro.getText()+
 				"__photoRegister.workdate--" +
-				"__photoRegister.description--" + descricao.getText()+
+				"__photoRegister.description--" + descricao.getText() +
 				"__photoRegister.allowCommercialUses--" + "YES" +
 				"__photoRegister.allowModifications--" + "YES" +
+				
+				"__geoReferenceMgr.latitude--" + coord[0] +
+				"__geoReferenceMgr.longitude--" + coord[1] +
+				
 				"__foto--" + "((IS_FILE_TAG))" + photopath +
 				"__terms--" + "read" +
 				"__enviar--" + "");
+		
+		Log.e("Coordenadas", "("+coord[0]+", "+coord[1]+")");
+		Log.e("URL", url+" ");
+
 		makeRequest(request);
 		return "";
 	}
@@ -177,12 +184,12 @@ enviar aparentemente vazio, assim como os dois primeiros campos
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		url = getUrl() + "/photo/"+ getCollabletId() +"/registra"; 
+		url = getUrl() + "/photo/" + getCollabletId() + "/registra"; 
 		setComponentRequestCallback(new AsyncRequestHandler() {
 			@Override
 			public void onSuccess(String arg1, Request request) {
 				new AlertDialog.Builder(getActivity())
-						.setIcon(android.R.drawable.ic_dialog_alert)
+						.setIcon(android.R.drawable.ic_menu_camera)
 						.setTitle("Upload de foto bem sucedido")
 						.setMessage("Foto enviada com sucesso.")
 						.setNeutralButton("Ok", null).show();
@@ -191,7 +198,7 @@ enviar aparentemente vazio, assim como os dois primeiros campos
 			@Override
 			public void onFailure(Throwable arg0, String arg1,Request r) {
 				new AlertDialog.Builder(getActivity())
-						.setIcon(android.R.drawable.ic_dialog_alert)
+						.setIcon(android.R.drawable.ic_menu_camera)
 						.setTitle("Upload de foto falhou")
 						.setMessage("A foto não pode ser enviada.")
 						.setNeutralButton("Ok", null).show();
@@ -233,7 +240,7 @@ enviar aparentemente vazio, assim como os dois primeiros campos
 		
 		mCtx = getActivity().getApplicationContext();
 		sensorListener = new SensorServiceListener(getActivity().getApplicationContext());
-		startIntent = new Intent(mCtx, SensorManagerService.class);
+		Intent startIntent = new Intent(mCtx, SensorManagerService.class);
 		mCtx.startService(startIntent);
 		
 		return view;
