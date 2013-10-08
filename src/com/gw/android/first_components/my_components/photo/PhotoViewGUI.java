@@ -106,7 +106,8 @@ public class PhotoViewGUI extends CRComponent {
 			ByteArrayInputStream is = new ByteArrayInputStream(data);
 			Drawable draw = Drawable.createFromStream(is, "image"); 
 			image.setImageDrawable(draw);
-			mAttacher = new PhotoViewAttacher(image); 
+			mAttacher = new PhotoViewAttacher(image);
+			mAttacher.setAllowParentInterceptOnEdge(false);
 			
 			/*Bitmap bm = BitmapFactory.decodeByteArray(data, 0, data.length);
 			Log.e("width e height", bm.getWidth() + " - " + bm.getHeight());
