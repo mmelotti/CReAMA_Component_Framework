@@ -1,6 +1,5 @@
 package com.gw.android.first_components.my_components.photo;
 
-import java.io.ByteArrayInputStream;
 import java.util.Date;
 import java.util.List;
 
@@ -11,7 +10,6 @@ import org.json.JSONObject;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,8 +20,6 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.BaseAdapter;
 import android.widget.Gallery;
 import android.widget.ImageView;
-import android.widget.TextView;
-
 import com.github.johnpersano.supertoasts.SuperToast;
 import com.gw.android.R;
 import com.gw.android.Utils.SuperToastUtils;
@@ -32,18 +28,18 @@ import com.gw.android.components.request.Request;
 import com.gw.android.first_components.my_components.photo.PhotoDao.Properties;
 import com.gw.android.first_components.my_fragment.CRComponent;
 import com.gw.android.first_components.my_fragment.ComponentSimpleModel;
+import com.loopj.android.image.SmartImageView;
 
 @SuppressLint("ValidFragment")
 public class PhotoGalleryGUI extends CRComponent {
+	public static int MAX_GALLERY_PHOTOS = 12;
 	private PhotoDao photoDao;
 	private Gallery picGallery;
 	private PicAdapter imgAdapt;
-	private TextView description;
 	private int currentGallerySelected = -1;
-	List<Photo> list;
-
+	private Long[] photoIds;
+	
 	private boolean conectado = true;
-	private String photoIdUrl;
 
 	String ip = "200.137.66.94";
 	String url = "http://" + ip
@@ -85,7 +81,6 @@ public class PhotoGalleryGUI extends CRComponent {
 		View view = inflater.inflate(R.layout.image_gallery, container, false);
 
 		picGallery = (Gallery) view.findViewById(R.id.gallery);
-		description = (TextView) view.findViewById(R.id.description);
 
 		imgAdapt = new PicAdapter(getActivity());
 		picGallery.setAdapter(imgAdapt);
@@ -95,11 +90,8 @@ public class PhotoGalleryGUI extends CRComponent {
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View v,
 					int position, long id) {
-				description.setText(list.get(position).getText());
-
 				currentGallerySelected = position;
-				onItemSelectedApplication(parent, v, position, id,
-						list.get(position));
+				onItemSelectedApplication(parent, v, position, id, photoIds[position]);
 			}
 
 			@Override
@@ -113,8 +105,7 @@ public class PhotoGalleryGUI extends CRComponent {
 					@Override
 					public void onItemClick(AdapterView<?> parent, View view,
 							int position, long arg3) {
-						onItemClickApplication(parent, view, position, arg3,
-								list.get(position));
+						onItemClickApplication(parent, view, position, arg3, photoIds[position]);
 					}
 				});
 
@@ -157,13 +148,13 @@ public class PhotoGalleryGUI extends CRComponent {
 	}
 
 	public void onItemSelectedApplication(AdapterView<?> parent, View v,
-			int position, long id, Photo photo) {
-
+			int position, long id, Long photoId) { 
+		// Photo photo = PhotoUtils.getPhotoById(photoId, getActivity());
 	}
 
 	public void onItemClickApplication(AdapterView<?> parent, View view,
-			int position, long arg3, Photo photo) {
-
+			int position, long arg3, Long photoId) {
+		// Photo photo = PhotoUtils.getPhotoById(photoId, getActivity());
 	}
 
 	void saveImageAfterDownload(String serverId, byte[] b) {
@@ -210,10 +201,6 @@ public class PhotoGalleryGUI extends CRComponent {
 			for (int j = 0; j < nameArray.length(); j++) {
 				JSONObject object = nameArray.getJSONObject(j);
 				Long idServ = Long.parseLong(object.get("id").toString());
-				String nome = object.get("nomeArquivo").toString();
-
-				Log.i("Parseando varias fotos", " id=" + idServ);
-
 				getOnePhotoRequest(Long.toString(idServ));
 			}
 
@@ -227,7 +214,6 @@ public class PhotoGalleryGUI extends CRComponent {
 		if (getOnlyLocal == false) {
 			getPhotosIdRequest();
 			SuperToastUtils.showSuperToast(getActivity(), SuperToast.BACKGROUND_GREENTRANSLUCENT, "Iniciando download das imagens...");
-			// Toast.makeText(getActivity(), "Iniciando download das imagens...", Toast.LENGTH_SHORT).show();
 			Log.i("ON Bbind", " FEZ REQUEST"); 
 		}
 
@@ -267,7 +253,7 @@ public class PhotoGalleryGUI extends CRComponent {
 	public class PicAdapter extends BaseAdapter {
 		int defaultItemBackground;
 		private Context galleryContext;
-		private Drawable[] imageDrawables;
+		
 
 		public PicAdapter(Context c) {
 			galleryContext = c;
@@ -285,34 +271,21 @@ public class PhotoGalleryGUI extends CRComponent {
 
 		void updateAdapter() {
 			photoDao = PhotoUtils.initPhotoDao(getActivity());
-			list = photoDao.queryBuilder().orderDesc(Properties.Id).limit(6).list();
+			List<Photo> list = photoDao.queryBuilder().orderDesc(Properties.Id).limit(MAX_GALLERY_PHOTOS).list();
 			photoDao.getDatabase().close();
 
-			//imageDrawables = new Drawable[list.size() < 6 ? list.size() : 6];
-			imageDrawables = new Drawable[list.size()];
-			// final float scale = getActivity().getResources().getDisplayMetrics().density;
+			photoIds = new Long[list.size()];
 			
-			// set placeholder as all thumbnail images in the gallery initially
-			for (int i = 0; i < imageDrawables.length; i++) {
-				Photo photo = list.get(i);
-
-				if (photo != null) {
-					byte[] data = photo.getPhotoBytes();
-					if(data!=null){
-						ByteArrayInputStream is = new ByteArrayInputStream(data);
-						imageDrawables[i] = Drawable.createFromStream(is, "image");
-					}
-					
-				}
-			}
-			//System.gc();
+			for (int i = 0; i < photoIds.length; i++) 
+				photoIds[i] = list.get(i).getId();
+			
 		}
 
 		// BaseAdapter methods
 
 		// return number of data items i.e. bitmap images
 		public int getCount() {
-			return imageDrawables.length;
+			return photoIds.length;
 		}
 
 		public Object getItem(int position) {
@@ -326,16 +299,10 @@ public class PhotoGalleryGUI extends CRComponent {
 		// get view specifies layout and display options for each thumbnail in
 		// the gallery
 		public View getView(int position, View convertView, ViewGroup parent) {
-			ImageView imageView = new ImageView(galleryContext);
-			final float scale = getActivity().getResources()
-					.getDisplayMetrics().density;
-			imageView.setImageDrawable(imageDrawables[position]);			
+			SmartImageView imageView = new SmartImageView(galleryContext);
+			final float scale = getActivity().getResources().getDisplayMetrics().density;
+			imageView.setImage(new GWImage(photoIds[position]));	
 			imageView.setLayoutParams(new Gallery.LayoutParams((int) (170 * scale + 0.5f), (int) (140 * scale + 0.5f)));
-			// imageView.setLayoutParams(new Gallery.LayoutParams(200, 180));
-			// 400, 300 fica gigante no meu!
-			// 300, 200 fica legal ateh mas vou diminuir mais
-			// 200. 180 ficou perfeito
-
 			imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
 			imageView.setBackgroundResource(defaultItemBackground);
 			return imageView;

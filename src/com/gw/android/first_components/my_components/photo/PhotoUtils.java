@@ -9,6 +9,7 @@ import java.io.InputStream;
 import com.gw.android.first_components.database.DaoMaster;
 import com.gw.android.first_components.database.DaoSession;
 import com.gw.android.first_components.database.DaoMaster.DevOpenHelper;
+import com.gw.android.first_components.my_components.photo.PhotoDao.Properties;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -26,6 +27,13 @@ public class PhotoUtils {
 		DaoMaster daoMaster = new DaoMaster(db);
 		DaoSession daoSession = daoMaster.newSession();
 		return daoSession.getPhotoDao();
+	}
+	
+	public static Photo getPhotoById(Long id, Context ctx) {
+		PhotoDao photoDao = initPhotoDao(ctx);
+		Photo photo = (Photo) photoDao.queryBuilder().where(Properties.Id.eq(id)).build().unique();
+		photoDao.getDatabase().close();
+		return photo;
 	}
 	
 	public static Bitmap byteArrayToBitmap(byte[] imageBytes) {
