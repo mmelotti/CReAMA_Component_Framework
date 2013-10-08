@@ -153,18 +153,4 @@ public class PhotoViewGUI extends CRComponent {
 		photoDao.getDatabase().close();
 	}
 
-	@Override
-	public void onPause() {
-		Log.e("Tentando reciclar", "onPause");
-		// ((BitmapDrawable)image.getDrawable()).getBitmap().recycle();
-		super.onPause();
-	}
-
-	@Override 
-	public void onDestroy() {
-		Log.e("Tentando reciclar", "onDestroy");
-		// ((BitmapDrawable)image.getDrawable()).getBitmap().recycle();
-		super.onDestroy();
-	}
-
 }
