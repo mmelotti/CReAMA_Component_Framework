@@ -74,7 +74,7 @@ public class FaqSendGUI extends CRComponent implements OnClickListener {
 
 		Dialog d = getDialog();
 		if (d != null) // componente está sendo mostrado como dialog
-			d.setTitle("FAQ");
+			d.setTitle("Editar Pergunta");
 
 		url = getUrl();
 		faqUrl = getCollabletId();
