@@ -69,7 +69,7 @@ public class PhotoViewGUI extends CRComponent {
 		if (!showNavigation)
 			hidePreviousNext();
 		
-		//photoName.setText(PhotoUtils.getPhotoById(getCurrentInstanceId(), getActivity()).getText());
+		photoName.setText(PhotoUtils.getPhotoById(getCurrentInstanceId(), getActivity()).getText());
 
 		image.setImage(new GWImage(getCurrentInstanceId()));
 		PhotoViewAttacher mAttacher = new PhotoViewAttacher(image);
