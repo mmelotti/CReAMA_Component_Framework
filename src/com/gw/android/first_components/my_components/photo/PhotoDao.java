@@ -28,9 +28,10 @@ public class PhotoDao extends AbstractDao<Photo, Long> {
         public final static Property Id = new Property(0, Long.class, "id", true, "_id");
         public final static Property TargetId = new Property(1, Long.class, "targetId", false, "TARGET_ID");
         public final static Property ServerId = new Property(2, Long.class, "serverId", false, "SERVER_ID");
-        public final static Property PhotoBytes = new Property(3, byte[].class, "photoBytes", false, "PHOTO_BYTES");
-        public final static Property Text = new Property(4, String.class, "text", false, "TEXT");
-        public final static Property Date = new Property(5, java.util.Date.class, "date", false, "DATE");
+        public final static Property IsThumb = new Property(3, Boolean.class, "isThumb", false, "IS_THUMB");
+        public final static Property PhotoBytes = new Property(4, byte[].class, "photoBytes", false, "PHOTO_BYTES");
+        public final static Property Text = new Property(5, String.class, "text", false, "TEXT");
+        public final static Property Date = new Property(6, java.util.Date.class, "date", false, "DATE");
     };
 
 
@@ -49,9 +50,10 @@ public class PhotoDao extends AbstractDao<Photo, Long> {
                 "'_id' INTEGER PRIMARY KEY ," + // 0: id
                 "'TARGET_ID' INTEGER," + // 1: targetId
                 "'SERVER_ID' INTEGER," + // 2: serverId
-                "'PHOTO_BYTES' BLOB," + // 3: photoBytes
-                "'TEXT' TEXT," + // 4: text
-                "'DATE' INTEGER);"); // 5: date
+                "'IS_THUMB' INTEGER," + // 3: isThumb
+                "'PHOTO_BYTES' BLOB," + // 4: photoBytes
+                "'TEXT' TEXT," + // 5: text
+                "'DATE' INTEGER);"); // 6: date
     }
 
     /** Drops the underlying database table. */
@@ -80,19 +82,24 @@ public class PhotoDao extends AbstractDao<Photo, Long> {
             stmt.bindLong(3, serverId);
         }
  
+        Boolean isThumb = entity.getIsThumb();
+        if (isThumb != null) {
+            stmt.bindLong(4, isThumb ? 1l: 0l);
+        }
+ 
         byte[] photoBytes = entity.getPhotoBytes();
         if (photoBytes != null) {
-            stmt.bindBlob(4, photoBytes);
+            stmt.bindBlob(5, photoBytes);
         }
  
         String text = entity.getText();
         if (text != null) {
-            stmt.bindString(5, text);
+            stmt.bindString(6, text);
         }
  
         java.util.Date date = entity.getDate();
         if (date != null) {
-            stmt.bindLong(6, date.getTime());
+            stmt.bindLong(7, date.getTime());
         }
     }
 
@@ -109,9 +116,10 @@ public class PhotoDao extends AbstractDao<Photo, Long> {
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
             cursor.isNull(offset + 1) ? null : cursor.getLong(offset + 1), // targetId
             cursor.isNull(offset + 2) ? null : cursor.getLong(offset + 2), // serverId
-            cursor.isNull(offset + 3) ? null : cursor.getBlob(offset + 3), // photoBytes
-            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // text
-            cursor.isNull(offset + 5) ? null : new java.util.Date(cursor.getLong(offset + 5)) // date
+            cursor.isNull(offset + 3) ? null : cursor.getShort(offset + 3) != 0, // isThumb
+            cursor.isNull(offset + 4) ? null : cursor.getBlob(offset + 4), // photoBytes
+            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // text
+            cursor.isNull(offset + 6) ? null : new java.util.Date(cursor.getLong(offset + 6)) // date
         );
         return entity;
     }
@@ -122,9 +130,10 @@ public class PhotoDao extends AbstractDao<Photo, Long> {
         entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
         entity.setTargetId(cursor.isNull(offset + 1) ? null : cursor.getLong(offset + 1));
         entity.setServerId(cursor.isNull(offset + 2) ? null : cursor.getLong(offset + 2));
-        entity.setPhotoBytes(cursor.isNull(offset + 3) ? null : cursor.getBlob(offset + 3));
-        entity.setText(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
-        entity.setDate(cursor.isNull(offset + 5) ? null : new java.util.Date(cursor.getLong(offset + 5)));
+        entity.setIsThumb(cursor.isNull(offset + 3) ? null : cursor.getShort(offset + 3) != 0);
+        entity.setPhotoBytes(cursor.isNull(offset + 4) ? null : cursor.getBlob(offset + 4));
+        entity.setText(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
+        entity.setDate(cursor.isNull(offset + 6) ? null : new java.util.Date(cursor.getLong(offset + 6)));
      }
     
     /** @inheritdoc */

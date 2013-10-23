@@ -14,6 +14,7 @@ import com.gw.android.first_components.my_components.tag.TagDao;
 import com.gw.android.first_components.my_components.binomio.BinomioDao;
 import com.gw.android.first_components.my_components.gps.CoordinatesDao;
 import com.gw.android.first_components.my_components.faq.FaqDao;
+import com.gw.android.first_components.my_components.user.UserDao;
 import com.gw.android.first_components.my_components.rating.RatingDao;
 import com.gw.android.first_components.my_components.rating2comment.RatingToCommentDao;
 
@@ -32,6 +33,7 @@ public class DaoMaster extends AbstractDaoMaster {
         BinomioDao.createTable(db, ifNotExists);
         CoordinatesDao.createTable(db, ifNotExists);
         FaqDao.createTable(db, ifNotExists);
+        UserDao.createTable(db, ifNotExists);
         RatingDao.createTable(db, ifNotExists);
         RatingToCommentDao.createTable(db, ifNotExists);
     }
@@ -44,6 +46,7 @@ public class DaoMaster extends AbstractDaoMaster {
         BinomioDao.dropTable(db, ifExists);
         CoordinatesDao.dropTable(db, ifExists);
         FaqDao.dropTable(db, ifExists);
+        UserDao.dropTable(db, ifExists);
         RatingDao.dropTable(db, ifExists);
         RatingToCommentDao.dropTable(db, ifExists);
     }
@@ -83,6 +86,7 @@ public class DaoMaster extends AbstractDaoMaster {
         registerDaoClass(BinomioDao.class);
         registerDaoClass(CoordinatesDao.class);
         registerDaoClass(FaqDao.class);
+        registerDaoClass(UserDao.class);
         registerDaoClass(RatingDao.class);
         registerDaoClass(RatingToCommentDao.class);
     }

@@ -9,6 +9,7 @@ public class Photo extends com.gw.android.first_components.my_fragment.Component
     private Long id;
     private Long targetId;
     private Long serverId;
+    private Boolean isThumb;
     private byte[] photoBytes;
     private String text;
     private java.util.Date date;
@@ -20,10 +21,11 @@ public class Photo extends com.gw.android.first_components.my_fragment.Component
         this.id = id;
     }
 
-    public Photo(Long id, Long targetId, Long serverId, byte[] photoBytes, String text, java.util.Date date) {
+    public Photo(Long id, Long targetId, Long serverId, Boolean isThumb, byte[] photoBytes, String text, java.util.Date date) {
         this.id = id;
         this.targetId = targetId;
         this.serverId = serverId;
+        this.isThumb = isThumb;
         this.photoBytes = photoBytes;
         this.text = text;
         this.date = date;
@@ -51,6 +53,14 @@ public class Photo extends com.gw.android.first_components.my_fragment.Component
 
     public void setServerId(Long serverId) {
         this.serverId = serverId;
+    }
+
+    public Boolean getIsThumb() {
+        return isThumb;
+    }
+
+    public void setIsThumb(Boolean isThumb) {
+        this.isThumb = isThumb;
     }
 
     public byte[] getPhotoBytes() {

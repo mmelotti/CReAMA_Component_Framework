@@ -45,15 +45,15 @@ public class PhotoGalleryGUI extends CRComponent {
 	String url = "http://" + ip
 			+ ":8080/GW-Application-Arquigrafia/groupware-workbench";
 	private String jsonTestUrl = "/photos/7/amount/2";
-	private String urlPhotoArquigrafia = "http://www.arquigrafia.org.br/photo/";
 	private String urlEndArquigrafia = "?_format=json";
-
-	private String urlOneImage = "http://arquigrafia.org.br/photo/img-crop/";
-	private String urlEndImageCrop = "?_log=no";
-	private String urlEndImageBig = ".jpeg";
-	private String imageType = "/img-show/";
-
 	private boolean getOnlyLocal = true;
+	
+	private final static int CROP = 0;
+	private final static int BIG = 1;
+	
+	private final static String[] urlEndImage = {"?_log=no", ".jpeg"};	
+	private final static String[] imageType = {"/img-crop/", "/img-show/"};
+	private int size = CROP;
 
 	public PhotoGalleryGUI(boolean getLocal, int current) {
 		getOnlyLocal = getLocal;
@@ -116,9 +116,10 @@ public class PhotoGalleryGUI extends CRComponent {
 				String url = request.getUrl();
 				String auxArray[] = url.split("/");
 				Log.i("MFILEHANDLER - Fez download da imagem", auxArray[auxArray.length - 1]);
-				String auxArray2[] = auxArray[auxArray.length - 1].split(".j");
+				//String auxArray2[] = auxArray[auxArray.length - 1].split(".j");
+				//String auxArray2[] = auxArray[auxArray.length - 1].split(urlEndImage[CROP]);
 				
-				String photoServerId = auxArray2[0];
+				String photoServerId = auxArray[auxArray.length - 1].replace(urlEndImage[size], "");
 				Log.i("ID SERVER", photoServerId);
 				saveImageAfterDownload(photoServerId, b);
 				imgAdapt.updateAdapter();
@@ -164,7 +165,7 @@ public class PhotoGalleryGUI extends CRComponent {
 		if (found.isEmpty()) {
 			Log.d("SALVANDO", "SERVER ID NÃO EXISTE");
 			Long newI = ComponentSimpleModel.getUniqueId(getActivity());
-			Photo photo = new Photo(newI, null, Long.parseLong(serverId), b,
+			Photo photo = new Photo(newI, null, Long.parseLong(serverId), size == CROP, b,
 					null, new Date());
 			Log.d("SALVANDO", "id= " + newI);
 			photoDao.insert(photo);
@@ -245,8 +246,8 @@ public class PhotoGalleryGUI extends CRComponent {
 	}
 
 	private void getTheImage(String id) {
-		createSimpleFileRequest(getBaseUrl() + "/photo" + imageType + id
-				+ urlEndImageBig, "get");
+		createSimpleFileRequest(getBaseUrl() + "/photo" + imageType[size] + id
+				+ urlEndImage[size], "get");
 	}
 
 	// Classe auxiliar

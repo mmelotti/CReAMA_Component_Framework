@@ -8,17 +8,25 @@ import com.loopj.android.image.SmartImage;
 
 public class GWImage implements SmartImage {
 	Long id;
+	boolean downloadBig = false;
 
 	GWImage(Long id) {
-		this.id = id;
+		this.id = id;		
 	}
 
+	GWImage(Long id, boolean downloadBigPhoto) {
+		this.id = id;
+		this.downloadBig = downloadBigPhoto;
+	}
+	
 	@Override
 	public Bitmap getBitmap(Context ctx) {
-		byte[] data = PhotoUtils.getPhotoById(id, ctx).getPhotoBytes();
-		if(data!=null){
+		Photo photo = PhotoUtils.getPhotoById(id, ctx);
+		byte[] data = photo.getPhotoBytes();
+		
+		if(data != null) {
 			return BitmapFactory.decodeByteArray(data, 0, data.length);
-		}else{
+		} else{
 			return null;
 		}
 		

@@ -151,20 +151,20 @@ public class Binomio extends com.gw.android.first_components.my_fragment.Compone
         this.translucida = translucida;
     }
 
-	public Integer getInterna() {
-		return interna;
-	}
+    public Integer getInterna() {
+        return interna;
+    }
 
-	public void setInterna(Integer interna) {
-		this.interna = interna;
-	}
+    public void setInterna(Integer interna) {
+        this.interna = interna;
+    }
 
-	public Integer getExterna() {
-		return externa;
-	}
+    public Integer getExterna() {
+        return externa;
+    }
 
-	public void setExterna(Integer externa) {
-		this.externa = externa;
-	}
+    public void setExterna(Integer externa) {
+        this.externa = externa;
+    }
 
 }

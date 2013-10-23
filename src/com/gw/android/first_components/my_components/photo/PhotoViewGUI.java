@@ -72,6 +72,7 @@ public class PhotoViewGUI extends CRComponent {
 		photoName.setText(PhotoUtils.getPhotoById(getCurrentInstanceId(), getActivity()).getText());
 
 		image.setImage(new GWImage(getCurrentInstanceId()));
+		
 		PhotoViewAttacher mAttacher = new PhotoViewAttacher(image);
 		mAttacher.setAllowParentInterceptOnEdge(false); 
 

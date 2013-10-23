@@ -15,6 +15,7 @@ import com.gw.android.first_components.my_components.tag.Tag;
 import com.gw.android.first_components.my_components.binomio.Binomio;
 import com.gw.android.first_components.my_components.gps.Coordinates;
 import com.gw.android.first_components.my_components.faq.Faq;
+import com.gw.android.first_components.my_components.user.User;
 import com.gw.android.first_components.my_components.rating.Rating;
 import com.gw.android.first_components.my_components.rating2comment.RatingToComment;
 
@@ -24,6 +25,7 @@ import com.gw.android.first_components.my_components.tag.TagDao;
 import com.gw.android.first_components.my_components.binomio.BinomioDao;
 import com.gw.android.first_components.my_components.gps.CoordinatesDao;
 import com.gw.android.first_components.my_components.faq.FaqDao;
+import com.gw.android.first_components.my_components.user.UserDao;
 import com.gw.android.first_components.my_components.rating.RatingDao;
 import com.gw.android.first_components.my_components.rating2comment.RatingToCommentDao;
 
@@ -42,6 +44,7 @@ public class DaoSession extends AbstractDaoSession {
     private final DaoConfig binomioDaoConfig;
     private final DaoConfig coordinatesDaoConfig;
     private final DaoConfig faqDaoConfig;
+    private final DaoConfig userDaoConfig;
     private final DaoConfig ratingDaoConfig;
     private final DaoConfig ratingToCommentDaoConfig;
 
@@ -51,6 +54,7 @@ public class DaoSession extends AbstractDaoSession {
     private final BinomioDao binomioDao;
     private final CoordinatesDao coordinatesDao;
     private final FaqDao faqDao;
+    private final UserDao userDao;
     private final RatingDao ratingDao;
     private final RatingToCommentDao ratingToCommentDao;
 
@@ -76,6 +80,9 @@ public class DaoSession extends AbstractDaoSession {
         faqDaoConfig = daoConfigMap.get(FaqDao.class).clone();
         faqDaoConfig.initIdentityScope(type);
 
+        userDaoConfig = daoConfigMap.get(UserDao.class).clone();
+        userDaoConfig.initIdentityScope(type);
+
         ratingDaoConfig = daoConfigMap.get(RatingDao.class).clone();
         ratingDaoConfig.initIdentityScope(type);
 
@@ -88,6 +95,7 @@ public class DaoSession extends AbstractDaoSession {
         binomioDao = new BinomioDao(binomioDaoConfig, this);
         coordinatesDao = new CoordinatesDao(coordinatesDaoConfig, this);
         faqDao = new FaqDao(faqDaoConfig, this);
+        userDao = new UserDao(userDaoConfig, this);
         ratingDao = new RatingDao(ratingDaoConfig, this);
         ratingToCommentDao = new RatingToCommentDao(ratingToCommentDaoConfig, this);
 
@@ -97,6 +105,7 @@ public class DaoSession extends AbstractDaoSession {
         registerDao(Binomio.class, binomioDao);
         registerDao(Coordinates.class, coordinatesDao);
         registerDao(Faq.class, faqDao);
+        registerDao(User.class, userDao);
         registerDao(Rating.class, ratingDao);
         registerDao(RatingToComment.class, ratingToCommentDao);
     }
@@ -108,6 +117,7 @@ public class DaoSession extends AbstractDaoSession {
         binomioDaoConfig.getIdentityScope().clear();
         coordinatesDaoConfig.getIdentityScope().clear();
         faqDaoConfig.getIdentityScope().clear();
+        userDaoConfig.getIdentityScope().clear();
         ratingDaoConfig.getIdentityScope().clear();
         ratingToCommentDaoConfig.getIdentityScope().clear();
     }
@@ -134,6 +144,10 @@ public class DaoSession extends AbstractDaoSession {
 
     public FaqDao getFaqDao() {
         return faqDao;
+    }
+
+    public UserDao getUserDao() {
+        return userDao;
     }
 
     public RatingDao getRatingDao() {

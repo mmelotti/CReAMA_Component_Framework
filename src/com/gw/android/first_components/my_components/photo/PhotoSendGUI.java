@@ -126,7 +126,7 @@ enviar aparentemente vazio, assim como os dois primeiros campos
 		
 		byte[] bArray = PhotoUtils.bitmapToByteArray(bitmap);
 		Photo photo = new Photo(ComponentSimpleModel.getUniqueId(ctx),
-				null, null, bArray, null, new Date());
+				null, null, false, bArray, null, new Date());
 
 		PhotoDao photoDao = PhotoUtils.initPhotoDao(ctx);
 		long id = photoDao.insert(photo);
