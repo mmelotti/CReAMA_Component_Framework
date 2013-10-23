@@ -3,20 +3,26 @@ package com.gw.android.first_components.my_components.photo;
 import java.util.List;
 
 import uk.co.senab.photoview.PhotoViewAttacher;
+import uk.co.senab.photoview.PhotoViewAttacher.OnMatrixChangedListener;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.RectF;
 import android.os.Bundle;
 
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.ScaleGestureDetector.OnScaleGestureListener;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.github.johnpersano.supertoasts.SuperToast;
 import com.gw.android.R;
+import com.gw.android.Utils.SuperToastUtils;
 import com.gw.android.components.connection_manager.AsyncRequestHandler;
 import com.gw.android.components.request.Request;
 import com.gw.android.first_components.my_components.photo.PhotoDao.Properties;
@@ -74,8 +80,18 @@ public class PhotoViewGUI extends CRComponent {
 		
 		photoName.setText(PhotoUtils.getPhotoById(getCurrentInstanceId(), getActivity()).getText());
 		image.setImage(new GWImage(getCurrentInstanceId()));		
-		PhotoViewAttacher mAttacher = new PhotoViewAttacher(image);
+		final PhotoViewAttacher mAttacher = new PhotoViewAttacher(image);
+		
 		mAttacher.setAllowParentInterceptOnEdge(false); 
+		mAttacher.setOnMatrixChangeListener(new OnMatrixChangedListener() {
+			@Override
+			public void onMatrixChanged(RectF arg0) {
+				if (mAttacher.getScale() == 1.0f)
+					mAttacher.setAllowParentInterceptOnEdge(true); // Devolve controle ao Scrollview 
+				else
+					mAttacher.setAllowParentInterceptOnEdge(false); // ImageView intercepta os toques para realizar zoom e pan
+			}
+		});
 		
 		proxima.setOnClickListener(new OnClickListener() {
 			@Override
@@ -138,24 +154,28 @@ public class PhotoViewGUI extends CRComponent {
 	@Override
 	protected void onBind() {
 
-		if(isThumb()) { // Se a imagem salva no DAO ainda é a de tamanho pequeno (thumbnail) tenta baixar a foto em tamanho original
+		if (isThumb()) { // Se a imagem salva no DAO ainda é a de tamanho
+							// pequeno (thumbnail) tenta baixar a foto em
+							// tamanho original
 			AsyncRequestHandler mFileHandler = new AsyncRequestHandler() {
 				@Override
 				public void onSuccess(byte[] b, Request request) {
 					if (b == null)
 						return;
-					PhotoDao photoDao = PhotoUtils.initPhotoDao(getActivity().getApplicationContext());
-					Photo photo = PhotoUtils.getPhotoById(getCurrentInstanceId(), photoDao);
+					PhotoDao photoDao = PhotoUtils.initPhotoDao(getActivity()
+							.getApplicationContext());
+					Photo photo = PhotoUtils.getPhotoById(
+							getCurrentInstanceId(), photoDao);
 					photo.setPhotoBytes(b);
 					photo.setIsThumb(false);
 					photoDao.update(photo);
 					photoDao.getDatabase().close();
-					
+
 					// atualiza a imagem
-					image.setImage(new GWImage(getCurrentInstanceId()));		
+					image.setImage(new GWImage(getCurrentInstanceId()));
 				}
-			};	
-			
+			};
+
 			setComponentFileRequestCallback(mFileHandler);
 			String url = getBaseUrl()
 					+ "/photo"
@@ -165,6 +185,10 @@ public class PhotoViewGUI extends CRComponent {
 					+ PhotoUtils.urlEndImage[PhotoUtils.BIG];
 			Request request = new Request(null, url, "get", null);
 			makeFileRequest(request);
+			SuperToastUtils.showSuperToast(getActivity()
+					.getApplicationContext(),
+					SuperToast.BACKGROUND_GREENTRANSLUCENT,
+					"Baixando imagem no tamanho original.");
 		}
 		super.onBind();
 	}
