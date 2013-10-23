@@ -40,11 +40,7 @@ public class FaqSendGUI extends CRComponent implements OnClickListener {
 	private FaqDao faqDao;
 	private DaoSession daoSession;
 	private boolean conectado = true;
-	
-	
-	
-	
-	
+
 	private String getUrl() {
 		SharedPreferences testPrefs = getActivity()
 				.getApplication()

@@ -48,12 +48,7 @@ public class PhotoGalleryGUI extends CRComponent {
 	private String urlEndArquigrafia = "?_format=json";
 	private boolean getOnlyLocal = true;
 	
-	private final static int CROP = 0;
-	private final static int BIG = 1;
-	
-	private final static String[] urlEndImage = {"?_log=no", ".jpeg"};	
-	private final static String[] imageType = {"/img-crop/", "/img-show/"};
-	private int size = CROP;
+	private int size = PhotoUtils.CROP;
 
 	public PhotoGalleryGUI(boolean getLocal, int current) {
 		getOnlyLocal = getLocal;
@@ -119,7 +114,7 @@ public class PhotoGalleryGUI extends CRComponent {
 				//String auxArray2[] = auxArray[auxArray.length - 1].split(".j");
 				//String auxArray2[] = auxArray[auxArray.length - 1].split(urlEndImage[CROP]);
 				
-				String photoServerId = auxArray[auxArray.length - 1].replace(urlEndImage[size], "");
+				String photoServerId = auxArray[auxArray.length - 1].replace(PhotoUtils.urlEndImage[size], "");
 				Log.i("ID SERVER", photoServerId);
 				saveImageAfterDownload(photoServerId, b);
 				imgAdapt.updateAdapter();
@@ -165,7 +160,7 @@ public class PhotoGalleryGUI extends CRComponent {
 		if (found.isEmpty()) {
 			Log.d("SALVANDO", "SERVER ID NÃO EXISTE");
 			Long newI = ComponentSimpleModel.getUniqueId(getActivity());
-			Photo photo = new Photo(newI, null, Long.parseLong(serverId), size == CROP, b,
+			Photo photo = new Photo(newI, null, Long.parseLong(serverId), size == PhotoUtils.CROP, b,
 					null, new Date());
 			Log.d("SALVANDO", "id= " + newI);
 			photoDao.insert(photo);
@@ -246,8 +241,8 @@ public class PhotoGalleryGUI extends CRComponent {
 	}
 
 	private void getTheImage(String id) {
-		createSimpleFileRequest(getBaseUrl() + "/photo" + imageType[size] + id
-				+ urlEndImage[size], "get");
+		createSimpleFileRequest(getBaseUrl() + "/photo" + PhotoUtils.imageType[size] + id
+				+ PhotoUtils.urlEndImage[size], "get");
 	}
 
 	// Classe auxiliar

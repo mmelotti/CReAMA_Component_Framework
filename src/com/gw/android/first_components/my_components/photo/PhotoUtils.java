@@ -19,6 +19,11 @@ import android.util.Log;
 
 public class PhotoUtils {
 	static int SELECT_PICTURE = 1;
+	
+	final static int CROP = 0;
+	final static int BIG = 1;
+	final static String[] urlEndImage = {"?_log=no", ".jpeg"};	
+	final static String[] imageType = {"/img-crop/", "/img-show/"};
 
 	public static PhotoDao initPhotoDao(Context context) {
 		DevOpenHelper helper = new DaoMaster.DevOpenHelper(context,
@@ -34,6 +39,18 @@ public class PhotoUtils {
 		Photo photo = (Photo) photoDao.queryBuilder().where(Properties.Id.eq(id)).build().unique();
 		photoDao.getDatabase().close();
 		return photo;
+	}
+
+	public static Photo getPhotoById(Long id, PhotoDao photoDao) {
+		Photo photo = (Photo) photoDao.queryBuilder().where(Properties.Id.eq(id)).build().unique();
+		return photo;
+	}
+	
+	public static Long getServerIdById(Long id, Context ctx) {
+		PhotoDao photoDao = initPhotoDao(ctx);
+		Photo photo = (Photo) photoDao.queryBuilder().where(Properties.Id.eq(id)).build().unique();
+		photoDao.getDatabase().close();
+		return photo.getServerId();
 	}
 	
 	public static Bitmap byteArrayToBitmap(byte[] imageBytes) {

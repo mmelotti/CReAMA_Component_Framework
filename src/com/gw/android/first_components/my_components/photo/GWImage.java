@@ -21,8 +21,7 @@ public class GWImage implements SmartImage {
 	
 	@Override
 	public Bitmap getBitmap(Context ctx) {
-		Photo photo = PhotoUtils.getPhotoById(id, ctx);
-		byte[] data = photo.getPhotoBytes();
+		byte[] data = PhotoUtils.getPhotoById(id, ctx).getPhotoBytes();
 		
 		if(data != null) {
 			return BitmapFactory.decodeByteArray(data, 0, data.length);
