@@ -27,6 +27,7 @@ import com.loopj.android.image.SmartImageView;
 public class PhotoViewGUI extends CRComponent {
 
 	private TextView photoName;
+	SmartImageView image;
 	private Button proxima, anterior;
 	private boolean showNavigation = false;
 
@@ -62,7 +63,7 @@ public class PhotoViewGUI extends CRComponent {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.imageone, container, false);
-		final SmartImageView image = (SmartImageView) view.findViewById(R.id.imageView1);
+		image = (SmartImageView) view.findViewById(R.id.imageView1);
 
 		anterior = (Button) view.findViewById(R.id.imagem_anterior);
 		proxima = (Button) view.findViewById(R.id.imagem_proxima);
@@ -75,35 +76,6 @@ public class PhotoViewGUI extends CRComponent {
 		image.setImage(new GWImage(getCurrentInstanceId()));		
 		PhotoViewAttacher mAttacher = new PhotoViewAttacher(image);
 		mAttacher.setAllowParentInterceptOnEdge(false); 
-
-		if(isThumb()) { // Se a imagem salva no DAO ainda é a de tamanho pequeno (thumbnail) tenta baixar a foto em tamanho original
-			AsyncRequestHandler mFileHandler = new AsyncRequestHandler() {
-				@Override
-				public void onSuccess(byte[] b, Request request) {
-					if (b == null)
-						return;
-					PhotoDao photoDao = PhotoUtils.initPhotoDao(getActivity().getApplicationContext());
-					Photo photo = PhotoUtils.getPhotoById(getCurrentInstanceId(), photoDao);
-					photo.setPhotoBytes(b);
-					photo.setIsThumb(false);
-					photoDao.update(photo);
-					photoDao.getDatabase().close();
-					
-					// atualiza a imagem
-					image.setImage(new GWImage(getCurrentInstanceId()));		
-				}
-			};	
-			
-			setComponentFileRequestCallback(mFileHandler);
-			String url = getBaseUrl()
-					+ "/photo"
-					+ PhotoUtils.imageType[PhotoUtils.BIG]
-					+ PhotoUtils.getServerIdById(getCurrentInstanceId(),
-							getActivity().getApplicationContext())
-					+ PhotoUtils.urlEndImage[PhotoUtils.BIG];
-			Request request = new Request(null, url, "get", null);
-			makeFileRequest(request);
-		}
 		
 		proxima.setOnClickListener(new OnClickListener() {
 			@Override
@@ -161,6 +133,40 @@ public class PhotoViewGUI extends CRComponent {
 		photoDao.getDatabase().close();
 		return (l.isEmpty() ? getCurrentInstanceId() : ((Photo) l.get(0))
 				.getId());
+	}
+	
+	@Override
+	protected void onBind() {
+
+		if(isThumb()) { // Se a imagem salva no DAO ainda é a de tamanho pequeno (thumbnail) tenta baixar a foto em tamanho original
+			AsyncRequestHandler mFileHandler = new AsyncRequestHandler() {
+				@Override
+				public void onSuccess(byte[] b, Request request) {
+					if (b == null)
+						return;
+					PhotoDao photoDao = PhotoUtils.initPhotoDao(getActivity().getApplicationContext());
+					Photo photo = PhotoUtils.getPhotoById(getCurrentInstanceId(), photoDao);
+					photo.setPhotoBytes(b);
+					photo.setIsThumb(false);
+					photoDao.update(photo);
+					photoDao.getDatabase().close();
+					
+					// atualiza a imagem
+					image.setImage(new GWImage(getCurrentInstanceId()));		
+				}
+			};	
+			
+			setComponentFileRequestCallback(mFileHandler);
+			String url = getBaseUrl()
+					+ "/photo"
+					+ PhotoUtils.imageType[PhotoUtils.BIG]
+					+ PhotoUtils.getServerIdById(getCurrentInstanceId(),
+							getActivity().getApplicationContext())
+					+ PhotoUtils.urlEndImage[PhotoUtils.BIG];
+			Request request = new Request(null, url, "get", null);
+			makeFileRequest(request);
+		}
+		super.onBind();
 	}
 
 }

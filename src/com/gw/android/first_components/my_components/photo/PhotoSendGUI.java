@@ -180,7 +180,7 @@ enviar aparentemente vazio, assim como os dois primeiros campos
 	public void preDefined() {
 		setGeneralGUIId(Constants.PhotoViewGeneralGUIId);
 	}
-
+ 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
