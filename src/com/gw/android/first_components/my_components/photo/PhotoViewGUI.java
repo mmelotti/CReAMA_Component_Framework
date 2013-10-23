@@ -185,11 +185,12 @@ public class PhotoViewGUI extends CRComponent {
 					+ PhotoUtils.urlEndImage[PhotoUtils.BIG];
 			Request request = new Request(null, url, "get", null);
 			makeFileRequest(request);
-			SuperToastUtils.showSuperToast(getActivity()
+			SuperToastUtils.showSuperToast(getActivity() 
 					.getApplicationContext(),
 					SuperToast.BACKGROUND_GREENTRANSLUCENT,
 					"Baixando imagem no tamanho original.");
 		}
+
 		super.onBind();
 	}
 

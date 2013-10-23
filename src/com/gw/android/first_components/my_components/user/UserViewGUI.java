@@ -60,6 +60,7 @@ public class UserViewGUI extends CRComponent {
 
 	@Override
 	protected void onBind() {
+		getConnectionManager().getCookiesInfo();
 		viewRequest();
 	}
 
