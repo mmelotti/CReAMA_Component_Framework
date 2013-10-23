@@ -8,6 +8,7 @@ import uk.co.senab.photoview.PhotoViewAttacher.OnMatrixChangedListener;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.RectF;
 import android.os.Bundle;
 
@@ -28,12 +29,15 @@ import com.gw.android.components.request.Request;
 import com.gw.android.first_components.my_components.photo.PhotoDao.Properties;
 import com.gw.android.first_components.my_fragment.CRComponent;
 import com.loopj.android.image.SmartImageView;
+import com.readystatesoftware.viewbadger.BadgeView;
 
 @SuppressLint("ValidFragment")
 public class PhotoViewGUI extends CRComponent {
 
 	private TextView photoName;
-	SmartImageView image;
+	View rootLayout;
+	SmartImageView imageFront, imageBack;
+	
 	private Button proxima, anterior;
 	private boolean showNavigation = false;
 
@@ -69,20 +73,38 @@ public class PhotoViewGUI extends CRComponent {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.imageone, container, false);
-		image = (SmartImageView) view.findViewById(R.id.imageView1);
-
+		imageFront = (SmartImageView) view.findViewById(R.id.imageViewFront);
+		imageBack = (SmartImageView) view.findViewById(R.id.imageViewBack);
+		
+	    rootLayout = view.findViewById(R.id.relLayout);
+		
 		anterior = (Button) view.findViewById(R.id.imagem_anterior);
 		proxima = (Button) view.findViewById(R.id.imagem_proxima);
 		photoName = (TextView) view.findViewById(R.id.imageText);
 		
+		BadgeView badge = new BadgeView(getActivity(), imageFront);
+		badge.setText("info");
+		badge.setBadgePosition(BadgeView.POSITION_BOTTOM_RIGHT);
+		badge.setBadgeBackgroundColor(Color.GRAY);
+		badge.show();
+		
 		if (!showNavigation)
-			hidePreviousNext();
+			hidePreviousNext(); 
 		
 		photoName.setText(PhotoUtils.getPhotoById(getCurrentInstanceId(), getActivity()).getText());
-		image.setImage(new GWImage(getCurrentInstanceId()));		
-		final PhotoViewAttacher mAttacher = new PhotoViewAttacher(image);
+		imageFront.setImage(new GWImage(getCurrentInstanceId()));
+		imageBack.setImage(new GWImage(getCurrentInstanceId()));
 		
-		mAttacher.setAllowParentInterceptOnEdge(false); 
+		badge.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				onCardClick();
+			}
+		});
+		
+		final PhotoViewAttacher mAttacher = new PhotoViewAttacher(imageFront);
+		
+		mAttacher.setAllowParentInterceptOnEdge(false);  
 		mAttacher.setOnMatrixChangeListener(new OnMatrixChangedListener() {
 			@Override
 			public void onMatrixChanged(RectF arg0) {
@@ -96,11 +118,12 @@ public class PhotoViewGUI extends CRComponent {
 		proxima.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent trocatela = new Intent(getActivity(), getActivity()
+				onCardClick();
+				/*Intent trocatela = new Intent(getActivity(), getActivity()
 						.getClass());
 				trocatela.putExtra("nImagem", proximaImagem());
 				getActivity().startActivity(trocatela);
-				getActivity().finish();
+				getActivity().finish();*/
 			}
 		});
 
@@ -172,13 +195,14 @@ public class PhotoViewGUI extends CRComponent {
 					photoDao.getDatabase().close();
 
 					// atualiza a imagem
-					image.setImage(new GWImage(getCurrentInstanceId()));
+					imageFront.setImage(new GWImage(getCurrentInstanceId()));
+					imageBack.setImage(new GWImage(getCurrentInstanceId()));
 				}
 			};
 
 			setComponentFileRequestCallback(mFileHandler);
 			String url = getBaseUrl()
-					+ "/photo"
+					+ "/photo" 
 					+ PhotoUtils.imageType[PhotoUtils.BIG]
 					+ PhotoUtils.getServerIdById(getCurrentInstanceId(),
 							getActivity().getApplicationContext())
@@ -192,6 +216,17 @@ public class PhotoViewGUI extends CRComponent {
 		}
 
 		super.onBind();
+	}
+	
+	public void onCardClick() { 
+	      Log.e("TOQUE", "CARD FLIP");
+
+	      FlipAnimation flipAnimation = new FlipAnimation(imageFront, imageBack);
+
+	      if (imageFront.getVisibility() == View.GONE) {
+	          flipAnimation.reverse();
+	      }
+	      rootLayout.startAnimation(flipAnimation);
 	}
 
 }
