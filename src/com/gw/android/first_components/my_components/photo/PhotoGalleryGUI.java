@@ -121,7 +121,6 @@ public class PhotoGalleryGUI extends CRComponent {
 				saveImageAfterDownload(photoServerId, b);
 				imgAdapt.updateAdapter();
 				imgAdapt.notifyDataSetChanged();
-			//	imgAdapt.notifyDataSetInvalidated();
 				picGallery.invalidate();
 			}
 		};

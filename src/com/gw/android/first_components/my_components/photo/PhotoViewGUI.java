@@ -14,7 +14,6 @@ import android.os.Bundle;
 
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.ScaleGestureDetector.OnScaleGestureListener;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
@@ -34,9 +33,10 @@ import com.readystatesoftware.viewbadger.BadgeView;
 @SuppressLint("ValidFragment")
 public class PhotoViewGUI extends CRComponent {
 
-	private TextView photoName;
+	private TextView photoName, infoName, infoData;
 	View rootLayout;
-	SmartImageView imageFront, imageBack;
+	SmartImageView imageFront;
+	View imageBack;
 	
 	private Button proxima, anterior;
 	private boolean showNavigation = false;
@@ -73,27 +73,33 @@ public class PhotoViewGUI extends CRComponent {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.imageone, container, false);
-		imageFront = (SmartImageView) view.findViewById(R.id.imageViewFront);
-		imageBack = (SmartImageView) view.findViewById(R.id.imageViewBack);
+		imageFront = (SmartImageView) view.findViewById(R.id.ViewFront);
+		imageBack = view.findViewById(R.id.ViewBack);
 		
 	    rootLayout = view.findViewById(R.id.relLayout);
 		
 		anterior = (Button) view.findViewById(R.id.imagem_anterior);
 		proxima = (Button) view.findViewById(R.id.imagem_proxima);
 		photoName = (TextView) view.findViewById(R.id.imageText);
+		infoName = (TextView) view.findViewById(R.id.infoName);
+		infoData = (TextView) view.findViewById(R.id.infoData);
 		
 		BadgeView badge = new BadgeView(getActivity(), imageFront);
 		badge.setText("info");
 		badge.setBadgePosition(BadgeView.POSITION_BOTTOM_RIGHT);
+		badge.setBadgeMargin(5, 5);
 		badge.setBadgeBackgroundColor(Color.GRAY);
 		badge.show();
 		
 		if (!showNavigation)
 			hidePreviousNext(); 
 		
-		photoName.setText(PhotoUtils.getPhotoById(getCurrentInstanceId(), getActivity()).getText());
+		Photo p = PhotoUtils.getPhotoById(getCurrentInstanceId(), getActivity());
+		photoName.setText(p.getText());
+		infoName.setText(p.getText());
+		infoData.setText(p.getDate().toLocaleString());
+		 
 		imageFront.setImage(new GWImage(getCurrentInstanceId()));
-		imageBack.setImage(new GWImage(getCurrentInstanceId()));
 		
 		badge.setOnClickListener(new OnClickListener() {
 			@Override
@@ -196,7 +202,6 @@ public class PhotoViewGUI extends CRComponent {
 
 					// atualiza a imagem
 					imageFront.setImage(new GWImage(getCurrentInstanceId()));
-					imageBack.setImage(new GWImage(getCurrentInstanceId()));
 				}
 			};
 
