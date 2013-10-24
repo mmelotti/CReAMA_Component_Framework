@@ -223,7 +223,7 @@ public class PhotoViewGUI extends CRComponent {
 
 	      FlipAnimation flipAnimation = new FlipAnimation(imageFront, imageBack);
 
-	      if (imageFront.getVisibility() == View.GONE) {
+	      if (imageFront.getVisibility() == View.INVISIBLE) {
 	          flipAnimation.reverse();
 	      }
 	      rootLayout.startAnimation(flipAnimation);

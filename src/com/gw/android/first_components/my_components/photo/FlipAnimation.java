@@ -64,7 +64,7 @@ public class FlipAnimation extends Animation {
 		// flipped around
 		if (interpolatedTime >= 0.5f) {
 			degrees -= 180.f;
-			fromView.setVisibility(View.GONE);
+			fromView.setVisibility(View.INVISIBLE);
 			toView.setVisibility(View.VISIBLE);
 		}
 

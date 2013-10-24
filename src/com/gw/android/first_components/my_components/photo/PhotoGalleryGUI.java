@@ -11,7 +11,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Bundle;
-import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +20,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.BaseAdapter;
 import android.widget.Gallery;
 import android.widget.ImageView;
+
 import com.github.johnpersano.supertoasts.SuperToast;
 import com.gw.android.R;
 import com.gw.android.Utils.SuperToastUtils;
@@ -34,13 +34,11 @@ import com.loopj.android.image.SmartImageView;
 @SuppressLint("ValidFragment")
 public class PhotoGalleryGUI extends CRComponent {
 	public static int MAX_GALLERY_PHOTOS = 10;
-	Photo[] photos;
-	private PhotoDao photoDao;
 	private CustomGallery picGallery;
 	private PicAdapter imgAdapt;
-	private int currentGallerySelected = -1,photoQtd=0;
+	private int currentGallerySelected = -1;
 	private Long[] photoIds;
-	
+
 	private boolean conectado = true;
 
 	String ip = "200.137.66.94";
@@ -49,7 +47,7 @@ public class PhotoGalleryGUI extends CRComponent {
 	private String jsonTestUrl = "/photos/7/amount/" + MAX_GALLERY_PHOTOS;
 	private String urlEndArquigrafia = "?_format=json";
 	private boolean getOnlyLocal = true;
-	
+
 	private int size = PhotoUtils.CROP;
 
 	public PhotoGalleryGUI(boolean getLocal, int current) {
@@ -79,10 +77,6 @@ public class PhotoGalleryGUI extends CRComponent {
 
 		picGallery = (CustomGallery) view.findViewById(R.id.gallery);
 
-		
-		//criando array das fotos
-		photos = new Photo[MAX_GALLERY_PHOTOS];
-		
 		imgAdapt = new PicAdapter(getActivity());
 		picGallery.setAdapter(imgAdapt);
 
@@ -92,7 +86,8 @@ public class PhotoGalleryGUI extends CRComponent {
 			public void onItemSelected(AdapterView<?> parent, View v,
 					int position, long id) {
 				currentGallerySelected = position;
-				onItemSelectedApplication(parent, v, position, id, photoIds[position]);
+				onItemSelectedApplication(parent, v, position, id,
+						photoIds[position]);
 			}
 
 			@Override
@@ -106,7 +101,8 @@ public class PhotoGalleryGUI extends CRComponent {
 					@Override
 					public void onItemClick(AdapterView<?> parent, View view,
 							int position, long arg3) {
-						onItemClickApplication(parent, view, position, arg3, photoIds[position]);
+						onItemClickApplication(parent, view, position, arg3,
+								photoIds[position]);
 					}
 				});
 
@@ -116,21 +112,17 @@ public class PhotoGalleryGUI extends CRComponent {
 				Log.i("MFILEHANDLER - Fez download da imagem", " sim!");
 				String url = request.getUrl();
 				String auxArray[] = url.split("/");
-				Log.i("MFILEHANDLER - Fez download da imagem", auxArray[auxArray.length - 1]);
-				//String auxArray2[] = auxArray[auxArray.length - 1].split(".j");
-				//String auxArray2[] = auxArray[auxArray.length - 1].split(urlEndImage[CROP]);
-				
-				String photoServerId = auxArray[auxArray.length - 1].replace(PhotoUtils.urlEndImage[size], "");
+				Log.i("MFILEHANDLER - Fez download da imagem",
+						auxArray[auxArray.length - 1]);
+
+				String photoServerId = auxArray[auxArray.length - 1].replace(
+						PhotoUtils.urlEndImage[size], "");
 				Log.i("ID SERVER", photoServerId);
 				saveImageAfterDownload(photoServerId, b);
 				imgAdapt.updateAdapter();
-				getActivity().runOnUiThread(new Runnable() {
-					@Override
-					public void run() {
-						imgAdapt.notifyDataSetChanged();						
-					}
-				});
-
+				imgAdapt.notifyDataSetChanged();
+			//	imgAdapt.notifyDataSetInvalidated();
+				picGallery.invalidate();
 			}
 		};
 
@@ -140,23 +132,24 @@ public class PhotoGalleryGUI extends CRComponent {
 				if (response.startsWith("[")) { // fotos aleatorias
 					Log.i("antes parse array", " id");
 					parseArrayJSON(response);
-				} else if (response.startsWith("{\"photo\":")) { // dados de uma foto
+				} else if (response.startsWith("{\"photo\":")) { // dados de uma
+																	// foto
 					Log.i("pegando dados de uma foto", "uma foto");
 					parseOnePhotoJSON(response);
-				} 
+				}
 			}
 		};
 		setComponentRequestCallback(mHandler);
 		setComponentFileRequestCallback(mFileHandler);
-		if(currentGallerySelected!=-1){
+		if (currentGallerySelected != -1) {
 			picGallery.setSelection(currentGallerySelected);
 		}
-		
+
 		return view;
 	}
 
 	public void onItemSelectedApplication(AdapterView<?> parent, View v,
-			int position, long id, Long photoId) { 
+			int position, long id, Long photoId) {
 		// Photo photo = PhotoUtils.getPhotoById(photoId, getActivity());
 	}
 
@@ -166,30 +159,18 @@ public class PhotoGalleryGUI extends CRComponent {
 	}
 
 	void saveImageAfterDownload(String serverId, byte[] b) {
-		photoDao = PhotoUtils.initPhotoDao(getActivity());
-		Photo photo=null;
-		List<Photo> found = photoDao.queryBuilder()
-				.where(Properties.ServerId.eq(Long.parseLong(serverId))).list();
-		if (found.isEmpty()) {
-			Log.d("SALVANDO", "SERVER ID NÃO EXISTE");
-			Long newI = ComponentSimpleModel.getUniqueId(getActivity());
-			for(Photo f:photos){
-				if(f.getServerId()==Long.parseLong(serverId)){
-					f.setId(newI);
-					f.setDate( new Date());
-					f.setPhotoBytes(b);
-					f.setIsThumb(size == PhotoUtils.CROP);
-					photo=f;
-					f=null;
-					break;
-				}
-			}
-			
-			Log.d("SALVANDO", "id= " + newI);
-			photoDao.insert(photo);
-		} else
-			Log.d("SALVANDO", "SERVER ID EXISTENTE");
+		PhotoDao photoDao = PhotoUtils.initPhotoDao(getActivity());
+		Photo photo = photoDao.queryBuilder()
+				.where(Properties.ServerId.eq(Long.parseLong(serverId)))
+				.unique();
 
+		if (photo == null)
+			return;
+
+		photo.setPhotoBytes(b);
+		photo.setIsThumb(size == PhotoUtils.CROP);
+
+		photoDao.update(photo);
 		photoDao.getDatabase().close();
 	}
 
@@ -200,16 +181,19 @@ public class PhotoGalleryGUI extends CRComponent {
 			object = new JSONObject(r);
 
 			JSONObject photoObject = object.getJSONObject("photo");
-
-			Photo photo = new Photo();
 			String nome = photoObject.get("name").toString();
 			Long idServ = Long.parseLong(photoObject.get("id").toString());
-			
-			photo.setText(nome);
-			photo.setServerId(idServ);
-			photos[photoQtd]=photo;
-			photoQtd++;
-			
+
+			PhotoDao photoDao = PhotoUtils.initPhotoDao(getActivity());
+			Photo photo = (Photo) photoDao.queryBuilder()
+					.where(Properties.ServerId.eq(idServ)).build().unique();
+			if (photo == null) {
+				photo = new Photo(
+						ComponentSimpleModel.getUniqueId(getActivity()), null,
+						idServ, true, null, nome, new Date());
+				photoDao.insert(photo);
+			}
+			photoDao.getDatabase().close();
 
 			Log.i("Parseando uma foto", " name=" + nome);
 			getTheImage(Long.toString(idServ));
@@ -239,8 +223,10 @@ public class PhotoGalleryGUI extends CRComponent {
 	protected void onBind() {
 		if (getOnlyLocal == false) {
 			getPhotosIdRequest();
-			SuperToastUtils.showSuperToast(getActivity(), SuperToast.BACKGROUND_GREENTRANSLUCENT, "Iniciando download das imagens...");
-			Log.i("ON Bbind", " FEZ REQUEST"); 
+			SuperToastUtils.showSuperToast(getActivity(),
+					SuperToast.BACKGROUND_GREENTRANSLUCENT,
+					"Iniciando download das imagens...");
+			Log.i("ON Bbind", " FEZ REQUEST");
 		}
 
 	}
@@ -251,7 +237,7 @@ public class PhotoGalleryGUI extends CRComponent {
 			makeFileRequest(request);
 		} else { // pega no cache
 		}
-	} 
+	}
 
 	public void createSimpleRequest(String url, String type) {
 		Request request = new Request(null, url, type, null);
@@ -262,7 +248,7 @@ public class PhotoGalleryGUI extends CRComponent {
 	}
 
 	private void getPhotosIdRequest() {
-		createSimpleRequest(getBaseUrl()+jsonTestUrl, "get");
+		createSimpleRequest(getBaseUrl() + jsonTestUrl, "get");
 	}
 
 	private void getOnePhotoRequest(String id) {
@@ -271,7 +257,8 @@ public class PhotoGalleryGUI extends CRComponent {
 	}
 
 	private void getTheImage(String id) {
-		createSimpleFileRequest(getBaseUrl() + "/photo" + PhotoUtils.imageType[size] + id
+		createSimpleFileRequest(getBaseUrl() + "/photo"
+				+ PhotoUtils.imageType[size] + id
 				+ PhotoUtils.urlEndImage[size], "get");
 	}
 
@@ -279,7 +266,6 @@ public class PhotoGalleryGUI extends CRComponent {
 	public class PicAdapter extends BaseAdapter {
 		int defaultItemBackground;
 		private Context galleryContext;
-		
 
 		public PicAdapter(Context c) {
 			galleryContext = c;
@@ -296,15 +282,16 @@ public class PhotoGalleryGUI extends CRComponent {
 		}
 
 		void updateAdapter() {
-			photoDao = PhotoUtils.initPhotoDao(getActivity());
-			List<Photo> list = photoDao.queryBuilder().orderDesc(Properties.Id).limit(MAX_GALLERY_PHOTOS).list();
+			PhotoDao photoDao = PhotoUtils.initPhotoDao(getActivity());
+			List<Photo> list = photoDao.queryBuilder()
+					.where(Properties.PhotoBytes.isNotNull())
+					.orderDesc(Properties.Id).limit(MAX_GALLERY_PHOTOS).list();
 			photoDao.getDatabase().close();
 
 			photoIds = new Long[list.size()];
-			
+
 			for (int i = 0; i < photoIds.length; i++) 
-				photoIds[i] = list.get(i).getId();
-			
+				photoIds[i] = list.get(i).getId();	
 		}
 
 		// BaseAdapter methods
@@ -326,9 +313,11 @@ public class PhotoGalleryGUI extends CRComponent {
 		// the gallery
 		public View getView(int position, View convertView, ViewGroup parent) {
 			SmartImageView imageView = new SmartImageView(galleryContext);
-			final float scale = getActivity().getResources().getDisplayMetrics().density;
-			imageView.setImage(new GWImage(photoIds[position]));	
-			imageView.setLayoutParams(new Gallery.LayoutParams((int) (200 * scale + 0.5f), (int) (150 * scale + 0.5f)));
+			final float scale = getActivity().getResources()
+					.getDisplayMetrics().density;
+			imageView.setImage(new GWImage(photoIds[position]));
+			imageView.setLayoutParams(new Gallery.LayoutParams(
+					(int) (200 * scale + 0.5f), (int) (150 * scale + 0.5f)));
 			imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
 			imageView.setBackgroundResource(defaultItemBackground);
 			return imageView;
