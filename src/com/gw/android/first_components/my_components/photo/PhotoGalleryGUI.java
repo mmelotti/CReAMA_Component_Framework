@@ -11,6 +11,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Bundle;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,7 +36,7 @@ public class PhotoGalleryGUI extends CRComponent {
 	public static int MAX_GALLERY_PHOTOS = 10;
 	Photo[] photos;
 	private PhotoDao photoDao;
-	private Gallery picGallery;
+	private CustomGallery picGallery;
 	private PicAdapter imgAdapt;
 	private int currentGallerySelected = -1,photoQtd=0;
 	private Long[] photoIds;
@@ -76,7 +77,7 @@ public class PhotoGalleryGUI extends CRComponent {
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.image_gallery, container, false);
 
-		picGallery = (Gallery) view.findViewById(R.id.gallery);
+		picGallery = (CustomGallery) view.findViewById(R.id.gallery);
 
 		
 		//criando array das fotos
@@ -123,7 +124,13 @@ public class PhotoGalleryGUI extends CRComponent {
 				Log.i("ID SERVER", photoServerId);
 				saveImageAfterDownload(photoServerId, b);
 				imgAdapt.updateAdapter();
-				imgAdapt.notifyDataSetChanged();
+				getActivity().runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						imgAdapt.notifyDataSetChanged();						
+					}
+				});
+
 			}
 		};
 
@@ -321,10 +328,11 @@ public class PhotoGalleryGUI extends CRComponent {
 			SmartImageView imageView = new SmartImageView(galleryContext);
 			final float scale = getActivity().getResources().getDisplayMetrics().density;
 			imageView.setImage(new GWImage(photoIds[position]));	
-			imageView.setLayoutParams(new Gallery.LayoutParams((int) (170 * scale + 0.5f), (int) (140 * scale + 0.5f)));
+			imageView.setLayoutParams(new Gallery.LayoutParams((int) (200 * scale + 0.5f), (int) (150 * scale + 0.5f)));
 			imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
 			imageView.setBackgroundResource(defaultItemBackground);
 			return imageView;
 		}
 	}
+
 }
