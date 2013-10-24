@@ -33,10 +33,11 @@ import com.loopj.android.image.SmartImageView;
 @SuppressLint("ValidFragment")
 public class PhotoGalleryGUI extends CRComponent {
 	public static int MAX_GALLERY_PHOTOS = 10;
+	Photo[] photos;
 	private PhotoDao photoDao;
 	private Gallery picGallery;
 	private PicAdapter imgAdapt;
-	private int currentGallerySelected = -1;
+	private int currentGallerySelected = -1,photoQtd=0;
 	private Long[] photoIds;
 	
 	private boolean conectado = true;
@@ -77,6 +78,10 @@ public class PhotoGalleryGUI extends CRComponent {
 
 		picGallery = (Gallery) view.findViewById(R.id.gallery);
 
+		
+		//criando array das fotos
+		photos = new Photo[MAX_GALLERY_PHOTOS];
+		
 		imgAdapt = new PicAdapter(getActivity());
 		picGallery.setAdapter(imgAdapt);
 
@@ -155,13 +160,24 @@ public class PhotoGalleryGUI extends CRComponent {
 
 	void saveImageAfterDownload(String serverId, byte[] b) {
 		photoDao = PhotoUtils.initPhotoDao(getActivity());
+		Photo photo=null;
 		List<Photo> found = photoDao.queryBuilder()
 				.where(Properties.ServerId.eq(Long.parseLong(serverId))).list();
 		if (found.isEmpty()) {
 			Log.d("SALVANDO", "SERVER ID NÃO EXISTE");
 			Long newI = ComponentSimpleModel.getUniqueId(getActivity());
-			Photo photo = new Photo(newI, null, Long.parseLong(serverId), size == PhotoUtils.CROP, b,
-					null, new Date());
+			for(Photo f:photos){
+				if(f.getServerId()==Long.parseLong(serverId)){
+					f.setId(newI);
+					f.setDate( new Date());
+					f.setPhotoBytes(b);
+					f.setIsThumb(size == PhotoUtils.CROP);
+					photo=f;
+					f=null;
+					break;
+				}
+			}
+			
 			Log.d("SALVANDO", "id= " + newI);
 			photoDao.insert(photo);
 		} else
@@ -178,8 +194,15 @@ public class PhotoGalleryGUI extends CRComponent {
 
 			JSONObject photoObject = object.getJSONObject("photo");
 
+			Photo photo = new Photo();
 			String nome = photoObject.get("name").toString();
 			Long idServ = Long.parseLong(photoObject.get("id").toString());
+			
+			photo.setText(nome);
+			photo.setServerId(idServ);
+			photos[photoQtd]=photo;
+			photoQtd++;
+			
 
 			Log.i("Parseando uma foto", " name=" + nome);
 			getTheImage(Long.toString(idServ));
