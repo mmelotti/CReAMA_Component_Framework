@@ -3,6 +3,7 @@ package com.gw.android.first_components.my_components.tracker;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -28,14 +29,25 @@ import com.gw.android.first_components.my_components.gps.Coordinates;
 import com.gw.android.first_components.my_components.gps.CoordinatesDao;
 import com.gw.android.first_components.my_fragment.CRComponent;
 
+@SuppressLint("ValidFragment")
 public class TrackerGUI extends CRComponent {
 
 	List<Coordinates> l;
+    List<Trackable> li;
 	float lastZoom;
 	private MapView mMapView;
     private GoogleMap mMap;
     private Bundle mBundle;  
     CoordinatesDao coordDao;
+    
+    public TrackerGUI(List<Trackable> li){
+    	this.li=li;
+    }
+    
+    public TrackerGUI(){
+    	
+    }
+
 	public static CoordinatesDao initCoordinatesDao(Context context) {
 		DevOpenHelper helper = new DaoMaster.DevOpenHelper(context,
 				"coordinatess-db", null);
@@ -45,7 +57,7 @@ public class TrackerGUI extends CRComponent {
 		return daoSession.getCoordinatesDao();
 	}
 	
-	private void populateMap(float zoom) {
+	public void populateMap(float zoom) {
 		mMap.clear();
 		int iconResource;
 		
@@ -56,7 +68,7 @@ public class TrackerGUI extends CRComponent {
 		else
 			iconResource = R.drawable.picture_large;
 		
-		List<Trackable> li=new ArrayList();
+		li=new ArrayList();
 		
 		for(Trackable t:li){
 			
@@ -70,6 +82,29 @@ public class TrackerGUI extends CRComponent {
 	        .snippet("Marker teste!").icon(BitmapDescriptorFactory.fromResource(iconResource))
 	        );
 		}
+	}
+	
+	public void populateMapFromList(float zoom) {
+		mMap.clear();
+		int iconResource;
+		
+		if (zoom <= 6)
+			iconResource = R.drawable.picture_small;
+		else if(zoom <= 12)
+			iconResource = R.drawable.picture_medium;
+		else
+			iconResource = R.drawable.picture_large;
+		
+		li=new ArrayList();
+		
+		for(Trackable t:li){
+			mMap.addMarker(new MarkerOptions()
+	        .position(new LatLng(t.getCoordinates().getLatitude(), t.getCoordinates().getLongitude()))
+	        .title("Teste")
+	        .snippet("Marker teste!").icon(BitmapDescriptorFactory.fromResource(iconResource))
+	        );
+		}
+		
 	}
 	
 	public OnCameraChangeListener getCameraChangeListener() {

@@ -1,6 +1,9 @@
 package com.gw.android.first_components.my_components.user;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -156,6 +159,12 @@ public class UserViewGUI extends CRComponent implements Trackable{
 		// TODO url deles, falta fazer
 		Request request = new Request(null, urlView, "get", null);
 		makeRequest(request);
+	}
+	
+	public List<Trackable> getListTrackable(){
+		 List<Trackable> li=new ArrayList();
+		
+		return li;
 	}
 
 }
