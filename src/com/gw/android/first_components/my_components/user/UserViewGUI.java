@@ -16,16 +16,21 @@ import com.gw.android.R;
 import com.gw.android.components.connection_manager.AsyncRequestHandler;
 import com.gw.android.components.request.Request;
 
+import com.gw.android.first_components.my_components.gps.Coordinates;
+import com.gw.android.first_components.my_components.tracker.Trackable;
 import com.gw.android.first_components.my_fragment.CRActivity;
 import com.gw.android.first_components.my_fragment.CRComponent;
 
-public class UserViewGUI extends CRComponent {
+public class UserViewGUI extends CRComponent implements Trackable{
 
 	// private LayoutInflater li;
 	private String urlView;
 	int userUrl;
 	private boolean conectado = true;
 	private TextView login, name, email, id;
+	String uName = "";
+	String uLogin = "";
+	String uEmail = "";
 
 	String ip = "200.137.66.94";
 	String url = "http://" + ip
@@ -61,7 +66,13 @@ public class UserViewGUI extends CRComponent {
 	@Override
 	protected void onBind() {
 		getConnectionManager().getCookiesInfo();
-		viewRequest();
+		if(isTrackable()){
+			doTrackableRequest();
+		}
+		else{
+			viewRequest();
+		}
+		
 	}
 
 	void viewRequest() {
@@ -84,9 +95,7 @@ public class UserViewGUI extends CRComponent {
 	public void atualizarAfterSucces(String r) {
 		// TODO parser xml
 
-		String uName = "";
-		String uLogin = "";
-		String uEmail = "";
+		
 		Long uId = 0L;
 
 		try {
@@ -112,6 +121,41 @@ public class UserViewGUI extends CRComponent {
 		login.setText(login.getText() + uLogin);
 		id.setText(id.getText() + "" + uId);
 
+	}
+
+	@Override
+	public String getName() {
+		// TODO Auto-generated method stub
+		return uName;
+	}
+
+	@Override
+	public String getComponentType() {
+		// TODO Auto-generated method stub
+		return "User";
+	}
+
+	@Override
+	public int getIcon() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public Coordinates getCoordinates() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public boolean isTrackable(){
+		return true;
+	}
+
+	@Override
+	public void doTrackableRequest() {
+		// TODO url deles, falta fazer
+		Request request = new Request(null, urlView, "get", null);
+		makeRequest(request);
 	}
 
 }

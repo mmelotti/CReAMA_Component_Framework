@@ -27,6 +27,8 @@ public abstract class CRComponent extends GenericComponent {
 	private AsyncRequestHandler componentFileHandler = new AsyncRequestHandler();
 	private AsyncRequestHandler applicationFileHandler = new AsyncRequestHandler();
 	
+	
+	
 	private RequestListener component = null;
 	private String nick;
 	private static String MSG_ENVIOU = "enviou";
@@ -228,5 +230,8 @@ public abstract class CRComponent extends GenericComponent {
 		doBindService();
 	}
 	
+	public boolean isTrackable(){
+		return false;
+	}
 
 }

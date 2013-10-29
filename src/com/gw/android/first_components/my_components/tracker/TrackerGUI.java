@@ -1,5 +1,6 @@
 package com.gw.android.first_components.my_components.tracker;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
@@ -54,6 +55,13 @@ public class TrackerGUI extends CRComponent {
 			iconResource = R.drawable.picture_medium;
 		else
 			iconResource = R.drawable.picture_large;
+		
+		List<Trackable> li=new ArrayList();
+		
+		for(Trackable t:li){
+			
+		}
+		
 		
 		for (Coordinates c : l) {
 			mMap.addMarker(new MarkerOptions()
