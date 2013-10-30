@@ -68,10 +68,13 @@ public class TrackerGUI extends CRComponent {
 		else
 			iconResource = R.drawable.picture_large;
 		
-		li=new ArrayList();
+		
 		
 		for(Trackable t:li){
-			
+			mMap.addMarker(new MarkerOptions()
+	        .position(new LatLng(t.getCoordinates().getLatitude(), t.getCoordinates().getLongitude()))
+	        .title("Teste")
+	        .snippet("Marker teste!").icon(BitmapDescriptorFactory.fromResource(iconResource)));
 		}
 		
 		
@@ -84,28 +87,6 @@ public class TrackerGUI extends CRComponent {
 		}
 	}
 	
-	public void populateMapFromList(float zoom) {
-		mMap.clear();
-		int iconResource;
-		
-		if (zoom <= 6)
-			iconResource = R.drawable.picture_small;
-		else if(zoom <= 12)
-			iconResource = R.drawable.picture_medium;
-		else
-			iconResource = R.drawable.picture_large;
-		
-		li=new ArrayList();
-		
-		for(Trackable t:li){
-			mMap.addMarker(new MarkerOptions()
-	        .position(new LatLng(t.getCoordinates().getLatitude(), t.getCoordinates().getLongitude()))
-	        .title("Teste")
-	        .snippet("Marker teste!").icon(BitmapDescriptorFactory.fromResource(iconResource))
-	        );
-		}
-		
-	}
 	
 	public OnCameraChangeListener getCameraChangeListener() {
 		return new OnCameraChangeListener() {

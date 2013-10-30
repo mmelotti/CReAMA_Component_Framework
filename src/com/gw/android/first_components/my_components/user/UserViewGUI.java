@@ -163,6 +163,9 @@ public class UserViewGUI extends CRComponent implements Trackable{
 	
 	public List<Trackable> getListTrackable(){
 		 List<Trackable> li=new ArrayList();
+		 User teste = new User();
+		 teste.setUsuario("Joao");
+		 li.add(teste);
 		
 		return li;
 	}

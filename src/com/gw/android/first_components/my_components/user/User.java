@@ -1,5 +1,7 @@
 package com.gw.android.first_components.my_components.user;
 
+import com.gw.android.R;
+
 import com.gw.android.first_components.my_components.gps.Coordinates;
 import com.gw.android.first_components.my_components.tracker.Trackable;
 
@@ -123,25 +125,25 @@ public class User extends com.gw.android.first_components.my_fragment.ComponentS
 	@Override
 	public String getName() {
 		// TODO Auto-generated method stub
-		return null;
+		return usuario;
 	}
 
 	@Override
 	public String getComponentType() {
 		// TODO Auto-generated method stub
-		return null;
+		return "User View";
 	}
 
 	@Override
 	public int getIcon() {
 		// TODO Auto-generated method stub
-		return 0;
+		return R.drawable.user_small;
 	}
 
 	@Override
 	public Coordinates getCoordinates() {
 		// TODO Auto-generated method stub
-		return null;
+		return new Coordinates(null, null, null, -20.4, -40.30, null, null, null);
 	}
 
 	@Override
