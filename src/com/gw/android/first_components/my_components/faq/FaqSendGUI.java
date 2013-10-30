@@ -42,8 +42,7 @@ public class FaqSendGUI extends CRComponent implements OnClickListener {
 	private boolean conectado = true;
 
 	private String getUrl() {
-		SharedPreferences testPrefs = getActivity()
-				.getApplication()
+		SharedPreferences testPrefs = getActivity().getApplication()
 				.getSharedPreferences("test_prefs", Context.MODE_PRIVATE);
 		return testPrefs.getString("base_url", "");
 	}
@@ -75,7 +74,7 @@ public class FaqSendGUI extends CRComponent implements OnClickListener {
 		url = getUrl();
 		faqUrl = getCollabletId();
 		urlSave = url + "/faq/" + faqUrl;
-		
+
 		View view = inflater.inflate(R.layout.faq_send, container, false);
 		editQuestion = (EditText) view.findViewById(R.id.editQuestion);
 		editAnswer = (EditText) view.findViewById(R.id.editAnswer);
@@ -84,7 +83,7 @@ public class FaqSendGUI extends CRComponent implements OnClickListener {
 
 		editQuestion.setText(question);
 		editAnswer.setText(answer);
-		
+
 		initializeCallback();
 		return view;
 	}
@@ -107,30 +106,33 @@ public class FaqSendGUI extends CRComponent implements OnClickListener {
 		Request request = new Request(null, urlSave, "post", "faq.id--"
 				+ idServer + "__faq.pergunta--" + pergunta + "__faq.resposta--"
 				+ resposta);
-		
+
 		// poe na fila de request primeiro, para o servico consumir
 		// se estiver conectado, vai tentar enviar pro servidor
 		// de qualquer maneira, salva no cache
 		if (conectado)
-			makeRequest(request);		
+			makeRequest(request);
 
 		Faq faq = new Faq();
 		faq.setPergunta(pergunta);
 		faq.setResposta(resposta);
-		
+
 		// operacoes no cache
 		if (idServer.equals("")) {
-			// nao tem no server, pode ser novo, mas tem que ver se já nao está no cache!
+			// nao tem no server, pode ser novo, mas tem que ver se já nao está
+			// no cache!
 
 			if (idLocal.equals("")) // nao tem no cache
 				newOnePersistence(faq);
-			else // tem, entao update
+			else
+				// tem, entao update
 				changeOne(idLocal, faq);
 
 			// mesmo se nao tiver conectado salva no cache, se cair conexao ele
 			// ainda pode alterar
 
-		} else // nao eh um novo
+		} else
+			// nao eh um novo
 			changeOne(idLocal, faq);
 
 		return "";

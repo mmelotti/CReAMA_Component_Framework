@@ -11,24 +11,24 @@ public class GWImage implements SmartImage {
 	boolean downloadBig = false;
 
 	GWImage(Long id) {
-		this.id = id;		
+		this.id = id;
 	}
 
 	GWImage(Long id, boolean downloadBigPhoto) {
 		this.id = id;
 		this.downloadBig = downloadBigPhoto;
 	}
-	
+
 	@Override
 	public Bitmap getBitmap(Context ctx) {
 		byte[] data = PhotoUtils.getPhotoById(id, ctx).getPhotoBytes();
-		
-		if(data != null) {
+
+		if (data != null) {
 			return BitmapFactory.decodeByteArray(data, 0, data.length);
-		} else{
+		} else {
 			return null;
 		}
-		
+
 	}
 
 }

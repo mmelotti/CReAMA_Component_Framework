@@ -44,10 +44,9 @@ public class FaqListGUI extends CRComponent implements OnItemClickListener {
 	private boolean conectado = true;
 	private FaqDao faqDao;
 	private DaoSession daoSession;
-	
+
 	private String getUrl() {
-		SharedPreferences testPrefs = getActivity()
-				.getApplication()
+		SharedPreferences testPrefs = getActivity().getApplication()
 				.getSharedPreferences("test_prefs", Context.MODE_PRIVATE);
 		return testPrefs.getString("base_url", "");
 	}
@@ -76,11 +75,11 @@ public class FaqListGUI extends CRComponent implements OnItemClickListener {
 		url = getUrl();
 		faqUrl = getCollabletId();
 		urlList = url + "/faq/" + faqUrl + "/list?_format=json";
-		
+
 		View view = inflater.inflate(R.layout.faq_list, container, false);
 		listView = (ListView) view.findViewById(R.id.listView);
 		listView.setOnItemClickListener(this);
-		
+
 		AsyncRequestHandler mHandler = new AsyncRequestHandler() {
 			@Override
 			public void onSuccess(String response, Request r) {
@@ -91,8 +90,7 @@ public class FaqListGUI extends CRComponent implements OnItemClickListener {
 
 				ArrayAdapter<String> adapter = new ArrayAdapter<String>(
 						getActivity().getApplicationContext(),
-						android.R.layout.simple_list_item_1,
-						mQuestions);
+						android.R.layout.simple_list_item_1, mQuestions);
 				adapter.notifyDataSetChanged();
 				listView.setAdapter(adapter);
 			}
@@ -104,16 +102,16 @@ public class FaqListGUI extends CRComponent implements OnItemClickListener {
 
 	void listRequest() {
 		Request request = new Request(null, urlList, "get", null);
-		
+
 		// se nao estiver conectado, nem vale ir para a fila de request
 		// se estiver conectado, vai tentar buscar no servidor as
 		// perguntas/respostas
 		// depois salva no cache para acesso offline
-		
+
 		if (conectado)
-			makeRequest(request);					
+			makeRequest(request);
 		else {// pega no cache
-			// preenche list (from cache) para mostrar no view
+				// preenche list (from cache) para mostrar no view
 			fillList();
 			mQuestions.clear();
 			for (Faq f : list)
@@ -172,13 +170,12 @@ public class FaqListGUI extends CRComponent implements OnItemClickListener {
 			long id) {
 		AsyncRequestHandler saveHandler = new AsyncRequestHandler() {
 			@Override
-			public void onSuccess(String arg1,Request r) {
-				Toast.makeText(getActivity(),
-						"Pergunta salva!", Toast.LENGTH_SHORT)
-						.show();
+			public void onSuccess(String arg1, Request r) {
+				Toast.makeText(getActivity(), "Pergunta salva!",
+						Toast.LENGTH_SHORT).show();
 			}
 		};
-		
+
 		Faq f = list.get(position);
 		FaqSendGUI faqView = new FaqSendGUI();
 		faqView.setData(f.getId().toString(), f.getPergunta(), f.getResposta(),
@@ -215,7 +212,7 @@ public class FaqListGUI extends CRComponent implements OnItemClickListener {
 		list = faqDao.queryBuilder().build().list();
 		closeDao();
 	}
-	
+
 	public void setUrlVariable(String faq) {
 		setNick(faq);
 		faqUrl = getCollabletId();

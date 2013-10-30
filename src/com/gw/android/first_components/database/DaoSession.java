@@ -38,124 +38,126 @@ import com.gw.android.first_components.my_components.rating2comment.RatingToComm
  */
 public class DaoSession extends AbstractDaoSession {
 
-    private final DaoConfig commentDaoConfig;
-    private final DaoConfig photoDaoConfig;
-    private final DaoConfig tagDaoConfig;
-    private final DaoConfig binomioDaoConfig;
-    private final DaoConfig coordinatesDaoConfig;
-    private final DaoConfig faqDaoConfig;
-    private final DaoConfig userDaoConfig;
-    private final DaoConfig ratingDaoConfig;
-    private final DaoConfig ratingToCommentDaoConfig;
+	private final DaoConfig commentDaoConfig;
+	private final DaoConfig photoDaoConfig;
+	private final DaoConfig tagDaoConfig;
+	private final DaoConfig binomioDaoConfig;
+	private final DaoConfig coordinatesDaoConfig;
+	private final DaoConfig faqDaoConfig;
+	private final DaoConfig userDaoConfig;
+	private final DaoConfig ratingDaoConfig;
+	private final DaoConfig ratingToCommentDaoConfig;
 
-    private final CommentDao commentDao;
-    private final PhotoDao photoDao;
-    private final TagDao tagDao;
-    private final BinomioDao binomioDao;
-    private final CoordinatesDao coordinatesDao;
-    private final FaqDao faqDao;
-    private final UserDao userDao;
-    private final RatingDao ratingDao;
-    private final RatingToCommentDao ratingToCommentDao;
+	private final CommentDao commentDao;
+	private final PhotoDao photoDao;
+	private final TagDao tagDao;
+	private final BinomioDao binomioDao;
+	private final CoordinatesDao coordinatesDao;
+	private final FaqDao faqDao;
+	private final UserDao userDao;
+	private final RatingDao ratingDao;
+	private final RatingToCommentDao ratingToCommentDao;
 
-    public DaoSession(SQLiteDatabase db, IdentityScopeType type, Map<Class<? extends AbstractDao<?, ?>>, DaoConfig>
-            daoConfigMap) {
-        super(db);
+	public DaoSession(SQLiteDatabase db, IdentityScopeType type,
+			Map<Class<? extends AbstractDao<?, ?>>, DaoConfig> daoConfigMap) {
+		super(db);
 
-        commentDaoConfig = daoConfigMap.get(CommentDao.class).clone();
-        commentDaoConfig.initIdentityScope(type);
+		commentDaoConfig = daoConfigMap.get(CommentDao.class).clone();
+		commentDaoConfig.initIdentityScope(type);
 
-        photoDaoConfig = daoConfigMap.get(PhotoDao.class).clone();
-        photoDaoConfig.initIdentityScope(type);
+		photoDaoConfig = daoConfigMap.get(PhotoDao.class).clone();
+		photoDaoConfig.initIdentityScope(type);
 
-        tagDaoConfig = daoConfigMap.get(TagDao.class).clone();
-        tagDaoConfig.initIdentityScope(type);
+		tagDaoConfig = daoConfigMap.get(TagDao.class).clone();
+		tagDaoConfig.initIdentityScope(type);
 
-        binomioDaoConfig = daoConfigMap.get(BinomioDao.class).clone();
-        binomioDaoConfig.initIdentityScope(type);
+		binomioDaoConfig = daoConfigMap.get(BinomioDao.class).clone();
+		binomioDaoConfig.initIdentityScope(type);
 
-        coordinatesDaoConfig = daoConfigMap.get(CoordinatesDao.class).clone();
-        coordinatesDaoConfig.initIdentityScope(type);
+		coordinatesDaoConfig = daoConfigMap.get(CoordinatesDao.class).clone();
+		coordinatesDaoConfig.initIdentityScope(type);
 
-        faqDaoConfig = daoConfigMap.get(FaqDao.class).clone();
-        faqDaoConfig.initIdentityScope(type);
+		faqDaoConfig = daoConfigMap.get(FaqDao.class).clone();
+		faqDaoConfig.initIdentityScope(type);
 
-        userDaoConfig = daoConfigMap.get(UserDao.class).clone();
-        userDaoConfig.initIdentityScope(type);
+		userDaoConfig = daoConfigMap.get(UserDao.class).clone();
+		userDaoConfig.initIdentityScope(type);
 
-        ratingDaoConfig = daoConfigMap.get(RatingDao.class).clone();
-        ratingDaoConfig.initIdentityScope(type);
+		ratingDaoConfig = daoConfigMap.get(RatingDao.class).clone();
+		ratingDaoConfig.initIdentityScope(type);
 
-        ratingToCommentDaoConfig = daoConfigMap.get(RatingToCommentDao.class).clone();
-        ratingToCommentDaoConfig.initIdentityScope(type);
+		ratingToCommentDaoConfig = daoConfigMap.get(RatingToCommentDao.class)
+				.clone();
+		ratingToCommentDaoConfig.initIdentityScope(type);
 
-        commentDao = new CommentDao(commentDaoConfig, this);
-        photoDao = new PhotoDao(photoDaoConfig, this);
-        tagDao = new TagDao(tagDaoConfig, this);
-        binomioDao = new BinomioDao(binomioDaoConfig, this);
-        coordinatesDao = new CoordinatesDao(coordinatesDaoConfig, this);
-        faqDao = new FaqDao(faqDaoConfig, this);
-        userDao = new UserDao(userDaoConfig, this);
-        ratingDao = new RatingDao(ratingDaoConfig, this);
-        ratingToCommentDao = new RatingToCommentDao(ratingToCommentDaoConfig, this);
+		commentDao = new CommentDao(commentDaoConfig, this);
+		photoDao = new PhotoDao(photoDaoConfig, this);
+		tagDao = new TagDao(tagDaoConfig, this);
+		binomioDao = new BinomioDao(binomioDaoConfig, this);
+		coordinatesDao = new CoordinatesDao(coordinatesDaoConfig, this);
+		faqDao = new FaqDao(faqDaoConfig, this);
+		userDao = new UserDao(userDaoConfig, this);
+		ratingDao = new RatingDao(ratingDaoConfig, this);
+		ratingToCommentDao = new RatingToCommentDao(ratingToCommentDaoConfig,
+				this);
 
-        registerDao(Comment.class, commentDao);
-        registerDao(Photo.class, photoDao);
-        registerDao(Tag.class, tagDao);
-        registerDao(Binomio.class, binomioDao);
-        registerDao(Coordinates.class, coordinatesDao);
-        registerDao(Faq.class, faqDao);
-        registerDao(User.class, userDao);
-        registerDao(Rating.class, ratingDao);
-        registerDao(RatingToComment.class, ratingToCommentDao);
-    }
-    
-    public void clear() {
-        commentDaoConfig.getIdentityScope().clear();
-        photoDaoConfig.getIdentityScope().clear();
-        tagDaoConfig.getIdentityScope().clear();
-        binomioDaoConfig.getIdentityScope().clear();
-        coordinatesDaoConfig.getIdentityScope().clear();
-        faqDaoConfig.getIdentityScope().clear();
-        userDaoConfig.getIdentityScope().clear();
-        ratingDaoConfig.getIdentityScope().clear();
-        ratingToCommentDaoConfig.getIdentityScope().clear();
-    }
+		registerDao(Comment.class, commentDao);
+		registerDao(Photo.class, photoDao);
+		registerDao(Tag.class, tagDao);
+		registerDao(Binomio.class, binomioDao);
+		registerDao(Coordinates.class, coordinatesDao);
+		registerDao(Faq.class, faqDao);
+		registerDao(User.class, userDao);
+		registerDao(Rating.class, ratingDao);
+		registerDao(RatingToComment.class, ratingToCommentDao);
+	}
 
-    public CommentDao getCommentDao() {
-        return commentDao;
-    }
+	public void clear() {
+		commentDaoConfig.getIdentityScope().clear();
+		photoDaoConfig.getIdentityScope().clear();
+		tagDaoConfig.getIdentityScope().clear();
+		binomioDaoConfig.getIdentityScope().clear();
+		coordinatesDaoConfig.getIdentityScope().clear();
+		faqDaoConfig.getIdentityScope().clear();
+		userDaoConfig.getIdentityScope().clear();
+		ratingDaoConfig.getIdentityScope().clear();
+		ratingToCommentDaoConfig.getIdentityScope().clear();
+	}
 
-    public PhotoDao getPhotoDao() {
-        return photoDao;
-    }
+	public CommentDao getCommentDao() {
+		return commentDao;
+	}
 
-    public TagDao getTagDao() {
-        return tagDao;
-    }
+	public PhotoDao getPhotoDao() {
+		return photoDao;
+	}
 
-    public BinomioDao getBinomioDao() {
-        return binomioDao;
-    }
+	public TagDao getTagDao() {
+		return tagDao;
+	}
 
-    public CoordinatesDao getCoordinatesDao() {
-        return coordinatesDao;
-    }
+	public BinomioDao getBinomioDao() {
+		return binomioDao;
+	}
 
-    public FaqDao getFaqDao() {
-        return faqDao;
-    }
+	public CoordinatesDao getCoordinatesDao() {
+		return coordinatesDao;
+	}
 
-    public UserDao getUserDao() {
-        return userDao;
-    }
+	public FaqDao getFaqDao() {
+		return faqDao;
+	}
 
-    public RatingDao getRatingDao() {
-        return ratingDao;
-    }
+	public UserDao getUserDao() {
+		return userDao;
+	}
 
-    public RatingToCommentDao getRatingToCommentDao() {
-        return ratingToCommentDao;
-    }
+	public RatingDao getRatingDao() {
+		return ratingDao;
+	}
+
+	public RatingToCommentDao getRatingToCommentDao() {
+		return ratingToCommentDao;
+	}
 
 }

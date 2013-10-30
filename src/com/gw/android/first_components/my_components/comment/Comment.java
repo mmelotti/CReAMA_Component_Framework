@@ -4,70 +4,75 @@ package com.gw.android.first_components.my_components.comment;
 /**
  * Entity mapped to table COMMENT.
  */
-public class Comment extends com.gw.android.first_components.my_fragment.ComponentSimpleModel  {
+public class Comment extends
+		com.gw.android.first_components.my_fragment.ComponentSimpleModel {
 
-    private Long id;
-    private Long targetId;
-    private Long serverId;
-    /** Not-null value. */
-    private String text;
-    private java.util.Date date;
+	private Long id;
+	private Long targetId;
+	private Long serverId;
+	/** Not-null value. */
+	private String text;
+	private java.util.Date date;
 
-    public Comment() {
-    }
+	public Comment() {
+	}
 
-    public Comment(Long id) {
-        this.id = id;
-    }
+	public Comment(Long id) {
+		this.id = id;
+	}
 
-    public Comment(Long id, Long targetId, Long serverId, String text, java.util.Date date) {
-        this.id = id;
-        this.targetId = targetId;
-        this.serverId = serverId;
-        this.text = text;
-        this.date = date;
-    }
+	public Comment(Long id, Long targetId, Long serverId, String text,
+			java.util.Date date) {
+		this.id = id;
+		this.targetId = targetId;
+		this.serverId = serverId;
+		this.text = text;
+		this.date = date;
+	}
 
-    public Long getId() {
-        return id;
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public Long getTargetId() {
-        return targetId;
-    }
+	public Long getTargetId() {
+		return targetId;
+	}
 
-    public void setTargetId(Long targetId) {
-        this.targetId = targetId;
-    }
+	public void setTargetId(Long targetId) {
+		this.targetId = targetId;
+	}
 
-    public Long getServerId() {
-        return serverId;
-    }
+	public Long getServerId() {
+		return serverId;
+	}
 
-    public void setServerId(Long serverId) {
-        this.serverId = serverId;
-    }
+	public void setServerId(Long serverId) {
+		this.serverId = serverId;
+	}
 
-    /** Not-null value. */
-    public String getText() {
-        return text;
-    }
+	/** Not-null value. */
+	public String getText() {
+		return text;
+	}
 
-    /** Not-null value; ensure this value is available before it is saved to the database. */
-    public void setText(String text) {
-        this.text = text;
-    }
+	/**
+	 * Not-null value; ensure this value is available before it is saved to the
+	 * database.
+	 */
+	public void setText(String text) {
+		this.text = text;
+	}
 
-    public java.util.Date getDate() {
-        return date;
-    }
+	public java.util.Date getDate() {
+		return date;
+	}
 
-    public void setDate(java.util.Date date) {
-        this.date = date;
-    }
+	public void setDate(java.util.Date date) {
+		this.date = date;
+	}
 
 }

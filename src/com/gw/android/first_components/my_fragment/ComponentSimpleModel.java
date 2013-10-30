@@ -23,7 +23,7 @@ public abstract class ComponentSimpleModel {
 		editor.putLong("unique_id", id + 1);
 		editor.commit();
 
-		Log.e("id unico :", ""+id);
+		Log.e("id unico :", "" + id);
 		return id;
 	}
 
@@ -43,8 +43,6 @@ public abstract class ComponentSimpleModel {
 		this.instanceId = instanceId;
 	}
 
-	
-
 	public Long getId() {
 		return id;
 	}
@@ -52,7 +50,5 @@ public abstract class ComponentSimpleModel {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	
-	
 
 }

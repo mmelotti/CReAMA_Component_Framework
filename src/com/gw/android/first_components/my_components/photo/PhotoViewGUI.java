@@ -37,7 +37,7 @@ public class PhotoViewGUI extends CRComponent {
 	View rootLayout;
 	SmartImageView imageFront;
 	View imageBack;
-	
+
 	private Button proxima, anterior;
 	private boolean showNavigation = false;
 
@@ -75,61 +75,72 @@ public class PhotoViewGUI extends CRComponent {
 		View view = inflater.inflate(R.layout.imageone, container, false);
 		imageFront = (SmartImageView) view.findViewById(R.id.ViewFront);
 		imageBack = view.findViewById(R.id.ViewBack);
-		
-	    rootLayout = view.findViewById(R.id.relLayout);
-		
+
+		rootLayout = view.findViewById(R.id.relLayout);
+
 		anterior = (Button) view.findViewById(R.id.imagem_anterior);
 		proxima = (Button) view.findViewById(R.id.imagem_proxima);
 		photoName = (TextView) view.findViewById(R.id.imageText);
 		infoName = (TextView) view.findViewById(R.id.infoName);
 		infoData = (TextView) view.findViewById(R.id.infoData);
-		
+
 		BadgeView badge = new BadgeView(getActivity(), imageFront);
 		badge.setText("info");
 		badge.setBadgePosition(BadgeView.POSITION_BOTTOM_RIGHT);
 		badge.setBadgeMargin(5, 5);
 		badge.setBadgeBackgroundColor(Color.GRAY);
 		badge.show();
-		
+
 		if (!showNavigation)
-			hidePreviousNext(); 
-		
-		Photo p = PhotoUtils.getPhotoById(getCurrentInstanceId(), getActivity());
+			hidePreviousNext();
+
+		Photo p = PhotoUtils
+				.getPhotoById(getCurrentInstanceId(), getActivity());
 		photoName.setText(p.getText());
 		infoName.setText(p.getText());
 		infoData.setText(p.getDate().toLocaleString());
-		 
+
 		imageFront.setImage(new GWImage(getCurrentInstanceId()));
-		
+
 		badge.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
 				onCardClick();
 			}
 		});
-		
+
 		final PhotoViewAttacher mAttacher = new PhotoViewAttacher(imageFront);
-		
-		mAttacher.setAllowParentInterceptOnEdge(false);  
+
+		mAttacher.setAllowParentInterceptOnEdge(false);
 		mAttacher.setOnMatrixChangeListener(new OnMatrixChangedListener() {
 			@Override
 			public void onMatrixChanged(RectF arg0) {
 				if (mAttacher.getScale() == 1.0f)
-					mAttacher.setAllowParentInterceptOnEdge(true); // Devolve controle ao Scrollview 
+					mAttacher.setAllowParentInterceptOnEdge(true); // Devolve
+																	// controle
+																	// ao
+																	// Scrollview
 				else
-					mAttacher.setAllowParentInterceptOnEdge(false); // ImageView intercepta os toques para realizar zoom e pan
+					mAttacher.setAllowParentInterceptOnEdge(false); // ImageView
+																	// intercepta
+																	// os toques
+																	// para
+																	// realizar
+																	// zoom e
+																	// pan
 			}
 		});
-		
+
 		proxima.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				onCardClick();
-				/*Intent trocatela = new Intent(getActivity(), getActivity()
-						.getClass());
-				trocatela.putExtra("nImagem", proximaImagem());
-				getActivity().startActivity(trocatela);
-				getActivity().finish();*/
+				/*
+				 * Intent trocatela = new Intent(getActivity(), getActivity()
+				 * .getClass()); trocatela.putExtra("nImagem", proximaImagem());
+				 * getActivity().startActivity(trocatela);
+				 * getActivity().finish();
+				 */
 			}
 		});
 
@@ -148,7 +159,8 @@ public class PhotoViewGUI extends CRComponent {
 	}
 
 	private boolean isThumb() {
-		return PhotoUtils.getPhotoById(getCurrentInstanceId(), getActivity().getApplicationContext()).getIsThumb();
+		return PhotoUtils.getPhotoById(getCurrentInstanceId(),
+				getActivity().getApplicationContext()).getIsThumb();
 	}
 
 	public void showNavigation(boolean b) {
@@ -179,7 +191,7 @@ public class PhotoViewGUI extends CRComponent {
 		return (l.isEmpty() ? getCurrentInstanceId() : ((Photo) l.get(0))
 				.getId());
 	}
-	
+
 	@Override
 	protected void onBind() {
 
@@ -207,14 +219,14 @@ public class PhotoViewGUI extends CRComponent {
 
 			setComponentFileRequestCallback(mFileHandler);
 			String url = getBaseUrl()
-					+ "/photo" 
+					+ "/photo"
 					+ PhotoUtils.imageType[PhotoUtils.BIG]
 					+ PhotoUtils.getServerIdById(getCurrentInstanceId(),
 							getActivity().getApplicationContext())
 					+ PhotoUtils.urlEndImage[PhotoUtils.BIG];
 			Request request = new Request(null, url, "get", null);
 			makeFileRequest(request);
-			SuperToastUtils.showSuperToast(getActivity() 
+			SuperToastUtils.showSuperToast(getActivity()
 					.getApplicationContext(),
 					SuperToast.BACKGROUND_GREENTRANSLUCENT,
 					"Baixando imagem no tamanho original.");
@@ -222,16 +234,16 @@ public class PhotoViewGUI extends CRComponent {
 
 		super.onBind();
 	}
-	
-	public void onCardClick() { 
-	      Log.e("TOQUE", "CARD FLIP");
 
-	      FlipAnimation flipAnimation = new FlipAnimation(imageFront, imageBack);
+	public void onCardClick() {
+		Log.e("TOQUE", "CARD FLIP");
 
-	      if (imageFront.getVisibility() == View.INVISIBLE) {
-	          flipAnimation.reverse();
-	      }
-	      rootLayout.startAnimation(flipAnimation);
+		FlipAnimation flipAnimation = new FlipAnimation(imageFront, imageBack);
+
+		if (imageFront.getVisibility() == View.INVISIBLE) {
+			flipAnimation.reverse();
+		}
+		rootLayout.startAnimation(flipAnimation);
 	}
 
 }

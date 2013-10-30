@@ -19,11 +19,11 @@ import android.util.Log;
 
 public class PhotoUtils {
 	static int SELECT_PICTURE = 1;
-	
+
 	final static int CROP = 0;
 	final static int BIG = 1;
-	final static String[] urlEndImage = {"?_log=no", ".jpeg"};	
-	final static String[] imageType = {"/img-crop/", "/img-show/"};
+	final static String[] urlEndImage = { "?_log=no", ".jpeg" };
+	final static String[] imageType = { "/img-crop/", "/img-show/" };
 
 	public static PhotoDao initPhotoDao(Context context) {
 		DevOpenHelper helper = new DaoMaster.DevOpenHelper(context,
@@ -33,26 +33,29 @@ public class PhotoUtils {
 		DaoSession daoSession = daoMaster.newSession();
 		return daoSession.getPhotoDao();
 	}
-	
+
 	public static Photo getPhotoById(Long id, Context ctx) {
 		PhotoDao photoDao = initPhotoDao(ctx);
-		Photo photo = (Photo) photoDao.queryBuilder().where(Properties.Id.eq(id)).build().unique();
+		Photo photo = (Photo) photoDao.queryBuilder()
+				.where(Properties.Id.eq(id)).build().unique();
 		photoDao.getDatabase().close();
 		return photo;
 	}
 
 	public static Photo getPhotoById(Long id, PhotoDao photoDao) {
-		Photo photo = (Photo) photoDao.queryBuilder().where(Properties.Id.eq(id)).build().unique();
+		Photo photo = (Photo) photoDao.queryBuilder()
+				.where(Properties.Id.eq(id)).build().unique();
 		return photo;
 	}
-	
+
 	public static Long getServerIdById(Long id, Context ctx) {
 		PhotoDao photoDao = initPhotoDao(ctx);
-		Photo photo = (Photo) photoDao.queryBuilder().where(Properties.Id.eq(id)).build().unique();
+		Photo photo = (Photo) photoDao.queryBuilder()
+				.where(Properties.Id.eq(id)).build().unique();
 		photoDao.getDatabase().close();
 		return photo.getServerId();
 	}
-	
+
 	public static Bitmap byteArrayToBitmap(byte[] imageBytes) {
 		return BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
 	}
@@ -63,7 +66,6 @@ public class PhotoUtils {
 		return baos.toByteArray();
 	}
 
-
 	// reduz a imagem para ocupar menos memória
 	public static Bitmap resizeImage(File f, int size) {
 		try {
@@ -72,8 +74,9 @@ public class PhotoUtils {
 			BitmapFactory.Options o = new BitmapFactory.Options();
 			o.inJustDecodeBounds = true;
 			BitmapFactory.decodeStream(new FileInputStream(f), null, o);
-			Log.e("BEFORE RESIZE width e height", o.outWidth + " - " + o.outHeight);
-			
+			Log.e("BEFORE RESIZE width e height", o.outWidth + " - "
+					+ o.outHeight);
+
 			// Find the correct scale value. It should be the power of 2.
 			int scale = 1;
 			if (o.outHeight < o.outWidth)
@@ -90,7 +93,7 @@ public class PhotoUtils {
 		}
 		return null;
 	}
-	
+
 	public static Bitmap resizeImage(InputStream in, int size) {
 		// Decode image size
 		BitmapFactory.Options o = new BitmapFactory.Options();
@@ -118,8 +121,9 @@ public class PhotoUtils {
 			BitmapFactory.Options o = new BitmapFactory.Options();
 			o.inJustDecodeBounds = true;
 			BitmapFactory.decodeStream(new FileInputStream(f), null, o);
-			Log.e("BEFORE RESIZE width e height", o.outWidth + " - " + o.outHeight);
-			
+			Log.e("BEFORE RESIZE width e height", o.outWidth + " - "
+					+ o.outHeight);
+
 			// Find the correct scale value. It should be the power of 2.
 			int scale = 1;
 			if (o.outHeight < o.outWidth)
@@ -129,7 +133,7 @@ public class PhotoUtils {
 				while (o.outHeight / scale / 2 >= height)
 					scale *= 2;
 
-			scale *= 2; 
+			scale *= 2;
 			BitmapFactory.Options o2 = new BitmapFactory.Options();
 			o2.inSampleSize = scale;
 			return BitmapFactory.decodeStream(new FileInputStream(f), null, o2);
@@ -137,5 +141,5 @@ public class PhotoUtils {
 		}
 		return null;
 	}
-	
+
 }

@@ -4,60 +4,64 @@ package com.gw.android.first_components.my_components.tag;
 /**
  * Entity mapped to table TAG.
  */
-public class Tag extends com.gw.android.first_components.my_fragment.ComponentSimpleModel  {
+public class Tag extends
+		com.gw.android.first_components.my_fragment.ComponentSimpleModel {
 
-    private Long id;
-    private Long targetId;
-    private Long serverId;
-    /** Not-null value. */
-    private String tag;
+	private Long id;
+	private Long targetId;
+	private Long serverId;
+	/** Not-null value. */
+	private String tag;
 
-    public Tag() {
-    }
+	public Tag() {
+	}
 
-    public Tag(Long id) {
-        this.id = id;
-    }
+	public Tag(Long id) {
+		this.id = id;
+	}
 
-    public Tag(Long id, Long targetId, Long serverId, String tag) {
-        this.id = id;
-        this.targetId = targetId;
-        this.serverId = serverId;
-        this.tag = tag;
-    }
+	public Tag(Long id, Long targetId, Long serverId, String tag) {
+		this.id = id;
+		this.targetId = targetId;
+		this.serverId = serverId;
+		this.tag = tag;
+	}
 
-    public Long getId() {
-        return id;
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public Long getTargetId() {
-        return targetId;
-    }
+	public Long getTargetId() {
+		return targetId;
+	}
 
-    public void setTargetId(Long targetId) {
-        this.targetId = targetId;
-    }
+	public void setTargetId(Long targetId) {
+		this.targetId = targetId;
+	}
 
-    public Long getServerId() {
-        return serverId;
-    }
+	public Long getServerId() {
+		return serverId;
+	}
 
-    public void setServerId(Long serverId) {
-        this.serverId = serverId;
-    }
+	public void setServerId(Long serverId) {
+		this.serverId = serverId;
+	}
 
-    /** Not-null value. */
-    public String getTag() {
-        return tag;
-    }
+	/** Not-null value. */
+	public String getTag() {
+		return tag;
+	}
 
-    /** Not-null value; ensure this value is available before it is saved to the database. */
-    public void setTag(String tag) {
-        this.tag = tag;
-    }
+	/**
+	 * Not-null value; ensure this value is available before it is saved to the
+	 * database.
+	 */
+	public void setTag(String tag) {
+		this.tag = tag;
+	}
 
 }

@@ -172,7 +172,7 @@ public class BinomioAverageGUI extends CRComponent {
 		JSONObject object;
 
 		// got the right average, we can remove the older
-		//deleteAllFromTarget();
+		// deleteAllFromTarget();
 
 		try {
 			JSONObject binomiosObject;

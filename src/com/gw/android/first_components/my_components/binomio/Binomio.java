@@ -4,167 +4,172 @@ package com.gw.android.first_components.my_components.binomio;
 /**
  * Entity mapped to table BINOMIO.
  */
-public class Binomio extends com.gw.android.first_components.my_fragment.ComponentSimpleModel  {
+public class Binomio extends
+		com.gw.android.first_components.my_fragment.ComponentSimpleModel {
 
-    private Long id;
-    private Long targetId;
-    private Long serverId;
-    private Integer fechada;
-    private Integer aberta;
-    private Integer simples;
-    private Integer complexa;
-    private Integer vertical;
-    private Integer horizontal;
-    private Integer simetrica;
-    private Integer assimetrica;
-    private Integer opaca;
-    private Integer translucida;
-    private Integer interna;
-    private Integer externa;
+	private Long id;
+	private Long targetId;
+	private Long serverId;
+	private Integer fechada;
+	private Integer aberta;
+	private Integer simples;
+	private Integer complexa;
+	private Integer vertical;
+	private Integer horizontal;
+	private Integer simetrica;
+	private Integer assimetrica;
+	private Integer opaca;
+	private Integer translucida;
+	private Integer interna;
+	private Integer externa;
 
-    public Binomio() {
-    }
+	public Binomio() {
+	}
 
-    public Binomio(Long id) {
-        this.id = id;
-    }
+	public Binomio(Long id) {
+		this.id = id;
+	}
 
-    public Binomio(Long id, Long targetId, Long serverId, Integer fechada, Integer aberta, Integer simples, Integer complexa, Integer vertical, Integer horizontal, Integer simetrica, Integer assimetrica, Integer opaca, Integer translucida, Integer interna, Integer externa) {
-        this.id = id;
-        this.targetId = targetId;
-        this.serverId = serverId;
-        this.fechada = fechada;
-        this.aberta = aberta;
-        this.simples = simples;
-        this.complexa = complexa;
-        this.vertical = vertical;
-        this.horizontal = horizontal;
-        this.simetrica = simetrica;
-        this.assimetrica = assimetrica;
-        this.opaca = opaca;
-        this.translucida = translucida;
-        this.interna = interna;
-        this.externa = externa;
-    }
+	public Binomio(Long id, Long targetId, Long serverId, Integer fechada,
+			Integer aberta, Integer simples, Integer complexa,
+			Integer vertical, Integer horizontal, Integer simetrica,
+			Integer assimetrica, Integer opaca, Integer translucida,
+			Integer interna, Integer externa) {
+		this.id = id;
+		this.targetId = targetId;
+		this.serverId = serverId;
+		this.fechada = fechada;
+		this.aberta = aberta;
+		this.simples = simples;
+		this.complexa = complexa;
+		this.vertical = vertical;
+		this.horizontal = horizontal;
+		this.simetrica = simetrica;
+		this.assimetrica = assimetrica;
+		this.opaca = opaca;
+		this.translucida = translucida;
+		this.interna = interna;
+		this.externa = externa;
+	}
 
-    public Long getId() {
-        return id;
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public Long getTargetId() {
-        return targetId;
-    }
+	public Long getTargetId() {
+		return targetId;
+	}
 
-    public void setTargetId(Long targetId) {
-        this.targetId = targetId;
-    }
+	public void setTargetId(Long targetId) {
+		this.targetId = targetId;
+	}
 
-    public Long getServerId() {
-        return serverId;
-    }
+	public Long getServerId() {
+		return serverId;
+	}
 
-    public void setServerId(Long serverId) {
-        this.serverId = serverId;
-    }
+	public void setServerId(Long serverId) {
+		this.serverId = serverId;
+	}
 
-    public Integer getFechada() {
-        return fechada;
-    }
+	public Integer getFechada() {
+		return fechada;
+	}
 
-    public void setFechada(Integer fechada) {
-        this.fechada = fechada;
-    }
+	public void setFechada(Integer fechada) {
+		this.fechada = fechada;
+	}
 
-    public Integer getAberta() {
-        return aberta;
-    }
+	public Integer getAberta() {
+		return aberta;
+	}
 
-    public void setAberta(Integer aberta) {
-        this.aberta = aberta;
-    }
+	public void setAberta(Integer aberta) {
+		this.aberta = aberta;
+	}
 
-    public Integer getSimples() {
-        return simples;
-    }
+	public Integer getSimples() {
+		return simples;
+	}
 
-    public void setSimples(Integer simples) {
-        this.simples = simples;
-    }
+	public void setSimples(Integer simples) {
+		this.simples = simples;
+	}
 
-    public Integer getComplexa() {
-        return complexa;
-    }
+	public Integer getComplexa() {
+		return complexa;
+	}
 
-    public void setComplexa(Integer complexa) {
-        this.complexa = complexa;
-    }
+	public void setComplexa(Integer complexa) {
+		this.complexa = complexa;
+	}
 
-    public Integer getVertical() {
-        return vertical;
-    }
+	public Integer getVertical() {
+		return vertical;
+	}
 
-    public void setVertical(Integer vertical) {
-        this.vertical = vertical;
-    }
+	public void setVertical(Integer vertical) {
+		this.vertical = vertical;
+	}
 
-    public Integer getHorizontal() {
-        return horizontal;
-    }
+	public Integer getHorizontal() {
+		return horizontal;
+	}
 
-    public void setHorizontal(Integer horizontal) {
-        this.horizontal = horizontal;
-    }
+	public void setHorizontal(Integer horizontal) {
+		this.horizontal = horizontal;
+	}
 
-    public Integer getSimetrica() {
-        return simetrica;
-    }
+	public Integer getSimetrica() {
+		return simetrica;
+	}
 
-    public void setSimetrica(Integer simetrica) {
-        this.simetrica = simetrica;
-    }
+	public void setSimetrica(Integer simetrica) {
+		this.simetrica = simetrica;
+	}
 
-    public Integer getAssimetrica() {
-        return assimetrica;
-    }
+	public Integer getAssimetrica() {
+		return assimetrica;
+	}
 
-    public void setAssimetrica(Integer assimetrica) {
-        this.assimetrica = assimetrica;
-    }
+	public void setAssimetrica(Integer assimetrica) {
+		this.assimetrica = assimetrica;
+	}
 
-    public Integer getOpaca() {
-        return opaca;
-    }
+	public Integer getOpaca() {
+		return opaca;
+	}
 
-    public void setOpaca(Integer opaca) {
-        this.opaca = opaca;
-    }
+	public void setOpaca(Integer opaca) {
+		this.opaca = opaca;
+	}
 
-    public Integer getTranslucida() {
-        return translucida;
-    }
+	public Integer getTranslucida() {
+		return translucida;
+	}
 
-    public void setTranslucida(Integer translucida) {
-        this.translucida = translucida;
-    }
+	public void setTranslucida(Integer translucida) {
+		this.translucida = translucida;
+	}
 
-    public Integer getInterna() {
-        return interna;
-    }
+	public Integer getInterna() {
+		return interna;
+	}
 
-    public void setInterna(Integer interna) {
-        this.interna = interna;
-    }
+	public void setInterna(Integer interna) {
+		this.interna = interna;
+	}
 
-    public Integer getExterna() {
-        return externa;
-    }
+	public Integer getExterna() {
+		return externa;
+	}
 
-    public void setExterna(Integer externa) {
-        this.externa = externa;
-    }
+	public void setExterna(Integer externa) {
+		this.externa = externa;
+	}
 
 }

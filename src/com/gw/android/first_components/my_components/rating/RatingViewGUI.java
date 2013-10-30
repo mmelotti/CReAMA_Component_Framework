@@ -2,7 +2,6 @@ package com.gw.android.first_components.my_components.rating;
 
 import java.util.List;
 
-
 import com.gw.android.R;
 import com.gw.android.first_components.database.DaoMaster;
 import com.gw.android.first_components.database.DaoSession;
@@ -11,7 +10,6 @@ import com.gw.android.first_components.my_components.rating.RatingDao.Properties
 import com.gw.android.first_components.my_fragment.CRComponent;
 import com.gw.android.first_components.my_fragment.ComponentSimpleModel;
 import com.gw.android.first_components.my_fragment.GenericComponent;
-
 
 import android.annotation.SuppressLint;
 import android.database.sqlite.SQLiteDatabase;
@@ -40,14 +38,13 @@ public class RatingViewGUI extends CRComponent implements
 	private RatingDao ratingDao;
 	private DaoSession daoSession;
 	private Long newTarget = 1L;
-	
 
 	private float average = 0;
 	private int tamanho = 0;
 	private float soma = 0;
-	
+
 	LinearLayout ratingBody;
-	
+
 	public RatingViewGUI() {
 		preDefined();
 	}
@@ -62,11 +59,11 @@ public class RatingViewGUI extends CRComponent implements
 		preDefined();
 		setComponentTarget(target);
 	}
-	
-	public void preDefined(){
+
+	public void preDefined() {
 		setGeneralGUIId(2);
 	}
-	
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -80,13 +77,14 @@ public class RatingViewGUI extends CRComponent implements
 		ratingText.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				int visibility = ratingBody.getVisibility() == View.GONE ? View.VISIBLE : View.GONE;
+				int visibility = ratingBody.getVisibility() == View.GONE ? View.VISIBLE
+						: View.GONE;
 				ratingBody.setVisibility(visibility);
 			}
 		});
-		
+
 		ratingBody = (LinearLayout) view.findViewById(R.id.ratingBody);
-		
+
 		ratingClickable = (RatingBar) view.findViewById(R.id.rating);
 
 		button = (Button) view.findViewById(R.id.button_rating);
@@ -95,8 +93,9 @@ public class RatingViewGUI extends CRComponent implements
 			@Override
 			public void onClick(View v) {
 				Long newId = ComponentSimpleModel.getUniqueId(getActivity());
-				
-				rating = new Rating(newId, newTarget, null, ratingClickable.getRating());
+
+				rating = new Rating(newId, newTarget, null, ratingClickable
+						.getRating());
 
 				initRatingDao();
 				ratingDao.insert(rating);
@@ -139,23 +138,23 @@ public class RatingViewGUI extends CRComponent implements
 		ratingDao.getDatabase().close();
 	}
 
-	public void getAverage() {		
+	public void getAverage() {
 		Log.i("average", "null?? " + newTarget);
 		List<Rating> lista = ratingDao.queryBuilder()
 				.where(Properties.TargetId.eq(newTarget)).build().list();
-		
+
 		if (!lista.isEmpty()) {
-			
-			for (int i = 0; i < lista.size(); i++) 
+
+			for (int i = 0; i < lista.size(); i++)
 				soma = soma + lista.get(i).getValue();
 
 			// atributos usados para otimizar calculo
 			tamanho = lista.size();
-			
+
 			average = soma / tamanho;
 			calculouMedia = true;
 		}
-		
+
 	}
 
 	public void setNewTargetId(Long t) {

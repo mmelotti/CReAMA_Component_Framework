@@ -20,8 +20,8 @@ public class TagActivity extends CRActivity {
 	private PhotoViewGUI photo;
 	private boolean gambiarraFlag = false;
 
-	private ComponentNaming tagView, tagSend, photoView,binAverage;
-	
+	private ComponentNaming tagView, tagSend, photoView, binAverage;
+
 	private long idPhoto;
 	Long photoId;
 
@@ -42,7 +42,7 @@ public class TagActivity extends CRActivity {
 		setContentView(R.layout.activity_fragment_runtime);
 
 		// set targets
-		
+
 		setMyList();
 		addSomething();
 	}
@@ -55,23 +55,27 @@ public class TagActivity extends CRActivity {
 
 		Dependency d;
 		setDependencies(new ArrayList<Dependency>());
-		
-		tagView = new ComponentNaming(Constants.TagViewGUIName, Constants.TagViewGUIName+"1");
-		tagSend = new ComponentNaming(Constants.TagSendGUIName, Constants.TagSendGUIName+"1");
-		photoView = new ComponentNaming(Constants.PhotoViewGUIName, Constants.PhotoViewGUIName+"1");
-		binAverage = new ComponentNaming(Constants.BinomioAverageGUIName, "Binomio2");
-		
-		Log.i("adding","binomio gui");
-		
-		d = new Dependency(tagView,photoView, true);
+
+		tagView = new ComponentNaming(Constants.TagViewGUIName,
+				Constants.TagViewGUIName + "1");
+		tagSend = new ComponentNaming(Constants.TagSendGUIName,
+				Constants.TagSendGUIName + "1");
+		photoView = new ComponentNaming(Constants.PhotoViewGUIName,
+				Constants.PhotoViewGUIName + "1");
+		binAverage = new ComponentNaming(Constants.BinomioAverageGUIName,
+				"Binomio2");
+
+		Log.i("adding", "binomio gui");
+
+		d = new Dependency(tagView, photoView, true);
 		addDependency(d);
-		d=new Dependency(tagSend,photoView,false);
-		addDependency(d);	
-		d = new Dependency(binAverage,photoView, false);
+		d = new Dependency(tagSend, photoView, false);
 		addDependency(d);
-		
+		d = new Dependency(binAverage, photoView, false);
+		addDependency(d);
+
 		photo.setNick(photoView.getNickName());
-		
+
 	}
 
 	public void instanciarComponents() {

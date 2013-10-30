@@ -1,6 +1,5 @@
 package com.gw.android.first_components.my_components.user;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +23,7 @@ import com.gw.android.first_components.my_components.tracker.Trackable;
 import com.gw.android.first_components.my_fragment.CRActivity;
 import com.gw.android.first_components.my_fragment.CRComponent;
 
-public class UserViewGUI extends CRComponent implements Trackable{
+public class UserViewGUI extends CRComponent implements Trackable {
 
 	// private LayoutInflater li;
 	private String urlView;
@@ -69,13 +68,12 @@ public class UserViewGUI extends CRComponent implements Trackable{
 	@Override
 	protected void onBind() {
 		getConnectionManager().getCookiesInfo();
-		if(isTrackable()){
+		if (isTrackable()) {
 			doTrackableRequest();
-		}
-		else{
+		} else {
 			viewRequest();
 		}
-		
+
 	}
 
 	void viewRequest() {
@@ -98,7 +96,6 @@ public class UserViewGUI extends CRComponent implements Trackable{
 	public void atualizarAfterSucces(String r) {
 		// TODO parser xml
 
-		
 		Long uId = 0L;
 
 		try {
@@ -139,7 +136,7 @@ public class UserViewGUI extends CRComponent implements Trackable{
 	}
 
 	@Override
-	public int getIcon() {
+	public int getIconResource() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
@@ -150,7 +147,7 @@ public class UserViewGUI extends CRComponent implements Trackable{
 		return null;
 	}
 
-	public boolean isTrackable(){
+	public boolean isTrackable() {
 		return true;
 	}
 
@@ -160,13 +157,13 @@ public class UserViewGUI extends CRComponent implements Trackable{
 		Request request = new Request(null, urlView, "get", null);
 		makeRequest(request);
 	}
-	
-	public List<Trackable> getListTrackable(){
-		 List<Trackable> li=new ArrayList();
-		 User teste = new User();
-		 teste.setUsuario("Joao");
-		 li.add(teste);
-		
+
+	public List<Trackable> getListTrackable() {
+		List<Trackable> li = new ArrayList();
+		User teste = new User();
+		teste.setUsuario("Joao");
+		li.add(teste);
+
 		return li;
 	}
 

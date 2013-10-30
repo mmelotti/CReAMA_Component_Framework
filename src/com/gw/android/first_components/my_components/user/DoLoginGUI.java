@@ -47,8 +47,11 @@ public class DoLoginGUI extends CRComponent {
 			public void onClick(View v) {
 				String login = editLogin.getText().toString();
 				String password = editPassword.getText().toString();
-				SuperToastUtils.showSuperToast(getActivity(), SuperToast.BACKGROUND_GREENTRANSLUCENT, "Efetuando login...");
-				// Toast.makeText(getActivity(), "Efetuando login...", Toast.LENGTH_SHORT).show();
+				SuperToastUtils.showSuperToast(getActivity(),
+						SuperToast.BACKGROUND_GREENTRANSLUCENT,
+						"Efetuando login...");
+				// Toast.makeText(getActivity(), "Efetuando login...",
+				// Toast.LENGTH_SHORT).show();
 				loginRequest(login, password);
 			}
 		});

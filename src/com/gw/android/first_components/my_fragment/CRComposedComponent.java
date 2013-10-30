@@ -8,14 +8,11 @@ import android.util.Log;
 
 import com.gw.android.R;
 
-
-public class CRComposedComponent extends CRComponent{
-
-	
+public class CRComposedComponent extends CRComponent {
 
 	public void addComponent() {
 		initTransaction();
-		//put components here
+		// put components here
 		finishTransaction();
 	}
 
@@ -40,7 +37,7 @@ public class CRComposedComponent extends CRComponent{
 	public void addOther(String s, ComponentSimpleModel c, int id) {
 
 		// addOne(s,c);
-		
+
 		ComponentDefinitions cd = new ComponentDefinitions();
 		CRComponent one = cd.getComponentToMany(c, s);
 		addGUIComponentWithTag(id, one);
@@ -60,16 +57,17 @@ public class CRComposedComponent extends CRComponent{
 				Log.i("achou dependencia", "  com-> target " + s + " source "
 						+ d.getSource());
 				if (d.isToMany()) {
-					List<ComponentSimpleModel> m =  listToMany(d.getSource()
+					List<ComponentSimpleModel> m = listToMany(d.getSource()
 							.getGuiName(), target);
-					
-					
+
 					for (ComponentSimpleModel model : m) {
-						addOther(d.getSource().getGuiName(), model,R.id.rootComposed);
+						addOther(d.getSource().getGuiName(), model,
+								R.id.rootComposed);
 						verDependenciaString(d.getSource(), model.getId());
 					}
 				} else {
-					addOther(d.getSource().getGuiName(), target,R.id.rootComposed);
+					addOther(d.getSource().getGuiName(), target,
+							R.id.rootComposed);
 					verDependenciaString(d.getSource(), target);
 				}
 
@@ -116,7 +114,6 @@ public class CRComposedComponent extends CRComponent{
 		dependencies.add(d);
 	}
 
-	
 	public List<ComponentSimpleModel> listToMany(String name, Long target) {
 		ComponentDefinitions c = new ComponentDefinitions();
 		List<ComponentSimpleModel> list;
@@ -124,6 +121,5 @@ public class CRComposedComponent extends CRComponent{
 
 		return list;
 	}
-	
-	
+
 }

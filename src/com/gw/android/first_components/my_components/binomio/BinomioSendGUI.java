@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -20,7 +19,8 @@ import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import com.gw.android.R;import com.gw.android.components.connection_manager.AsyncRequestHandler;
+import com.gw.android.R;
+import com.gw.android.components.connection_manager.AsyncRequestHandler;
 import com.gw.android.components.request.Request;
 import com.gw.android.first_components.database.DaoMaster;
 import com.gw.android.first_components.database.DaoSession;
@@ -30,17 +30,16 @@ import com.gw.android.first_components.my_components.tag.TagDao.Properties;
 import com.gw.android.first_components.my_fragment.CRComponent;
 import com.gw.android.first_components.my_fragment.ComponentSimpleModel;
 
-
 @SuppressLint({ "ValidFragment", "NewApi" })
 public class BinomioSendGUI extends CRComponent {
 
 	private Long newTarget;
 	private boolean teste = true;
-	
+
 	private BinomioDao binomioDao;
 	private DaoSession daoSession;
 	private boolean conectado = true;
-	
+
 	private int[] values = iniciarBinomios();
 
 	private Button button;
@@ -56,32 +55,20 @@ public class BinomioSendGUI extends CRComponent {
 	 * http://www.arquigrafia.org.br/18/photo_avaliation/1821
 	 * 
 	 * 
-	 *
-	 * binomialMgr.binomialFirst...	Aberta
-binomialMgr.binomialSecon...	Fechada
-binomialMgr.binomialValue...	50
-binomialMgr.binomialIdUse...	1
-binomialMgr.binomialFirst...	Complexa
-binomialMgr.binomialSecon...	Simples
-binomialMgr.binomialValue...	50
-binomialMgr.binomialIdUse...	1
-binomialMgr.binomialFirst...	Horizontal
-binomialMgr.binomialSecon...	Vertical
-binomialMgr.binomialValue...	50
-binomialMgr.binomialIdUse...	1
-binomialMgr.binomialFirst...	Interna
-binomialMgr.binomialSecon...	Externa
-binomialMgr.binomialValue...	50
-binomialMgr.binomialIdUse...	1
-binomialMgr.binomialFirst...	Simétrica
-binomialMgr.binomialSecon...	Assimétrica
-binomialMgr.binomialValue...	50
-binomialMgr.binomialIdUse...	1
-binomialMgr.binomialFirst...	Translúcida
-binomialMgr.binomialSecon...	Opaca
-binomialMgr.binomialValue...	50
-binomialMgr.binomialIdUse...	1
-saveBinomial	
+	 * 
+	 * binomialMgr.binomialFirst... Aberta binomialMgr.binomialSecon... Fechada
+	 * binomialMgr.binomialValue... 50 binomialMgr.binomialIdUse... 1
+	 * binomialMgr.binomialFirst... Complexa binomialMgr.binomialSecon...
+	 * Simples binomialMgr.binomialValue... 50 binomialMgr.binomialIdUse... 1
+	 * binomialMgr.binomialFirst... Horizontal binomialMgr.binomialSecon...
+	 * Vertical binomialMgr.binomialValue... 50 binomialMgr.binomialIdUse... 1
+	 * binomialMgr.binomialFirst... Interna binomialMgr.binomialSecon... Externa
+	 * binomialMgr.binomialValue... 50 binomialMgr.binomialIdUse... 1
+	 * binomialMgr.binomialFirst... Simétrica binomialMgr.binomialSecon...
+	 * Assimétrica binomialMgr.binomialValue... 50 binomialMgr.binomialIdUse...
+	 * 1 binomialMgr.binomialFirst... Translúcida binomialMgr.binomialSecon...
+	 * Opaca binomialMgr.binomialValue... 50 binomialMgr.binomialIdUse... 1
+	 * saveBinomial
 	 * 
 	 * 
 	 * 
@@ -150,12 +137,11 @@ saveBinomial
 	}
 
 	private String getUrl() {
-		SharedPreferences testPrefs = getActivity()
-				.getApplication()
+		SharedPreferences testPrefs = getActivity().getApplication()
 				.getSharedPreferences("test_prefs", Context.MODE_PRIVATE);
 		return testPrefs.getString("base_url", "");
 	}
-	
+
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.binomios_send, container, false);
@@ -176,109 +162,126 @@ saveBinomial
 
 				Binomio b = new Binomio();
 				b.setId(newId);
-				
-				
-				b.setFechada(100-values[0]);
+
+				b.setFechada(100 - values[0]);
 				b.setAberta(values[0]);
-				b.setSimples(100-values[1]);
+				b.setSimples(100 - values[1]);
 				b.setComplexa(values[1]);
-				
-				Log.i("val","valor 0 1 2="+values[0]+" "+values[1]+" "+values[2]);
-				
-				b.setVertical(100-values[2]);
+
+				Log.i("val", "valor 0 1 2=" + values[0] + " " + values[1] + " "
+						+ values[2]);
+
+				b.setVertical(100 - values[2]);
 				b.setHorizontal(values[2]);
-				b.setExterna(100-values[3]);
+				b.setExterna(100 - values[3]);
 				b.setInterna(values[3]);
 				b.setSimetrica(values[4]);
-				b.setAssimetrica(100-values[4]);
-				b.setOpaca(100-values[5]);
+				b.setAssimetrica(100 - values[4]);
+				b.setOpaca(100 - values[5]);
 				b.setTranslucida(values[5]);
-				
-				if(teste==false){
+
+				if (teste == false) {
 					b.setTargetId(newTarget);
 					initRatingDao();
 					binomioDao.insert(b);
 					closeDao();
 					reloadActivity();
 				}
-				
-				
-				
-				if(conectado){
+
+				if (conectado) {
 					sendToServer(b);
 				}
-				
-				
-				
+
 			}
 		});
 
 		addVariosBinomios(lCon, inflater);
 		initializeCallback();
-		
+
 		return view;
 	}
 
-	
 	private void initializeCallback() {
 		// Seta callback para quando terminar a requisição de envio
 		AsyncRequestHandler mHandler = new AsyncRequestHandler(true) {
 			@Override
 			public void onSuccess(String response, Request r) {
-				
+
 				reloadActivity();
 			}
 		};
 		setComponentRequestCallback(mHandler);
 	}
-	
-	private void sendToServer(Binomio binomio){
-		//o ultimo parece ser vazio sempre
-		
-		//TODO FALTA INTERNA EXTERNA!!!!
-		String strData = ("binomialMgr.binomialFirst[21]--" + "Aberta" + 
-				"__binomialMgr.binomialSecond[21]--" + "Fechada" +
-				"__binomialMgr.binomialValue[21]--" + binomio.getAberta()+
-				"__binomialMgr.binomialIdUser[21]--"+ "1"+
-				
-				"__binomialMgr.binomialFirst[19]--" +"Complexa"+
-				"__binomialMgr.binomialSecond[19]--" + "Simples"+
-				"__binomialMgr.binomialValue[19]--" +binomio.getComplexa() +
-				"__binomialMgr.binomialIdUser[19]--" +"1" +
-				
-				"__binomialMgr.binomialFirst[13]--" +"Horizontal"+
-				"__binomialMgr.binomialSecond[13]--" + "Vertical"+
-				"__binomialMgr.binomialValue[13]--" +binomio.getHorizontal() +
-				"__binomialMgr.binomialIdUser[13]--" +"1" +
-				
-				"__binomialMgr.binomialFirst[20]--" +"Interna"+
-				"__binomialMgr.binomialSecond[20]--" + "Externa"+
-				"__binomialMgr.binomialValue[20]--" +binomio.getInterna() +
-				"__binomialMgr.binomialIdUser[20]--" +"1" +
-				
-				"__binomialMgr.binomialFirst[16]--" +"Simétrica"+
-				"__binomialMgr.binomialSecond[16]--" + "Assimétrica"+
-				"__binomialMgr.binomialValue[16]--" +binomio.getSimetrica() +
-				"__binomialMgr.binomialIdUser[16]--" +"1" +
-				
-"__binomialMgr.binomialFirst[14]--" +"Translúcida"+
-"__binomialMgr.binomialSecond[14]--" + "Opaca"+
-"__binomialMgr.binomialValue[14]--" +binomio.getTranslucida() +
-"__binomialMgr.binomialIdUser[14]--" +"1"
 
-+ "__saveBinomial--"+"");
-		
-		Request request = new Request(null, getUrl()+"/18"+"/photo/"+newTarget+"/avaliation", "post", strData);
-						
-				
-		
-		makeRequest(request);		
-		
-		
-		
-		
+	private void sendToServer(Binomio binomio) {
+		// o ultimo parece ser vazio sempre
+
+		// TODO FALTA INTERNA EXTERNA!!!!
+		String strData = ("binomialMgr.binomialFirst[21]--" + "Aberta"
+				+ "__binomialMgr.binomialSecond[21]--" + "Fechada"
+				+ "__binomialMgr.binomialValue[21]--"
+				+ binomio.getAberta()
+				+ "__binomialMgr.binomialIdUser[21]--"
+				+ "1"
+				+
+
+				"__binomialMgr.binomialFirst[19]--"
+				+ "Complexa"
+				+ "__binomialMgr.binomialSecond[19]--"
+				+ "Simples"
+				+ "__binomialMgr.binomialValue[19]--"
+				+ binomio.getComplexa()
+				+ "__binomialMgr.binomialIdUser[19]--"
+				+ "1"
+				+
+
+				"__binomialMgr.binomialFirst[13]--"
+				+ "Horizontal"
+				+ "__binomialMgr.binomialSecond[13]--"
+				+ "Vertical"
+				+ "__binomialMgr.binomialValue[13]--"
+				+ binomio.getHorizontal()
+				+ "__binomialMgr.binomialIdUser[13]--"
+				+ "1"
+				+
+
+				"__binomialMgr.binomialFirst[20]--"
+				+ "Interna"
+				+ "__binomialMgr.binomialSecond[20]--"
+				+ "Externa"
+				+ "__binomialMgr.binomialValue[20]--"
+				+ binomio.getInterna()
+				+ "__binomialMgr.binomialIdUser[20]--"
+				+ "1"
+				+
+
+				"__binomialMgr.binomialFirst[16]--"
+				+ "Simétrica"
+				+ "__binomialMgr.binomialSecond[16]--"
+				+ "Assimétrica"
+				+ "__binomialMgr.binomialValue[16]--"
+				+ binomio.getSimetrica()
+				+ "__binomialMgr.binomialIdUser[16]--"
+				+ "1"
+				+
+
+				"__binomialMgr.binomialFirst[14]--"
+				+ "Translúcida"
+				+ "__binomialMgr.binomialSecond[14]--"
+				+ "Opaca"
+				+ "__binomialMgr.binomialValue[14]--"
+				+ binomio.getTranslucida()
+				+ "__binomialMgr.binomialIdUser[14]--" + "1"
+
+				+ "__saveBinomial--" + "");
+
+		Request request = new Request(null, getUrl() + "/18" + "/photo/"
+				+ newTarget + "/avaliation", "post", strData);
+
+		makeRequest(request);
+
 	}
-	
+
 	private void addVariosBinomios(LinearLayout l, LayoutInflater inflater) {
 
 		List<BinomiosArquigrafia> list = new ArrayList<BinomiosArquigrafia>();
@@ -288,12 +291,11 @@ saveBinomial
 		list.add(new BinomiosArquigrafia("Externa", "Interna"));
 		list.add(new BinomiosArquigrafia("Assimétrica", "Simétrica"));
 		list.add(new BinomiosArquigrafia("Opaca", "Translúcida"));
-		
 
 		int i = 0;
 
 		for (BinomiosArquigrafia binomio : list) {
-			
+
 			View v = inflater.inflate(R.layout.binomio, null);
 			TextView left, right;
 			left = (TextView) v.findViewById(R.id.label_left);
@@ -339,7 +341,7 @@ saveBinomial
 					@SuppressWarnings("unchecked")
 					final HashMap<String, Object> tag = (HashMap<String, Object>) seekBar
 							.getTag();
-					
+
 					final BinomiosArquigrafia binomio = (BinomiosArquigrafia) tag
 							.get(KEY_BINOMIO);
 
@@ -382,7 +384,7 @@ saveBinomial
 
 	public int[] iniciarBinomios() {
 
-		int[] data = { 50, 50,50,50,50,50 };
+		int[] data = { 50, 50, 50, 50, 50, 50 };
 		return data;
 	}
 

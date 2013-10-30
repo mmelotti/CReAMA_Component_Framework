@@ -4,47 +4,48 @@ package com.gw.android.first_components.my_components.rating2comment;
 /**
  * Entity mapped to table RATING_TO_COMMENT.
  */
-public class RatingToComment extends com.gw.android.first_components.my_fragment.ComponentSimpleModel  {
+public class RatingToComment extends
+		com.gw.android.first_components.my_fragment.ComponentSimpleModel {
 
-    private Long id;
-    private Long targetId;
-    private Long serverId;
+	private Long id;
+	private Long targetId;
+	private Long serverId;
 
-    public RatingToComment() {
-    }
+	public RatingToComment() {
+	}
 
-    public RatingToComment(Long id) {
-        this.id = id;
-    }
+	public RatingToComment(Long id) {
+		this.id = id;
+	}
 
-    public RatingToComment(Long id, Long targetId, Long serverId) {
-        this.id = id;
-        this.targetId = targetId;
-        this.serverId = serverId;
-    }
+	public RatingToComment(Long id, Long targetId, Long serverId) {
+		this.id = id;
+		this.targetId = targetId;
+		this.serverId = serverId;
+	}
 
-    public Long getId() {
-        return id;
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public Long getTargetId() {
-        return targetId;
-    }
+	public Long getTargetId() {
+		return targetId;
+	}
 
-    public void setTargetId(Long targetId) {
-        this.targetId = targetId;
-    }
+	public void setTargetId(Long targetId) {
+		this.targetId = targetId;
+	}
 
-    public Long getServerId() {
-        return serverId;
-    }
+	public Long getServerId() {
+		return serverId;
+	}
 
-    public void setServerId(Long serverId) {
-        this.serverId = serverId;
-    }
+	public void setServerId(Long serverId) {
+		this.serverId = serverId;
+	}
 
 }

@@ -33,20 +33,20 @@ import com.gw.android.first_components.my_fragment.CRComponent;
 public class TrackerGUI extends CRComponent {
 
 	List<Coordinates> l;
-    List<Trackable> li;
+	List<Trackable> li;
 	float lastZoom;
 	private MapView mMapView;
-    private GoogleMap mMap;
-    private Bundle mBundle;  
-    CoordinatesDao coordDao;
-    
-    public TrackerGUI(List<Trackable> li){
-    	this.li=li;
-    }
-    
-    public TrackerGUI(){
-    	
-    }
+	private GoogleMap mMap;
+	private Bundle mBundle;
+	CoordinatesDao coordDao;
+
+	public TrackerGUI(List<Trackable> li) {
+		this.li = li;
+	}
+
+	public TrackerGUI() {
+
+	}
 
 	public static CoordinatesDao initCoordinatesDao(Context context) {
 		DevOpenHelper helper = new DaoMaster.DevOpenHelper(context,
@@ -56,69 +56,75 @@ public class TrackerGUI extends CRComponent {
 		DaoSession daoSession = daoMaster.newSession();
 		return daoSession.getCoordinatesDao();
 	}
-	
+
 	public void populateMap(float zoom) {
 		mMap.clear();
 		int iconResource;
-		
+
 		if (zoom <= 6)
 			iconResource = R.drawable.picture_small;
-		else if(zoom <= 12)
+		else if (zoom <= 12)
 			iconResource = R.drawable.picture_medium;
 		else
 			iconResource = R.drawable.picture_large;
-		
-		
-		
-		for(Trackable t:li){
-			mMap.addMarker(new MarkerOptions()
-	        .position(new LatLng(t.getCoordinates().getLatitude(), t.getCoordinates().getLongitude()))
-	        .title("Teste")
-	        .snippet("Marker teste!").icon(BitmapDescriptorFactory.fromResource(iconResource)));
-		}
-		
-		
+
 		for (Coordinates c : l) {
 			mMap.addMarker(new MarkerOptions()
-	        .position(new LatLng(c.getLatitude(), c.getLongitude()))
-	        .title("Teste")
-	        .snippet("Marker teste!").icon(BitmapDescriptorFactory.fromResource(iconResource))
-	        );
+					.position(new LatLng(c.getLatitude(), c.getLongitude()))
+					.title("Teste").snippet("Marker teste!")
+					.icon(BitmapDescriptorFactory.fromResource(iconResource)));
 		}
+
+		for (Trackable t : li) {
+			mMap.addMarker(new MarkerOptions()
+					.position(
+							new LatLng(t.getCoordinates().getLatitude(), t
+									.getCoordinates().getLongitude()))
+					.title(t.getComponentType())
+					.snippet(t.getName())
+					.icon(BitmapDescriptorFactory.fromResource(t
+							.getIconResource())));
+		}
+
 	}
-	
-	
+
 	public OnCameraChangeListener getCameraChangeListener() {
 		return new OnCameraChangeListener() {
 			@Override
 			public void onCameraChange(CameraPosition position) {
-				Log.e("ZOOM", "LEVEL: "+position.zoom);
-				if (lastZoom <= 6 && position.zoom > 6 || 
-						lastZoom <= 12 && lastZoom > 6 && !(position.zoom <= 12 && position.zoom > 6) ||
-						lastZoom > 12 && position.zoom < 12)
+				Log.e("ZOOM", "LEVEL: " + position.zoom);
+				if (lastZoom <= 6 && position.zoom > 6 || lastZoom <= 12
+						&& lastZoom > 6
+						&& !(position.zoom <= 12 && position.zoom > 6)
+						|| lastZoom > 12 && position.zoom < 12)
 					populateMap(position.zoom);
 				lastZoom = position.zoom;
 			}
 		};
 	}
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View inflatedView = inflater.inflate(R.layout.tracker_layout, container, false);       
-        
-        mMapView = (MapView) inflatedView.findViewById(R.id.map);
-        mMapView.onCreate(mBundle);
-        mMap = ((MapView) inflatedView.findViewById(R.id.map)).getMap();
-        mMap.addMarker(new MarkerOptions().position(new LatLng(-20.27324080467165, -40.30574798583867)).title("UFES"));
-        mMap.setOnCameraChangeListener(getCameraChangeListener());
-        
-        coordDao = initCoordinatesDao(getActivity());
-        coordDao.deleteAll();
-        Coordinates c = new Coordinates(null, null, null, -20.4, -40.30, null, null, null);
-        coordDao.insert(c);
-        c = new Coordinates(null, null, null, -20.2, -40.1, null, null, null);
-        coordDao.insert(c);
-        
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		View inflatedView = inflater.inflate(R.layout.tracker_layout,
+				container, false);
+
+		mMapView = (MapView) inflatedView.findViewById(R.id.map);
+		mMapView.onCreate(mBundle);
+		mMap = ((MapView) inflatedView.findViewById(R.id.map)).getMap();
+		mMap.addMarker(new MarkerOptions().position(
+				new LatLng(-20.27324080467165, -40.30574798583867)).title(
+				"UFES"));
+		mMap.setOnCameraChangeListener(getCameraChangeListener());
+
+		coordDao = initCoordinatesDao(getActivity());
+		coordDao.deleteAll();
+		Coordinates c = new Coordinates(null, null, null, -20.4, -40.30, null,
+				null, null);
+		coordDao.insert(c);
+		c = new Coordinates(null, null, null, -20.2, -40.1, null, null, null);
+		coordDao.insert(c);
+
 		try {
 			MapsInitializer.initialize(getActivity());
 		} catch (GooglePlayServicesNotAvailableException e) {
@@ -126,35 +132,35 @@ public class TrackerGUI extends CRComponent {
 		}
 		l = coordDao.loadAll();
 		lastZoom = 1l;
-        populateMap(1l);
-        
-        coordDao.getDatabase().close();
-        
-        return inflatedView;
-    }
+		populateMap(1l);
 
-    @Override 
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mBundle = savedInstanceState;
-    }
+		coordDao.getDatabase().close();
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        mMapView.onResume();
-    }
+		return inflatedView;
+	}
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        mMapView.onPause();
-    }
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		mBundle = savedInstanceState;
+	}
 
-    @Override
-    public void onDestroy() {
-        mMapView.onDestroy();
-        super.onDestroy();
-    }
+	@Override
+	public void onResume() {
+		super.onResume();
+		mMapView.onResume();
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+		mMapView.onPause();
+	}
+
+	@Override
+	public void onDestroy() {
+		mMapView.onDestroy();
+		super.onDestroy();
+	}
 
 }

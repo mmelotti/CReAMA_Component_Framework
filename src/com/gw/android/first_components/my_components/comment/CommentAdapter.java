@@ -43,15 +43,13 @@ public class CommentAdapter extends ArrayAdapter<Comment> {
 				.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View v) {
-						/*Long id = Long.valueOf(v.getTag().toString());
-						Comment c = findCommentById(id);
-						if (c != null) {
-							initCommentDao();
-							// deleteOne(c);
-							closeDao();
-							reloadActivity();
-						}*/
-	
+						/*
+						 * Long id = Long.valueOf(v.getTag().toString());
+						 * Comment c = findCommentById(id); if (c != null) {
+						 * initCommentDao(); // deleteOne(c); closeDao();
+						 * reloadActivity(); }
+						 */
+
 					}
 				});
 

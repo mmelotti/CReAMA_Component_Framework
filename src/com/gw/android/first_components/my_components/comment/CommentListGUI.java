@@ -4,7 +4,6 @@ import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-
 import com.gw.android.R;
 import com.gw.android.first_components.database.DaoMaster;
 import com.gw.android.first_components.database.DaoSession;
@@ -12,7 +11,6 @@ import com.gw.android.first_components.database.DaoMaster.DevOpenHelper;
 import com.gw.android.first_components.my_components.comment.CommentDao.Properties;
 import com.gw.android.first_components.my_fragment.CRComponent;
 import com.gw.android.first_components.my_fragment.ComponentSimpleModel;
-
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -163,9 +161,9 @@ public class CommentListGUI extends CRComponent {
 		imm.hideSoftInputFromWindow(edit.getWindowToken(), 0);
 
 		Long newId = ComponentSimpleModel.getUniqueId(getActivity());
-		Comment comentario=new Comment();
-		//Comment comentario = new Comment(newId, edit.getText().toString(),
-			//	new Date(), idTarget);
+		Comment comentario = new Comment();
+		// Comment comentario = new Comment(newId, edit.getText().toString(),
+		// new Date(), idTarget);
 		edit.setText("");
 
 		initCommentDao();

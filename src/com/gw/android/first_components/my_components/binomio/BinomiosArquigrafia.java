@@ -3,14 +3,13 @@ package com.gw.android.first_components.my_components.binomio;
 public class BinomiosArquigrafia {
 
 	String left, right;
-	int leftValue,rightValue;
-	
-	
-	public BinomiosArquigrafia(String l, String r){
+	int leftValue, rightValue;
+
+	public BinomiosArquigrafia(String l, String r) {
 		left = l;
 		right = r;
-		leftValue=50;
-		rightValue=50;
+		leftValue = 50;
+		rightValue = 50;
 	}
 
 	public String getLeft() {
@@ -44,6 +43,5 @@ public class BinomiosArquigrafia {
 	public void setRightValue(int rightValue) {
 		this.rightValue = rightValue;
 	}
-	
-	
+
 }

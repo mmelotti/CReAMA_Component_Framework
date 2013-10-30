@@ -14,7 +14,7 @@ import android.view.View;
 import android.widget.Button;
 
 public class MainActivity extends CRActivity {
- 
+
 	private Button buttonBinomioComentario, buttonComposto, buttonTag,
 			buttonLogin, buttonCoord;
 	private Intent startIntent;
@@ -101,7 +101,7 @@ public class MainActivity extends CRActivity {
 		buttonCoord.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				
+
 				startIntent = new Intent(
 						v.getContext(),
 						com.gw.android.components.sensor_service.SensorManagerService.class);

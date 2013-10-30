@@ -9,118 +9,122 @@ import com.gw.android.first_components.my_components.tracker.Trackable;
 /**
  * Entity mapped to table USER.
  */
-public class User extends com.gw.android.first_components.my_fragment.ComponentSimpleModel implements Trackable{
+public class User extends
+		com.gw.android.first_components.my_fragment.ComponentSimpleModel
+		implements Trackable {
 
-    private Long id;
-    private Long targetId;
-    private Long serverId;
-    private String usuario;
-    private String sobrenome;
-    private String escolaridade;
-    private String curso;
-    private String instituicao;
-    private String ocupacao;
-    private String email;
+	private Long id;
+	private Long targetId;
+	private Long serverId;
+	private String usuario;
+	private String sobrenome;
+	private String escolaridade;
+	private String curso;
+	private String instituicao;
+	private String ocupacao;
+	private String email;
 
-    public User() {
-    }
+	public User() {
+	}
 
-    public User(Long id) {
-        this.id = id;
-    }
+	public User(Long id) {
+		this.id = id;
+	}
 
-    public User(Long id, Long targetId, Long serverId, String usuario, String sobrenome, String escolaridade, String curso, String instituicao, String ocupacao, String email) {
-        this.id = id;
-        this.targetId = targetId;
-        this.serverId = serverId;
-        this.usuario = usuario;
-        this.sobrenome = sobrenome;
-        this.escolaridade = escolaridade;
-        this.curso = curso;
-        this.instituicao = instituicao;
-        this.ocupacao = ocupacao;
-        this.email = email;
-    }
+	public User(Long id, Long targetId, Long serverId, String usuario,
+			String sobrenome, String escolaridade, String curso,
+			String instituicao, String ocupacao, String email) {
+		this.id = id;
+		this.targetId = targetId;
+		this.serverId = serverId;
+		this.usuario = usuario;
+		this.sobrenome = sobrenome;
+		this.escolaridade = escolaridade;
+		this.curso = curso;
+		this.instituicao = instituicao;
+		this.ocupacao = ocupacao;
+		this.email = email;
+	}
 
-    public Long getId() {
-        return id;
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public Long getTargetId() {
-        return targetId;
-    }
+	public Long getTargetId() {
+		return targetId;
+	}
 
-    public void setTargetId(Long targetId) {
-        this.targetId = targetId;
-    }
+	public void setTargetId(Long targetId) {
+		this.targetId = targetId;
+	}
 
-    public Long getServerId() {
-        return serverId;
-    }
+	public Long getServerId() {
+		return serverId;
+	}
 
-    public void setServerId(Long serverId) {
-        this.serverId = serverId;
-    }
+	public void setServerId(Long serverId) {
+		this.serverId = serverId;
+	}
 
-    public String getUsuario() {
-        return usuario;
-    }
+	public String getUsuario() {
+		return usuario;
+	}
 
-    public void setUsuario(String usuario) {
-        this.usuario = usuario;
-    }
+	public void setUsuario(String usuario) {
+		this.usuario = usuario;
+	}
 
-    public String getSobrenome() {
-        return sobrenome;
-    }
+	public String getSobrenome() {
+		return sobrenome;
+	}
 
-    public void setSobrenome(String sobrenome) {
-        this.sobrenome = sobrenome;
-    }
+	public void setSobrenome(String sobrenome) {
+		this.sobrenome = sobrenome;
+	}
 
-    public String getEscolaridade() {
-        return escolaridade;
-    }
+	public String getEscolaridade() {
+		return escolaridade;
+	}
 
-    public void setEscolaridade(String escolaridade) {
-        this.escolaridade = escolaridade;
-    }
+	public void setEscolaridade(String escolaridade) {
+		this.escolaridade = escolaridade;
+	}
 
-    public String getCurso() {
-        return curso;
-    }
+	public String getCurso() {
+		return curso;
+	}
 
-    public void setCurso(String curso) {
-        this.curso = curso;
-    }
+	public void setCurso(String curso) {
+		this.curso = curso;
+	}
 
-    public String getInstituicao() {
-        return instituicao;
-    }
+	public String getInstituicao() {
+		return instituicao;
+	}
 
-    public void setInstituicao(String instituicao) {
-        this.instituicao = instituicao;
-    }
+	public void setInstituicao(String instituicao) {
+		this.instituicao = instituicao;
+	}
 
-    public String getOcupacao() {
-        return ocupacao;
-    }
+	public String getOcupacao() {
+		return ocupacao;
+	}
 
-    public void setOcupacao(String ocupacao) {
-        this.ocupacao = ocupacao;
-    }
+	public void setOcupacao(String ocupacao) {
+		this.ocupacao = ocupacao;
+	}
 
-    public String getEmail() {
-        return email;
-    }
+	public String getEmail() {
+		return email;
+	}
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
 	@Override
 	public String getName() {
@@ -135,7 +139,7 @@ public class User extends com.gw.android.first_components.my_fragment.ComponentS
 	}
 
 	@Override
-	public int getIcon() {
+	public int getIconResource() {
 		// TODO Auto-generated method stub
 		return R.drawable.user_small;
 	}
@@ -143,13 +147,14 @@ public class User extends com.gw.android.first_components.my_fragment.ComponentS
 	@Override
 	public Coordinates getCoordinates() {
 		// TODO Auto-generated method stub
-		return new Coordinates(null, null, null, -20.4, -40.30, null, null, null);
+		return new Coordinates(null, null, null, -20.4, -40.30, null, null,
+				null);
 	}
 
 	@Override
 	public void doTrackableRequest() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

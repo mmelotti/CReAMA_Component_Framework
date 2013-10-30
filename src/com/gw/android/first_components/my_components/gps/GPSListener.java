@@ -49,10 +49,11 @@ public class GPSListener extends CRComponent {
 
 		mCtx = getActivity().getApplicationContext();
 		sensorListener = new SensorServiceListener(mCtx);
-		/*startIntent = new Intent(
-				mCtx,
-				com.gw.android.components.sensor_service.SensorManagerService.class);
-		mCtx.startService(startIntent);*/
+		/*
+		 * startIntent = new Intent( mCtx,
+		 * com.gw.android.components.sensor_service.SensorManagerService.class);
+		 * mCtx.startService(startIntent);
+		 */
 		Log.d("start service", "true");
 
 		return view;
@@ -69,7 +70,7 @@ public class GPSListener extends CRComponent {
 	@Override
 	public void onResume() {
 		super.onResume();
-		Log.d("on resume", "true GPS"); 
+		Log.d("on resume", "true GPS");
 		sensorListener.startListening();
 		sensorListener.startSamplingSensor(sensorType);
 	}
@@ -85,12 +86,15 @@ public class GPSListener extends CRComponent {
 	public Coordinates getCoordinates(Context ctx, Long target) {
 		double[] array = sensorListener.getSensorValues(sensorType);
 		Address ad = GPSViewGUI.getAddress(ctx, array[0], array[1]);
-		
-		if (ad != null) 
-			coord = new Coordinates(ComponentSimpleModel.getUniqueId(ctx), target, null, array[0], array[1], ad.getAddressLine(0), ad.getAddressLine(1), ad.getAddressLine(2));
+
+		if (ad != null)
+			coord = new Coordinates(ComponentSimpleModel.getUniqueId(ctx),
+					target, null, array[0], array[1], ad.getAddressLine(0),
+					ad.getAddressLine(1), ad.getAddressLine(2));
 		else
-			coord = new Coordinates(ComponentSimpleModel.getUniqueId(ctx), target, null, array[0], array[1], null, null, null);
-		
+			coord = new Coordinates(ComponentSimpleModel.getUniqueId(ctx),
+					target, null, array[0], array[1], null, null, null);
+
 		return coord;
 	}
 }

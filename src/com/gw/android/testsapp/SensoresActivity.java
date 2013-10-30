@@ -22,40 +22,23 @@ public class SensoresActivity extends Activity implements OnClickListener {
 		int sensorType = 0;
 		boolean turnOn = false;
 
-/*		switch (v.getId()) {
-		case R.id.btnAcel:
-			sensorType = Sensor.TYPE_ACCELEROMETER;
-			acelOn = !acelOn;
-			turnOn = acelOn;
-			break;
-
-		case R.id.btnLum:
-			sensorType = SensorManagerService.TYPE_NETWORK;
-			lumOn = !lumOn;
-			turnOn = lumOn;
-			break;
-
-		case R.id.btnMag:
-			sensorType = Sensor.TYPE_MAGNETIC_FIELD;
-			magOn = !magOn;
-			turnOn = magOn;
-			break;
-
-		case R.id.btnGPS:
-			sensorType = SensorManagerService.TYPE_GPS;
-			GPSOn = !GPSOn;
-			turnOn = GPSOn;
-			break;
-
-		case R.id.btnOff:
-			//stopService(startIntent);
-			break;
-
-		default:
-			sensorType = 0;
-			break;
-		}
-*/
+		/*
+		 * switch (v.getId()) { case R.id.btnAcel: sensorType =
+		 * Sensor.TYPE_ACCELEROMETER; acelOn = !acelOn; turnOn = acelOn; break;
+		 * 
+		 * case R.id.btnLum: sensorType = SensorManagerService.TYPE_NETWORK;
+		 * lumOn = !lumOn; turnOn = lumOn; break;
+		 * 
+		 * case R.id.btnMag: sensorType = Sensor.TYPE_MAGNETIC_FIELD; magOn =
+		 * !magOn; turnOn = magOn; break;
+		 * 
+		 * case R.id.btnGPS: sensorType = SensorManagerService.TYPE_GPS; GPSOn =
+		 * !GPSOn; turnOn = GPSOn; break;
+		 * 
+		 * case R.id.btnOff: //stopService(startIntent); break;
+		 * 
+		 * default: sensorType = 0; break; }
+		 */
 		sendBroadcast(sensorType, turnOn);
 
 		double[] array = sensorListener.getSensorValues(sensorType);
@@ -89,8 +72,7 @@ public class SensoresActivity extends Activity implements OnClickListener {
 				com.gw.android.components.sensor_service.SensorManagerService.class);
 		startService(startIntent);
 		Log.d("start sefvice???", "true");
-		
-		
+
 		findViewById(R.id.btnAcel).setOnClickListener(this);
 		findViewById(R.id.btnLum).setOnClickListener(this);
 		findViewById(R.id.btnMag).setOnClickListener(this);
@@ -100,7 +82,7 @@ public class SensoresActivity extends Activity implements OnClickListener {
 
 	@Override
 	public void onDestroy() {
-		//stopService(startIntent);
+		// stopService(startIntent);
 		super.onDestroy();
 	}
 

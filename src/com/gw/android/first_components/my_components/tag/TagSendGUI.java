@@ -2,8 +2,6 @@ package com.gw.android.first_components.my_components.tag;
 
 import java.util.List;
 
-
-
 import com.gw.android.R;
 import com.gw.android.first_components.database.DaoMaster;
 import com.gw.android.first_components.database.DaoSession;
@@ -11,7 +9,6 @@ import com.gw.android.first_components.database.DaoMaster.DevOpenHelper;
 import com.gw.android.first_components.my_components.tag.TagDao.Properties;
 import com.gw.android.first_components.my_fragment.CRComponent;
 import com.gw.android.first_components.my_fragment.ComponentSimpleModel;
-
 
 import android.annotation.SuppressLint;
 import android.database.sqlite.SQLiteDatabase;
@@ -52,8 +49,6 @@ public class TagSendGUI extends CRComponent {
 		View view = inflater.inflate(R.layout.tag_send, container, false);
 		button = (Button) view.findViewById(R.id.button_tag);
 		edit = (EditText) view.findViewById(R.id.edit_tag);
-
-		
 
 		// busca tags para component pela primeira vez
 		stringList = getAllStrings(idTarget);

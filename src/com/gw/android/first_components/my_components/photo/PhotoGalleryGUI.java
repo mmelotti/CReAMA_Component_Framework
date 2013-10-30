@@ -289,8 +289,8 @@ public class PhotoGalleryGUI extends CRComponent {
 
 			photoIds = new Long[list.size()];
 
-			for (int i = 0; i < photoIds.length; i++) 
-				photoIds[i] = list.get(i).getId();	
+			for (int i = 0; i < photoIds.length; i++)
+				photoIds[i] = list.get(i).getId();
 		}
 
 		// BaseAdapter methods

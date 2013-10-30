@@ -26,9 +26,7 @@ public abstract class CRComponent extends GenericComponent {
 
 	private AsyncRequestHandler componentFileHandler = new AsyncRequestHandler();
 	private AsyncRequestHandler applicationFileHandler = new AsyncRequestHandler();
-	
-	
-	
+
 	private RequestListener component = null;
 	private String nick;
 	private static String MSG_ENVIOU = "enviou";
@@ -118,7 +116,7 @@ public abstract class CRComponent extends GenericComponent {
 	public void setApplicationRequestCallback(AsyncRequestHandler h) {
 		applicationHandler = h;
 	}
-	
+
 	protected void setComponentFileRequestCallback(AsyncRequestHandler h) {
 		componentFileHandler = h;
 	}
@@ -128,19 +126,19 @@ public abstract class CRComponent extends GenericComponent {
 	}
 
 	protected void makeRequest(Request request) {
-		if(getActivity() == null) {
-			
-		} else{
+		if (getActivity() == null) {
+
+		} else {
 			getConnectionManager().makeRequest(request, getActivity(),
 					componentHandler, applicationHandler);
 		}
 	}
-	
+
 	protected void makeFileRequest(Request request) {
-		if(getActivity() == null) {
-			
-		} else{
-			getConnectionManager().makeFileRequest(request, getActivity(), 
+		if (getActivity() == null) {
+
+		} else {
+			getConnectionManager().makeFileRequest(request, getActivity(),
 					componentFileHandler, applicationFileHandler);
 		}
 	}
@@ -201,12 +199,11 @@ public abstract class CRComponent extends GenericComponent {
 	}
 
 	public String getBaseUrl() {
-		SharedPreferences testPrefs = getActivity()
-				.getApplication()
+		SharedPreferences testPrefs = getActivity().getApplication()
 				.getSharedPreferences("test_prefs", Context.MODE_PRIVATE);
 		return testPrefs.getString("base_url", "");
 	}
-	
+
 	void doUnbindService() {
 		if (mIsBound) {
 			// Detach our existing connection.
@@ -229,8 +226,8 @@ public abstract class CRComponent extends GenericComponent {
 		setRetainInstance(true);
 		doBindService();
 	}
-	
-	public boolean isTrackable(){
+
+	public boolean isTrackable() {
 		return false;
 	}
 

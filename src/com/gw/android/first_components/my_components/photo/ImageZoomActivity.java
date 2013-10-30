@@ -16,10 +16,11 @@ public class ImageZoomActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.image_zoom);
-		
+
 		ImageView iv = (ImageView) findViewById(R.id.expanded_image);
-		
-		ByteArrayInputStream is = new ByteArrayInputStream(getIntent().getByteArrayExtra("image"));
+
+		ByteArrayInputStream is = new ByteArrayInputStream(getIntent()
+				.getByteArrayExtra("image"));
 		iv.setImageDrawable(Drawable.createFromStream(is, "image"));
 
 		iv.setOnClickListener(new View.OnClickListener() {

@@ -125,10 +125,10 @@ public class CommentSendGUI extends CRComponent {
 		comentario.setText(edit.getText().toString());
 		comentario.setTargetId(idTarget);
 		edit.setText("");
-		//send data to server
+		// send data to server
 		sendToServer(comentario);
 
-		//save the comment on database for offline access	
+		// save the comment on database for offline access
 		initCommentDao();
 		commentDao.insert(comentario);
 		closeDao();

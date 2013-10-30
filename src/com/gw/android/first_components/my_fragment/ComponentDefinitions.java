@@ -16,7 +16,6 @@ import com.gw.android.first_components.my_components.tag.TagViewGUI;
 
 import android.app.Activity;
 
-
 public class ComponentDefinitions {
 
 	ArrayList<String> names = new ArrayList<String>();
@@ -72,9 +71,9 @@ public class ComponentDefinitions {
 
 		} else if (name.equals(Constants.TagViewGUIName)) {
 			return getTagViewGUI(target);
-		}else if (name.equals(Constants.GPSListenerName)) {
+		} else if (name.equals(Constants.GPSListenerName)) {
 			return getGPSListener(target);
-		}else if (name.equals(Constants.GPSViewGUIName)) {
+		} else if (name.equals(Constants.GPSViewGUIName)) {
 			return getOneGPSViewGUI(target);
 		}
 
@@ -96,7 +95,7 @@ public class ComponentDefinitions {
 	public CommentSendGUI getCommentSendGUI(Long t) {
 		return new CommentSendGUI(t);
 	}
-	
+
 	public CommentViewGUI getCommentViewGUI(Long t) {
 		return new CommentViewGUI();
 	}
@@ -104,16 +103,15 @@ public class ComponentDefinitions {
 	public TagSendGUI getTagSendGUI(Long t) {
 		return new TagSendGUI(t);
 	}
-	
-	public GPSListener getGPSListener(Long t){
+
+	public GPSListener getGPSListener(Long t) {
 		return new GPSListener(t);
 	}
-	
 
-	public GPSViewGUI getOneGPSViewGUI(Long t){
+	public GPSViewGUI getOneGPSViewGUI(Long t) {
 		return new GPSViewGUI(t);
 	}
-	
+
 	public TagViewGUI getTagViewGUI(Long t) {
 		return new TagViewGUI(t);
 	}
@@ -129,7 +127,7 @@ public class ComponentDefinitions {
 	public List<ComponentSimpleModel> listToMany(String name, Long target,
 			Activity a) {
 		CRComponent g = getComponent(target, name);
-		//TODO ta apenas para comentario
+		// TODO ta apenas para comentario
 		return g.getListSimple(target, a);
 	}
 

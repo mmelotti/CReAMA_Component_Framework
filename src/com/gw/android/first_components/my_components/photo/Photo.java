@@ -4,87 +4,89 @@ package com.gw.android.first_components.my_components.photo;
 /**
  * Entity mapped to table PHOTO.
  */
-public class Photo extends com.gw.android.first_components.my_fragment.ComponentSimpleModel  {
+public class Photo extends
+		com.gw.android.first_components.my_fragment.ComponentSimpleModel {
 
-    private Long id;
-    private Long targetId;
-    private Long serverId;
-    private Boolean isThumb;
-    private byte[] photoBytes;
-    private String text;
-    private java.util.Date date;
+	private Long id;
+	private Long targetId;
+	private Long serverId;
+	private Boolean isThumb;
+	private byte[] photoBytes;
+	private String text;
+	private java.util.Date date;
 
-    public Photo() {
-    }
+	public Photo() {
+	}
 
-    public Photo(Long id) {
-        this.id = id;
-    }
+	public Photo(Long id) {
+		this.id = id;
+	}
 
-    public Photo(Long id, Long targetId, Long serverId, Boolean isThumb, byte[] photoBytes, String text, java.util.Date date) {
-        this.id = id;
-        this.targetId = targetId;
-        this.serverId = serverId;
-        this.isThumb = isThumb;
-        this.photoBytes = photoBytes;
-        this.text = text;
-        this.date = date;
-    }
+	public Photo(Long id, Long targetId, Long serverId, Boolean isThumb,
+			byte[] photoBytes, String text, java.util.Date date) {
+		this.id = id;
+		this.targetId = targetId;
+		this.serverId = serverId;
+		this.isThumb = isThumb;
+		this.photoBytes = photoBytes;
+		this.text = text;
+		this.date = date;
+	}
 
-    public Long getId() {
-        return id;
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public Long getTargetId() {
-        return targetId;
-    }
+	public Long getTargetId() {
+		return targetId;
+	}
 
-    public void setTargetId(Long targetId) {
-        this.targetId = targetId;
-    }
+	public void setTargetId(Long targetId) {
+		this.targetId = targetId;
+	}
 
-    public Long getServerId() {
-        return serverId;
-    }
+	public Long getServerId() {
+		return serverId;
+	}
 
-    public void setServerId(Long serverId) {
-        this.serverId = serverId;
-    }
+	public void setServerId(Long serverId) {
+		this.serverId = serverId;
+	}
 
-    public Boolean getIsThumb() {
-        return isThumb;
-    }
+	public Boolean getIsThumb() {
+		return isThumb;
+	}
 
-    public void setIsThumb(Boolean isThumb) {
-        this.isThumb = isThumb;
-    }
+	public void setIsThumb(Boolean isThumb) {
+		this.isThumb = isThumb;
+	}
 
-    public byte[] getPhotoBytes() {
-        return photoBytes;
-    }
+	public byte[] getPhotoBytes() {
+		return photoBytes;
+	}
 
-    public void setPhotoBytes(byte[] photoBytes) {
-        this.photoBytes = photoBytes;
-    }
+	public void setPhotoBytes(byte[] photoBytes) {
+		this.photoBytes = photoBytes;
+	}
 
-    public String getText() {
-        return text;
-    }
+	public String getText() {
+		return text;
+	}
 
-    public void setText(String text) {
-        this.text = text;
-    }
+	public void setText(String text) {
+		this.text = text;
+	}
 
-    public java.util.Date getDate() {
-        return date;
-    }
+	public java.util.Date getDate() {
+		return date;
+	}
 
-    public void setDate(java.util.Date date) {
-        this.date = date;
-    }
+	public void setDate(java.util.Date date) {
+		this.date = date;
+	}
 
 }

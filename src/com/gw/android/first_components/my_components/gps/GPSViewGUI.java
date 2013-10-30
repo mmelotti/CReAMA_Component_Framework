@@ -20,7 +20,6 @@ import com.gw.android.first_components.database.DaoMaster.DevOpenHelper;
 import com.gw.android.first_components.my_components.rating.RatingDao.Properties;
 import com.gw.android.first_components.my_fragment.CRComponent;
 
-
 @SuppressLint("ValidFragment")
 public class GPSViewGUI extends CRComponent {
 	String latV, lonV;
@@ -46,8 +45,8 @@ public class GPSViewGUI extends CRComponent {
 
 		coord = getCoordinates();
 		if (coord != null) {
-			lat.setText(""+coord.getLatitude());
-			lon.setText(""+coord.getLongitude());
+			lat.setText("" + coord.getLatitude());
+			lon.setText("" + coord.getLongitude());
 			ad1.setText(coord.getAddressLine1());
 			ad2.setText(coord.getAddressLine2());
 			ad3.setText(coord.getAddressLine3());
@@ -55,10 +54,12 @@ public class GPSViewGUI extends CRComponent {
 
 		return view;
 	}
-	
-	public static Address getAddress(Context c, double latitude, double longitude) {
+
+	public static Address getAddress(Context c, double latitude,
+			double longitude) {
 		try {
-			return new Geocoder(c, Locale.getDefault()).getFromLocation(latitude, longitude, 1).get(0);
+			return new Geocoder(c, Locale.getDefault()).getFromLocation(
+					latitude, longitude, 1).get(0);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;

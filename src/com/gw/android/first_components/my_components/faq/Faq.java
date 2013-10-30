@@ -4,67 +4,69 @@ package com.gw.android.first_components.my_components.faq;
 /**
  * Entity mapped to table FAQ.
  */
-public class Faq extends com.gw.android.first_components.my_fragment.ComponentSimpleModel  {
+public class Faq extends
+		com.gw.android.first_components.my_fragment.ComponentSimpleModel {
 
-    private Long id;
-    private Long targetId;
-    private Long serverId;
-    private String pergunta;
-    private String resposta;
+	private Long id;
+	private Long targetId;
+	private Long serverId;
+	private String pergunta;
+	private String resposta;
 
-    public Faq() {
-    }
+	public Faq() {
+	}
 
-    public Faq(Long id) {
-        this.id = id;
-    }
+	public Faq(Long id) {
+		this.id = id;
+	}
 
-    public Faq(Long id, Long targetId, Long serverId, String pergunta, String resposta) {
-        this.id = id;
-        this.targetId = targetId;
-        this.serverId = serverId;
-        this.pergunta = pergunta;
-        this.resposta = resposta;
-    }
+	public Faq(Long id, Long targetId, Long serverId, String pergunta,
+			String resposta) {
+		this.id = id;
+		this.targetId = targetId;
+		this.serverId = serverId;
+		this.pergunta = pergunta;
+		this.resposta = resposta;
+	}
 
-    public Long getId() {
-        return id;
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public Long getTargetId() {
-        return targetId;
-    }
+	public Long getTargetId() {
+		return targetId;
+	}
 
-    public void setTargetId(Long targetId) {
-        this.targetId = targetId;
-    }
+	public void setTargetId(Long targetId) {
+		this.targetId = targetId;
+	}
 
-    public Long getServerId() {
-        return serverId;
-    }
+	public Long getServerId() {
+		return serverId;
+	}
 
-    public void setServerId(Long serverId) {
-        this.serverId = serverId;
-    }
+	public void setServerId(Long serverId) {
+		this.serverId = serverId;
+	}
 
-    public String getPergunta() {
-        return pergunta;
-    }
+	public String getPergunta() {
+		return pergunta;
+	}
 
-    public void setPergunta(String pergunta) {
-        this.pergunta = pergunta;
-    }
+	public void setPergunta(String pergunta) {
+		this.pergunta = pergunta;
+	}
 
-    public String getResposta() {
-        return resposta;
-    }
+	public String getResposta() {
+		return resposta;
+	}
 
-    public void setResposta(String resposta) {
-        this.resposta = resposta;
-    }
+	public void setResposta(String resposta) {
+		this.resposta = resposta;
+	}
 
 }

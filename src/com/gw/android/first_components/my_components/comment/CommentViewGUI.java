@@ -75,7 +75,8 @@ public class CommentViewGUI extends CRComponent {
 
 	private Comment findCommentById(Long id) {
 		initCommentDao();
-		Comment comment = (Comment) commentDao.queryBuilder().where(Properties.Id.eq(id)).build().unique();
+		Comment comment = (Comment) commentDao.queryBuilder()
+				.where(Properties.Id.eq(id)).build().unique();
 		closeDao();
 		return comment;
 	}
@@ -85,29 +86,29 @@ public class CommentViewGUI extends CRComponent {
 			Bundle savedInstanceState) {
 		setControlActivity((CRActivity) getActivity());
 		View view = inflater.inflate(R.layout.comment_list, container, false);
-	
-		listview = (ListView) view.findViewById(R.id.listView);	
+
+		listview = (ListView) view.findViewById(R.id.listView);
 		listview.setOnTouchListener(new ListView.OnTouchListener() {
-	        @Override
-	        public boolean onTouch(View v, MotionEvent event) {
-	            switch (event.getAction()) {
-	            case MotionEvent.ACTION_DOWN:
-	                // Disallow ScrollView to intercept touch events.
-	                v.getParent().requestDisallowInterceptTouchEvent(true);
-	                break;
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				switch (event.getAction()) {
+				case MotionEvent.ACTION_DOWN:
+					// Disallow ScrollView to intercept touch events.
+					v.getParent().requestDisallowInterceptTouchEvent(true);
+					break;
 
-	            case MotionEvent.ACTION_UP:
-	                // Allow ScrollView to intercept touch events.
-	                v.getParent().requestDisallowInterceptTouchEvent(false);
-	                break;
-	            }
+				case MotionEvent.ACTION_UP:
+					// Allow ScrollView to intercept touch events.
+					v.getParent().requestDisallowInterceptTouchEvent(false);
+					break;
+				}
 
-	            // Handle ListView touch events.
-	            v.onTouchEvent(event);
-	            return true;
-	        }
-	    });
-		
+				// Handle ListView touch events.
+				v.onTouchEvent(event);
+				return true;
+			}
+		});
+
 		AsyncRequestHandler mHandler = new AsyncRequestHandler() {
 			@Override
 			public void onSuccess(String response, Request request) {
@@ -122,7 +123,7 @@ public class CommentViewGUI extends CRComponent {
 						.where(Properties.TargetId.eq((idTarget))).list();
 				closeDao();
 
-				if (!lista.isEmpty()) 
+				if (!lista.isEmpty())
 					listview.setAdapter(new CommentAdapter(getActivity(), lista));
 
 				Log.i("FALHA COMMENTS ", " id=");
@@ -156,7 +157,7 @@ public class CommentViewGUI extends CRComponent {
 		initCommentDao();
 		lista = commentDao.queryBuilder()
 				.where(Properties.TargetId.eq((idTarget))).list();
-		for(Comment c:lista){
+		for (Comment c : lista) {
 			deleteOne(c);
 		}
 		closeDao();
@@ -166,7 +167,7 @@ public class CommentViewGUI extends CRComponent {
 		// got the right comments, we can remove the older ones
 		deleteFromTarget();
 		lista.clear();
-		
+
 		try {
 			JSONObject commentsObject;
 			commentsObject = new JSONObject(r);
@@ -181,16 +182,18 @@ public class CommentViewGUI extends CRComponent {
 				String userName = userObject.get("name").toString();
 				Long idServ = Long.parseLong(oneComment.get("id").toString());
 				String text = oneComment.get("text").toString();
-				
+
 				// updating comments, adding on DB
 				Long newI = ComponentSimpleModel.getUniqueId(getActivity());
-				Comment comment = new Comment(newI, idTarget, idServ, text, new Date());
+				Comment comment = new Comment(newI, idTarget, idServ, text,
+						new Date());
 				initCommentDao();
 				commentDao.insert(comment);
 				closeDao();
 
 				lista.add(comment);
-				Log.i("Parseando comentario", "text = " + text + idServ + userName);
+				Log.i("Parseando comentario", "text = " + text + idServ
+						+ userName);
 			}
 			listview.setAdapter(new CommentAdapter(getActivity(), lista));
 		} catch (JSONException e) {
@@ -232,7 +235,8 @@ public class CommentViewGUI extends CRComponent {
 	}
 
 	public void initCommentDao(Activity a) {
-		DevOpenHelper helper = new DaoMaster.DevOpenHelper(a, "comments-db", null);
+		DevOpenHelper helper = new DaoMaster.DevOpenHelper(a, "comments-db",
+				null);
 		SQLiteDatabase db = helper.getWritableDatabase();
 		DaoMaster daoMaster = new DaoMaster(db);
 		daoSession = daoMaster.newSession();

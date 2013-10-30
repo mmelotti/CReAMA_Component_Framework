@@ -83,7 +83,8 @@ public abstract class CRActivity extends FragmentActivity {
 			// Log.i("Remov?", d.getTarget().getNickName()+" <-encontrou??? " +
 			// component);
 			if (d.getTarget().getNickName().equals(component)) {
-				Log.i("ADD!", "encontrou source= "+d.getSource().getNickName());
+				Log.i("ADD!", "encontrou source= "
+						+ d.getSource().getNickName());
 				for (CRComponent c : getComponentes()) {
 					if (c.getNick().equals(d.getSource().getNickName())) {
 						c.submittedFrom(target);
@@ -146,7 +147,8 @@ public abstract class CRActivity extends FragmentActivity {
 		dependencies.add(d);
 	}
 
-	public void addGuiComponentToMany(ComponentNaming s, ComponentSimpleModel c, int id) {
+	public void addGuiComponentToMany(ComponentNaming s,
+			ComponentSimpleModel c, int id) {
 
 		// addOne(s,c);
 
@@ -174,7 +176,8 @@ public abstract class CRActivity extends FragmentActivity {
 							.getGuiName(), target);
 
 					for (ComponentSimpleModel model : m) {
-						addGuiComponentToMany(d.getSource(), model, R.id.menu_lin);
+						addGuiComponentToMany(d.getSource(), model,
+								R.id.menu_lin);
 						verDependenciaString(d.getSource(), model.getId());
 					}
 				} else {

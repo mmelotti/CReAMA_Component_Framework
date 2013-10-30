@@ -19,10 +19,11 @@ public class Rating2Comment2Photo extends CRActivity {
 
 	private PhotoViewGUI photo;
 	private boolean gambiarraFlag = false;
-	
-	private ComponentNaming commentView, commentSend, photoView, rating,r2cView;
+
+	private ComponentNaming commentView, commentSend, photoView, rating,
+			r2cView;
 	private CRComponent rating2comment;
-	
+
 	// aqui existe dependencia de comentario, e foto
 
 	private long idPhoto;
@@ -45,7 +46,7 @@ public class Rating2Comment2Photo extends CRActivity {
 		setContentView(R.layout.activity_fragment_runtime);
 
 		// set targets
-		
+
 		setMyList();
 		addSomething();
 	}
@@ -58,21 +59,25 @@ public class Rating2Comment2Photo extends CRActivity {
 
 		Dependency d;
 		setDependencies(new ArrayList<Dependency>());
-		
-		
-		commentView = new ComponentNaming(Constants.CommentViewGUIName, Constants.CommentViewGUIName+"1");
-		commentSend = new ComponentNaming(Constants.CommentSendGUIName, Constants.CommentSendGUIName+"1");
-		photoView = new ComponentNaming(Constants.PhotoViewGUIName, Constants.PhotoViewGUIName+"1");
-		rating = new ComponentNaming(Constants.RatingViewGUIName,Constants.RatingViewGUIName+"1");
-		r2cView = new ComponentNaming(Constants.RatingToCommentGUIName,Constants.RatingToCommentGUIName+"1");
-		
-		d = new Dependency(commentView,photoView, true);
+
+		commentView = new ComponentNaming(Constants.CommentViewGUIName,
+				Constants.CommentViewGUIName + "1");
+		commentSend = new ComponentNaming(Constants.CommentSendGUIName,
+				Constants.CommentSendGUIName + "1");
+		photoView = new ComponentNaming(Constants.PhotoViewGUIName,
+				Constants.PhotoViewGUIName + "1");
+		rating = new ComponentNaming(Constants.RatingViewGUIName,
+				Constants.RatingViewGUIName + "1");
+		r2cView = new ComponentNaming(Constants.RatingToCommentGUIName,
+				Constants.RatingToCommentGUIName + "1");
+
+		d = new Dependency(commentView, photoView, true);
 		addDependency(d);
-		d = new Dependency(rating,commentView, false);
+		d = new Dependency(rating, commentView, false);
 		addDependency(d);
-		d = new Dependency(commentSend,photoView, false);
+		d = new Dependency(commentSend, photoView, false);
 		addDependency(d);
-		
+
 		rating2comment.setNick(r2cView.getNickName());
 		photo.setNick(photoView.getNickName());
 	}
@@ -91,9 +96,9 @@ public class Rating2Comment2Photo extends CRActivity {
 			photoNotFound();
 			return;
 		}
-		
-		rating2comment =new RatingToCommentGUI(photoId);
-		
+
+		rating2comment = new RatingToCommentGUI(photoId);
+
 	}
 
 	public void setMyList() {

@@ -6,9 +6,9 @@ import android.widget.Gallery;
 
 public class CustomGallery extends Gallery {
 
-    public CustomGallery(Context context, AttributeSet attrs) {
-        super(context, attrs);
-    }
+	public CustomGallery(Context context, AttributeSet attrs) {
+		super(context, attrs);
+	}
 
 	@Override
 	protected void onLayout(boolean changed, int l, int t, int r, int b) {
