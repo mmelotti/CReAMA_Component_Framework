@@ -23,7 +23,7 @@ import com.gw.android.first_components.my_components.tracker.Trackable;
 import com.gw.android.first_components.my_fragment.CRActivity;
 import com.gw.android.first_components.my_fragment.CRComponent;
 
-public class UserViewGUI extends CRComponent implements Trackable {
+public class UserViewGUI extends CRComponent {
 
 	// private LayoutInflater li;
 	private String urlView;
@@ -123,38 +123,12 @@ public class UserViewGUI extends CRComponent implements Trackable {
 
 	}
 
-	@Override
-	public String getName() {
-		// TODO Auto-generated method stub
-		return uName;
-	}
-
-	@Override
-	public String getComponentType() {
-		// TODO Auto-generated method stub
-		return "User";
-	}
-
-	@Override
-	public int getIconResource() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public Coordinates getCoordinates() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public boolean isTrackable() {
-		return true;
-	}
-
-	@Override
 	public void doTrackableRequest() {
 		// TODO url deles, falta fazer
-		Request request = new Request(null, urlView, "get", null);
+		Request request = new Request(
+				null,
+				"http://www.arquigrafia.org.br/geoReferenceMgr/13/full_neighbors/13?latMin=5&latMax=85&lngMin=20&lngMax=25&_format=json",
+				"get", null);
 		makeRequest(request);
 	}
 

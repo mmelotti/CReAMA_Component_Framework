@@ -68,12 +68,7 @@ public class TrackerGUI extends CRComponent {
 		else
 			iconResource = R.drawable.picture_large;
 
-		for (Coordinates c : l) {
-			mMap.addMarker(new MarkerOptions()
-					.position(new LatLng(c.getLatitude(), c.getLongitude()))
-					.title("Teste").snippet("Marker teste!")
-					.icon(BitmapDescriptorFactory.fromResource(iconResource)));
-		}
+		
 
 		for (Trackable t : li) {
 			mMap.addMarker(new MarkerOptions()

@@ -222,9 +222,6 @@ public class PhotoGalleryGUI extends CRComponent {
 	protected void onBind() {
 		if (getOnlyLocal == false) {
 			getPhotosIdRequest();
-			SuperToastUtils.showSuperToast(getActivity(),
-					SuperToast.BACKGROUND_GREENTRANSLUCENT,
-					"Iniciando download das imagens...");
 			Log.i("ON Bbind", " FEZ REQUEST");
 		}
 

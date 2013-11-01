@@ -1,5 +1,6 @@
 package com.gw.android.first_components.my_components.photo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import uk.co.senab.photoview.PhotoViewAttacher;
@@ -26,6 +27,8 @@ import com.gw.android.Utils.SuperToastUtils;
 import com.gw.android.components.connection_manager.AsyncRequestHandler;
 import com.gw.android.components.request.Request;
 import com.gw.android.first_components.my_components.photo.PhotoDao.Properties;
+import com.gw.android.first_components.my_components.tracker.Trackable;
+import com.gw.android.first_components.my_components.user.User;
 import com.gw.android.first_components.my_fragment.CRComponent;
 import com.loopj.android.image.SmartImageView;
 import com.readystatesoftware.viewbadger.BadgeView;
@@ -43,6 +46,11 @@ public class PhotoViewGUI extends CRComponent {
 
 	public PhotoViewGUI(Long imageId) {
 		setCurrent(imageId);
+		preDefined();
+	}
+
+	public PhotoViewGUI() {
+
 		preDefined();
 	}
 
@@ -194,10 +202,11 @@ public class PhotoViewGUI extends CRComponent {
 
 	@Override
 	protected void onBind() {
-
-		if (isThumb()) { // Se a imagem salva no DAO ainda é a de tamanho
-							// pequeno (thumbnail) tenta baixar a foto em
-							// tamanho original
+		if (isTrackable()) {
+			doTrackableRequest();
+		} else if (isThumb()) { // Se a imagem salva no DAO ainda é a de tamanho
+								// pequeno (thumbnail) tenta baixar a foto em
+								// tamanho original
 			AsyncRequestHandler mFileHandler = new AsyncRequestHandler() {
 				@Override
 				public void onSuccess(byte[] b, Request request) {
@@ -244,6 +253,25 @@ public class PhotoViewGUI extends CRComponent {
 			flipAnimation.reverse();
 		}
 		rootLayout.startAnimation(flipAnimation);
+	}
+
+	public void doTrackableRequest() {
+		// TODO url deles, falta fazer
+		Log.e("photo view","trackable request");
+		Request request = new Request(
+				null,
+				"http://www.arquigrafia.org.br/geoReferenceMgr/13/full_neighbors/13?latMin=5&latMax=85&lngMin=20&lngMax=25&_format=json",
+				"get", null);
+		makeRequest(request);
+	}
+
+	public List<Trackable> getListTrackable() {
+		List<Trackable> li = new ArrayList();
+		Photo teste = new Photo();
+
+		li.add(teste);
+
+		return li;
 	}
 
 }

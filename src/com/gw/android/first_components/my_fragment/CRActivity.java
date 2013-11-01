@@ -44,7 +44,16 @@ public abstract class CRActivity extends FragmentActivity {
 		c.setRelativeFragmentId(relativeGUIIdCont);
 		componentes.add(c);
 		transaction.add(id, c);
+		
 		upRelativeId();
+	}
+	
+	public void removeGUIComponent(int id, CRComponent c) {
+		//c.setRelativeFragmentId(relativeGUIIdCont);
+		componentes.remove(c);
+		transaction.remove(c);
+		
+		//upRelativeId();
 	}
 
 	public void addGUIComponentWithTag(int id, CRComponent c) {

@@ -32,6 +32,8 @@ public abstract class CRComponent extends GenericComponent {
 	private static String MSG_ENVIOU = "enviou";
 
 	private int relativeFragmentId = -1;
+	
+	boolean trackable=false;
 
 	public void reloadActivity() {
 		Activity a = getActivity();
@@ -228,7 +230,11 @@ public abstract class CRComponent extends GenericComponent {
 	}
 
 	public boolean isTrackable() {
-		return false;
+		return trackable;
+	}
+	
+	public void setTrackable(boolean t) {
+		trackable = t;
 	}
 
 }
