@@ -37,7 +37,7 @@ import com.readystatesoftware.viewbadger.BadgeView;
 public class PhotoViewGUI extends CRComponent {
 
 	private TextView photoName, infoName, infoData;
-	View rootLayout;
+	View rootLayout, linearLayout;
 	SmartImageView imageFront;
 	View imageBack;
 
@@ -83,12 +83,16 @@ public class PhotoViewGUI extends CRComponent {
 		View view = inflater.inflate(R.layout.imageone, container, false);
 		imageFront = (SmartImageView) view.findViewById(R.id.ViewFront);
 		imageBack = view.findViewById(R.id.ViewBack);
+		photoName = (TextView) view.findViewById(R.id.imageText);
 
 		rootLayout = view.findViewById(R.id.relLayout);
+		if (isTrackable()) {
+			hidePhoto(view);
+		}
 
 		anterior = (Button) view.findViewById(R.id.imagem_anterior);
 		proxima = (Button) view.findViewById(R.id.imagem_proxima);
-		photoName = (TextView) view.findViewById(R.id.imageText);
+
 		infoName = (TextView) view.findViewById(R.id.infoName);
 		infoData = (TextView) view.findViewById(R.id.infoData);
 
@@ -180,6 +184,12 @@ public class PhotoViewGUI extends CRComponent {
 		proxima.setVisibility(View.GONE);
 	}
 
+	public void hidePhoto(View view) {
+		linearLayout = view.findViewById(R.id.linear);
+		linearLayout.setVisibility(View.GONE);
+		photoName.setVisibility(View.GONE);
+	}
+
 	private Long proximaImagem() {
 		PhotoDao photoDao = PhotoUtils.initPhotoDao(getActivity());
 		List<Photo> l = photoDao.queryBuilder()
@@ -257,7 +267,7 @@ public class PhotoViewGUI extends CRComponent {
 
 	public void doTrackableRequest() {
 		// TODO url deles, falta fazer
-		Log.e("photo view","trackable request");
+		Log.e("photo view", "trackable request");
 		Request request = new Request(
 				null,
 				"http://www.arquigrafia.org.br/geoReferenceMgr/13/full_neighbors/13?latMin=5&latMax=85&lngMin=20&lngMax=25&_format=json",
