@@ -33,15 +33,20 @@ import com.gw.android.first_components.my_fragment.CRComponent;
 public class TrackerGUI extends CRComponent {
 
 	List<Coordinates> l;
-	List<Trackable> li;
+	private List<Trackable> li;
+	private List<CRComponent> componentList;
 	float lastZoom;
 	private MapView mMapView;
 	private GoogleMap mMap;
 	private Bundle mBundle;
 	CoordinatesDao coordDao;
 
-	public TrackerGUI(List<Trackable> li) {
-		this.li = li;
+	/*
+	 * public TrackerGUI(List<Trackable> li) { this.li = li; }
+	 */
+
+	public TrackerGUI(List<CRComponent> li) {
+		componentList = li;
 	}
 
 	public TrackerGUI() {
@@ -67,16 +72,20 @@ public class TrackerGUI extends CRComponent {
 			iconResource = R.drawable.picture_medium;
 		else
 			iconResource = R.drawable.picture_large;
-
-		
-
-		for (Trackable t : li) {
+		/*
+		 * for (Trackable t : li) { mMap.addMarker(new MarkerOptions()
+		 * .position( new LatLng(t.getCoordinates().getLatitude(), t
+		 * .getCoordinates().getLongitude())) .title(t.getComponentType())
+		 * .snippet(t.getName()) .icon(BitmapDescriptorFactory.fromResource(t
+		 * .getIconResource()))); }
+		 */
+		for (CRComponent t : componentList) {
 			mMap.addMarker(new MarkerOptions()
 					.position(
 							new LatLng(t.getCoordinates().getLatitude(), t
 									.getCoordinates().getLongitude()))
 					.title(t.getComponentType())
-					.snippet(t.getName())
+					.snippet(t.getComponentType())
 					.icon(BitmapDescriptorFactory.fromResource(t
 							.getIconResource())));
 		}

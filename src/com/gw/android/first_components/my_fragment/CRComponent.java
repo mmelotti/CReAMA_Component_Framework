@@ -6,6 +6,7 @@ import java.util.List;
 import com.gw.android.components.connection_manager.AsyncRequestHandler;
 import com.gw.android.components.connection_manager.ConnectionManager;
 import com.gw.android.components.request.Request;
+import com.gw.android.first_components.my_components.gps.Coordinates;
 
 import android.app.Activity;
 import android.content.ComponentName;
@@ -28,7 +29,8 @@ public abstract class CRComponent extends GenericComponent {
 	private AsyncRequestHandler applicationFileHandler = new AsyncRequestHandler();
 
 	private RequestListener component = null;
-	private String nick;
+	private String nick,componentType="";
+	private int iconResource=0;
 	private static String MSG_ENVIOU = "enviou";
 
 	private int relativeFragmentId = -1;
@@ -85,8 +87,26 @@ public abstract class CRComponent extends GenericComponent {
 		return nick;
 	}
 
+	public String getComponentType() {
+		return componentType;
+	}
+
+	public void setComponentType(String componentType) {
+		this.componentType = componentType;
+	}
+
 	public void setNick(String nick) {
 		this.nick = nick;
+	}
+
+	
+	
+	public int getIconResource() {
+		return iconResource;
+	}
+
+	public void setIconResource(int iconResource) {
+		this.iconResource = iconResource;
 	}
 
 	public int getCollabletId() {
@@ -235,6 +255,11 @@ public abstract class CRComponent extends GenericComponent {
 	
 	public void setTrackable(boolean t) {
 		trackable = t;
+	}
+	
+	public Coordinates getCoordinates(){
+		return new Coordinates(null, null, null, -20.4, -40.30, null, null,
+				null);
 	}
 
 }
