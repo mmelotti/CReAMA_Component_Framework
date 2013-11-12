@@ -42,7 +42,9 @@ public class UserViewGUI extends CRComponent {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		setControlActivity((CRActivity) getActivity());
-
+		setIconResource(R.drawable.user_small);
+		setComponentType("User View");
+		
 		// li = inflater;
 		View view = inflater.inflate(R.layout.user_view, container, false);
 
@@ -136,7 +138,7 @@ public class UserViewGUI extends CRComponent {
 		List<Trackable> li = new ArrayList();
 		User teste = new User();
 		teste.setUsuario("Joao");
-		li.add(teste);
+		//li.add(teste);
 
 		return li;
 	}

@@ -61,6 +61,8 @@ public class PhotoViewGUI extends CRComponent {
 
 	public void preDefined() {
 		setGeneralGUIId(3);
+		setIconResource(R.drawable.picture_small);
+		setComponentType("Photo View");
 	}
 
 	public static Long searchFirstPhoto(PhotoDao dao, Context ctx) {
@@ -279,7 +281,7 @@ public class PhotoViewGUI extends CRComponent {
 		List<Trackable> li = new ArrayList();
 		Photo teste = new Photo();
 
-		li.add(teste);
+		//li.add(teste);
 
 		return li;
 	}

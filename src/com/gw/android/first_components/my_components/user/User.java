@@ -10,8 +10,7 @@ import com.gw.android.first_components.my_components.tracker.Trackable;
  * Entity mapped to table USER.
  */
 public class User extends
-		com.gw.android.first_components.my_fragment.ComponentSimpleModel
-		implements Trackable {
+		com.gw.android.first_components.my_fragment.ComponentSimpleModel {
 
 	private Long id;
 	private Long targetId;
@@ -124,37 +123,6 @@ public class User extends
 
 	public void setEmail(String email) {
 		this.email = email;
-	}
-
-	@Override
-	public String getName() {
-		// TODO Auto-generated method stub
-		return usuario;
-	}
-
-	@Override
-	public String getComponentType() {
-		// TODO Auto-generated method stub
-		return "User View";
-	}
-
-	@Override
-	public int getIconResource() {
-		// TODO Auto-generated method stub
-		return R.drawable.user_small;
-	}
-
-	@Override
-	public Coordinates getCoordinates() {
-		// TODO Auto-generated method stub
-		return new Coordinates(null, null, null, -20.4, -40.30, null, null,
-				null);
-	}
-
-	@Override
-	public void doTrackableRequest() {
-		// TODO Auto-generated method stub
-
 	}
 
 }

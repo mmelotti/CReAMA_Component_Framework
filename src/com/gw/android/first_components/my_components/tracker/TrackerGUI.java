@@ -48,10 +48,13 @@ public class TrackerGUI extends CRComponent {
 
 	public TrackerGUI(List<CRComponent> li) {
 		componentList = li;
+
 	}
-	
+
 	public TrackerGUI(CRComponent cr) {
 		comp = cr;
+		Log.e("teste CONSTRUTOR", "+ --" + comp.getComponentType());
+		componentList = new ArrayList<CRComponent>();
 	}
 
 	public TrackerGUI() {
@@ -84,6 +87,17 @@ public class TrackerGUI extends CRComponent {
 		 * .snippet(t.getName()) .icon(BitmapDescriptorFactory.fromResource(t
 		 * .getIconResource()))); }
 		 */
+		if (componentList.isEmpty()) {
+			Log.e("teste null", "+ --" + comp.getComponentType());
+			mMap.addMarker(new MarkerOptions()
+					.position(
+							new LatLng(comp.getCoordinates().getLatitude(),
+									comp.getCoordinates().getLongitude()))
+					.title(comp.getComponentType())
+					.snippet(comp.getComponentType())
+					.icon(BitmapDescriptorFactory.fromResource(comp
+							.getIconResource())));
+		}
 		for (CRComponent t : componentList) {
 			mMap.addMarker(new MarkerOptions()
 					.position(
