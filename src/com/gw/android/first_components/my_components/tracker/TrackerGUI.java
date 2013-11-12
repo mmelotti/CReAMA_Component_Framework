@@ -35,6 +35,7 @@ public class TrackerGUI extends CRComponent {
 	List<Coordinates> l;
 	private List<Trackable> li;
 	private List<CRComponent> componentList;
+	private CRComponent comp;
 	float lastZoom;
 	private MapView mMapView;
 	private GoogleMap mMap;
@@ -47,6 +48,10 @@ public class TrackerGUI extends CRComponent {
 
 	public TrackerGUI(List<CRComponent> li) {
 		componentList = li;
+	}
+	
+	public TrackerGUI(CRComponent cr) {
+		comp = cr;
 	}
 
 	public TrackerGUI() {
