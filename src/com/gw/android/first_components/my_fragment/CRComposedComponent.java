@@ -82,6 +82,7 @@ public class CRComposedComponent extends CRComponent {
 		transaction.add(id, c);
 		upRelativeId();
 	}
+	
 
 	public void addGUIComponentWithTag(int id, CRComponent c) {
 		c.setRelativeFragmentId(relativeGUIIdCont);
@@ -89,6 +90,8 @@ public class CRComposedComponent extends CRComponent {
 		transaction.add(id, c, "" + relativeGUIIdCont);
 		upRelativeId();
 	}
+	
+	
 
 	public void upRelativeId() {
 		relativeGUIIdCont++;
