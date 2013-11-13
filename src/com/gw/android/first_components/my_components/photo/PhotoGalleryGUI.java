@@ -38,6 +38,8 @@ public class PhotoGalleryGUI extends CRComponent {
 	private PicAdapter imgAdapt;
 	private int currentGallerySelected = -1;
 	private Long[] photoIds;
+	private int downloadCounter=0;
+	View view;
 
 	private boolean conectado = true;
 
@@ -73,7 +75,7 @@ public class PhotoGalleryGUI extends CRComponent {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.image_gallery, container, false);
+		view = inflater.inflate(R.layout.image_gallery, container, false);
 
 		picGallery = (CustomGallery) view.findViewById(R.id.gallery);
 
@@ -122,9 +124,18 @@ public class PhotoGalleryGUI extends CRComponent {
 				imgAdapt.updateAdapter();
 				imgAdapt.notifyDataSetChanged();
 				picGallery.invalidate();
+				downloadCounter++;
+				if(downloadCounter==MAX_GALLERY_PHOTOS){
+					Log.e("CONTADOR","download counter=10");
+					view.setVisibility(View.GONE);
+					downloadsDoneCallbackApplication(1);
+				}
+				
 			}
 		};
 
+		
+		
 		AsyncRequestHandler mHandler = new AsyncRequestHandler() {
 			@Override
 			public void onSuccess(String response, Request request) {
@@ -147,6 +158,10 @@ public class PhotoGalleryGUI extends CRComponent {
 		return view;
 	}
 
+	public void downloadsDoneCallbackApplication(int u){
+		
+	}
+	
 	public void onItemSelectedApplication(AdapterView<?> parent, View v,
 			int position, long id, Long photoId) {
 		// Photo photo = PhotoUtils.getPhotoById(photoId, getActivity());

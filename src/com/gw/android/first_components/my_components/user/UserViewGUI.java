@@ -30,6 +30,7 @@ public class UserViewGUI extends CRComponent {
 	int userUrl;
 	private boolean conectado = true;
 	private TextView login, name, email, id;
+	View rootLayout;
 	String uName = "";
 	String uLogin = "";
 	String uEmail = "";
@@ -47,7 +48,10 @@ public class UserViewGUI extends CRComponent {
 		
 		// li = inflater;
 		View view = inflater.inflate(R.layout.user_view, container, false);
-
+		rootLayout = view.findViewById(R.id.rootUser);
+		if(isTrackable()){
+			hideUser();
+		}
 		// url = getUrl();
 		userUrl = 1;
 		urlView = getBaseUrl() + "/users/" + userUrl + "?_format=json";
@@ -132,6 +136,10 @@ public class UserViewGUI extends CRComponent {
 				"http://www.arquigrafia.org.br/geoReferenceMgr/13/full_neighbors/13?latMin=5&latMax=85&lngMin=20&lngMax=25&_format=json",
 				"get", null);
 		makeRequest(request);
+	}
+	
+	public void hideUser(){
+		rootLayout.setVisibility(View.GONE);
 	}
 
 	public List<Trackable> getListTrackable() {

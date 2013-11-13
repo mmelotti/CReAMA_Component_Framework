@@ -60,6 +60,7 @@ public class TrackerAndUserComposedGUI extends CRComposedComponent{
 		Log.e("ACTIVITY", "TRACKER");
 
 		addGUIComponent(R.id.rootComposed, user);
+		
 		finishTransaction();
 	}
 

@@ -24,6 +24,10 @@ public abstract class CRActivity extends FragmentActivity {
 	private List<Dependency> dependencies;
 
 	private int relativeGUIIdCont = 55;
+	
+	public CRActivity() {
+		// TODO Auto-generated constructor stub
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
