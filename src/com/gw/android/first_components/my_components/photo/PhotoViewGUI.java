@@ -9,6 +9,7 @@ import uk.co.senab.photoview.PhotoViewAttacher.OnMatrixChangedListener;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.RectF;
 import android.os.Bundle;
@@ -26,6 +27,10 @@ import com.gw.android.R;
 import com.gw.android.Utils.SuperToastUtils;
 import com.gw.android.components.connection_manager.AsyncRequestHandler;
 import com.gw.android.components.request.Request;
+import com.gw.android.first_components.database.DaoMaster;
+import com.gw.android.first_components.database.DaoSession;
+import com.gw.android.first_components.database.DaoMaster.DevOpenHelper;
+import com.gw.android.first_components.my_components.comment.CommentDao;
 import com.gw.android.first_components.my_components.photo.PhotoDao.Properties;
 import com.gw.android.first_components.my_components.tracker.Trackable;
 import com.gw.android.first_components.my_components.user.User;
@@ -36,6 +41,8 @@ import com.readystatesoftware.viewbadger.BadgeView;
 @SuppressLint("ValidFragment")
 public class PhotoViewGUI extends CRComponent {
 
+	private PhotoDao photoDao;
+	private DaoSession daoSession;
 	private TextView photoName, infoName, infoData;
 	View rootLayout, linearLayout;
 	SmartImageView imageFront;
@@ -224,8 +231,7 @@ public class PhotoViewGUI extends CRComponent {
 				public void onSuccess(byte[] b, Request request) {
 					if (b == null)
 						return;
-					PhotoDao photoDao = PhotoUtils.initPhotoDao(getActivity()
-							.getApplicationContext());
+					initPhotoDao();
 					Photo photo = PhotoUtils.getPhotoById(
 							getCurrentInstanceId(), photoDao);
 					photo.setPhotoBytes(b);
@@ -284,6 +290,15 @@ public class PhotoViewGUI extends CRComponent {
 		//li.add(teste);
 
 		return li;
+	}
+	
+	void initPhotoDao() {
+		DevOpenHelper helper = new DaoMaster.DevOpenHelper(getActivity(),
+				"comments-db", null);
+		SQLiteDatabase db = helper.getWritableDatabase();
+		DaoMaster daoMaster = new DaoMaster(db);
+		daoSession = daoMaster.newSession();
+		photoDao = daoSession.getPhotoDao();
 	}
 
 }

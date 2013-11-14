@@ -16,6 +16,7 @@ import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.os.IBinder;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.widget.Toast;
 
 public abstract class CRComponent extends GenericComponent {
@@ -245,7 +246,8 @@ public abstract class CRComponent extends GenericComponent {
 	@Override
 	public void onStart() {
 		super.onStart();
-		//setRetainInstance(true);
+		Log.e("retain instance","ok");
+		setRetainInstance(!trackable);
 		doBindService();
 	}
 
@@ -254,6 +256,7 @@ public abstract class CRComponent extends GenericComponent {
 	}
 	
 	public void setTrackable(boolean t) {
+		Log.e("set trackable","ok");
 		trackable = t;
 	}
 	

@@ -47,6 +47,7 @@ public class TrackerAndPhotoComposedGUI extends CRComposedComponent {
 				initTransaction();
 
 				tracker = new TrackerGUI(photo);
+				tracker.setTrackable(true);
 				addGUIComponent(R.id.rootComposed, tracker);
 
 				finishTransaction();
