@@ -19,6 +19,10 @@ public class GWImage implements SmartImage {
 		this.downloadBig = downloadBigPhoto;
 	}
 
+	public void setId(Long id) {
+		this.id = id;
+	}
+	
 	@Override
 	public Bitmap getBitmap(Context ctx) {
 		byte[] data = PhotoUtils.getPhotoById(id, ctx).getPhotoBytes();

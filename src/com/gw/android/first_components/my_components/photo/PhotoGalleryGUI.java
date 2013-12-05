@@ -3,6 +3,8 @@ package com.gw.android.first_components.my_components.photo;
 import java.util.Date;
 import java.util.List;
 
+import net.yscs.android.square_progressbar.SquareProgressBar;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -18,12 +20,10 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.BaseAdapter;
-import android.widget.Gallery;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
-import com.github.johnpersano.supertoasts.SuperToast;
 import com.gw.android.R;
-import com.gw.android.Utils.SuperToastUtils;
 import com.gw.android.components.connection_manager.AsyncRequestHandler;
 import com.gw.android.components.request.Request;
 import com.gw.android.first_components.my_components.photo.PhotoDao.Properties;
@@ -40,6 +40,7 @@ public class PhotoGalleryGUI extends CRComponent {
 	private Long[] photoIds;
 	private int downloadCounter=0;
 	View view;
+	SquareProgressBar square; 
 
 	private boolean conectado = true;
 
@@ -78,9 +79,16 @@ public class PhotoGalleryGUI extends CRComponent {
 		view = inflater.inflate(R.layout.image_gallery, container, false);
 
 		picGallery = (CustomGallery) view.findViewById(R.id.gallery);
-
-		imgAdapt = new PicAdapter(getActivity());
-		picGallery.setAdapter(imgAdapt);
+		square = (SquareProgressBar) view.findViewById(R.id.square);
+		square.setImage(R.drawable.picture_large); 
+		square.setColor("#0EBFE9");
+		square.setWidth(8);
+		square.setOpacity(false);
+		square.drawStartline(true);
+		square.drawOutline(true);
+		
+		//imgAdapt = new PicAdapter(getActivity());
+		//picGallery.setAdapter(imgAdapt);
 
 		picGallery.setOnItemSelectedListener(new OnItemSelectedListener() {
 
@@ -108,7 +116,21 @@ public class PhotoGalleryGUI extends CRComponent {
 					}
 				});
 
-		AsyncRequestHandler mFileHandler = new AsyncRequestHandler() {
+		AsyncRequestHandler mFileHandler = new AsyncRequestHandler() {	
+			@Override
+			public void onFinish() {
+				downloadCounter++;
+				square.setProgress(downloadCounter*10); 
+				Log.e("CONTADOR","download counter "+downloadCounter);
+
+				if(downloadCounter == MAX_GALLERY_PHOTOS){
+					square.setVisibility(View.GONE);
+					imgAdapt = new PicAdapter(getActivity());
+					picGallery.setAdapter(imgAdapt);
+					downloadsDoneCallbackApplication(1);
+				}
+				super.onFinish();
+			}
 			@Override
 			public void onSuccess(byte[] b, Request request) {
 				Log.i("MFILEHANDLER - Fez download da imagem", " sim!");
@@ -121,20 +143,8 @@ public class PhotoGalleryGUI extends CRComponent {
 						PhotoUtils.urlEndImage[size], "");
 				Log.i("ID SERVER", photoServerId);
 				saveImageAfterDownload(photoServerId, b);
-				imgAdapt.updateAdapter();
-				imgAdapt.notifyDataSetChanged();
-				picGallery.invalidate();
-				downloadCounter++;
-				if(downloadCounter==MAX_GALLERY_PHOTOS){
-					Log.e("CONTADOR","download counter=10");
-					view.setVisibility(View.GONE);
-					downloadsDoneCallbackApplication(1);
-				}
-				
 			}
 		};
-
-		
 		
 		AsyncRequestHandler mHandler = new AsyncRequestHandler() {
 			@Override
@@ -185,7 +195,7 @@ public class PhotoGalleryGUI extends CRComponent {
 		photo.setIsThumb(size == PhotoUtils.CROP);
 
 		photoDao.update(photo);
-		photoDao.getDatabase().close();
+		photoDao.getDatabase().close();	
 	}
 
 	void parseOnePhotoJSON(String r) {
@@ -303,6 +313,8 @@ public class PhotoGalleryGUI extends CRComponent {
 
 			for (int i = 0; i < photoIds.length; i++)
 				photoIds[i] = list.get(i).getId();
+			
+			
 		}
 
 		// BaseAdapter methods
@@ -317,13 +329,13 @@ public class PhotoGalleryGUI extends CRComponent {
 		}
 
 		public long getItemId(int position) {
-			return position;
+			return position; 
 		}
 
 		// get view specifies layout and display options for each thumbnail in
 		// the gallery
-		public View getView(int position, View convertView, ViewGroup parent) {
-			SmartImageView imageView = new SmartImageView(galleryContext);
+/*		public View getView(int position, View convertView, ViewGroup parent) {
+			SmartImageView imageView = new SmartImageView(galleryContext);		
 			final float scale = getActivity().getResources()
 					.getDisplayMetrics().density;
 			imageView.setImage(new GWImage(photoIds[position]));
@@ -332,7 +344,38 @@ public class PhotoGalleryGUI extends CRComponent {
 			imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
 			imageView.setBackgroundResource(defaultItemBackground);
 			return imageView;
+		}*/
+	
+		public View getView(int position, View convertView, ViewGroup parent) {
+			View v = convertView;
+			PhotoHolder viewHolder;
+
+			if (v == null) {
+				LayoutInflater li = (LayoutInflater) galleryContext
+						.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+				v = li.inflate(R.layout.image_gallery_row, parent, false);
+				viewHolder = new PhotoHolder();
+				viewHolder.img = (SmartImageView) v.findViewById(R.id.img);
+				v.setTag(viewHolder);
+			} else
+				viewHolder = (PhotoHolder) v.getTag();
+
+			viewHolder.img.setImage(new GWImage(photoIds[position]));
+			final float scale = getActivity().getResources()
+					.getDisplayMetrics().density;
+			viewHolder.img.setLayoutParams(new LinearLayout.LayoutParams(
+					(int) (200 * scale + 0.5f), (int) (150 * scale + 0.5f)));
+			viewHolder.img.setScaleType(ImageView.ScaleType.FIT_CENTER);
+			viewHolder.img.setBackgroundResource(defaultItemBackground);
+
+			return v;
 		}
+		
+
+	}
+	
+	static class PhotoHolder {
+	    SmartImageView img;
 	}
 
 }

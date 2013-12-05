@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
+    android:gravity="center"
     android:orientation="vertical" >
 
     <TextView
@@ -12,9 +13,26 @@
         android:text="Selecione uma foto para visualizar"
         android:textStyle="bold" />
 
-    <com.gw.android.first_components.my_components.photo.CustomGallery
-        android:id="@+id/gallery"
+    <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical" >
+
+        <net.yscs.android.square_progressbar.SquareProgressBar
+            android:id="@+id/square"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1" >
+
+        </net.yscs.android.square_progressbar.SquareProgressBar>
+
+        <com.gw.android.first_components.my_components.photo.CustomGallery
+            android:id="@+id/gallery"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+    </LinearLayout>
 
 </LinearLayout>
