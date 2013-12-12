@@ -35,16 +35,29 @@ public class PhotoUtils {
 	}
 
 	public static Photo getPhotoById(Long id, Context ctx) {
-		PhotoDao photoDao = initPhotoDao(ctx);
+	PhotoDao photoDao = initPhotoDao(ctx);
 		Photo photo = (Photo) photoDao.queryBuilder()
 				.where(Properties.Id.eq(id)).build().unique();
+
+	
+
 		photoDao.getDatabase().close();
 		return photo;
 	}
 
 	public static Photo getPhotoById(Long id, PhotoDao photoDao) {
+		
+		Log.e("teste insede utils", "antes da busca");
 		Photo photo = (Photo) photoDao.queryBuilder()
 				.where(Properties.Id.eq(id)).build().unique();
+		
+		
+		if (photo == null) {
+			Log.e("teste insede utils", "erro null");
+		} else {
+			Log.e("teste not null", "ok");
+		}
+		
 		return photo;
 	}
 

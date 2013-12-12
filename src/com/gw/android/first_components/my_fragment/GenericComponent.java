@@ -26,7 +26,7 @@ public class GenericComponent extends DialogFragment {
 		return current;
 	}
 
-	public void setCurrent(Long current) {
+	public void setCurrentId(Long current) {
 		this.current = current;
 	}
 

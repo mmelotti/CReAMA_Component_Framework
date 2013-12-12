@@ -52,7 +52,8 @@ public class PhotoViewGUI extends CRComponent {
 	private boolean showNavigation = false;
 
 	public PhotoViewGUI(Long imageId) {
-		setCurrent(imageId);
+		Log.e("teste de id!!!", "emcima"+imageId);
+		setCurrentId(imageId);
 		preDefined();
 	}
 
@@ -232,8 +233,13 @@ public class PhotoViewGUI extends CRComponent {
 					if (b == null)
 						return;
 					initPhotoDao();
+					Log.e("teste antes photo utils!!!", ""+getCurrentInstanceId());
 					Photo photo = PhotoUtils.getPhotoById(
-							getCurrentInstanceId(), photoDao);
+							getCurrentInstanceId(), getActivity().getApplicationContext());
+					if(photo==null){
+						Log.e("teste de null!", ""+getCurrentInstanceId());
+					}
+					
 					photo.setPhotoBytes(b);
 					photo.setIsThumb(false);
 					photoDao.update(photo);
@@ -280,7 +286,7 @@ public class PhotoViewGUI extends CRComponent {
 				null,
 				"http://www.arquigrafia.org.br/geoReferenceMgr/13/full_neighbors/13?latMin=5&latMax=85&lngMin=20&lngMax=25&_format=json",
 				"get", null);
-		makeRequest(request);
+		//makeRequest(request);
 	}
 
 	public List<Trackable> getListTrackable() {
@@ -293,7 +299,7 @@ public class PhotoViewGUI extends CRComponent {
 	}
 	
 	void initPhotoDao() {
-		DevOpenHelper helper = new DaoMaster.DevOpenHelper(getActivity(),
+		DevOpenHelper helper = new DaoMaster.DevOpenHelper(getActivity().getApplicationContext(),
 				"comments-db", null);
 		SQLiteDatabase db = helper.getWritableDatabase();
 		DaoMaster daoMaster = new DaoMaster(db);
