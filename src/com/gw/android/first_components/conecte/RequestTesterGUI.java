@@ -13,12 +13,12 @@ import com.gw.android.first_components.my_fragment.CRComponent;
 
 public class RequestTesterGUI extends CRComponent {
 
-	private String urlTest = "http://apiconecteideias.azurewebsites.net/ideias/searchById?id=1067";
+	private String urlTest = "http://apiconecteideias.azurewebsites.net/ideias/getAll";
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		View view = inflater.inflate(R.layout.requests, container, false);
+		View view = inflater.inflate(R.layout.conecte_requests, container, false);
 		
 		AsyncRequestHandler mHandler = new AsyncRequestHandler() {
 			@Override
