@@ -45,7 +45,7 @@ public class RequestTesterGUI extends CRComponent {
 	@Override
 	protected void onBind() {
 		// getConnectionManager().getCookiesInfo();
-		testRequest();
+		//testRequest();
 
 	}
 

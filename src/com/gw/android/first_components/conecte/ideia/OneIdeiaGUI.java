@@ -18,7 +18,7 @@ public class OneIdeiaGUI extends CRComponent {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		View view = inflater.inflate(R.layout.conecte_requests, container, false);
+		View view = inflater.inflate(R.layout.conecte_one_ideia, container, false);
 		
 		AsyncRequestHandler mHandler = new AsyncRequestHandler() {
 			@Override
@@ -31,7 +31,7 @@ public class OneIdeiaGUI extends CRComponent {
 			}
 		};
 		setComponentRequestCallback(mHandler);
-		Log.e("TEST R","setado calback");
+	
 		
 		return view;
 	}
@@ -51,7 +51,7 @@ public class OneIdeiaGUI extends CRComponent {
 
 	void testRequest() {
 		
-		Log.e("TEST R","fazendo request....");
+	
 		Request request = new Request(null, urlTest, "get", null);
 		String header[]=new String[2];
 		header[0]="X-ApiKey";
@@ -59,12 +59,12 @@ public class OneIdeiaGUI extends CRComponent {
 		request.onlyOneHeader(header);
 		//request.setKeyValuePairs(keyValuePairs);
 		
-		makeRequest(request);
+		//makeRequest(request);
 
 	}
 	
 	public void atualizarAfterSucces(String r) {
-		Log.e("TEST R",r);
+		//Log.e("TEST R",r);
 		
 	}
 

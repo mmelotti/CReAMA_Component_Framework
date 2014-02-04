@@ -52,7 +52,8 @@ public class ConecteLoginGUI extends CRComponent {
 						"Efetuando login...");
 				// Toast.makeText(getActivity(), "Efetuando login...",
 				// Toast.LENGTH_SHORT).show();
-				loginRequest(login, password);
+				//loginRequest(login, password);
+				testRequest();
 			}
 		});
 		
