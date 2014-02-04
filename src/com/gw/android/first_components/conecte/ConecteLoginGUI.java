@@ -5,20 +5,57 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 
+import com.github.johnpersano.supertoasts.SuperToast;
 import com.gw.android.R;
+import com.gw.android.Utils.SuperToastUtils;
 import com.gw.android.components.connection_manager.AsyncRequestHandler;
 import com.gw.android.components.request.Request;
 import com.gw.android.first_components.my_fragment.CRComponent;
 
 public class ConecteLoginGUI extends CRComponent {
 
+	TextView resultTxt;
+	String urlLogin;
+
+	EditText editLogin, editPassword;
+	Button btnSubmit;
+	
 	private String urlTest = "http://apiconecteideias.azurewebsites.net/ideias/getAll";
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
 		View view = inflater.inflate(R.layout.conecte_login, container, false);
+		
+		
+		
+		btnSubmit = (Button) view.findViewById(R.id.loginConecteSubmit);
+		editLogin = (EditText) view.findViewById(R.id.editConecteUser);
+		editPassword = (EditText) view.findViewById(R.id.editConectePass);
+
+		// TODO apagar isso aqui, é só pra teste
+		editLogin.setText("admin");
+		editPassword.setText("123");
+
+		btnSubmit.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				String login = editLogin.getText().toString();
+				String password = editPassword.getText().toString();
+				SuperToastUtils.showSuperToast(getActivity(),
+						SuperToast.BACKGROUND_GREENTRANSLUCENT,
+						"Efetuando login...");
+				// Toast.makeText(getActivity(), "Efetuando login...",
+				// Toast.LENGTH_SHORT).show();
+				loginRequest(login, password);
+			}
+		});
+		
 		
 		AsyncRequestHandler mHandler = new AsyncRequestHandler() {
 			@Override
@@ -45,7 +82,7 @@ public class ConecteLoginGUI extends CRComponent {
 	@Override
 	protected void onBind() {
 		// getConnectionManager().getCookiesInfo();
-		testRequest();
+		//testRequest();
 
 	}
 
@@ -61,6 +98,13 @@ public class ConecteLoginGUI extends CRComponent {
 		
 		makeRequest(request);
 
+	}
+	
+	String loginRequest(String login, String password) {
+		Request request = new Request(null, urlTest, "post", "user.login--"
+				+ login + "__user.password--" + password);
+		makeRequest(request);
+		return "";
 	}
 	
 	public void atualizarAfterSucces(String r) {
