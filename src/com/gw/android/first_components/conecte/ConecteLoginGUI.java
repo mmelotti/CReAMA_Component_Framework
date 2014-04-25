@@ -1,5 +1,11 @@
 package com.gw.android.first_components.conecte;
 
+import java.util.Date;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,7 +21,10 @@ import com.gw.android.R;
 import com.gw.android.Utils.SuperToastUtils;
 import com.gw.android.components.connection_manager.AsyncRequestHandler;
 import com.gw.android.components.request.Request;
+import com.gw.android.first_components.my_components.comment.Comment;
+import com.gw.android.first_components.my_components.comment.CommentAdapter;
 import com.gw.android.first_components.my_fragment.CRComponent;
+import com.gw.android.first_components.my_fragment.ComponentSimpleModel;
 
 public class ConecteLoginGUI extends CRComponent {
 
@@ -109,7 +118,71 @@ public class ConecteLoginGUI extends CRComponent {
 	}
 	
 	public void atualizarAfterSucces(String r) {
-		Log.e("TEST R LOGIN",r);
+		
+		
+		try {
+			
+			JSONArray ideasArray;
+			ideasArray = new JSONArray(r);
+			Log.i("Pass - going to json object", " ...= ");
+		
+			for (int j = 0; j < ideasArray.length(); j++) {
+				JSONObject ideasObject = (JSONObject) ideasArray.get(j);
+				JSONArray namesArray = ideasObject.names();
+				
+				String titulo, descricao;
+				titulo = ideasObject.getString("titulo");
+				descricao = ideasObject.getString("descricao");
+				
+				Log.i("entrando names array", " ...= ");
+					for (int i = 0; i < namesArray.length(); i++) {
+					String string=(String) namesArray.get(i);
+					Log.i("dentro names = ", string+" ...= ");
+				}
+				Log.i("Titulo = ", titulo);
+				Log.i("Descricao = ", descricao);
+				Log.i("Parseando login antes for", ideasObject.toString());
+				Log.i("before break", " ...= ");
+				//break;
+			}
+			
+			Log.i("Pass for - going to bug down here", " ...= ");
+			
+			JSONObject ideasObject;
+			ideasObject = new JSONObject(r);
+			
+			
+
+			JSONArray nameArray = ideasObject.names();
+			JSONArray valArray = ideasObject.toJSONArray(nameArray);
+			JSONArray arrayResults = valArray.getJSONArray(0);
+			Log.i("Parseando login antes for", " ...= ");
+			for (int j = 0; j < arrayResults.length(); j++) {
+				JSONObject oneIdea = arrayResults.getJSONObject(j);
+				Log.i("Parseando login antes for", " ....= ");
+				JSONObject userObject = oneIdea.getJSONObject("user");
+				String userName = userObject.get("name").toString();
+				Long idServ = Long.parseLong(oneIdea.get("id").toString());
+				String text = oneIdea.get("text").toString();
+
+				// updating comments, adding on DB
+				Long newI = ComponentSimpleModel.getUniqueId(getActivity());
+				
+				//initCommentDao();
+				//commentDao.insert(comment);
+				//closeDao();
+
+				
+				Log.i("Parseando login", "text = " + text + idServ
+						+ userName);
+			}
+			//listview.setAdapter(new CommentAdapter(getActivity(), lista));
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		//Log.e("TEST R LOGIN",r);
 		
 	}
 
