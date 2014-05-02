@@ -1,5 +1,9 @@
 package com.gw.android.first_components.conecte.ideia;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -64,7 +68,45 @@ public class OneIdeiaGUI extends CRComponent {
 	}
 
 	public void atualizarAfterSucces(String r) {
-		// Log.e("TEST R",r);
+		try {
+
+			Log.i("onde ideia", " ...= ");
+
+			JSONObject ideasObject;
+			ideasObject = new JSONObject(r);
+
+			JSONArray nameArray = ideasObject.names();
+			JSONArray valArray = ideasObject.toJSONArray(nameArray);
+			JSONArray arrayResults = valArray.getJSONArray(0);
+			Log.i("Parseando login antes for",
+					" ...= " + ideasObject.toString());
+			for (int j = 0; j < arrayResults.length(); j++) {
+				JSONObject oneIdea = arrayResults.getJSONObject(j);
+				Log.i("Parseando ideia dentro for",
+						" ....= " + oneIdea.toString());
+				/*
+				 * JSONObject userObject = oneIdea.getJSONObject("user"); String
+				 * userName = userObject.get("name").toString(); Long idServ =
+				 * Long.parseLong(oneIdea.get("id").toString()); String text =
+				 * oneIdea.get("text").toString();
+				 * 
+				 * // updating comments, adding on DB Long newI =
+				 * ComponentSimpleModel.getUniqueId(getActivity());
+				 * 
+				 * // initCommentDao(); // commentDao.insert(comment); //
+				 * closeDao();
+				 * 
+				 * Log.i("Parseando login", "text = " + text + idServ +
+				 * userName);
+				 */
+			}
+			// listview.setAdapter(new CommentAdapter(getActivity(), lista));
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		// Log.e("TEST R LOGIN",r);
 
 	}
 
