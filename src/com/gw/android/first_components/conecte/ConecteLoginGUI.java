@@ -33,16 +33,16 @@ public class ConecteLoginGUI extends CRComponent {
 
 	EditText editLogin, editPassword;
 	Button btnSubmit;
-	
-	private String urlTest = "http://apiconecteideias.azurewebsites.net/ideias/getAll";
+
+	// private String urlTest =
+	// "http://apiconecteideias.azurewebsites.net/ideias/getAll";
+	private String urlTest = "http://apiconecteideias.azurewebsites.net/ideias/searchById?id=8107";
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
 		View view = inflater.inflate(R.layout.conecte_login, container, false);
-		
-		
-		
+
 		btnSubmit = (Button) view.findViewById(R.id.loginConecteSubmit);
 		editLogin = (EditText) view.findViewById(R.id.editConecteUser);
 		editPassword = (EditText) view.findViewById(R.id.editConectePass);
@@ -61,25 +61,25 @@ public class ConecteLoginGUI extends CRComponent {
 						"Efetuando login...");
 				// Toast.makeText(getActivity(), "Efetuando login...",
 				// Toast.LENGTH_SHORT).show();
-				//loginRequest(login, password);
+				// loginRequest(login, password);
 				testRequest();
 			}
 		});
-		
-		
+
 		AsyncRequestHandler mHandler = new AsyncRequestHandler() {
 			@Override
 			public void onSuccess(String response, Request request) {
 				atualizarAfterSucces(response);
 			}
+
 			@Override
 			public void onFailure(Throwable arg0, String arg1, Request request) {
 				atualizarAfterSucces("erro");
 			}
 		};
 		setComponentRequestCallback(mHandler);
-		Log.e("TEST LOGIN","setado calback");
-		
+		Log.e("TEST LOGIN", "setado calback");
+
 		return view;
 	}
 
@@ -92,74 +92,48 @@ public class ConecteLoginGUI extends CRComponent {
 	@Override
 	protected void onBind() {
 		// getConnectionManager().getCookiesInfo();
-		//testRequest();
+		// testRequest();
 
 	}
 
 	void testRequest() {
-		
-		Log.e("TEST R LOGIN","fazendo request....");
+
+		Log.e("TEST R LOGIN", "fazendo request....");
 		Request request = new Request(null, urlTest, "get", null);
-		String header[]=new String[2];
-		header[0]="X-ApiKey";
-		header[1]="257F1D3C-57A0-4F34-A937-1538104E97FE";
+		String header[] = new String[2];
+		header[0] = "X-ApiKey";
+		header[1] = "257F1D3C-57A0-4F34-A937-1538104E97FE";
 		request.onlyOneHeader(header);
-		//request.setKeyValuePairs(keyValuePairs);
-		
+		// request.setKeyValuePairs(keyValuePairs);
+
 		makeRequest(request);
 
 	}
-	
+
 	String loginRequest(String login, String password) {
 		Request request = new Request(null, urlTest, "post", "user.login--"
 				+ login + "__user.password--" + password);
 		makeRequest(request);
 		return "";
 	}
-	
+
 	public void atualizarAfterSucces(String r) {
-		
-		
+
 		try {
-			
-			JSONArray ideasArray;
-			ideasArray = new JSONArray(r);
-			Log.i("Pass - going to json object", " ...= ");
-		
-			for (int j = 0; j < ideasArray.length(); j++) {
-				JSONObject ideasObject = (JSONObject) ideasArray.get(j);
-				JSONArray namesArray = ideasObject.names();
-				
-				String titulo, descricao;
-				titulo = ideasObject.getString("titulo");
-				descricao = ideasObject.getString("descricao");
-				
-				Log.i("entrando names array", " ...= ");
-					for (int i = 0; i < namesArray.length(); i++) {
-					String string=(String) namesArray.get(i);
-					Log.i("dentro names = ", string+" ...= ");
-				}
-				Log.i("Titulo = ", titulo);
-				Log.i("Descricao = ", descricao);
-				Log.i("Parseando login antes for", ideasObject.toString());
-				Log.i("before break", " ...= ");
-				//break;
-			}
-			
-			Log.i("Pass for - going to bug down here", " ...= ");
-			
+
+			Log.i("onde ideia", " ...= ");
+
 			JSONObject ideasObject;
 			ideasObject = new JSONObject(r);
-			
-			
 
 			JSONArray nameArray = ideasObject.names();
 			JSONArray valArray = ideasObject.toJSONArray(nameArray);
 			JSONArray arrayResults = valArray.getJSONArray(0);
-			Log.i("Parseando login antes for", " ...= ");
+			Log.i("Parseando login antes for", " ...= "+ ideasObject.toString());
 			for (int j = 0; j < arrayResults.length(); j++) {
 				JSONObject oneIdea = arrayResults.getJSONObject(j);
-				Log.i("Parseando login antes for", " ....= ");
+				Log.i("Parseando ideia dentro for", " ....= " + oneIdea.toString());
+				/*
 				JSONObject userObject = oneIdea.getJSONObject("user");
 				String userName = userObject.get("name").toString();
 				Long idServ = Long.parseLong(oneIdea.get("id").toString());
@@ -167,23 +141,22 @@ public class ConecteLoginGUI extends CRComponent {
 
 				// updating comments, adding on DB
 				Long newI = ComponentSimpleModel.getUniqueId(getActivity());
-				
-				//initCommentDao();
-				//commentDao.insert(comment);
-				//closeDao();
 
-				
-				Log.i("Parseando login", "text = " + text + idServ
-						+ userName);
+				// initCommentDao();
+				// commentDao.insert(comment);
+				// closeDao();
+
+				Log.i("Parseando login", "text = " + text + idServ + userName);
+				*/
 			}
-			//listview.setAdapter(new CommentAdapter(getActivity(), lista));
+			// listview.setAdapter(new CommentAdapter(getActivity(), lista));
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		//Log.e("TEST R LOGIN",r);
-		
+
+		// Log.e("TEST R LOGIN",r);
+
 	}
 
 }
