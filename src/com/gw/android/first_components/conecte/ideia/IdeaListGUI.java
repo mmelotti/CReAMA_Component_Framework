@@ -1,5 +1,7 @@
 package com.gw.android.first_components.conecte.ideia;
 
+import java.text.DateFormat;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -9,20 +11,29 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
+import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.gw.android.R;
 import com.gw.android.components.connection_manager.AsyncRequestHandler;
 import com.gw.android.components.request.Request;
+import com.gw.android.first_components.my_components.comment.Comment;
 import com.gw.android.first_components.my_fragment.CRComponent;
 import com.gw.android.first_components.my_fragment.ComponentSimpleModel;
 
 public class IdeaListGUI extends CRComponent {
 
 	private String urlTest = "http://apiconecteideias.azurewebsites.net/ideias/getAll";
+	
+	private ViewGroup myContainer;
+	private LayoutInflater myInflater; 
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
+		myInflater = inflater;
+		myContainer=container;
 		View view = inflater.inflate(R.layout.conecte_list_ideias, container,
 				false);
 
@@ -69,6 +80,33 @@ public class IdeaListGUI extends CRComponent {
 
 	}
 
+	public void inflateIdeasGUI(){
+		ViewGroup layoutList = (ViewGroup) myContainer.findViewById(0);
+		layoutList.removeAllViews();
+		
+		for (int i = 0; i < 4; i++) {
+			View view = myInflater.inflate(R.layout.comment_view, null);
+			//Comment comm = (Comment) lista.get(i);
+
+			
+
+			((TextView) view.findViewById(R.id.body)).setText(""
+					+ "texto novo");
+
+
+			((ImageButton) view.findViewById(R.id.button_apaga))
+					.setOnClickListener(new OnClickListener() {
+						@Override
+						public void onClick(View v) {
+							
+						}
+					});
+
+			layoutList.addView(view);
+		}
+		
+	}
+	
 	public void atualizarAfterSucces(String r) {
 
 		try {
