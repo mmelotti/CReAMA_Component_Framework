@@ -16,7 +16,7 @@ import com.gw.android.components.request.Request;
 import com.gw.android.first_components.my_fragment.CRComponent;
 import com.gw.android.first_components.my_fragment.ComponentSimpleModel;
 
-public class IdeiaListGUI extends CRComponent {
+public class IdeaListGUI extends CRComponent {
 
 	private String urlTest = "http://apiconecteideias.azurewebsites.net/ideias/getAll";
 

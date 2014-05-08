@@ -15,7 +15,7 @@ import com.gw.android.components.connection_manager.AsyncRequestHandler;
 import com.gw.android.components.request.Request;
 import com.gw.android.first_components.my_fragment.CRComponent;
 
-public class OneIdeiaGUI extends CRComponent {
+public class OneIdeaGUI extends CRComponent {
 
 	private String urlTest = "http://apiconecteideias.azurewebsites.net/ideias/searchById?id=8107";
 
