@@ -85,7 +85,7 @@ public class IdeaListGUI extends CRComponent {
 		layoutList.removeAllViews();
 		
 		for (int i = 0; i < 4; i++) {
-			View view = myInflater.inflate(R.layout.comment_view, null);
+			View view = myInflater.inflate(R.layout.conecte_list_ideias, null);
 			//Comment comm = (Comment) lista.get(i);
 
 			
@@ -94,7 +94,7 @@ public class IdeaListGUI extends CRComponent {
 					+ "texto novo");
 
 
-			((ImageButton) view.findViewById(R.id.button_apaga))
+			((ImageButton) view.findViewById(R.id.image_small))
 					.setOnClickListener(new OnClickListener() {
 						@Override
 						public void onClick(View v) {
