@@ -3,42 +3,38 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:layout_margin="5dp"
-    android:layout_marginBottom="1dp"
-    android:background="#EDEDED"
     android:orientation="vertical"
     android:padding="5dp" >
 
-    <LinearLayout
+    <View
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_weight="1"
-        android:orientation="horizontal" >
+        android:layout_height="4dp"
+        android:background="@android:color/darker_gray" />
 
-        <ImageButton
-            android:id="@+id/image_small"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:background="#E0E0E0"
-            android:src="@android:drawable/ic_menu_delete" />
-        
-        <TextView
-            android:id="@+id/titulo"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Titulo" />
-        
-        
-    </LinearLayout>
-
-     
     <TextView
-            android:id="@+id/body"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="texto" />
+        android:id="@+id/list_titulo"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_weight="1"
+        android:background="@android:color/background_light"
+        android:gravity="center"
+        android:textSize="20sp"
+        android:text="Lista de Idéias"
+        android:textColor="#EEEEAA" />
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="4dp"
+        android:background="@android:color/darker_gray" />
+
+    <ListView
+        android:id="@+id/ideaListView"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+    </ListView>
+    
+    
    
 
 </LinearLayout>

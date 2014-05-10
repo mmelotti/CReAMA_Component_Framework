@@ -1,6 +1,8 @@
 package com.gw.android.first_components.conecte.ideia;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -9,10 +11,12 @@ import org.json.JSONObject;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.gw.android.R;
@@ -28,19 +32,47 @@ public class IdeaListGUI extends CRComponent {
 	
 	private ViewGroup myContainer;
 	private LayoutInflater myInflater; 
+	private ListView listview;
+	
+	private List<Idea> lista = new ArrayList<Idea>();
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		myInflater = inflater;
-		myContainer=container;
+		
 		View view = inflater.inflate(R.layout.conecte_list_ideias, container,
 				false);
+		
+		listview = (ListView) view.findViewById(R.id.ideaListView);
+		listview.setOnTouchListener(new ListView.OnTouchListener() {
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				switch (event.getAction()) {
+				case MotionEvent.ACTION_DOWN:
+					// Disallow ScrollView to intercept touch events.
+					v.getParent().requestDisallowInterceptTouchEvent(true);
+					break;
+
+				case MotionEvent.ACTION_UP:
+					// Allow ScrollView to intercept touch events.
+					v.getParent().requestDisallowInterceptTouchEvent(false);
+					break;
+				}
+
+				// Handle ListView touch events.
+				v.onTouchEvent(event);
+				return true;
+			}
+		});
+
 
 		AsyncRequestHandler mHandler = new AsyncRequestHandler() {
 			@Override
 			public void onSuccess(String response, Request request) {
+				Log.i("BEFORE AFTER SUCCES", " ...= ");
 				atualizarAfterSucces(response);
+				Log.i("INFLATE IDEIAS", " ...= ");
+				//inflateIdeasGUI();
 			}
 
 			@Override
@@ -76,7 +108,7 @@ public class IdeaListGUI extends CRComponent {
 		request.onlyOneHeader(header);
 		// request.setKeyValuePairs(keyValuePairs);
 
-		// makeRequest(request);
+		 makeRequest(request);
 
 	}
 
@@ -84,7 +116,7 @@ public class IdeaListGUI extends CRComponent {
 		ViewGroup layoutList = (ViewGroup) myContainer.findViewById(0);
 		layoutList.removeAllViews();
 		
-		for (int i = 0; i < 4; i++) {
+		for (int i = 0; i < 3; i++) {
 			View view = myInflater.inflate(R.layout.conecte_list_ideias, null);
 			//Comment comm = (Comment) lista.get(i);
 
@@ -93,15 +125,6 @@ public class IdeaListGUI extends CRComponent {
 			((TextView) view.findViewById(R.id.body)).setText(""
 					+ "texto novo");
 
-
-			((ImageButton) view.findViewById(R.id.image_small))
-					.setOnClickListener(new OnClickListener() {
-						@Override
-						public void onClick(View v) {
-							
-						}
-					});
-
 			layoutList.addView(view);
 		}
 		
@@ -109,11 +132,16 @@ public class IdeaListGUI extends CRComponent {
 	
 	public void atualizarAfterSucces(String r) {
 
+		lista.clear();
+		Idea empty = new Idea();
+		empty.setTitle("Carregando...");
+		empty.setText("");
+		lista.add(empty);
 		try {
 
 			JSONArray ideasArray;
 			ideasArray = new JSONArray(r);
-			Log.i("Pass - going to json object", " ...= ");
+			Log.i("PASS - going to json object", " bug?????...= ");
 
 			for (int j = 0; j < ideasArray.length(); j++) {
 				JSONObject ideasObject = (JSONObject) ideasArray.get(j);
@@ -128,13 +156,18 @@ public class IdeaListGUI extends CRComponent {
 					String string = (String) namesArray.get(i);
 					Log.i("dentro names = ", string + " ...= ");
 				}
+				Idea idea = new Idea();
+				idea.setText(descricao);
+				idea.setTitle(titulo);
+				lista.add(idea);
 				Log.i("Titulo = ", titulo);
 				Log.i("Descricao = ", descricao);
-				Log.i("Parseando login antes for", ideasObject.toString());
+				//Log.i("Parseando login antes for", ideasObject.toString());
 				Log.i("before break", " ...= ");
 				// break;
 			}
 
+			/*
 			Log.i("Pass for - going to bug down here", " ...= ");
 
 			JSONObject ideasObject;
@@ -161,7 +194,13 @@ public class IdeaListGUI extends CRComponent {
 
 				Log.i("Parseando login", "text = " + text + idServ + userName);
 			}
-			// listview.setAdapter(new CommentAdapter(getActivity(), lista));
+			
+			*/
+			IdeaListAdapter myAdapter = new IdeaListAdapter(getActivity(),lista);
+			listview.setAdapter(myAdapter);
+			myAdapter.clearEmptyItem();
+			
+			 
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
