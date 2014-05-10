@@ -36,61 +36,54 @@ public class IdeaListAdapter extends ArrayAdapter<Idea> {
 
 		View rowView;
 
-		
+		rowView = inflater.inflate(R.layout.conecte_one_ideia, parent, false);
+		Idea c = ideas.get(position);
+		Log.i(" NAOOOO ULTIMA POSICAO", "OK");
+		((TextView) rowView.findViewById(R.id.idea_titulo)).setText(c
+				.getTitle());
 
-			rowView = inflater.inflate(R.layout.conecte_one_ideia, parent,
-					false);
-			Idea c = ideas.get(position);
-			Log.i(" NAOOOO ULTIMA POSICAO","OK");
-			((TextView) rowView.findViewById(R.id.idea_titulo)).setText(c
-					.getTitle());
-			
-			if(position+1 == ideas.size()){
-				//gambiarra pra alguns dispositivos... add void at the end
-				((TextView) rowView.findViewById(R.id.idea_body)).setText(c
-						.getText()+smallEmptyString());
-			}else{
-				
-				
-				((TextView) rowView.findViewById(R.id.idea_body)).setText(c
-						.getText());
-			}
-			
-			DateFormat df = DateFormat.getDateTimeInstance(DateFormat.SHORT,
-					DateFormat.SHORT);
-			
-			// ((TextView)
-			// rowView.findViewById(R.id.date)).setText("Enviado em "
-			// + df.format(c.getDate()));
-			/*
-			 * ((ImageButton) rowView.findViewById(R.id.button_apaga))
-			 * .setOnClickListener(new OnClickListener() {
-			 * 
-			 * @Override public void onClick(View v) { /* Long id =
-			 * Long.valueOf(v.getTag().toString()); Comment c =
-			 * findCommentById(id); if (c != null) { initCommentDao(); //
-			 * deleteOne(c); closeDao(); reloadActivity(); }
-			 * 
-			 * 
-			 * } });
-			 */
-			
-			
-			
-		
+		if (position + 1 == ideas.size()) {
+			// gambiarra pra alguns dispositivos... add void at the end
+			((TextView) rowView.findViewById(R.id.idea_body)).setText(c
+					.getText() + smallEmptyString());
+		} else {
+
+			((TextView) rowView.findViewById(R.id.idea_body)).setText(c
+					.getText());
+		}
+
+		DateFormat df = DateFormat.getDateTimeInstance(DateFormat.SHORT,
+				DateFormat.SHORT);
+
+		// ((TextView)
+		// rowView.findViewById(R.id.date)).setText("Enviado em "
+		// + df.format(c.getDate()));
+		/*
+		 * ((ImageButton) rowView.findViewById(R.id.button_apaga))
+		 * .setOnClickListener(new OnClickListener() {
+		 * 
+		 * @Override public void onClick(View v) { /* Long id =
+		 * Long.valueOf(v.getTag().toString()); Comment c = findCommentById(id);
+		 * if (c != null) { initCommentDao(); // deleteOne(c); closeDao();
+		 * reloadActivity(); }
+		 * 
+		 * 
+		 * } });
+		 */
+
 		return rowView;
 	}
 
-	public void clearEmptyItem(){
+	public void clearEmptyItem() {
 		ideas.remove(0);
 		notifyDataSetChanged();
-		itemRemovido=true;
+		itemRemovido = true;
 	}
-	
-	public String smallEmptyString(){
+
+	public String smallEmptyString() {
 		return "\n\n\n\n\n\n\n\n\n\n\n\n\n";
 	}
-	
+
 	public String createEmptyString() {
 		String mark = ".";
 		String space = "\n\u00A0\u00A0";
