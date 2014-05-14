@@ -26,7 +26,7 @@ import com.gw.android.first_components.my_components.comment.Comment;
 import com.gw.android.first_components.my_fragment.CRComponent;
 import com.gw.android.first_components.my_fragment.ComponentSimpleModel;
 
-public class IdeaListGUI extends CRComponent {
+public abstract class IdeaListGUI extends CRComponent {
 
 	private String urlTest = "http://apiconecteideias.azurewebsites.net/ideias/getAll";
 
@@ -132,7 +132,7 @@ public class IdeaListGUI extends CRComponent {
 		Idea empty = new Idea();
 		empty.setTitle("Carregando...");
 		empty.setText("");
-		lista.add(empty);
+		//lista.add(empty);
 		try {
 
 			JSONArray ideasArray;
@@ -146,6 +146,7 @@ public class IdeaListGUI extends CRComponent {
 				String titulo, descricao;
 				titulo = ideasObject.getString("titulo");
 				descricao = ideasObject.getString("descricao");
+				Long idServer=ideasObject.getLong("id");
 
 				Log.i("entrando names array", " ...= ");
 				for (int i = 0; i < namesArray.length(); i++) {
@@ -155,6 +156,7 @@ public class IdeaListGUI extends CRComponent {
 				Idea idea = new Idea();
 				idea.setText(descricao);
 				idea.setTitle(titulo);
+				idea.setServerId(idServer);
 				lista.add(idea);
 				Log.i("Titulo = ", titulo);
 				Log.i("Descricao = ", descricao);
@@ -188,9 +190,18 @@ public class IdeaListGUI extends CRComponent {
 			 * Log.i("Parseando login", "text = " + text + idServ + userName); }
 			 */
 			IdeaListAdapter myAdapter = new IdeaListAdapter(getActivity(),
-					lista);
+					lista){
+
+						@Override
+						public void onClickOneItensTitleComponent(View v,Long id) {
+							// TODO Auto-generated method stub
+							Log.e("ONNon clic test","dentro component");
+							onClickOneItensTitleApplication(v,id);
+						}
+				
+			};
 			listview.setAdapter(myAdapter);
-			myAdapter.clearEmptyItem();
+			//myAdapter.clearEmptyItem();
 
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
@@ -200,5 +211,7 @@ public class IdeaListGUI extends CRComponent {
 		// Log.e("TEST R LOGIN",r);
 
 	}
+	
+	public abstract void onClickOneItensTitleApplication(View v,Long id);
 
 }

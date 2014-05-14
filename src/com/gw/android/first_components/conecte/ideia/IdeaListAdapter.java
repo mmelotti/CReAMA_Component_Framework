@@ -16,7 +16,7 @@ import android.widget.TextView;
 
 import com.gw.android.R;
 
-public class IdeaListAdapter extends ArrayAdapter<Idea> {
+public abstract class IdeaListAdapter extends ArrayAdapter<Idea> {
 
 	private final Context context;
 	private final List<Idea> ideas;
@@ -41,6 +41,24 @@ public class IdeaListAdapter extends ArrayAdapter<Idea> {
 		Log.i(" NAOOOO ULTIMA POSICAO", "OK");
 		((TextView) rowView.findViewById(R.id.idea_titulo)).setText(c
 				.getTitle());
+
+		((TextView) rowView.findViewById(R.id.idea_titulo))
+				.setOnClickListener(new OnClickListener() {
+
+					@Override
+					public void onClick(View v) {
+						 onClickOneItensTitleComponent(v,ideas.get(position).getServerId());
+						
+						 /*
+						 Long id = Long.valueOf(v.getTag().toString());
+						Comment c = findCommentById(id);
+						if (c != null) {
+							initCommentDao(); // deleteOne(c); closeDao();
+							reloadActivity();
+						}*/
+
+					}
+				});
 
 		if (position + 1 == ideas.size()) {
 			// gambiarra pra alguns dispositivos... add void at the end
@@ -97,5 +115,8 @@ public class IdeaListAdapter extends ArrayAdapter<Idea> {
 		space = space + mark;
 		return space;
 	}
+	
+	public abstract void onClickOneItensTitleComponent(View v,Long id);
+	
 
 }
