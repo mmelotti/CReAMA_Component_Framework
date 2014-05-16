@@ -20,7 +20,7 @@
         android:background="@android:color/background_light"
         android:gravity="center"
         android:textSize="20sp"
-        android:text="Lista de Idéias"
+        android:text="Lista de Ideias"
         android:textColor="#EEEEAA" />
 
     <View

@@ -4,6 +4,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,14 +16,25 @@ import com.gw.android.components.connection_manager.AsyncRequestHandler;
 import com.gw.android.components.request.Request;
 import com.gw.android.first_components.my_fragment.CRComponent;
 
+@SuppressLint("ValidFragment")
 public class OneIdeaGUI extends CRComponent {
 
-	private String urlTest = "http://apiconecteideias.azurewebsites.net/ideias/searchById?id=8107";
+	
+	private String urlTest = "http://apiconecteideias.azurewebsites.net/ideias/searchById?id=";
 
+	private String urlFinal = "/ideias/searchById?id=";
+	
+	Long serverId;
+	
+	public OneIdeaGUI(Long serverId){
+		this.serverId=serverId;
+		Log.e("Request??","after construtor");
+	}
+	
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		View view = inflater.inflate(R.layout.conecte_one_ideia, container,
+		View view = inflater.inflate(R.layout.conecte_one_ideia_forlist, container,
 				false);
 
 		AsyncRequestHandler mHandler = new AsyncRequestHandler() {
@@ -56,14 +68,14 @@ public class OneIdeaGUI extends CRComponent {
 
 	void testRequest() {
 
-		Request request = new Request(null, urlTest, "get", null);
+		Request request = new Request(null, urlTest+serverId, "get", null);
 		String header[] = new String[2];
 		header[0] = "X-ApiKey";
 		header[1] = "257F1D3C-57A0-4F34-A937-1538104E97FE";
 		request.onlyOneHeader(header);
 		// request.setKeyValuePairs(keyValuePairs);
 
-		// makeRequest(request);
+		 makeRequest(request);
 
 	}
 
