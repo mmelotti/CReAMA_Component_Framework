@@ -19,7 +19,7 @@ import com.gw.android.components.request.Request;
 import com.gw.android.first_components.my_fragment.CRComponent;
 
 @SuppressLint("ValidFragment")
-public class UsuarioProfileGUI extends CRComponent {
+public class UserProfileGUI extends CRComponent {
 
 	TextView userName,userEmail;
 	private String urlTest = "http://apiconecteideias.azurewebsites.net/ideias/searchById?id=";
@@ -29,7 +29,7 @@ public class UsuarioProfileGUI extends CRComponent {
 	
 	Long serverId;
 	
-	public UsuarioProfileGUI(Long serverId){
+	public UserProfileGUI(Long serverId){
 		this.serverId=serverId;
 		Log.e("Request??","after construtor");
 	}
