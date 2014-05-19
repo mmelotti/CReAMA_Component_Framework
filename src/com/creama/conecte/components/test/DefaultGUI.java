@@ -131,7 +131,7 @@ public class DefaultGUI extends CRComponent {
 			idea=new Idea();
 			idea.setTitle(ideasObject.getString("titulo"));
 			idea.setText(ideasObject.getString("descricao"));
-			setComponentGUI(idea);
+			//setComponentGUI(idea);
 			// listview.setAdapter(new CommentAdapter(getActivity(), lista));
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block

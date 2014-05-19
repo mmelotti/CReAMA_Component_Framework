@@ -21,7 +21,7 @@ import com.gw.android.first_components.my_fragment.CRComponent;
 @SuppressLint("ValidFragment")
 public class UsuarioProfileGUI extends CRComponent {
 
-	TextView title,descricao;
+	TextView userName,userEmail;
 	private String urlTest = "http://apiconecteideias.azurewebsites.net/ideias/searchById?id=";
 
 	
@@ -37,12 +37,12 @@ public class UsuarioProfileGUI extends CRComponent {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		View view = inflater.inflate(R.layout.conecte_one_idea, container,
+		View view = inflater.inflate(R.layout.conecte_user_layout, container,
 				false);
 		
 		
-		title=(TextView) view.findViewById(R.id.idea_titulo_one);
-		descricao=(TextView)view.findViewById(R.id.idea_body_one);
+		userName=(TextView) view.findViewById(R.id.user_name);
+		userEmail=(TextView)view.findViewById(R.id.user_email);
 		
 
 		AsyncRequestHandler mHandler = new AsyncRequestHandler() {
@@ -53,7 +53,7 @@ public class UsuarioProfileGUI extends CRComponent {
 
 			@Override
 			public void onFailure(Throwable arg0, String arg1, Request request) {
-				//atualizarAfterSucces("erro");
+				atualizarAfterSucces("erro");
 			}
 		};
 		setComponentRequestCallback(mHandler);
@@ -103,7 +103,7 @@ public class UsuarioProfileGUI extends CRComponent {
 			JSONArray valArray = ideasObject.toJSONArray(nameArray);
 			JSONArray arrayResults = valArray.getJSONArray(0);
 			
-			Idea idea;
+			User user;
 			
 			Log.i("Parseando login antes for",
 					" ...= " + ideasObject.toString());
@@ -128,10 +128,10 @@ public class UsuarioProfileGUI extends CRComponent {
 				 * userName);
 				 */
 			}
-			idea=new Idea();
-			idea.setTitle(ideasObject.getString("titulo"));
-			idea.setText(ideasObject.getString("descricao"));
-			setComponentGUI(idea);
+			user=new User();
+			user.setName(ideasObject.getString("titulo"));
+			user.setName(ideasObject.getString("descricao"));
+			setComponentGUI(user);
 			// listview.setAdapter(new CommentAdapter(getActivity(), lista));
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
@@ -143,10 +143,10 @@ public class UsuarioProfileGUI extends CRComponent {
 	}
 
 	
-	private void setComponentGUI(Idea idea){
+	private void setComponentGUI(User idea){
 		
-		title.setText(idea.getTitle());
-		descricao.setText(idea.getText());
+		userName.setText(idea.getName());
+		userEmail.setText("seuemail");
 	}
 	
 }
