@@ -1,4 +1,4 @@
-package com.creama.conecte.components.test;
+package com.creama.conecte.components.user;
 
 import java.util.Date;
 

@@ -1,4 +1,4 @@
-package com.gw.android.first_components.conecte.ideia;
+package com.creama.conecte.components.idea;
 
 import org.json.JSONArray;
 import org.json.JSONException;
