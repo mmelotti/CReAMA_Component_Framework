@@ -1,4 +1,4 @@
-package com.creama.conecte.components.user;
+package com.creama.conecte.components.test;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -19,17 +19,17 @@ import com.gw.android.components.request.Request;
 import com.gw.android.first_components.my_fragment.CRComponent;
 
 @SuppressLint("ValidFragment")
-public class UsuarioProfileGUI extends CRComponent {
+public class DefaultGUI extends CRComponent {
 
 	TextView title,descricao;
 	private String urlTest = "http://apiconecteideias.azurewebsites.net/ideias/searchById?id=";
 
-	
+	@SuppressLint("ValidFragment")
 	private String urlFinal = "/ideias/searchById?id=";
 	
 	Long serverId;
 	
-	public UsuarioProfileGUI(Long serverId){
+	public DefaultGUI(Long serverId){
 		this.serverId=serverId;
 		Log.e("Request??","after construtor");
 	}
