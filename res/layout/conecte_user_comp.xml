@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="5dp"
+    android:layout_marginBottom="1dp"
+    android:background="#EDEDED"
+    android:orientation="horizontal"
+    android:padding="5dp" >
+
+    
+     <ImageButton
+            android:id="@+id/user_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:background="#E0E0E0"
+            android:src="@drawable/icone_ac" />
+    
+     
+      <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical" >
+     
+     <TextView
+            android:id="@+id/user_space"
+            android:layout_width="fill_parent"
+            android:layout_height="15dp"
+            android:layout_weight="1"
+            android:text="" />
+    
+   
+
+        
+        <TextView
+            android:id="@+id/user_name"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="#0000FF"
+            android:textSize="16sp"
+            android:text="User" />
+        
+        
+        <TextView
+            android:id="@+id/user_email"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:textColor="@color/darkgrey"
+            android:layout_weight="1"
+            android:text="email" />
+    
+    <TextView
+            android:id="@+id/user_space2"
+            android:layout_width="fill_parent"
+            android:layout_height="15dp"
+            
+            android:layout_weight="1"
+            android:text="" />
+    
+    <TextView
+            android:id="@+id/user_nascimento"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:textColor="@color/darkgrey"
+            android:layout_weight="1"
+            android:text="nascimento" />
+    
+    <View
+    android:layout_width="fill_parent"
+    android:layout_height="3dp"
+    android:background="@android:color/darker_gray"/>
+        
+    </LinearLayout>
+
+     
+    
+   
+
+</LinearLayout>
