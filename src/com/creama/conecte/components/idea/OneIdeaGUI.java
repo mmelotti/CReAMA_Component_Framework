@@ -35,7 +35,7 @@ public class OneIdeaGUI extends CRComponent {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		View view = inflater.inflate(R.layout.conecte_one_idea, container,
+		View view = inflater.inflate(R.layout.conecte_one_idea_comp, container,
 				false);
 		
 		

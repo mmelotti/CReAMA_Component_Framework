@@ -18,7 +18,7 @@ public class RequestTesterGUI extends CRComponent {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		View view = inflater.inflate(R.layout.conecte_requests, container, false);
+		View view = inflater.inflate(R.layout.conecte_requests_comp, container, false);
 		
 		AsyncRequestHandler mHandler = new AsyncRequestHandler() {
 			@Override

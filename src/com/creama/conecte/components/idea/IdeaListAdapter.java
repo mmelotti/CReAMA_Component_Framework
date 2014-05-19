@@ -24,7 +24,7 @@ public abstract class IdeaListAdapter extends ArrayAdapter<Idea> {
 	boolean itemRemovido = false;
 
 	public IdeaListAdapter(Context context, List<Idea> ideas) {
-		super(context, R.layout.conecte_one_ideia_forlist, ideas);
+		super(context, R.layout.conecte_one_ideia_forlist_comp, ideas);
 		this.context = context;
 		this.ideas = ideas;
 	}
@@ -36,7 +36,7 @@ public abstract class IdeaListAdapter extends ArrayAdapter<Idea> {
 
 		View rowView;
 
-		rowView = inflater.inflate(R.layout.conecte_one_ideia_forlist, parent, false);
+		rowView = inflater.inflate(R.layout.conecte_one_ideia_forlist_comp, parent, false);
 		Idea c = ideas.get(position);
 		Log.i(" NAOOOO ULTIMA POSICAO", "OK");
 		((TextView) rowView.findViewById(R.id.idea_titulo)).setText(c

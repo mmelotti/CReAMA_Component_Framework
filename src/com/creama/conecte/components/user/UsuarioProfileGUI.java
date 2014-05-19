@@ -37,7 +37,7 @@ public class UsuarioProfileGUI extends CRComponent {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		View view = inflater.inflate(R.layout.conecte_user_layout, container,
+		View view = inflater.inflate(R.layout.conecte_user_comp, container,
 				false);
 		
 		

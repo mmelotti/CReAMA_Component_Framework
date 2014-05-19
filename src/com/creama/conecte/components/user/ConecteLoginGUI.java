@@ -41,7 +41,7 @@ public class ConecteLoginGUI extends CRComponent {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		View view = inflater.inflate(R.layout.conecte_login, container, false);
+		View view = inflater.inflate(R.layout.conecte_login_act, container, false);
 
 		btnSubmit = (Button) view.findViewById(R.id.loginConecteSubmit);
 		editLogin = (EditText) view.findViewById(R.id.editConecteUser);
