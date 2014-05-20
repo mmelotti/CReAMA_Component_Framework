@@ -131,7 +131,7 @@ public class UserProfileGUI extends CRComponent {
 			user=new User();
 			user.setName(ideasObject.getString("titulo"));
 			user.setName(ideasObject.getString("descricao"));
-			setComponentGUI(user);
+			//setComponentGUI(user);
 			// listview.setAdapter(new CommentAdapter(getActivity(), lista));
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
