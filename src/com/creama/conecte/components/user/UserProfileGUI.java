@@ -24,6 +24,12 @@ public class UserProfileGUI extends CRComponent {
 	TextView userName,userEmail;
 	private String urlTest = "http://apiconecteideias.azurewebsites.net/ideias/searchById?id=";
 
+	/*
+	Raft: ".../ideias/getIdeiasRelacionadas?userid=XXXX"
+		Raft: ".../imagens/lastestByUser?Range=XX&userID=XXXX"
+		Raft: ".../feed/lastestActivitiesbyId?Range=XX&id=XXXX"
+		Raft: essas tres url
+	*/
 	
 	private String urlFinal = "/ideias/searchById?id=";
 	
