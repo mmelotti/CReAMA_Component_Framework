@@ -34,14 +34,26 @@ public abstract class IdeaListGUI extends CRComponent {
 	private LayoutInflater myInflater;
 	private ListView listview;
 
+	private String titulo="Lista de Ideias";
+	
+	
+	
 	private List<Idea> lista = new ArrayList<Idea>();
 
+	public IdeaListGUI(String title){
+		titulo=title;
+	}
+	
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
 		View view = inflater.inflate(R.layout.conecte_list_ideias_act, container,
 				false);
 
+		
+		TextView listTitle= (TextView) view.findViewById(R.id.list_titulo);
+		listTitle.setText(titulo);
+		
 		listview = (ListView) view.findViewById(R.id.ideaListView);
 		listview.setOnTouchListener(new ListView.OnTouchListener() {
 			@Override
