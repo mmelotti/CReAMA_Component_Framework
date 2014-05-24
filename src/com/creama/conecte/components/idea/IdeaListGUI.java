@@ -28,8 +28,11 @@ import com.gw.android.first_components.my_fragment.ComponentSimpleModel;
 
 public abstract class IdeaListGUI extends CRComponent {
 
-	private String urlTest = "http://apiconecteideias.azurewebsites.net/ideias/getAll";
-
+	private String urlBase = "http://apiconecteideias.azurewebsites.net/";
+	private String finalUrl[];
+	private String param="";
+	private int requestType=0;
+	
 	private ViewGroup myContainer;
 	private LayoutInflater myInflater;
 	private ListView listview;
@@ -42,11 +45,27 @@ public abstract class IdeaListGUI extends CRComponent {
 
 	public IdeaListGUI(String title){
 		titulo=title;
+		
+	}
+	
+	public IdeaListGUI(String title, int requestType, String param){
+		titulo=title;
+		this.requestType=requestType;
+		this.param=param;
+		
+	}
+	
+	private void createRequestTypes(){
+		finalUrl = new String[4];
+
+		finalUrl[0]="ideias/getAll";
+		finalUrl[1]="mobile/latestIdeas?range=";	
+		finalUrl[2]="ideas/getIdeiasRelacionadas?userid=";				
 	}
 	
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-
+		createRequestTypes();
 		View view = inflater.inflate(R.layout.conecte_list_ideias_act, container,
 				false);
 
@@ -105,13 +124,13 @@ public abstract class IdeaListGUI extends CRComponent {
 	@Override
 	protected void onBind() {
 		// getConnectionManager().getCookiesInfo();
-		testRequest();
+		getIdeasRequest();
 
 	}
 
-	void testRequest() {
+	void getIdeasRequest() {
 
-		Request request = new Request(null, urlTest, "get", null);
+		Request request = new Request(null, urlBase+finalUrl[requestType]+param, "get", null);
 		String header[] = new String[2];
 		header[0] = "X-ApiKey";
 		header[1] = "257F1D3C-57A0-4F34-A937-1538104E97FE";

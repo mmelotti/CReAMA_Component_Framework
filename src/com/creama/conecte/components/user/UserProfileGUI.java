@@ -21,35 +21,35 @@ import com.gw.android.first_components.my_fragment.CRComponent;
 @SuppressLint("ValidFragment")
 public class UserProfileGUI extends CRComponent {
 
-	TextView userName,userEmail;
-	private String urlTest = "http://apiconecteideias.azurewebsites.net/ideias/searchById?id=";
+	TextView userName, userEmail, userNascimento;
+	// private String urlTest =
+	// "http://apiconecteideias.azurewebsites.net/ideias/searchById?id=";
+	private String urlTest = "http://apiconecteideias.azurewebsites.net/usuarios/searchByEmail?email=";
 
 	/*
-	Raft: ".../ideias/getIdeiasRelacionadas?userid=XXXX"
-		Raft: ".../imagens/lastestByUser?Range=XX&userID=XXXX"
-		Raft: ".../feed/lastestActivitiesbyId?Range=XX&id=XXXX"
-		Raft: essas tres url
-	*/
-	
+	 * Raft: ".../ideias/getIdeiasRelacionadas?userid=XXXX" Raft:
+	 * ".../imagens/lastestByUser?Range=XX&userID=XXXX" Raft:
+	 * ".../feed/lastestActivitiesbyId?Range=XX&id=XXXX" Raft: essas tres url
+	 */
+
 	private String urlFinal = "/ideias/searchById?id=";
-	
+
 	Long serverId;
-	
-	public UserProfileGUI(Long serverId){
-		this.serverId=serverId;
-		Log.e("Request??","after construtor");
+
+	public UserProfileGUI(Long serverId) {
+		this.serverId = serverId;
+		Log.e("Request??", "after construtor");
 	}
-	
+
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
 		View view = inflater.inflate(R.layout.conecte_user_comp, container,
 				false);
-		
-		
-		userName=(TextView) view.findViewById(R.id.user_name);
-		userEmail=(TextView)view.findViewById(R.id.user_email);
-		
+
+		userName = (TextView) view.findViewById(R.id.user_name);
+		userEmail = (TextView) view.findViewById(R.id.user_email);
+		userNascimento = (TextView) view.findViewById(R.id.user_nascimento);
 
 		AsyncRequestHandler mHandler = new AsyncRequestHandler() {
 			@Override
@@ -63,10 +63,6 @@ public class UserProfileGUI extends CRComponent {
 			}
 		};
 		setComponentRequestCallback(mHandler);
-		
-		
-		
-		
 
 		return view;
 	}
@@ -86,14 +82,15 @@ public class UserProfileGUI extends CRComponent {
 
 	void testRequest() {
 
-		Request request = new Request(null, urlTest+serverId, "get", null);
+		Request request = new Request(null,
+				urlTest + "maisonmelotti@gmail.com", "get", null);
 		String header[] = new String[2];
 		header[0] = "X-ApiKey";
 		header[1] = "257F1D3C-57A0-4F34-A937-1538104E97FE";
 		request.onlyOneHeader(header);
 		// request.setKeyValuePairs(keyValuePairs);
 
-		 makeRequest(request);
+		makeRequest(request);
 
 	}
 
@@ -102,22 +99,40 @@ public class UserProfileGUI extends CRComponent {
 
 			Log.i("onde ideia", " ...= ");
 
-			JSONObject ideasObject;
-			ideasObject = new JSONObject(r);
+			JSONObject userObject;
+			userObject = new JSONObject(r);
 
-			JSONArray nameArray = ideasObject.names();
-			JSONArray valArray = ideasObject.toJSONArray(nameArray);
+			JSONArray nameArray = userObject.names();
+			JSONArray valArray = userObject.toJSONArray(nameArray);
 			JSONArray arrayResults = valArray.getJSONArray(0);
-			
+
 			User user;
-			
-			Log.i("Parseando login antes for",
-					" ...= " + ideasObject.toString());
+			String email = "";
+
+			// TODO i will get just the first email, should crash with more than
+			// one users email
+			JSONArray emailArray = userObject.getJSONArray("emails");
+			JSONObject emailObject = emailArray.getJSONObject(0);
+			Log.i("Parseando dentro emails!!!",
+					" ...= " + emailObject.toString());
+			email = emailObject.getString("enderecoEmail");
+
+			Log.i("Parseando login antes for", " ...= " + userObject.toString());
 			for (int j = 0; j < nameArray.length(); j++) {
-				//JSONObject oneIdea = arrayResults.getJSONObject(j);
-				String name=nameArray.getString(j);
-				Log.i("Parseando ideia dentro for",
-						" ....= " + name);
+				// JSONObject oneIdea = arrayResults.getJSONObject(j);
+				String name = nameArray.getString(j);
+
+				if (nameArray.getString(j).equals("emails")) {
+					/*
+					 * JSONArray emailArray = nameArray.getJSONArray(j);
+					 * JSONObject emailObject; emailObject =
+					 * emailArray.getJSONObject(0);
+					 * Log.i("Parseando dentro emails!!!", " ...= " +
+					 * emailObject.toString());
+					 * email=emailObject.getString("enderecoEmail");
+					 */
+				}
+				Log.i("Parseando ideia dentro for", " ....= " + name);
 				/*
 				 * JSONObject userObject = oneIdea.getJSONObject("user"); String
 				 * userName = userObject.get("name").toString(); Long idServ =
@@ -134,10 +149,11 @@ public class UserProfileGUI extends CRComponent {
 				 * userName);
 				 */
 			}
-			user=new User();
-			user.setName(ideasObject.getString("titulo"));
-			user.setName(ideasObject.getString("descricao"));
-			//setComponentGUI(user);
+			user = new User();
+			user.setName(userObject.getString("nome"));
+			user.setNascimento(userObject.getString("dataNascimento").substring(0, 10));
+			user.setEmail(email);
+			setComponentGUI(user);
 			// listview.setAdapter(new CommentAdapter(getActivity(), lista));
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
@@ -148,11 +164,11 @@ public class UserProfileGUI extends CRComponent {
 
 	}
 
-	
-	private void setComponentGUI(User idea){
-		
+	private void setComponentGUI(User idea) {
+
 		userName.setText(idea.getName());
-		userEmail.setText("seuemail");
+		userEmail.setText(idea.getEmail());
+		userNascimento.setText(idea.getNascimento());
 	}
-	
+
 }
