@@ -39,12 +39,12 @@ public class CommentListGUI extends CRComponent {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		View view = inflater.inflate(R.layout.conecte_one_idea_comp, container,
+		View view = inflater.inflate(R.layout.conecte_list_comments_comp, container,
 				false);
 		
 		
-		title=(TextView) view.findViewById(R.id.idea_titulo_one);
-		descricao=(TextView)view.findViewById(R.id.idea_body_one);
+		//title=(TextView) view.findViewById(R.id.idea_titulo_one);
+		//descricao=(TextView)view.findViewById(R.id.idea_body_one);
 		
 
 		AsyncRequestHandler mHandler = new AsyncRequestHandler() {
