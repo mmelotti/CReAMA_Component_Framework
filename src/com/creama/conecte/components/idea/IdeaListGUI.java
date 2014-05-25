@@ -66,7 +66,7 @@ public abstract class IdeaListGUI extends CRComponent {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		createRequestTypes();
-		View view = inflater.inflate(R.layout.conecte_list_ideias_act, container,
+		View view = inflater.inflate(R.layout.conecte_list_ideias_comp, container,
 				false);
 
 		
@@ -146,7 +146,7 @@ public abstract class IdeaListGUI extends CRComponent {
 		layoutList.removeAllViews();
 
 		for (int i = 0; i < 3; i++) {
-			View view = myInflater.inflate(R.layout.conecte_list_ideias_act, null);
+			View view = myInflater.inflate(R.layout.conecte_list_ideias_comp, null);
 			// Comment comm = (Comment) lista.get(i);
 
 			((TextView) view.findViewById(R.id.body))
