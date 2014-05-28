@@ -1,62 +1,43 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="match_parent"
-    android:layout_margin="0dp"
-    android:layout_marginBottom="0dp"
-    android:background="#EDEDED"
+    android:id="@+id/comment_background" 
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="5dp" >
 
-    <TextView
-        android:id="@+id/idea_space"
-        android:layout_width="fill_parent"
-        android:layout_height="15dp"
-        android:layout_weight="1"
-        android:background="#EDEDED"
-        android:text="" />
-
-    <View
-        android:layout_width="fill_parent"
-        android:layout_height="20dp"
-        android:background="#EDEDED" />
-
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
+        android:layout_height="wrap_content"
+         android:id="@+id/rootComment"
         android:orientation="horizontal" >
 
-        <ImageButton
-            android:id="@+id/idea_image"
+        <TextView
+            android:id="@+id/nameUserComment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:background="#E0E0E0"
-            android:src="@drawable/icone_ac" />
+            android:layout_gravity="left"
+            android:layout_weight="1"
+            android:singleLine="true"
+            android:text=""
+            android:textColor="#3C91A5" />
 
         <TextView
-            android:id="@+id/idea_titulo"
-            android:layout_width="fill_parent"
+            android:id="@+id/dateComment"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-             android:padding="6sp"
+            android:layout_gravity="bottom"
+            android:layout_marginLeft="7dp"
+            android:singleLine="true"
             android:text=""
-            android:textColor="#0000FF"
-            android:textSize="16sp" />
+            android:textColor="#AAAAAA" />
     </LinearLayout>
 
-    <View
-        android:layout_width="fill_parent"
-        android:layout_height="2dp"
-        android:background="@android:color/darker_gray" />
-
     <TextView
-        android:id="@+id/idea_body"
-        android:layout_width="fill_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:text=""
-        android:textColor="@color/gray" />
+        android:id="@+id/textComment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="3dp"
+        android:layout_gravity="left"
+        android:text="" />
 
 </LinearLayout>

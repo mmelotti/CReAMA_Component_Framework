@@ -1,5 +1,8 @@
 package com.creama.conecte.components.comment;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -8,11 +11,14 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.creama.conecte.components.idea.Idea;
+import com.creama.conecte.components.idea.IdeaListAdapter;
 import com.gw.android.R;
 import com.gw.android.components.connection_manager.AsyncRequestHandler;
 import com.gw.android.components.request.Request;
@@ -21,31 +27,61 @@ import com.gw.android.first_components.my_fragment.CRComponent;
 @SuppressLint("ValidFragment")
 public class CommentListGUI extends CRComponent {
 
-	TextView title,descricao;
-	private String urlTest = "http://apiconecteideias.azurewebsites.net/ideias/searchById?id=";
+	TextView title, descricao;
+	private ListView listview;
+	private String urlBase = "http://apiconecteideias.azurewebsites.net";
 
-	
-	private String urlFinal = "/feed/lastestActivitiesbyId?Range=";
-	private String urlFinal2 = "&id=";
-	
-	
-	Long serverId;
-	
-	public CommentListGUI(Long serverId){
-		this.serverId=serverId;
-		Log.e("Request??","after construtor");
+	private String urlFinal = "/comentarios/searchByIdea?idIdeia=";
+	private List<Comment> lista = new ArrayList<Comment>();
+	private Long serverId, targetId;
+	CommentListAdapter myAdapter;
+
+	public CommentListGUI(Long serverId) {
+		this.serverId = serverId;
+		Log.e("Request??", "after construtor");
 	}
-	
+
+	public CommentListGUI(Long serverId, Long targetId) {
+		this.serverId = serverId;
+		this.targetId = targetId;
+		Log.e("Request??", "after construtor");
+	}
+
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		View view = inflater.inflate(R.layout.conecte_list_comments_comp, container,
-				false);
+		View view = inflater.inflate(R.layout.conecte_list_comments_comp,
+				container, false);
+
+		myAdapter = new CommentListAdapter(lista) {
+			@Override
+			public void onClickOneItensTitleComponent(View v, Long id) {
+				// TODO Auto-generated method stub
+				Log.e("ONNon clic test", "dentro component comment");
+			}
+		};
 		
-		
-		//title=(TextView) view.findViewById(R.id.idea_titulo_one);
-		//descricao=(TextView)view.findViewById(R.id.idea_body_one);
-		
+
+		// title=(TextView) view.findViewById(R.id.idea_titulo_one);
+		// descricao=(TextView)view.findViewById(R.id.idea_body_one);
+		listview = (ListView) view.findViewById(R.id.listComments);
+		listview.setAdapter(myAdapter);
+		//listview.setScrollContainer(false);
+		/*
+		 * listview.setOnTouchListener(new ListView.OnTouchListener() {
+		 * 
+		 * @Override public boolean onTouch(View v, MotionEvent event) { switch
+		 * (event.getAction()) { case MotionEvent.ACTION_DOWN: // Disallow
+		 * ScrollView to intercept touch events.
+		 * v.getParent().requestDisallowInterceptTouchEvent(true); break;
+		 * 
+		 * case MotionEvent.ACTION_UP: // Allow ScrollView to intercept touch
+		 * events. v.getParent().requestDisallowInterceptTouchEvent(false);
+		 * break; }
+		 * 
+		 * // Handle ListView touch events. v.onTouchEvent(event); return true;
+		 * } });
+		 */
 
 		AsyncRequestHandler mHandler = new AsyncRequestHandler() {
 			@Override
@@ -55,14 +91,10 @@ public class CommentListGUI extends CRComponent {
 
 			@Override
 			public void onFailure(Throwable arg0, String arg1, Request request) {
-				//atualizarAfterSucces("erro");
+				// atualizarAfterSucces("erro");
 			}
 		};
 		setComponentRequestCallback(mHandler);
-		
-		
-		
-		
 
 		return view;
 	}
@@ -82,58 +114,48 @@ public class CommentListGUI extends CRComponent {
 
 	void testRequest() {
 
-		Request request = new Request(null, urlTest+serverId, "get", null);
+		Request request = new Request(null, urlBase + urlFinal + targetId,
+				"get", null);
 		String header[] = new String[2];
 		header[0] = "X-ApiKey";
 		header[1] = "257F1D3C-57A0-4F34-A937-1538104E97FE";
 		request.onlyOneHeader(header);
 		// request.setKeyValuePairs(keyValuePairs);
 
-		 makeRequest(request);
+		makeRequest(request);
 
 	}
 
 	public void atualizarAfterSucces(String r) {
 		try {
 
-			Log.i("onde ideia", " ...= ");
+			lista.clear();
 
-			JSONObject ideasObject;
-			ideasObject = new JSONObject(r);
+			JSONArray commentsArray;
+			commentsArray = new JSONArray(r);
 
-			JSONArray nameArray = ideasObject.names();
-			JSONArray valArray = ideasObject.toJSONArray(nameArray);
-			JSONArray arrayResults = valArray.getJSONArray(0);
-			
-			Idea idea;
-			
-			Log.i("Parseando login antes for",
-					" ...= " + ideasObject.toString());
-			for (int j = 0; j < nameArray.length(); j++) {
-				//JSONObject oneIdea = arrayResults.getJSONObject(j);
-				String name=nameArray.getString(j);
-				Log.i("Parseando ideia dentro for",
-						" ....= " + name);
-				/*
-				 * JSONObject userObject = oneIdea.getJSONObject("user"); String
-				 * userName = userObject.get("name").toString(); Long idServ =
-				 * Long.parseLong(oneIdea.get("id").toString()); String text =
-				 * oneIdea.get("text").toString();
-				 * 
-				 * // updating comments, adding on DB Long newI =
-				 * ComponentSimpleModel.getUniqueId(getActivity());
-				 * 
-				 * // initCommentDao(); // commentDao.insert(comment); //
-				 * closeDao();
-				 * 
-				 * Log.i("Parseando login", "text = " + text + idServ +
-				 * userName);
-				 */
+			for (int j = 0; j < commentsArray.length(); j++) {
+				Log.i("Parseando primeiro for comemnt", " ...= "
+						+ commentsArray.get(j).toString());
+				JSONObject commentObject = (JSONObject) commentsArray.get(j);
+				JSONArray namesArray = commentObject.names();
+
+				String titulo, descricao;
+				Comment comment = new Comment();
+				comment.setNome(commentObject.getString("nome"));
+				comment.setTexto(commentObject.getString("texto"));
+				Log.i("vai add na lista", " ...= " + comment.getNome());
+				lista.add(comment);
+
+				for (int i = 0; i < namesArray.length(); i++) {
+					String string = (String) namesArray.get(i);
+					Log.i("dentro names = ", string + " ...= ");
+				}
+				
 			}
-			idea=new Idea();
-			idea.setTitle(ideasObject.getString("titulo"));
-			idea.setText(ideasObject.getString("descricao"));
-			//setComponentGUI(idea);
+			myAdapter.notifyDataSetChanged();
+			//listview.setScrollContainer(false);
+			// setComponentGUI(idea);
 			// listview.setAdapter(new CommentAdapter(getActivity(), lista));
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
@@ -144,11 +166,14 @@ public class CommentListGUI extends CRComponent {
 
 	}
 
-	
-	private void setComponentGUI(Idea idea){
-		
+	private void setComponentGUI(Idea idea) {
+
 		title.setText(idea.getTitle());
 		descricao.setText(idea.getText());
 	}
 	
+	public static void setListViewHeightBasedOnChildren(ListView listView) {
+		int a=1;
+	}
+
 }

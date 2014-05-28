@@ -74,6 +74,7 @@ public abstract class IdeaListGUI extends CRComponent {
 		listTitle.setText(titulo);
 		
 		listview = (ListView) view.findViewById(R.id.ideaListView);
+		
 		listview.setOnTouchListener(new ListView.OnTouchListener() {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
