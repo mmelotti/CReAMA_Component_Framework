@@ -17,14 +17,15 @@ public abstract class CRActivity extends FragmentActivity {
 
 	public abstract void instanciarComponents();
 
-	private List<CRComponent> componentes = new ArrayList<CRComponent>();
+	private List<CRComponent> allComponentsList = new ArrayList<CRComponent>();
 	private FragmentManager fragmentManager;
 	private FragmentTransaction transaction;
 
+	private List<CRComponent> activeComponentsList = new ArrayList<CRComponent>();
 	private List<Dependency> dependencies;
 
 	private int relativeGUIIdCont = 55;
-	
+
 	public CRActivity() {
 		// TODO Auto-generated constructor stub
 	}
@@ -46,30 +47,58 @@ public abstract class CRActivity extends FragmentActivity {
 
 	public void addGUIComponent(int id, CRComponent c) {
 		c.setRelativeFragmentId(relativeGUIIdCont);
-		componentes.add(c);
-		transaction.add(id, c);
-		
+		if (allComponentsList.contains(c)) {
+			if (activeComponentsList.contains(c)) {
+
+			} else {
+				transaction.show(c);
+				activeComponentsList.add(c);
+			}
+		} else {
+			allComponentsList.add(c);
+			transaction.add(id, c);
+			activeComponentsList.add(c);
+		}
+
 		upRelativeId();
 	}
-	
+
+	public void hideGUIComponent(CRComponent c) {
+		if (activeComponentsList.contains(c)) {
+			transaction.hide(c);
+			activeComponentsList.remove(c);
+		}
+	}
+
+	public void addMultipleGUIComponents(int rId, CRComponent[] array) {
+		for (int i = 0; i < activeComponentsList.size(); i++) {
+			transaction.hide(activeComponentsList.get(i));
+		}
+		activeComponentsList.clear();
+
+		for (int i = 0; i < array.length; i++) {
+			addGUIComponent(rId, array[i]);
+		}
+	}
+
 	public void removeGUIComponent(int id, CRComponent c) {
-		//c.setRelativeFragmentId(relativeGUIIdCont);
-		componentes.remove(c);
+		// c.setRelativeFragmentId(relativeGUIIdCont);
+		allComponentsList.remove(c);
 		transaction.remove(c);
-		
-		//upRelativeId();
+
+		// upRelativeId();
 	}
 
 	public void addGUIComponentWithTag(int id, CRComponent c) {
 		c.setRelativeFragmentId(relativeGUIIdCont);
-		componentes.add(c);
+		allComponentsList.add(c);
 
 		transaction.add(id, c, "" + relativeGUIIdCont);
 		upRelativeId();
 	}
 
 	public void addComponent(CRComponent c) {
-		componentes.add(c);
+		allComponentsList.add(c);
 	}
 
 	public void startTransaction() {
@@ -82,11 +111,11 @@ public abstract class CRActivity extends FragmentActivity {
 	}
 
 	public List<CRComponent> getComponentes() {
-		return componentes;
+		return allComponentsList;
 	}
 
 	public void setComponentes(List<CRComponent> componentes) {
-		this.componentes = componentes;
+		this.allComponentsList = componentes;
 	}
 
 	public void callbackAdd(Long target, String component) {
