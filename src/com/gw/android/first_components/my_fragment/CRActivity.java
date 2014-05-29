@@ -46,6 +46,7 @@ public abstract class CRActivity extends FragmentActivity {
 	}
 
 	public void addGUIComponent(int id, CRComponent c) {
+		// add a CRComponent, only if this component is not active
 		c.setRelativeFragmentId(relativeGUIIdCont);
 		if (allComponentsList.contains(c)) {
 			if (activeComponentsList.contains(c)) {
@@ -64,13 +65,16 @@ public abstract class CRActivity extends FragmentActivity {
 	}
 
 	public void hideGUIComponent(CRComponent c) {
+		// hide one active component
 		if (activeComponentsList.contains(c)) {
 			transaction.hide(c);
 			activeComponentsList.remove(c);
 		}
 	}
 
-	public void addMultipleGUIComponents(int rId, CRComponent[] array) {
+	public void addMultipleGUIComponentsHidingOthers(int rId,
+			CRComponent[] array) {
+		// add multiple CRComponents, hiding others active components
 		for (int i = 0; i < activeComponentsList.size(); i++) {
 			transaction.hide(activeComponentsList.get(i));
 		}
@@ -81,8 +85,27 @@ public abstract class CRActivity extends FragmentActivity {
 		}
 	}
 
+	public void addMultipleGUIComponents(int rId, CRComponent[] array) {
+		// add multiple CRComponents, NOT hiding others active components
+
+		for (int i = 0; i < array.length; i++) {
+			addGUIComponent(rId, array[i]);
+		}
+	}
+
+	public void addGUIComponentHidingOthers(int rId, CRComponent c) {
+		// add a CRComponent, hiding others active components
+		for (int i = 0; i < activeComponentsList.size(); i++) {
+			transaction.hide(activeComponentsList.get(i));
+		}
+		activeComponentsList.clear();
+
+		addGUIComponent(rId, c);
+
+	}
+
 	public void removeGUIComponent(int id, CRComponent c) {
-		// c.setRelativeFragmentId(relativeGUIIdCont);
+		// remove a CRComponent
 		allComponentsList.remove(c);
 		transaction.remove(c);
 
