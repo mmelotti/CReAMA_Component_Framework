@@ -36,12 +36,13 @@ public class ConecteLoginGUI extends CRComponent {
 
 	// private String urlTest =
 	// "http://apiconecteideias.azurewebsites.net/ideias/getAll";
-	private String urlTest = "http://apiconecteideias.azurewebsites.net/ideias/searchById?id=8107";
+	private String urlVerifyUser = "http://apiconecteideias.azurewebsites.net/usuarios/searchByEmail?email=";
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		View view = inflater.inflate(R.layout.conecte_login_act, container, false);
+		View view = inflater.inflate(R.layout.conecte_login_comp, container,
+				false);
 
 		btnSubmit = (Button) view.findViewById(R.id.loginConecteSubmit);
 		editLogin = (EditText) view.findViewById(R.id.editConecteUser);
@@ -99,7 +100,8 @@ public class ConecteLoginGUI extends CRComponent {
 	void testRequest() {
 
 		Log.e("TEST R LOGIN", "fazendo request....");
-		Request request = new Request(null, urlTest, "get", null);
+		Request request = new Request(null, urlVerifyUser
+				+ "maisonmelotti@gmail.com", "get", null);
 		String header[] = new String[2];
 		header[0] = "X-ApiKey";
 		header[1] = "257F1D3C-57A0-4F34-A937-1538104E97FE";
@@ -111,52 +113,74 @@ public class ConecteLoginGUI extends CRComponent {
 	}
 
 	String loginRequest(String login, String password) {
-		Request request = new Request(null, urlTest, "post", "user.login--"
-				+ login + "__user.password--" + password);
+		Request request = new Request(null, urlVerifyUser, "post",
+				"user.login--" + login + "__user.password--" + password);
 		makeRequest(request);
 		return "";
 	}
 
 	public void atualizarAfterSucces(String r) {
+		if (r != null) {
 
-		try {
+			try {
 
-			Log.i("onde ideia", " ...= ");
+				Log.i("onde ideia", " ...= ");
 
-			JSONObject ideasObject;
-			ideasObject = new JSONObject(r);
+				JSONObject userObject;
+				userObject = new JSONObject(r);
 
-			JSONArray nameArray = ideasObject.names();
-			JSONArray valArray = ideasObject.toJSONArray(nameArray);
-			JSONArray arrayResults = valArray.getJSONArray(0);
-			Log.i("Parseando login antes for", " ...= "+ ideasObject.toString());
-			for (int j = 0; j < arrayResults.length(); j++) {
-				JSONObject oneIdea = arrayResults.getJSONObject(j);
-				Log.i("Parseando ideia dentro for", " ....= " + oneIdea.toString());
-				/*
-				JSONObject userObject = oneIdea.getJSONObject("user");
-				String userName = userObject.get("name").toString();
-				Long idServ = Long.parseLong(oneIdea.get("id").toString());
-				String text = oneIdea.get("text").toString();
+				JSONArray nameArray = userObject.names();
+				JSONArray valArray = userObject.toJSONArray(nameArray);
+				JSONArray arrayResults = valArray.getJSONArray(0);
 
-				// updating comments, adding on DB
-				Long newI = ComponentSimpleModel.getUniqueId(getActivity());
+				User user;
+				String email = "";
+				String pass = null;
 
-				// initCommentDao();
-				// commentDao.insert(comment);
-				// closeDao();
+				// TODO i will get just the first email, should crash with more
+				// than one users email
+				JSONArray emailArray = userObject.getJSONArray("emails");
+				JSONObject emailObject = emailArray.getJSONObject(0);
+				Log.i("Parseando dentro emails!!!",
+						" ...= " + emailObject.toString());
+				email = emailObject.getString("enderecoEmail");
+				pass = userObject.getString("senha");
 
-				Log.i("Parseando login", "text = " + text + idServ + userName);
-				*/
+				Log.i("Parseando login antes for",
+						" ...= " + userObject.toString());
+				for (int j = 0; j < nameArray.length(); j++) {
+					// JSONObject oneIdea = arrayResults.getJSONObject(j);
+					String name = nameArray.getString(j);
+
+					if (nameArray.getString(j).equals("emails")) {
+
+					}
+					Log.i("LOGIN DENro names", " ....= " + name);
+
+				}
+				user = new User();
+				user.setName(userObject.getString("nome"));
+				user.setNascimento(userObject.getString("dataNascimento")
+						.substring(0, 10));
+				user.setEmail(email);
+				if (pass != null) {
+					verifyPassword(pass);
+				}
+
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-			// listview.setAdapter(new CommentAdapter(getActivity(), lista));
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} else { // a resposta veio vazia, nao tem user com o email
+
 		}
 
-		// Log.e("TEST R LOGIN",r);
+	}
 
+	private void verifyPassword(String s) {
+		if (s.equals("minhasenha")) {
+			Log.i("TESTANDO LOGIN after senha", " ....= " + s);
+		}
 	}
 
 }

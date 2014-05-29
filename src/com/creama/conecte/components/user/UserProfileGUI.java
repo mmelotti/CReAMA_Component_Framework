@@ -24,7 +24,7 @@ public class UserProfileGUI extends CRComponent {
 	TextView userName, userEmail, userNascimento;
 	// private String urlTest =
 	// "http://apiconecteideias.azurewebsites.net/ideias/searchById?id=";
-	private String urlTest = "http://apiconecteideias.azurewebsites.net/usuarios/searchByEmail?email=";
+	private String urlUser = "http://apiconecteideias.azurewebsites.net/usuarios/searchByEmail?email=";
 
 	/*
 	 * Raft: ".../ideias/getIdeiasRelacionadas?userid=XXXX" Raft:
@@ -83,7 +83,7 @@ public class UserProfileGUI extends CRComponent {
 	void testRequest() {
 
 		Request request = new Request(null,
-				urlTest + "maisonmelotti@gmail.com", "get", null);
+				urlUser + "maisonmelotti@gmail.com", "get", null);
 		String header[] = new String[2];
 		header[0] = "X-ApiKey";
 		header[1] = "257F1D3C-57A0-4F34-A937-1538104E97FE";
