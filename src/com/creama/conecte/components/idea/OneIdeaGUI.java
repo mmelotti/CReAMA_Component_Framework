@@ -20,29 +20,22 @@ import com.gw.android.first_components.my_fragment.CRComponent;
 @SuppressLint("ValidFragment")
 public class OneIdeaGUI extends CRComponent {
 
-	TextView title,descricao;
-	private String urlTest = "http://apiconecteideias.azurewebsites.net/ideias/searchById?id=";
-
-	private String urlFinal = "/ideias/searchById?id=";
-	
+	TextView title, descricao;
+	private String urlBase = "http://apiconecteideias.azurewebsites.net/";
+	private String urlFinal = "ideias/searchById?id=";
 	Long serverId;
-	
-	public OneIdeaGUI(Long serverId){
-		this.serverId=serverId;
-		Log.e("Request??","after construtor");
+
+	public OneIdeaGUI(Long serverId) {
+		this.serverId = serverId;
+		Log.e("Request??", "after construtor");
 	}
-	
+
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-
 		View view = inflater.inflate(R.layout.conecte_one_idea_comp, container,
 				false);
-		
-		
-		title=(TextView) view.findViewById(R.id.idea_titulo_one);
-		descricao=(TextView)view.findViewById(R.id.idea_body_one);
-		
-
+		title = (TextView) view.findViewById(R.id.idea_titulo_one);
+		descricao = (TextView) view.findViewById(R.id.idea_body_one);
 		AsyncRequestHandler mHandler = new AsyncRequestHandler() {
 			@Override
 			public void onSuccess(String response, Request request) {
@@ -55,61 +48,42 @@ public class OneIdeaGUI extends CRComponent {
 			}
 		};
 		setComponentRequestCallback(mHandler);
-		
-		
-		
-		
-
 		return view;
 	}
-
 	// http://conecteideias.azurewebsites.net/Ideia/Create
-
 	// http://apiconecteideias.azurewebsites.net/ideias/searchById?id=1067
-
 	// "X-ApiKey" e o value dele é 257F1D3C-57A0-4F34-A937-1538104E97FE
 
 	@Override
 	protected void onBind() {
 		// getConnectionManager().getCookiesInfo();
 		testRequest();
-
 	}
 
 	void testRequest() {
-
-		Request request = new Request(null, urlTest+serverId, "get", null);
+		Request request = new Request(null, urlBase + urlFinal + serverId,
+				"get", null);
 		String header[] = new String[2];
 		header[0] = "X-ApiKey";
 		header[1] = "257F1D3C-57A0-4F34-A937-1538104E97FE";
 		request.onlyOneHeader(header);
 		// request.setKeyValuePairs(keyValuePairs);
-
-		 makeRequest(request);
-
+		makeRequest(request);
 	}
 
 	public void atualizarAfterSucces(String r) {
 		try {
-
 			Log.i("onde ideia", " ...= ");
-
 			JSONObject ideasObject;
 			ideasObject = new JSONObject(r);
-
 			JSONArray nameArray = ideasObject.names();
-			JSONArray valArray = ideasObject.toJSONArray(nameArray);
-			JSONArray arrayResults = valArray.getJSONArray(0);
-			
 			Idea idea;
-			
 			Log.i("Parseando login antes for",
 					" ...= " + ideasObject.toString());
 			for (int j = 0; j < nameArray.length(); j++) {
-				//JSONObject oneIdea = arrayResults.getJSONObject(j);
-				String name=nameArray.getString(j);
-				Log.i("Parseando ideia dentro for",
-						" ....= " + name);
+				// JSONObject oneIdea = arrayResults.getJSONObject(j);
+				String name = nameArray.getString(j);
+				Log.i("Parseando ideia dentro for", " ....= " + name);
 				/*
 				 * JSONObject userObject = oneIdea.getJSONObject("user"); String
 				 * userName = userObject.get("name").toString(); Long idServ =
@@ -126,25 +100,19 @@ public class OneIdeaGUI extends CRComponent {
 				 * userName);
 				 */
 			}
-			idea=new Idea();
+			idea = new Idea();
 			idea.setTitle(ideasObject.getString("titulo"));
 			idea.setText(ideasObject.getString("descricao"));
 			setComponentGUI(idea);
 			// listview.setAdapter(new CommentAdapter(getActivity(), lista));
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-		// Log.e("TEST R LOGIN",r);
-
 	}
 
-	
-	private void setComponentGUI(Idea idea){
-		
+	private void setComponentGUI(Idea idea) {
 		title.setText(idea.getTitle());
 		descricao.setText(idea.getText());
 	}
-	
+
 }
