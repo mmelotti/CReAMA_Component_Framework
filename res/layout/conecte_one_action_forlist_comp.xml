@@ -1,0 +1,23 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:minHeight="50dp"
+    android:orientation="vertical"
+    android:padding="5dp" >
+
+    <TextView
+        android:id="@+id/data"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" 
+        android:singleLine="true"
+        android:text="bbbb"
+        android:textColor="#AAAAAA" />
+
+    <TextView
+        android:id="@+id/texto" 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" 
+        android:text="aaaaaaaa" 
+        android:textColor="#000000" />
+
+</LinearLayout>
