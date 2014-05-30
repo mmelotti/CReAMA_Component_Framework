@@ -30,7 +30,7 @@ public class ConecteLoginGUI extends CRComponent {
 
 	TextView resultTxt;
 	String urlLogin;
-
+	private boolean loginVerified=false;
 	EditText editLogin, editPassword;
 	Button btnSubmit;
 
@@ -49,8 +49,8 @@ public class ConecteLoginGUI extends CRComponent {
 		editPassword = (EditText) view.findViewById(R.id.editConectePass);
 
 		// TODO apagar isso aqui, é só pra teste
-		editLogin.setText("admin");
-		editPassword.setText("123");
+		editLogin.setText("maisonmelotti@gmail.com");
+		editPassword.setText("minhasenha");
 
 		btnSubmit.setOnClickListener(new OnClickListener() {
 			@Override
@@ -120,8 +120,8 @@ public class ConecteLoginGUI extends CRComponent {
 	}
 
 	public void atualizarAfterSucces(String r) {
-		if (r != null) {
-
+		if (r != null ) {
+			
 			try {
 
 				Log.i("onde ideia", " ...= ");
@@ -180,7 +180,12 @@ public class ConecteLoginGUI extends CRComponent {
 	private void verifyPassword(String s) {
 		if (s.equals("minhasenha")) {
 			Log.i("TESTANDO LOGIN after senha", " ....= " + s);
+			loginVerified=true;
 		}
 	}
 
+	public boolean isLoginVerified(){
+		return loginVerified;
+	}
+	
 }

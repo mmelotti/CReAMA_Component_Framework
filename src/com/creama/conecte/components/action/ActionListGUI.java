@@ -1,5 +1,9 @@
 package com.creama.conecte.components.action;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -10,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.creama.conecte.components.idea.Idea;
@@ -19,34 +24,34 @@ import com.gw.android.components.request.Request;
 import com.gw.android.first_components.my_fragment.CRComponent;
 
 @SuppressLint("ValidFragment")
-public class ActionListGUI extends CRComponent {
+public abstract class ActionListGUI extends CRComponent {
 
-	TextView title,descricao;
-	private String urlTest = "http://apiconecteideias.azurewebsites.net/";
+	TextView title, descricao;
+	private String urlBase = "http://apiconecteideias.azurewebsites.net/";
 
-	
+	private ListView listview;
 	private String urlFinal = "feed/lastestActivitiesbyId?Range=";
 	private String urlFinal2 = "&id=";
-	
-	
+
+	private List<Action> lista = new ArrayList<Action>();
+
 	Long serverId;
-	
-	public ActionListGUI(Long serverId){
-		this.serverId=serverId;
-		Log.e("Request??","after construtor");
+
+	public ActionListGUI(Long serverId) {
+		this.serverId = serverId;
+		Log.e("Request??", "after construtor");
 	}
-	
+
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		View view = inflater.inflate(R.layout.conecte_list_comments_comp, container,
-				false);
-		
-		
-		//title=(TextView) view.findViewById(R.id.idea_titulo_one);
-		//descricao=(TextView)view.findViewById(R.id.idea_body_one);
-		
+		View view = inflater.inflate(R.layout.conecte_list_actions_comp,
+				container, false);
 
+		// title=(TextView) view.findViewById(R.id.idea_titulo_one);
+		// descricao=(TextView)view.findViewById(R.id.idea_body_one);
+
+		listview = (ListView) view.findViewById(R.id.ideaListView);
 		AsyncRequestHandler mHandler = new AsyncRequestHandler() {
 			@Override
 			public void onSuccess(String response, Request request) {
@@ -55,14 +60,10 @@ public class ActionListGUI extends CRComponent {
 
 			@Override
 			public void onFailure(Throwable arg0, String arg1, Request request) {
-				//atualizarAfterSucces("erro");
+				// atualizarAfterSucces("erro");
 			}
 		};
 		setComponentRequestCallback(mHandler);
-		
-		
-		
-		
 
 		return view;
 	}
@@ -82,73 +83,62 @@ public class ActionListGUI extends CRComponent {
 
 	void testRequest() {
 
-		Request request = new Request(null, urlTest+serverId, "get", null);
+		Request request = new Request(null, urlBase + urlFinal + 5 + urlFinal2
+				+ serverId, "get", null);
 		String header[] = new String[2];
 		header[0] = "X-ApiKey";
 		header[1] = "257F1D3C-57A0-4F34-A937-1538104E97FE";
 		request.onlyOneHeader(header);
 		// request.setKeyValuePairs(keyValuePairs);
 
-		 makeRequest(request);
+		makeRequest(request);
 
 	}
 
+	@SuppressWarnings("deprecation")
 	public void atualizarAfterSucces(String r) {
+
+		lista.clear();
+		Idea empty = new Idea();
+		empty.setTitle("Carregando...");
+		empty.setText("");
 		try {
-
-			Log.i("onde ideia", " ...= ");
-
-			JSONObject ideasObject;
-			ideasObject = new JSONObject(r);
-
-			JSONArray nameArray = ideasObject.names();
-			JSONArray valArray = ideasObject.toJSONArray(nameArray);
-			JSONArray arrayResults = valArray.getJSONArray(0);
-			
-			Idea idea;
-			
-			Log.i("Parseando login antes for",
-					" ...= " + ideasObject.toString());
-			for (int j = 0; j < nameArray.length(); j++) {
-				//JSONObject oneIdea = arrayResults.getJSONObject(j);
-				String name=nameArray.getString(j);
-				Log.i("Parseando ideia dentro for",
-						" ....= " + name);
-				/*
-				 * JSONObject userObject = oneIdea.getJSONObject("user"); String
-				 * userName = userObject.get("name").toString(); Long idServ =
-				 * Long.parseLong(oneIdea.get("id").toString()); String text =
-				 * oneIdea.get("text").toString();
-				 * 
-				 * // updating comments, adding on DB Long newI =
-				 * ComponentSimpleModel.getUniqueId(getActivity());
-				 * 
-				 * // initCommentDao(); // commentDao.insert(comment); //
-				 * closeDao();
-				 * 
-				 * Log.i("Parseando login", "text = " + text + idServ +
-				 * userName);
-				 */
+			JSONArray ideasArray;
+			ideasArray = new JSONArray(r);
+			Log.i("PASS - going to json object", " bug?????...= ");
+			for (int j = 0; j < ideasArray.length(); j++) {
+				JSONObject ideasObject = (JSONObject) ideasArray.get(j);
+				JSONArray namesArray = ideasObject.names();
+				String texto, dataHora;
+				texto = ideasObject.getString("texto");
+				dataHora = ideasObject.getString("dataHora");
+				Log.i("entrando names array", " ...= ");
+				for (int i = 0; i < namesArray.length(); i++) {
+					String string = (String) namesArray.get(i);
+					Log.i("dentro names = ", string + " ...= ");
+				}
+				Action action = new Action();
+				action.setTexto(texto);
+				action.setDataHora(new Date(dataHora));
+				lista.add(action);
+				Log.i("texto = ", texto);
+				Log.i("data hora = ", dataHora);
+				Log.i("before break", " ...= ");
 			}
-			idea=new Idea();
-			idea.setTitle(ideasObject.getString("titulo"));
-			idea.setText(ideasObject.getString("descricao"));
-			//setComponentGUI(idea);
-			// listview.setAdapter(new CommentAdapter(getActivity(), lista));
+
+			ActionListAdapter myAdapter = new ActionListAdapter(lista) {
+				@Override
+				public void onClickOneItensTitleComponent(View v, Long id) {
+					Log.e("ONNon clic test", "dentro component");
+					onClickOneItensTitleApplication(v, id);
+				}
+			};
+			listview.setAdapter(myAdapter);
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-		// Log.e("TEST R LOGIN",r);
-
 	}
 
-	
-	private void setComponentGUI(Idea idea){
-		
-		title.setText(idea.getTitle());
-		descricao.setText(idea.getText());
-	}
-	
+	public abstract void onClickOneItensTitleApplication(View v, Long id);
+
 }

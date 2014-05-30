@@ -11,14 +11,11 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.creama.conecte.components.idea.Idea;
-import com.creama.conecte.components.idea.IdeaListAdapter;
 import com.gw.android.R;
 import com.gw.android.components.connection_manager.AsyncRequestHandler;
 import com.gw.android.components.request.Request;
@@ -33,16 +30,16 @@ public class CommentListGUI extends CRComponent {
 
 	private String urlFinal = "/comentarios/searchByIdea?idIdeia=";
 	private List<Comment> lista = new ArrayList<Comment>();
-	private Long serverId, targetId;
+	private Long targetId;
 	CommentListAdapter myAdapter;
 
 	public CommentListGUI(Long serverId) {
-		this.serverId = serverId;
+
 		Log.e("Request??", "after construtor");
 	}
 
 	public CommentListGUI(Long serverId, Long targetId) {
-		this.serverId = serverId;
+
 		this.targetId = targetId;
 		Log.e("Request??", "after construtor");
 	}
@@ -56,17 +53,14 @@ public class CommentListGUI extends CRComponent {
 		myAdapter = new CommentListAdapter(lista) {
 			@Override
 			public void onClickOneItensTitleComponent(View v, Long id) {
-				// TODO Auto-generated method stub
 				Log.e("ONNon clic test", "dentro component comment");
 			}
 		};
-		
-
 		// title=(TextView) view.findViewById(R.id.idea_titulo_one);
 		// descricao=(TextView)view.findViewById(R.id.idea_body_one);
 		listview = (ListView) view.findViewById(R.id.listComments);
 		listview.setAdapter(myAdapter);
-		//listview.setScrollContainer(false);
+		// listview.setScrollContainer(false);
 		/*
 		 * listview.setOnTouchListener(new ListView.OnTouchListener() {
 		 * 
@@ -82,7 +76,6 @@ public class CommentListGUI extends CRComponent {
 		 * // Handle ListView touch events. v.onTouchEvent(event); return true;
 		 * } });
 		 */
-
 		AsyncRequestHandler mHandler = new AsyncRequestHandler() {
 			@Override
 			public void onSuccess(String response, Request request) {
@@ -95,33 +88,25 @@ public class CommentListGUI extends CRComponent {
 			}
 		};
 		setComponentRequestCallback(mHandler);
-
 		return view;
 	}
 
 	// http://conecteideias.azurewebsites.net/Ideia/Create
-
 	// http://apiconecteideias.azurewebsites.net/ideias/searchById?id=1067
-
 	// "X-ApiKey" e o value dele é 257F1D3C-57A0-4F34-A937-1538104E97FE
 
 	@Override
 	protected void onBind() {
-		// getConnectionManager().getCookiesInfo();
 		testRequest();
-
 	}
 
 	void testRequest() {
-
 		Request request = new Request(null, urlBase + urlFinal + targetId,
 				"get", null);
 		String header[] = new String[2];
 		header[0] = "X-ApiKey";
 		header[1] = "257F1D3C-57A0-4F34-A937-1538104E97FE";
 		request.onlyOneHeader(header);
-		// request.setKeyValuePairs(keyValuePairs);
-
 		makeRequest(request);
 
 	}
@@ -130,50 +115,31 @@ public class CommentListGUI extends CRComponent {
 		try {
 
 			lista.clear();
-
 			JSONArray commentsArray;
 			commentsArray = new JSONArray(r);
-
 			for (int j = 0; j < commentsArray.length(); j++) {
 				Log.i("Parseando primeiro for comemnt", " ...= "
 						+ commentsArray.get(j).toString());
 				JSONObject commentObject = (JSONObject) commentsArray.get(j);
 				JSONArray namesArray = commentObject.names();
-
-				String titulo, descricao;
 				Comment comment = new Comment();
 				comment.setNome(commentObject.getString("nome"));
 				comment.setTexto(commentObject.getString("texto"));
 				Log.i("vai add na lista", " ...= " + comment.getNome());
 				lista.add(comment);
-
 				for (int i = 0; i < namesArray.length(); i++) {
 					String string = (String) namesArray.get(i);
 					Log.i("dentro names = ", string + " ...= ");
 				}
-				
 			}
 			myAdapter.notifyDataSetChanged();
-			//listview.setScrollContainer(false);
-			// setComponentGUI(idea);
-			// listview.setAdapter(new CommentAdapter(getActivity(), lista));
+
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-		// Log.e("TEST R LOGIN",r);
-
 	}
 
-	private void setComponentGUI(Idea idea) {
-
-		title.setText(idea.getTitle());
-		descricao.setText(idea.getText());
-	}
-	
 	public static void setListViewHeightBasedOnChildren(ListView listView) {
-		int a=1;
 	}
 
 }
