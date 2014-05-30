@@ -47,7 +47,7 @@ public abstract class IdeaListGUI extends CRComponent {
 		finalUrl = new String[4];
 		finalUrl[0] = "ideias/getAll";
 		finalUrl[1] = "mobile/latestIdeas?range=";
-		finalUrl[2] = "ideas/getIdeiasRelacionadas?userid=";
+		finalUrl[2] = "ideias/getIdeiasRelacionadas?userid=";
 	}
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -137,8 +137,9 @@ public abstract class IdeaListGUI extends CRComponent {
 		empty.setText("");
 		try {
 			JSONArray ideasArray;
+			Log.i("BEFORE NEW ARRAY em idea", " bug?????...= ");
 			ideasArray = new JSONArray(r);
-			Log.i("PASS - going to json object", " bug?????...= ");
+			Log.i("PASS - going to json object", " array length?...= "+ideasArray.length());
 			for (int j = 0; j < ideasArray.length(); j++) {
 				JSONObject ideasObject = (JSONObject) ideasArray.get(j);
 				JSONArray namesArray = ideasObject.names();
@@ -149,7 +150,7 @@ public abstract class IdeaListGUI extends CRComponent {
 				Log.i("entrando names array", " ...= ");
 				for (int i = 0; i < namesArray.length(); i++) {
 					String string = (String) namesArray.get(i);
-					Log.i("dentro names = ", string + " ...= ");
+					Log.i("dentro IDEA names = ", string + " ...= ");
 				}
 				Idea idea = new Idea();
 				idea.setText(descricao);

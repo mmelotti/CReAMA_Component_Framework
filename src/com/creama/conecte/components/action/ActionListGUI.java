@@ -18,7 +18,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.creama.conecte.components.idea.Idea;
+import com.github.johnpersano.supertoasts.SuperToast;
 import com.gw.android.R;
+import com.gw.android.Utils.SuperToastUtils;
 import com.gw.android.components.connection_manager.AsyncRequestHandler;
 import com.gw.android.components.request.Request;
 import com.gw.android.first_components.my_fragment.CRComponent;
@@ -61,6 +63,11 @@ public abstract class ActionListGUI extends CRComponent {
 			@Override
 			public void onFailure(Throwable arg0, String arg1, Request request) {
 				// atualizarAfterSucces("erro");
+				if (arg1.contains("não encontrado")) {
+					SuperToastUtils.showSuperToast(getActivity(),
+							SuperToast.BACKGROUND_GREENTRANSLUCENT,
+							"Nenhuma atividade recente.");
+				}
 			}
 		};
 		setComponentRequestCallback(mHandler);

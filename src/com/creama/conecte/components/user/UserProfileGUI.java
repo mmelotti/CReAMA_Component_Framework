@@ -51,6 +51,9 @@ public class UserProfileGUI extends CRComponent {
 
 			@Override
 			public void onFailure(Throwable arg0, String arg1, Request request) {
+				if(arg1.contains("Usuário não encontrado")){
+					
+				}
 				atualizarAfterSucces("erro");
 			}
 		};
@@ -81,7 +84,7 @@ public class UserProfileGUI extends CRComponent {
 
 	public void atualizarAfterSucces(String r) {
 		try {
-			Log.i("onde ideia", " ...= ");
+			Log.i("USER!!", " ...= ");
 			JSONObject userObject;
 			userObject = new JSONObject(r);
 			JSONArray nameArray = userObject.names();
@@ -94,13 +97,13 @@ public class UserProfileGUI extends CRComponent {
 			Log.i("Parseando dentro emails!!!",
 					" ...= " + emailObject.toString());
 			email = emailObject.getString("enderecoEmail");
-			Log.i("Parseando login antes for", " ...= " + userObject.toString());
+			Log.i("Parseando user antes for", " ...= " + userObject.toString());
 			for (int j = 0; j < nameArray.length(); j++) {
 				// JSONObject oneIdea = arrayResults.getJSONObject(j);
 				String name = nameArray.getString(j);
 				if (nameArray.getString(j).equals("emails")) {
 				}
-				Log.i("Parseando ideia dentro for", " ....= " + name);
+				Log.i("Parseando USER dentro for", " ....= " + name);
 			}
 			user = new User();
 			user.setName(userObject.getString("nome"));
