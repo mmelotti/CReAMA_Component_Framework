@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.creama.conecte.components.idea.Idea;
 import com.gw.android.R;
 import com.gw.android.components.connection_manager.AsyncRequestHandler;
 import com.gw.android.components.request.Request;
@@ -25,15 +24,11 @@ public class UserProfileGUI extends CRComponent {
 	// private String urlTest =
 	// "http://apiconecteideias.azurewebsites.net/ideias/searchById?id=";
 	private String urlUser = "http://apiconecteideias.azurewebsites.net/usuarios/searchByEmail?email=";
-
 	/*
 	 * Raft: ".../ideias/getIdeiasRelacionadas?userid=XXXX" Raft:
 	 * ".../imagens/lastestByUser?Range=XX&userID=XXXX" Raft:
 	 * ".../feed/lastestActivitiesbyId?Range=XX&id=XXXX" Raft: essas tres url
 	 */
-
-	private String urlFinal = "/ideias/searchById?id=";
-
 	Long serverId;
 
 	public UserProfileGUI(Long serverId) {
@@ -43,14 +38,11 @@ public class UserProfileGUI extends CRComponent {
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-
 		View view = inflater.inflate(R.layout.conecte_user_comp, container,
 				false);
-
 		userName = (TextView) view.findViewById(R.id.user_name);
 		userEmail = (TextView) view.findViewById(R.id.user_email);
 		userNascimento = (TextView) view.findViewById(R.id.user_nascimento);
-
 		AsyncRequestHandler mHandler = new AsyncRequestHandler() {
 			@Override
 			public void onSuccess(String response, Request request) {
@@ -63,25 +55,20 @@ public class UserProfileGUI extends CRComponent {
 			}
 		};
 		setComponentRequestCallback(mHandler);
-
 		return view;
 	}
 
 	// http://conecteideias.azurewebsites.net/Ideia/Create
-
 	// http://apiconecteideias.azurewebsites.net/ideias/searchById?id=1067
-
 	// "X-ApiKey" e o value dele é 257F1D3C-57A0-4F34-A937-1538104E97FE
 
 	@Override
 	protected void onBind() {
 		// getConnectionManager().getCookiesInfo();
 		testRequest();
-
 	}
 
 	void testRequest() {
-
 		Request request = new Request(null,
 				urlUser + "maisonmelotti@gmail.com", "get", null);
 		String header[] = new String[2];
@@ -89,26 +76,17 @@ public class UserProfileGUI extends CRComponent {
 		header[1] = "257F1D3C-57A0-4F34-A937-1538104E97FE";
 		request.onlyOneHeader(header);
 		// request.setKeyValuePairs(keyValuePairs);
-
 		makeRequest(request);
-
 	}
 
 	public void atualizarAfterSucces(String r) {
 		try {
-
 			Log.i("onde ideia", " ...= ");
-
 			JSONObject userObject;
 			userObject = new JSONObject(r);
-
 			JSONArray nameArray = userObject.names();
-			JSONArray valArray = userObject.toJSONArray(nameArray);
-			JSONArray arrayResults = valArray.getJSONArray(0);
-
 			User user;
 			String email = "";
-
 			// TODO i will get just the first email, should crash with more than
 			// one users email
 			JSONArray emailArray = userObject.getJSONArray("emails");
@@ -116,42 +94,18 @@ public class UserProfileGUI extends CRComponent {
 			Log.i("Parseando dentro emails!!!",
 					" ...= " + emailObject.toString());
 			email = emailObject.getString("enderecoEmail");
-
 			Log.i("Parseando login antes for", " ...= " + userObject.toString());
 			for (int j = 0; j < nameArray.length(); j++) {
 				// JSONObject oneIdea = arrayResults.getJSONObject(j);
 				String name = nameArray.getString(j);
-
 				if (nameArray.getString(j).equals("emails")) {
-					/*
-					 * JSONArray emailArray = nameArray.getJSONArray(j);
-					 * JSONObject emailObject; emailObject =
-					 * emailArray.getJSONObject(0);
-					 * Log.i("Parseando dentro emails!!!", " ...= " +
-					 * emailObject.toString());
-					 * email=emailObject.getString("enderecoEmail");
-					 */
 				}
 				Log.i("Parseando ideia dentro for", " ....= " + name);
-				/*
-				 * JSONObject userObject = oneIdea.getJSONObject("user"); String
-				 * userName = userObject.get("name").toString(); Long idServ =
-				 * Long.parseLong(oneIdea.get("id").toString()); String text =
-				 * oneIdea.get("text").toString();
-				 * 
-				 * // updating comments, adding on DB Long newI =
-				 * ComponentSimpleModel.getUniqueId(getActivity());
-				 * 
-				 * // initCommentDao(); // commentDao.insert(comment); //
-				 * closeDao();
-				 * 
-				 * Log.i("Parseando login", "text = " + text + idServ +
-				 * userName);
-				 */
 			}
 			user = new User();
 			user.setName(userObject.getString("nome"));
-			user.setNascimento(userObject.getString("dataNascimento").substring(0, 10));
+			user.setNascimento(userObject.getString("dataNascimento")
+					.substring(0, 10));
 			user.setEmail(email);
 			setComponentGUI(user);
 			// listview.setAdapter(new CommentAdapter(getActivity(), lista));
@@ -159,13 +113,9 @@ public class UserProfileGUI extends CRComponent {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-		// Log.e("TEST R LOGIN",r);
-
 	}
 
 	private void setComponentGUI(User idea) {
-
 		userName.setText(idea.getName());
 		userEmail.setText(idea.getEmail());
 		userNascimento.setText(idea.getNascimento());
