@@ -146,7 +146,7 @@ public abstract class IdeaListGUI extends CRComponent {
 				String titulo, descricao;
 				titulo = ideasObject.getString("titulo");
 				descricao = ideasObject.getString("descricao");
-				Long idServer = ideasObject.getLong("id");
+	
 				Log.i("entrando names array", " ...= ");
 				for (int i = 0; i < namesArray.length(); i++) {
 					String string = (String) namesArray.get(i);
@@ -155,7 +155,11 @@ public abstract class IdeaListGUI extends CRComponent {
 				Idea idea = new Idea();
 				idea.setText(descricao);
 				idea.setTitle(titulo);
-				idea.setServerId(idServer);
+				if(requestType!=2){
+					Long idServer = ideasObject.getLong("id");
+					idea.setServerId(idServer);
+				}
+				
 				lista.add(idea);
 				Log.i("Titulo = ", titulo);
 				Log.i("Descricao = ", descricao);

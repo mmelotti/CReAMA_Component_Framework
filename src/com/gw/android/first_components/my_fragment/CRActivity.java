@@ -5,6 +5,9 @@ import java.util.List;
 
 import com.gw.android.R;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -261,6 +264,19 @@ public abstract class CRActivity extends FragmentActivity {
 		list = c.listToMany(name, target, this);
 
 		return list;
+	}
+
+	public void putSharedData(String key, String value) {
+		SharedPreferences testPrefs = getSharedPreferences("test_prefs",
+				Context.MODE_PRIVATE);
+		Editor edit = testPrefs.edit();
+		edit.putString(key, value).commit();
+	}
+
+	public String getSharedData(String key) {
+		SharedPreferences testPrefs = getSharedPreferences("test_prefs",
+				Context.MODE_PRIVATE);
+		return testPrefs.getString(key, "");
 	}
 
 }

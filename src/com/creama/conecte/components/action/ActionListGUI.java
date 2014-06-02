@@ -18,6 +18,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.creama.conecte.components.idea.Idea;
+import com.creama.conecte.components.test.DateFormat;
 import com.github.johnpersano.supertoasts.SuperToast;
 import com.gw.android.R;
 import com.gw.android.Utils.SuperToastUtils;
@@ -37,10 +38,10 @@ public abstract class ActionListGUI extends CRComponent {
 
 	private List<Action> lista = new ArrayList<Action>();
 
-	Long serverId;
+	Long userId;
 
 	public ActionListGUI(Long serverId) {
-		this.serverId = serverId;
+		this.userId = serverId;
 		Log.e("Request??", "after construtor");
 	}
 
@@ -53,7 +54,7 @@ public abstract class ActionListGUI extends CRComponent {
 		// title=(TextView) view.findViewById(R.id.idea_titulo_one);
 		// descricao=(TextView)view.findViewById(R.id.idea_body_one);
 
-		listview = (ListView) view.findViewById(R.id.ideaListView);
+		listview = (ListView) view.findViewById(R.id.listActions);
 		AsyncRequestHandler mHandler = new AsyncRequestHandler() {
 			@Override
 			public void onSuccess(String response, Request request) {
@@ -91,7 +92,7 @@ public abstract class ActionListGUI extends CRComponent {
 	void testRequest() {
 
 		Request request = new Request(null, urlBase + urlFinal + 5 + urlFinal2
-				+ serverId, "get", null);
+				+ userId, "get", null);
 		String header[] = new String[2];
 		header[0] = "X-ApiKey";
 		header[1] = "257F1D3C-57A0-4F34-A937-1538104E97FE";
@@ -102,7 +103,7 @@ public abstract class ActionListGUI extends CRComponent {
 
 	}
 
-	@SuppressWarnings("deprecation")
+
 	public void atualizarAfterSucces(String r) {
 
 		lista.clear();
@@ -116,8 +117,10 @@ public abstract class ActionListGUI extends CRComponent {
 			for (int j = 0; j < ideasArray.length(); j++) {
 				JSONObject ideasObject = (JSONObject) ideasArray.get(j);
 				JSONArray namesArray = ideasObject.names();
-				String texto, dataHora;
+				String texto, dataHora,nomeUsuario,titulo;
 				texto = ideasObject.getString("texto");
+				nomeUsuario = ideasObject.getString("nomeUsuario");
+				titulo = ideasObject.getString("titulo");
 				dataHora = ideasObject.getString("dataHora");
 				Log.i("entrando names array", " ...= ");
 				for (int i = 0; i < namesArray.length(); i++) {
@@ -126,7 +129,10 @@ public abstract class ActionListGUI extends CRComponent {
 				}
 				Action action = new Action();
 				action.setTexto(texto);
-				action.setDataHora(new Date(dataHora));
+				action.setTitulo(texto);
+				action.setNomeUsuario(nomeUsuario);
+				//TODO acertar hora
+				action.setDataHora(null);
 				lista.add(action);
 				Log.i("texto = ", texto);
 				Log.i("data hora = ", dataHora);

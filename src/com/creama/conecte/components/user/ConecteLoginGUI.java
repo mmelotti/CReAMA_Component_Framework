@@ -23,11 +23,12 @@ import com.gw.android.first_components.my_fragment.CRComponent;
 
 public class ConecteLoginGUI extends CRComponent {
 
-	TextView resultTxt;
-	String urlLogin;
+	private TextView resultTxt;
+	private String urlLogin;
 	private boolean loginVerified = false;
-	EditText editLogin, editPassword;
-	Button btnSubmit;
+	private EditText editLogin, editPassword;
+	private Button btnSubmit;
+	private User user;
 
 	// private String urlTest =
 	// "http://apiconecteideias.azurewebsites.net/ideias/getAll";
@@ -42,7 +43,7 @@ public class ConecteLoginGUI extends CRComponent {
 		editPassword = (EditText) view.findViewById(R.id.editConectePass);
 		// TODO apagar isso aqui, é só pra teste
 		editLogin.setText("victoraft@gmail.com");
-		editPassword.setText("minhasenha");
+		editPassword.setText("12345678");
 		btnSubmit.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -85,8 +86,8 @@ public class ConecteLoginGUI extends CRComponent {
 
 	void testRequest() {
 		Log.e("TEST R LOGIN", "fazendo request....");
-		Request request = new Request(null, urlVerifyUser
-				+ editLogin.getText(), "get", null);
+		Request request = new Request(null,
+				urlVerifyUser + editLogin.getText(), "get", null);
 		String header[] = new String[2];
 		header[0] = "X-ApiKey";
 		header[1] = "257F1D3C-57A0-4F34-A937-1538104E97FE";
@@ -110,7 +111,7 @@ public class ConecteLoginGUI extends CRComponent {
 				JSONObject userObject;
 				userObject = new JSONObject(r);
 				JSONArray nameArray = userObject.names();
-				User user;
+
 				String email = "";
 				String pass = null;
 				// TODO i will get just the first email, should crash with more
@@ -135,6 +136,10 @@ public class ConecteLoginGUI extends CRComponent {
 				user.setNascimento(userObject.getString("dataNascimento")
 						.substring(0, 10));
 				user.setEmail(email);
+				user.setId(userObject.getLong("id"));
+
+				Log.i("LOGIN AFTER ID", " ....= " + pass
+						+ "SENHA ID" + userObject.getLong("id"));
 				if (pass != null) {
 					verifyPassword(pass);
 				}
@@ -146,9 +151,13 @@ public class ConecteLoginGUI extends CRComponent {
 	}
 
 	private void verifyPassword(String s) {
-		if (s.equals(editPassword.getText())) {
-			Log.i("TESTANDO LOGIN after senha", " ....= " + s);
+		
+		Log.i("dentro VERIFICANDO", s+" s---gettexto " +editPassword.getText());
+		if (s.equals(editPassword.getText().toString())) {
+			Log.i("TESTANDO USER ID", user.getId() + " id---senha" + " ....= "
+					+ s);
 			loginVerified = true;
+			putSharedData("userId", user.getId() + "");
 		}
 	}
 

@@ -59,7 +59,7 @@ public abstract class ActionListAdapter extends BaseAdapter {
 		final Action f = list.get(position);
 		if (f != null) {
 			viewHolder.texto.setText(f.getTexto());
-			viewHolder.data.setText(DateFormat.parseDate(f.dataHora));
+			//viewHolder.data.setText(DateFormat.parseDate(f.dataHora));
 		}
 		return itemView;
 	}

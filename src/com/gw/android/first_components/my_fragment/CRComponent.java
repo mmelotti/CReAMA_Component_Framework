@@ -14,6 +14,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.IBinder;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
@@ -30,13 +31,13 @@ public abstract class CRComponent extends GenericComponent {
 	private AsyncRequestHandler applicationFileHandler = new AsyncRequestHandler();
 
 	private RequestListener component = null;
-	private String nick,componentType="";
-	private int iconResource=0;
+	private String nick, componentType = "";
+	private int iconResource = 0;
 	private static String MSG_ENVIOU = "enviou";
 
 	private int relativeFragmentId = -1;
-	
-	boolean trackable=false;
+
+	boolean trackable = false;
 
 	public void reloadActivity() {
 		Activity a = getActivity();
@@ -100,8 +101,6 @@ public abstract class CRComponent extends GenericComponent {
 		this.nick = nick;
 	}
 
-	
-	
 	public int getIconResource() {
 		return iconResource;
 	}
@@ -227,6 +226,19 @@ public abstract class CRComponent extends GenericComponent {
 		return testPrefs.getString("base_url", "");
 	}
 
+	public String getSharedData(String key) {
+		SharedPreferences testPrefs = getActivity().getApplication()
+				.getSharedPreferences("test_prefs", Context.MODE_PRIVATE);
+		return testPrefs.getString(key, "");
+	}
+
+	public void putSharedData(String key, String value) {
+		SharedPreferences testPrefs = getActivity().getApplication()
+				.getSharedPreferences("test_prefs", Context.MODE_PRIVATE);
+		Editor edit = testPrefs.edit();
+		edit.putString(key, value).commit();
+	}
+
 	void doUnbindService() {
 		if (mIsBound) {
 			// Detach our existing connection.
@@ -246,7 +258,7 @@ public abstract class CRComponent extends GenericComponent {
 	@Override
 	public void onStart() {
 		super.onStart();
-		Log.e("retain instance","ok");
+		Log.e("retain instance", "ok");
 		setRetainInstance(!trackable);
 		doBindService();
 	}
@@ -254,13 +266,13 @@ public abstract class CRComponent extends GenericComponent {
 	public boolean isTrackable() {
 		return trackable;
 	}
-	
+
 	public void setTrackable(boolean t) {
-		Log.e("set trackable","ok");
+		Log.e("set trackable", "ok");
 		trackable = t;
 	}
-	
-	public Coordinates getCoordinates(){
+
+	public Coordinates getCoordinates() {
 		return new Coordinates(null, null, null, -20.4, -40.30, null, null,
 				null);
 	}
