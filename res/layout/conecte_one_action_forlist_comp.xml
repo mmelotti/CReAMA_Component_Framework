@@ -1,7 +1,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+    android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:minHeight="50dp"
     android:orientation="vertical"
     android:padding="5dp" >
 
@@ -10,14 +9,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" 
         android:singleLine="true"
-        android:text="bbbb"
+        android:text=""
         android:textColor="#AAAAAA" />
 
     <TextView
         android:id="@+id/texto" 
         android:layout_width="match_parent"
         android:layout_height="wrap_content" 
-        android:text="aaaaaaaa" 
+        android:text="" 
         android:textColor="#000000" />
 
 </LinearLayout>

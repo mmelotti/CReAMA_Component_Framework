@@ -42,8 +42,8 @@ public class ConecteLoginGUI extends CRComponent {
 		editLogin = (EditText) view.findViewById(R.id.editConecteUser);
 		editPassword = (EditText) view.findViewById(R.id.editConectePass);
 		// TODO apagar isso aqui, é só pra teste
-		editLogin.setText("victoraft@gmail.com");
-		editPassword.setText("12345678");
+		editLogin.setText("maisonmelotti@gmail.com");
+		editPassword.setText("minhasenha");
 		btnSubmit.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -138,8 +138,8 @@ public class ConecteLoginGUI extends CRComponent {
 				user.setEmail(email);
 				user.setId(userObject.getLong("id"));
 
-				Log.i("LOGIN AFTER ID", " ....= " + pass
-						+ "SENHA ID" + userObject.getLong("id"));
+				Log.i("LOGIN AFTER ID", " ....= " + pass + "SENHA ID"
+						+ userObject.getLong("id"));
 				if (pass != null) {
 					verifyPassword(pass);
 				}
@@ -151,13 +151,11 @@ public class ConecteLoginGUI extends CRComponent {
 	}
 
 	private void verifyPassword(String s) {
-		
-		Log.i("dentro VERIFICANDO", s+" s---gettexto " +editPassword.getText());
+
 		if (s.equals(editPassword.getText().toString())) {
-			Log.i("TESTANDO USER ID", user.getId() + " id---senha" + " ....= "
-					+ s);
 			loginVerified = true;
 			putSharedData("userId", user.getId() + "");
+			putSharedData("userEmail", user.getEmail());
 		}
 	}
 

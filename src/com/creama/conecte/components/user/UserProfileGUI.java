@@ -24,15 +24,17 @@ public class UserProfileGUI extends CRComponent {
 	// private String urlTest =
 	// "http://apiconecteideias.azurewebsites.net/ideias/searchById?id=";
 	private String urlUser = "http://apiconecteideias.azurewebsites.net/usuarios/searchByEmail?email=";
+	private String email="";
 	/*
 	 * Raft: ".../ideias/getIdeiasRelacionadas?userid=XXXX" Raft:
 	 * ".../imagens/lastestByUser?Range=XX&userID=XXXX" Raft:
 	 * ".../feed/lastestActivitiesbyId?Range=XX&id=XXXX" Raft: essas tres url
 	 */
-	Long serverId;
+	private Long serverId;
 
-	public UserProfileGUI(Long serverId) {
+	public UserProfileGUI(Long serverId,String email) {
 		this.serverId = serverId;
+		this.email = email;
 		Log.e("Request??", "after construtor");
 	}
 
@@ -73,7 +75,7 @@ public class UserProfileGUI extends CRComponent {
 
 	void testRequest() {
 		Request request = new Request(null,
-				urlUser + "victoraft@gmail.com", "get", null);
+				urlUser + email, "get", null);
 		String header[] = new String[2];
 		header[0] = "X-ApiKey";
 		header[1] = "257F1D3C-57A0-4F34-A937-1538104E97FE";
