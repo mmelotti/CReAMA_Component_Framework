@@ -41,7 +41,7 @@ public class ConecteLoginGUI extends CRComponent {
 		editLogin = (EditText) view.findViewById(R.id.editConecteUser);
 		editPassword = (EditText) view.findViewById(R.id.editConectePass);
 		// TODO apagar isso aqui, é só pra teste
-		editLogin.setText("maisonmelotti@gmail.com");
+		editLogin.setText("victoraft@gmail.com");
 		editPassword.setText("minhasenha");
 		btnSubmit.setOnClickListener(new OnClickListener() {
 			@Override
@@ -86,7 +86,7 @@ public class ConecteLoginGUI extends CRComponent {
 	void testRequest() {
 		Log.e("TEST R LOGIN", "fazendo request....");
 		Request request = new Request(null, urlVerifyUser
-				+ "maisonmelotti@gmail.com", "get", null);
+				+ editLogin.getText(), "get", null);
 		String header[] = new String[2];
 		header[0] = "X-ApiKey";
 		header[1] = "257F1D3C-57A0-4F34-A937-1538104E97FE";
@@ -146,14 +146,14 @@ public class ConecteLoginGUI extends CRComponent {
 	}
 
 	private void verifyPassword(String s) {
-		if (s.equals("minhasenha")) {
+		if (s.equals(editPassword.getText())) {
 			Log.i("TESTANDO LOGIN after senha", " ....= " + s);
 			loginVerified = true;
 		}
 	}
 
 	public boolean isLoginVerified() {
-		return loginVerified;
+		return true;
 	}
 
 }
