@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.creama.conecte.components.test.DateFormat;
 import com.gw.android.R;
 
 public abstract class ActionListAdapter extends BaseAdapter {
@@ -42,7 +41,7 @@ public abstract class ActionListAdapter extends BaseAdapter {
 		FeedViewHolder viewHolder;
 		View itemView = convertView;
 
-		Log.e("tipo feed", " " + list.get(position).tipo);
+		Log.e("tipo feed", " " + list.get(position).getTipo());
 
 		if (itemView == null) {
 			LayoutInflater inflater = (LayoutInflater) parent.getContext()

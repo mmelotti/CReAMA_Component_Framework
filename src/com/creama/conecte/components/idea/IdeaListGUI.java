@@ -23,7 +23,7 @@ import com.gw.android.first_components.my_fragment.CRComponent;
 
 public abstract class IdeaListGUI extends CRComponent {
 
-	private String urlBase = "http://apiconecteideias.azurewebsites.net/";
+	private final static String urlBase = "http://apiconecteideias.azurewebsites.net/";
 	private String finalUrl[];
 	private String param = "";
 	private int requestType = 0;
@@ -62,6 +62,7 @@ public abstract class IdeaListGUI extends CRComponent {
 			
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
+				
 				switch (event.getAction()) {
 				case MotionEvent.ACTION_DOWN:
 					// Disallow ScrollView to intercept touch events.
@@ -142,16 +143,17 @@ public abstract class IdeaListGUI extends CRComponent {
 			Log.i("PASS - going to json object", " array length?...= "+ideasArray.length());
 			for (int j = 0; j < ideasArray.length(); j++) {
 				JSONObject ideasObject = (JSONObject) ideasArray.get(j);
-				JSONArray namesArray = ideasObject.names();
+				//JSONArray namesArray = ideasObject.names();
 				String titulo, descricao;
 				titulo = ideasObject.getString("titulo");
 				descricao = ideasObject.getString("descricao");
 	
 				Log.i("entrando names array", " ...= ");
+				/*
 				for (int i = 0; i < namesArray.length(); i++) {
 					String string = (String) namesArray.get(i);
 					Log.i("dentro IDEA names = ", string + " ...= ");
-				}
+				}*/
 				Idea idea = new Idea();
 				idea.setText(descricao);
 				idea.setTitle(titulo);

@@ -24,14 +24,12 @@ import com.gw.android.first_components.my_fragment.CRComponent;
 @SuppressLint("ValidFragment")
 public class CommentListGUI extends CRComponent {
 
-	TextView title, descricao;
 	private ListView listview;
-	private String urlBase = "http://apiconecteideias.azurewebsites.net";
-
-	private String urlFinal = "/comentarios/searchByIdea?idIdeia=";
+	private final static String urlBase = "http://apiconecteideias.azurewebsites.net";
+	private final static  String urlFinal = "/comentarios/searchByIdea?idIdeia=";
 	private List<Comment> lista = new ArrayList<Comment>();
 	private Long targetId;
-	CommentListAdapter myAdapter;
+	private CommentListAdapter myAdapter;
 
 	public CommentListGUI(Long serverId) {
 
@@ -46,42 +44,21 @@ public class CommentListGUI extends CRComponent {
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-
 		View view = inflater.inflate(R.layout.conecte_list_comments_comp,
 				container, false);
-
 		myAdapter = new CommentListAdapter(lista) {
 			@Override
 			public void onClickOneItensTitleComponent(View v, Long id) {
 				Log.e("ONNon clic test", "dentro component comment");
 			}
 		};
-		// title=(TextView) view.findViewById(R.id.idea_titulo_one);
-		// descricao=(TextView)view.findViewById(R.id.idea_body_one);
 		listview = (ListView) view.findViewById(R.id.listComments);
 		listview.setAdapter(myAdapter);
-		// listview.setScrollContainer(false);
-		/*
-		 * listview.setOnTouchListener(new ListView.OnTouchListener() {
-		 * 
-		 * @Override public boolean onTouch(View v, MotionEvent event) { switch
-		 * (event.getAction()) { case MotionEvent.ACTION_DOWN: // Disallow
-		 * ScrollView to intercept touch events.
-		 * v.getParent().requestDisallowInterceptTouchEvent(true); break;
-		 * 
-		 * case MotionEvent.ACTION_UP: // Allow ScrollView to intercept touch
-		 * events. v.getParent().requestDisallowInterceptTouchEvent(false);
-		 * break; }
-		 * 
-		 * // Handle ListView touch events. v.onTouchEvent(event); return true;
-		 * } });
-		 */
 		AsyncRequestHandler mHandler = new AsyncRequestHandler() {
 			@Override
 			public void onSuccess(String response, Request request) {
 				atualizarAfterSucces(response);
 			}
-
 			@Override
 			public void onFailure(Throwable arg0, String arg1, Request request) {
 				// atualizarAfterSucces("erro");
@@ -100,7 +77,7 @@ public class CommentListGUI extends CRComponent {
 		testRequest();
 	}
 
-	void testRequest() {
+	private void testRequest() {
 		Request request = new Request(null, urlBase + urlFinal + targetId,
 				"get", null);
 		String header[] = new String[2];
@@ -111,7 +88,7 @@ public class CommentListGUI extends CRComponent {
 
 	}
 
-	public void atualizarAfterSucces(String r) {
+	private void atualizarAfterSucces(String r) {
 		try {
 
 			lista.clear();

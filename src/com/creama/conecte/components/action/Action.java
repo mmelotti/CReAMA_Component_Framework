@@ -15,14 +15,14 @@ public class Action extends
 		com.gw.android.first_components.my_fragment.ComponentSimpleModel
 		implements Serializable {
 	private static final long serialVersionUID = 5209706701349219565L;
-	public int tipo;
-	public int idIdeia;
-	public int idComentario;
-	public int idUsuario;
-	public String nomeUsuario;
-	public String titulo;
-	public String texto;
-	public Date dataHora;
+	private int tipo;
+	private int idIdeia;
+	private int idComentario;
+	private int idUsuario;
+	private String nomeUsuario;
+	private String titulo;
+	private String texto;
+	private Date dataHora;
 
 	// NovoComentario(0), NovaIdeia(1), NovoAndamento(2);
 
@@ -121,6 +121,34 @@ public class Action extends
 
 	public void setTitulo(String titulo) {
 		this.titulo = titulo;
+	}
+
+	public int getTipo() {
+		return tipo;
+	}
+
+	public void setTipo(int tipo) {
+		this.tipo = tipo;
+	}
+
+	public int getIdIdeia() {
+		return idIdeia;
+	}
+
+	public void setIdIdeia(int idIdeia) {
+		this.idIdeia = idIdeia;
+	}
+
+	public int getIdComentario() {
+		return idComentario;
+	}
+
+	public void setIdComentario(int idComentario) {
+		this.idComentario = idComentario;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 	
 	

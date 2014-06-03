@@ -17,7 +17,7 @@ import com.gw.android.R;
 public abstract class CommentListAdapter extends BaseAdapter {
 
 	private final List<Comment> list;
-	boolean itemRemovido = false;
+	private boolean itemRemovido = false;
 
 	public CommentListAdapter(List<Comment> l) {
 		list = l;
@@ -74,28 +74,13 @@ public abstract class CommentListAdapter extends BaseAdapter {
 		return rowView;
 	}
 
-	public void clearEmptyItem() {
-		list.remove(0);
-		notifyDataSetChanged();
-		itemRemovido = true;
-	}
+	
 
-	public String smallEmptyString() {
+	private String smallEmptyString() {
 		return "\n\n\n\n\n\n\n\n\n\n\n\n\n";
 	}
 
-	public String createEmptyString() {
-		String mark = ".";
-		String space = "\n\u00A0\u00A0";
-		int cont = 0;
-		while (cont < 2) {
-			cont++;
-			space += space;
-		}
-		space = mark + space;
-		space = space + mark;
-		return space;
-	}
+	
 
 	public abstract void onClickOneItensTitleComponent(View v, Long id);
 

@@ -20,19 +20,18 @@ import com.gw.android.Utils.SuperToastUtils;
 import com.gw.android.components.connection_manager.AsyncRequestHandler;
 import com.gw.android.components.request.Request;
 import com.gw.android.first_components.my_fragment.CRComponent;
+import com.gw.android.first_components.my_fragment.CRLoginInterface;
 
-public class ConecteLoginGUI extends CRComponent {
+public class ConecteLoginGUI extends CRComponent implements CRLoginInterface{
 
-	private TextView resultTxt;
-	private String urlLogin;
+	
 	private boolean loginVerified = false;
 	private EditText editLogin, editPassword;
 	private Button btnSubmit;
 	private User user;
-
 	// private String urlTest =
 	// "http://apiconecteideias.azurewebsites.net/ideias/getAll";
-	private String urlVerifyUser = "http://apiconecteideias.azurewebsites.net/usuarios/searchByEmail?email=";
+	private final static String urlVerifyUser = "http://apiconecteideias.azurewebsites.net/usuarios/searchByEmail?email=";
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -124,13 +123,7 @@ public class ConecteLoginGUI extends CRComponent {
 				pass = userObject.getString("senha");
 				Log.i("Parseando login antes for",
 						" ...= " + userObject.toString());
-				for (int j = 0; j < nameArray.length(); j++) {
-					// JSONObject oneIdea = arrayResults.getJSONObject(j);
-					String name = nameArray.getString(j);
-					if (nameArray.getString(j).equals("emails")) {
-					}
-					Log.i("LOGIN DENro names", " ....= " + name);
-				}
+				
 				user = new User();
 				user.setName(userObject.getString("nome"));
 				user.setNascimento(userObject.getString("dataNascimento")
@@ -150,7 +143,7 @@ public class ConecteLoginGUI extends CRComponent {
 		}
 	}
 
-	private void verifyPassword(String s) {
+	public void verifyPassword(String s) {
 
 		if (s.equals(editPassword.getText().toString())) {
 			loginVerified = true;
@@ -159,8 +152,13 @@ public class ConecteLoginGUI extends CRComponent {
 		}
 	}
 
-	public boolean isLoginVerified() {
-		return true;
+
+	@Override
+	public boolean isLoginOk() {
+		// TODO Auto-generated method stub
+		return loginVerified;
 	}
+
+	
 
 }

@@ -1,7 +1,6 @@
 package com.creama.conecte.components.action;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.json.JSONArray;
@@ -15,10 +14,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-import android.widget.TextView;
+
 
 import com.creama.conecte.components.idea.Idea;
-import com.creama.conecte.components.test.DateFormat;
 import com.github.johnpersano.supertoasts.SuperToast;
 import com.gw.android.R;
 import com.gw.android.Utils.SuperToastUtils;
@@ -29,19 +27,16 @@ import com.gw.android.first_components.my_fragment.CRComponent;
 @SuppressLint("ValidFragment")
 public abstract class ActionListGUI extends CRComponent {
 
-	TextView title, descricao;
-	private String urlBase = "http://apiconecteideias.azurewebsites.net/";
-
+	private final static String urlBase = "http://apiconecteideias.azurewebsites.net/";
 	private ListView listview;
-	private String urlFinal = "feed/lastestActivitiesbyId?Range=";
-	private String urlFinal2 = "&id=";
-
+	private final static String urlFinal = "feed/lastestActivitiesbyId?Range=";
+	private final static String urlFinal2 = "&id=";
 	private List<Action> lista = new ArrayList<Action>();
-
-	Long userId;
+	private Long userId;
 
 	public ActionListGUI(Long serverId) {
 		this.userId = serverId;
+		
 		Log.e("Request??", "after construtor");
 	}
 
@@ -98,11 +93,9 @@ public abstract class ActionListGUI extends CRComponent {
 		header[1] = "257F1D3C-57A0-4F34-A937-1538104E97FE";
 		request.onlyOneHeader(header);
 		// request.setKeyValuePairs(keyValuePairs);
-
 		makeRequest(request);
 
 	}
-
 
 	public void atualizarAfterSucces(String r) {
 
@@ -117,16 +110,13 @@ public abstract class ActionListGUI extends CRComponent {
 			for (int j = 0; j < ideasArray.length(); j++) {
 				JSONObject ideasObject = (JSONObject) ideasArray.get(j);
 				JSONArray namesArray = ideasObject.names();
-				String texto, dataHora,nomeUsuario,titulo;
+				String texto, dataHora,nomeUsuario;
 				texto = ideasObject.getString("texto");
 				nomeUsuario = ideasObject.getString("nomeUsuario");
-				titulo = ideasObject.getString("titulo");
+				
 				dataHora = ideasObject.getString("dataHora");
 				Log.i("entrando names array", " ...= ");
-				for (int i = 0; i < namesArray.length(); i++) {
-					String string = (String) namesArray.get(i);
-					Log.i("dentro names = ", string + " ...= ");
-				}
+			
 				Action action = new Action();
 				action.setTexto(texto);
 				action.setTitulo(texto);
