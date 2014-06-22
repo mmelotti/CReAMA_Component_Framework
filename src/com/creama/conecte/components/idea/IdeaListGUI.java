@@ -16,12 +16,13 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.creama.interfaces.IList;
 import com.gw.android.R;
 import com.gw.android.components.connection_manager.AsyncRequestHandler;
 import com.gw.android.components.request.Request;
 import com.gw.android.first_components.my_fragment.CRComponent;
 
-public abstract class IdeaListGUI extends CRComponent {
+public abstract class IdeaListGUI extends CRComponent implements IList{
 
 	private final static String urlBase = "http://apiconecteideias.azurewebsites.net/";
 	private String finalUrl[];
@@ -171,8 +172,8 @@ public abstract class IdeaListGUI extends CRComponent {
 					lista) {
 
 				@Override
-				public void onClickOneItensTitleComponent(View v, Long id) {
-					Log.e("ONNon clic test", "dentro component");
+				public void onClickListAdapterItem(View v, Long id) {
+					Log.e("ONCLICK", "dentro component IDEA LIST");
 					onClickOneItensTitleApplication(v, id);
 				}
 			};

@@ -11,9 +11,10 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.creama.interfaces.IListAdapter;
 import com.gw.android.R;
 
-public abstract class ActionListAdapter extends BaseAdapter {
+public abstract class ActionListAdapter extends BaseAdapter implements IListAdapter{
 
 	ArrayList<Action> list;
 

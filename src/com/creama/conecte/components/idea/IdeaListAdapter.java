@@ -11,9 +11,11 @@ import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.creama.interfaces.IListAdapter;
 import com.gw.android.R;
 
-public abstract class IdeaListAdapter extends ArrayAdapter<Idea> {
+public abstract class IdeaListAdapter extends ArrayAdapter<Idea> implements
+		IListAdapter {
 
 	private final Context context;
 	private final List<Idea> ideas;
@@ -41,8 +43,10 @@ public abstract class IdeaListAdapter extends ArrayAdapter<Idea> {
 
 					@Override
 					public void onClick(View v) {
-						onClickOneItensTitleComponent(v, ideas.get(position)
+
+						onClickListAdapterItem(v, ideas.get(position)
 								.getServerId());
+
 						/*
 						 * Long id = Long.valueOf(v.getTag().toString());
 						 * Comment c = findCommentById(id); if (c != null) {
@@ -101,6 +105,10 @@ public abstract class IdeaListAdapter extends ArrayAdapter<Idea> {
 		return space;
 	}
 
-	public abstract void onClickOneItensTitleComponent(View v, Long id);
+	
+
+	public void onClickListAdapterItem(View v, Long id) {
+		Log.e("ONCLICK", "dentro LIST ADAPTER");
+	}
 
 }

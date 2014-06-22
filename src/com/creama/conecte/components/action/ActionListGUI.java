@@ -17,6 +17,7 @@ import android.widget.ListView;
 
 
 import com.creama.conecte.components.idea.Idea;
+import com.creama.interfaces.IList;
 import com.github.johnpersano.supertoasts.SuperToast;
 import com.gw.android.R;
 import com.gw.android.Utils.SuperToastUtils;
@@ -25,7 +26,7 @@ import com.gw.android.components.request.Request;
 import com.gw.android.first_components.my_fragment.CRComponent;
 
 @SuppressLint("ValidFragment")
-public abstract class ActionListGUI extends CRComponent {
+public abstract class ActionListGUI extends CRComponent implements IList{
 
 	private final static String urlBase = "http://apiconecteideias.azurewebsites.net/";
 	private ListView listview;
@@ -132,8 +133,14 @@ public abstract class ActionListGUI extends CRComponent {
 			ActionListAdapter myAdapter = new ActionListAdapter(lista) {
 				@Override
 				public void onClickOneItensTitleComponent(View v, Long id) {
-					Log.e("ONNon clic test", "dentro component");
-					onClickOneItensTitleApplication(v, id);
+					Log.e("ONCLICK", "dentro component ACTION LIST impadater");
+					onClickListItem(v, id);
+				}
+
+				@Override
+				public void onClickListAdapterItem(View v, Long id) {
+					// TODO Auto-generated method stub
+					
 				}
 			};
 			listview.setAdapter(myAdapter);
@@ -142,6 +149,9 @@ public abstract class ActionListGUI extends CRComponent {
 		}
 	}
 
-	public abstract void onClickOneItensTitleApplication(View v, Long id);
+	
+	public void onClickListItem(View v,Long id){
+		Log.e("ONCLICK", "dentro component ACTION LIST");
+	}
 
 }
