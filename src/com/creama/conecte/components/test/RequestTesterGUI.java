@@ -31,7 +31,7 @@ public class RequestTesterGUI extends CRComponent {
 			}
 		};
 		setComponentRequestCallback(mHandler);
-		Log.e("TEST R","setado calback");
+		Log.e("TEST R","setado calback REQUESTTESTER");
 		
 		return view;
 	}
@@ -45,7 +45,7 @@ public class RequestTesterGUI extends CRComponent {
 	@Override
 	protected void onBind() {
 		// getConnectionManager().getCookiesInfo();
-		//testRequest();
+		testRequest();
 
 	}
 
