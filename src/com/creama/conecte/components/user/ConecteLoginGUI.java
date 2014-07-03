@@ -32,7 +32,10 @@ public class ConecteLoginGUI extends CRComponent implements CRLoginInterface{
 	// private String urlTest =
 	// "http://apiconecteideias.azurewebsites.net/ideias/getAll";
 	private final static String urlVerifyUser = "http://apiconecteideias.azurewebsites.net/usuarios/searchByEmail?email=";
-
+	//private final static String urlVerifyUser = "http://apiconecteideias.azurewebsites.net/usuarios/searchByEmail?email=";
+	
+	
+	
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.conecte_login_comp, container,
