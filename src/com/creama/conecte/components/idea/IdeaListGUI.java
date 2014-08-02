@@ -24,7 +24,7 @@ import com.gw.android.first_components.my_fragment.CRComponent;
 
 public abstract class IdeaListGUI extends CRComponent implements IList{
 
-	private final static String urlBase = "http://apiconecteideias.azurewebsites.net/";
+	private final static String urlBase = "http://conecteideias.com:8080/";
 	private String finalUrl[];
 	private String param = "";
 	private int requestType = 0;
@@ -105,6 +105,7 @@ public abstract class IdeaListGUI extends CRComponent implements IList{
 	@Override
 	protected void onBind() {
 		// getConnectionManager().getCookiesInfo();
+		Log.i("IDEA LIST ", "before request");
 		getIdeasRequest();
 	}
 
@@ -117,6 +118,7 @@ public abstract class IdeaListGUI extends CRComponent implements IList{
 		request.onlyOneHeader(header);
 		// request.setKeyValuePairs(keyValuePairs);
 		makeRequest(request);
+		Log.i("IDEA LIST ", "after request");
 	}
 
 	public void inflateIdeasGUI() {
@@ -133,6 +135,7 @@ public abstract class IdeaListGUI extends CRComponent implements IList{
 	}
 
 	public void atualizarAfterSucces(String r) {
+		Log.i("IDEA LIST ", "dentro atualizar after succes");
 		lista.clear();
 		Idea empty = new Idea();
 		empty.setTitle("Carregando...");

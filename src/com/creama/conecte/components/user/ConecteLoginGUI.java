@@ -31,7 +31,7 @@ public class ConecteLoginGUI extends CRComponent implements CRLoginInterface{
 	private User user;
 	// private String urlTest =
 	// "http://apiconecteideias.azurewebsites.net/ideias/getAll";
-	private final static String urlVerifyUser = "http://apiconecteideias.azurewebsites.net/usuarios/searchByEmail?email=";
+	private final static String urlVerifyUser = "http://conecteideias.com:8080/usuarios/searchByEmail?email=";
 	//private final static String urlVerifyUser = "http://apiconecteideias.azurewebsites.net/usuarios/searchByEmail?email=";
 	
 	
@@ -137,6 +137,7 @@ public class ConecteLoginGUI extends CRComponent implements CRLoginInterface{
 				Log.i("LOGIN AFTER ID", " ....= " + pass + "SENHA ID"
 						+ userObject.getLong("id"));
 				if (pass != null) {
+					Log.i("LOGIN ", "before verify");
 					verifyPassword(pass);
 				}
 			} catch (JSONException e) {
@@ -147,8 +148,9 @@ public class ConecteLoginGUI extends CRComponent implements CRLoginInterface{
 	}
 
 	public void verifyPassword(String s) {
-
+		Log.i("LOGIN ", "INSIDE verify");
 		if (s.equals(editPassword.getText().toString())) {
+			Log.i("LOGIN ", "trueeee verify");
 			loginVerified = true;
 			putSharedData("userId", user.getId() + "");
 			putSharedData("userEmail", user.getEmail());

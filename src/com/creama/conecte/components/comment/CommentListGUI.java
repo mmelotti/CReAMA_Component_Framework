@@ -25,7 +25,7 @@ import com.gw.android.first_components.my_fragment.CRComponent;
 public class CommentListGUI extends CRComponent {
 
 	private ListView listview;
-	private final static String urlBase = "http://apiconecteideias.azurewebsites.net";
+	private final static String urlBase = "http://conecteideias.com:8080";
 	private final static  String urlFinal = "/comentarios/searchByIdea?idIdeia=";
 	private List<Comment> lista = new ArrayList<Comment>();
 	private Long targetId;

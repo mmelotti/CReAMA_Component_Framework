@@ -28,7 +28,7 @@ import com.gw.android.first_components.my_fragment.CRComponent;
 @SuppressLint("ValidFragment")
 public abstract class ActionListGUI extends CRComponent implements IList{
 
-	private final static String urlBase = "http://apiconecteideias.azurewebsites.net/";
+	private final static String urlBase = "http://conecteideias.com:8080/";
 	private ListView listview;
 	private final static String urlFinal = "feed/lastestActivitiesbyId?Range=";
 	private final static String urlFinal2 = "&id=";

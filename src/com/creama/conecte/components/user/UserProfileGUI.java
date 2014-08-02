@@ -23,7 +23,7 @@ public class UserProfileGUI extends CRComponent {
 	TextView userName, userEmail, userNascimento;
 	// private String urlTest =
 	// "http://apiconecteideias.azurewebsites.net/ideias/searchById?id=";
-	private String urlUser = "http://apiconecteideias.azurewebsites.net/usuarios/searchByEmail?email=";
+	private String urlUser = "http://conecteideias.com:8080/usuarios/searchByEmail?email=";
 	private String email="";
 	/*
 	 * Raft: ".../ideias/getIdeiasRelacionadas?userid=XXXX" Raft:

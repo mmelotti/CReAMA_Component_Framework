@@ -21,7 +21,7 @@ import com.gw.android.first_components.my_fragment.CRComponent;
 public class OneIdeaGUI extends CRComponent {
 
 	TextView title, descricao;
-	private String urlBase = "http://apiconecteideias.azurewebsites.net/";
+	private String urlBase = "http://conecteideias.com:8080/";
 	private String urlFinal = "ideias/searchById?id=";
 	Long serverId;
 
