@@ -200,7 +200,10 @@ public class PhotoViewGUI extends CRComponent {
 		photoName.setVisibility(View.GONE);
 	}
 
+	/*
 	private Long proximaImagem() {
+		
+		
 		PhotoDao photoDao = PhotoUtils.initPhotoDao(getActivity());
 		List<Photo> l = photoDao.queryBuilder()
 				.where(Properties.Id.gt(getCurrentInstanceId()))
@@ -209,7 +212,7 @@ public class PhotoViewGUI extends CRComponent {
 		return (l.isEmpty() ? getCurrentInstanceId() : ((Photo) l.get(0))
 				.getId());
 	}
-
+   */
 	private Long imagemAnterior() {
 		PhotoDao photoDao = PhotoUtils.initPhotoDao(getActivity());
 		List<Photo> l = photoDao.queryBuilder()
@@ -230,6 +233,8 @@ public class PhotoViewGUI extends CRComponent {
 			AsyncRequestHandler mFileHandler = new AsyncRequestHandler() {
 				@Override
 				public void onSuccess(byte[] b, Request request) {
+					Log.e("SUCCES ONE FOTO", "antes photo utils e null");
+					Log.e("SUCCES ONE FOTO", request.getUrl());
 					if (b == null)
 						return;
 					initPhotoDao();
@@ -240,6 +245,7 @@ public class PhotoViewGUI extends CRComponent {
 						Log.e("teste de null!", ""+getCurrentInstanceId());
 					}
 					
+					photo.setId(getCurrentInstanceId());
 					photo.setPhotoBytes(b);
 					photo.setIsThumb(false);
 					photoDao.update(photo);
@@ -269,7 +275,7 @@ public class PhotoViewGUI extends CRComponent {
 	}
 
 	public void onCardClick() {
-		Log.e("TOQUE", "CARD FLIP");
+		
 
 		FlipAnimation flipAnimation = new FlipAnimation(imageFront, imageBack);
 
