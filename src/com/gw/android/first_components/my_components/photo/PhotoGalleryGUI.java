@@ -47,7 +47,7 @@ public class PhotoGalleryGUI extends CRComponent {
 	String ip = "200.137.66.94";
 	String url = "http://" + ip
 			+ ":8080/GW-Application-Arquigrafia/groupware-workbench";
-	private String jsonTestUrl = "/photos/7/amount/" + MAX_GALLERY_PHOTOS;
+	private String galleryAmountUrl = "/photos/7/amount/" + MAX_GALLERY_PHOTOS;
 	private String urlEndArquigrafia = "?_format=json";
 	private boolean getOnlyLocal = true;
 
@@ -207,6 +207,7 @@ public class PhotoGalleryGUI extends CRComponent {
 			JSONObject photoObject = object.getJSONObject("photo");
 			String nome = photoObject.get("name").toString();
 			Long idServ = Long.parseLong(photoObject.get("id").toString());
+			
 
 			PhotoDao photoDao = PhotoUtils.initPhotoDao(getActivity());
 			Photo photo = (Photo) photoDao.queryBuilder()
@@ -269,7 +270,7 @@ public class PhotoGalleryGUI extends CRComponent {
 	}
 
 	private void getPhotosIdRequest() {
-		createSimpleRequest(getBaseUrl() + jsonTestUrl, "get");
+		createSimpleRequest(getBaseUrl() + galleryAmountUrl, "get");
 	}
 
 	private void getOnePhotoRequest(String id) {

@@ -4,6 +4,10 @@
     android:versionCode="1"
     android:versionName="1.0" >
 
+    <meta-data
+            android:name="com.google.android.gms.version"
+            />
+    
     <uses-sdk
         android:minSdkVersion="8"
         android:targetSdkVersion="17" />

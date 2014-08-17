@@ -187,6 +187,7 @@ public class CommentViewGUI extends CRComponent {
 				Long newI = ComponentSimpleModel.getUniqueId(getActivity());
 				Comment comment = new Comment(newI, idTarget, idServ, text,
 						new Date());
+				comment.setUsuario(userName);
 				initCommentDao();
 				commentDao.insert(comment);
 				closeDao();

@@ -69,7 +69,7 @@ public class PhotoViewGUI extends CRComponent {
 
 	public void preDefined() {
 		setGeneralGUIId(3);
-		setIconResource(R.drawable.picture_small);
+		setIconResource(R.drawable.picture_large);
 		setComponentType("Photo View");
 	}
 
@@ -90,7 +90,7 @@ public class PhotoViewGUI extends CRComponent {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.imageone, container, false);
+		View view = inflater.inflate(R.layout.arquigrafia_image_flip, container, false);
 		imageFront = (SmartImageView) view.findViewById(R.id.ViewFront);
 		imageBack = view.findViewById(R.id.ViewBack);
 		photoName = (TextView) view.findViewById(R.id.imageText);
@@ -104,7 +104,7 @@ public class PhotoViewGUI extends CRComponent {
 		proxima = (Button) view.findViewById(R.id.imagem_proxima);
 
 		infoName = (TextView) view.findViewById(R.id.infoName);
-		infoData = (TextView) view.findViewById(R.id.infoData);
+		infoData = (TextView) view.findViewById(R.id.infoDataUpload);
 
 		BadgeView badge = new BadgeView(getActivity(), imageFront);
 		badge.setText("info");
@@ -181,6 +181,13 @@ public class PhotoViewGUI extends CRComponent {
 	}
 
 	private boolean isThumb() {
+		
+		Log.e("DENTRO IS THUMBSUCCES ONE FOTO", "antes is? ");
+		Photo photo1=PhotoUtils.getPhotoById(getCurrentInstanceId(),
+				getActivity().getApplicationContext());
+		Log.e("DENTRO IS THUMBSUCCES ONE FOTO", "current instance = "+getCurrentInstanceId());
+		Log.e("DENTRO IS THUMBSUCCES ONE FOTO", "text = "+photo1.getText());
+		Log.e("DENTRO IS THUMBSUCCES ONE FOTO", "is? "+photo1.getIsThumb());
 		return PhotoUtils.getPhotoById(getCurrentInstanceId(),
 				getActivity().getApplicationContext()).getIsThumb();
 	}
@@ -238,19 +245,23 @@ public class PhotoViewGUI extends CRComponent {
 					if (b == null)
 						return;
 					initPhotoDao();
-					Log.e("teste antes photo utils!!!", ""+getCurrentInstanceId());
+					Log.e("SUCCES ONE FOTO", "current instance = "+getCurrentInstanceId());
 					Photo photo = PhotoUtils.getPhotoById(
 							getCurrentInstanceId(), getActivity().getApplicationContext());
 					if(photo==null){
-						Log.e("teste de null!", ""+getCurrentInstanceId());
+						Log.e("SUCCES ONE FOTO", "test null"+getCurrentInstanceId());
 					}
 					
+					//Log.e("SUCCES ONE FOTO", "text= "+photo.getText());
+					
 					photo.setId(getCurrentInstanceId());
+					//Log.e("SUCCES ONE FOTO", "antes set photo bytes= "+photo.getText());
 					photo.setPhotoBytes(b);
 					photo.setIsThumb(false);
+					//Log.e("SUCCES ONE FOTO", "antes update= "+photo.getText());
 					photoDao.update(photo);
 					photoDao.getDatabase().close();
-
+					Log.e("SUCCES ONE FOTO", "depois getDatabase "+photo.getText());
 					// atualiza a imagem
 					imageFront.setImage(new GWImage(getCurrentInstanceId()));
 				}
@@ -265,6 +276,7 @@ public class PhotoViewGUI extends CRComponent {
 					+ PhotoUtils.urlEndImage[PhotoUtils.BIG];
 			Request request = new Request(null, url, "get", null);
 			makeFileRequest(request);
+			Log.i("PHOTO REQ","AQUI = "+url);
 			SuperToastUtils.showSuperToast(getActivity()
 					.getApplicationContext(),
 					SuperToast.BACKGROUND_GREENTRANSLUCENT,
@@ -306,7 +318,7 @@ public class PhotoViewGUI extends CRComponent {
 	
 	void initPhotoDao() {
 		DevOpenHelper helper = new DaoMaster.DevOpenHelper(getActivity().getApplicationContext(),
-				"comments-db", null);
+				"photos-db", null);
 		SQLiteDatabase db = helper.getWritableDatabase();
 		DaoMaster daoMaster = new DaoMaster(db);
 		daoSession = daoMaster.newSession();

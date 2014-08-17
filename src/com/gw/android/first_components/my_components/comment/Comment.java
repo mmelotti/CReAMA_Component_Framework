@@ -13,6 +13,15 @@ public class Comment extends
 	/** Not-null value. */
 	private String text;
 	private java.util.Date date;
+	private String usuario;
+
+	public String getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(String usuario) {
+		this.usuario = usuario;
+	}
 
 	public Comment() {
 	}

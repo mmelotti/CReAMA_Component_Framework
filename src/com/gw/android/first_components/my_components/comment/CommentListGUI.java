@@ -68,7 +68,7 @@ public class CommentListGUI extends CRComponent {
 		commentDao.getDatabase().close();
 
 		for (int i = 0; i < lista.size(); i++) {
-			View view = li.inflate(R.layout.comment_view, null);
+			View view = li.inflate(R.layout.arquigrafia_comment_view, null);
 			Comment comm = (Comment) lista.get(i);
 
 			view.findViewById(R.id.button_apaga).setTag("" + comm.getId());

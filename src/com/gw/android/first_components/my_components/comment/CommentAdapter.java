@@ -20,7 +20,7 @@ public class CommentAdapter extends ArrayAdapter<Comment> {
 	private final List<Comment> comments;
 
 	public CommentAdapter(Context context, List<Comment> comments) {
-		super(context, R.layout.comment_view, comments);
+		super(context, R.layout.arquigrafia_comment_view, comments);
 		this.context = context;
 		this.comments = comments;
 	}
@@ -29,7 +29,7 @@ public class CommentAdapter extends ArrayAdapter<Comment> {
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		LayoutInflater inflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View rowView = inflater.inflate(R.layout.comment_view, parent, false);
+		View rowView = inflater.inflate(R.layout.arquigrafia_comment_view, parent, false);
 
 		Comment c = comments.get(position);
 
@@ -38,6 +38,9 @@ public class CommentAdapter extends ArrayAdapter<Comment> {
 				DateFormat.SHORT);
 		((TextView) rowView.findViewById(R.id.date)).setText("Enviado em "
 				+ df.format(c.getDate()));
+		
+		((TextView) rowView.findViewById(R.id.date)).setText("Usuário: "
+				+ c.getUsuario());
 
 		((ImageButton) rowView.findViewById(R.id.button_apaga))
 				.setOnClickListener(new OnClickListener() {
