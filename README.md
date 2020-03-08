@@ -11,4 +11,4 @@ CReAMA: A component-based reference architecture for collaborative mobile applic
 Prototipação de sistemas colaborativos móveis com base na arquitetura de referência CReAMA: um estudo de caso da plataforma Conecte Ideias (2014):
 - https://repositorio.usp.br/item/002884648
 
-Dissertaç
+Dissertação:
