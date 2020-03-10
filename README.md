@@ -1,8 +1,10 @@
 # CReAMA_Component_Framework
+
+
+Developers of mobile collaborative  systems  deal  with  many technical  issues, in  addition  to  the  usual  difficulties  for collaborative  systems  development. In  this  paper,  we  evaluate CReAMA, a  reference  architecture  defined  to  guide  the development of component-based mobile collaborative systems, by means of its use in the development of two mobile clients of a collaborative application. 
+
+
 CReAMA_Component_Framework - Mobile Collaborative Project
-
-Developers  of  mobile  collaborative  systems  deal  with  many technical  issues,  in  addition  to  the  usual  difficulties  for collaborative  systems  development.  In  this  paper,  we  evaluate CReAMA,  
-
 POC developed in Android (2014) with Java.
 
 **Related Articles and Papers:**
