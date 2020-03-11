@@ -5,7 +5,7 @@ Developers of mobile collaborative  systems  deal  with  many technical  issues,
 
 **CReAMA_Component_Framework - Mobile Collaborative Project**
 
-POC developed in Android (2014) with Java.
+POC developed in Android (2014) with Java and VRaptor.
 
 **Related Articles and Papers:**
 
