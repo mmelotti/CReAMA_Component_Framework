@@ -57,10 +57,6 @@ public class DefaultGUI extends CRComponent {
 			}
 		};
 		setComponentRequestCallback(mHandler);
-		
-		
-		
-		
 
 		return view;
 	}
@@ -75,7 +71,6 @@ public class DefaultGUI extends CRComponent {
 	protected void onBind() {
 		// getConnectionManager().getCookiesInfo();
 		testRequest();
-
 	}
 
 	void testRequest() {
@@ -88,7 +83,6 @@ public class DefaultGUI extends CRComponent {
 		// request.setKeyValuePairs(keyValuePairs);
 
 		 makeRequest(request);
-
 	}
 
 	public void atualizarAfterSucces(String r) {
@@ -137,8 +131,6 @@ public class DefaultGUI extends CRComponent {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-		// Log.e("TEST R LOGIN",r);
 
 	}
 
