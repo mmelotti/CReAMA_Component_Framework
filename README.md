@@ -16,4 +16,4 @@ Prototipação de sistemas colaborativos móveis com base na arquitetura de refe
 - https://repositorio.usp.br/item/002884648
 
 Dissertação (pdf):
--http://portais4.ufes.br/posgrad/teses/tese_8121_dissert%20maison%20melotti%20creama.pdf
+- http://portais4.ufes.br/posgrad/teses/tese_8121_dissert%20maison%20melotti%20creama.pdf
