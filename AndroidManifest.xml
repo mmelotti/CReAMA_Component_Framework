@@ -54,8 +54,6 @@
         </activity>
         <activity android:name="com.gw.android.my_components.photo.ImageZoomActivity" />
 
-     
-        
     </application>
     
 </manifest>
