@@ -35,7 +35,6 @@ public abstract class IdeaListAdapter extends ArrayAdapter<Idea> implements
 		rowView = inflater.inflate(R.layout.conecte_one_ideia_forlist_comp,
 				parent, false);
 		Idea c = ideas.get(position);
-		Log.i(" NAOOOO ULTIMA POSICAO", "OK");
 		((TextView) rowView.findViewById(R.id.idea_titulo)).setText(c
 				.getTitle());
 		((TextView) rowView.findViewById(R.id.idea_titulo))
