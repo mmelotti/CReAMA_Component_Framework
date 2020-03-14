@@ -96,7 +96,6 @@ public class MainActivity extends CRActivity {
 		});
 
 		buttonCoord = (Button) findViewById(R.id.go_coord);
-		// bttela2.setText("NEW");
 
 		buttonCoord.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -120,13 +119,11 @@ public class MainActivity extends CRActivity {
 	@Override
 	public void configurarTargets() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void instanciarComponents() {
 		// TODO Auto-generated method stub
-
 	}
 
 }
