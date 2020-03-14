@@ -95,7 +95,6 @@ public abstract class IdeaListGUI extends CRComponent implements IList{
 			}
 		};
 		setComponentRequestCallback(mHandler);
-		// Log.e("TEST R","setado calback");
 		return view;
 	}
 	// http://conecteideias.azurewebsites.net/Ideia/Create
