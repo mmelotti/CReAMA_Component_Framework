@@ -46,7 +46,6 @@ public class MainActivity extends CRActivity {
 				trocatela.putExtra("nImagem",
 						PhotoViewGUI.searchFirstPhoto(null, v.getContext()));
 				startActivity(trocatela);
-				// MainActivity.this.finish();
 			}
 		});
 
