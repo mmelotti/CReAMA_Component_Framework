@@ -21,7 +21,6 @@ public class SensoresActivity extends Activity implements OnClickListener {
 	public void onClick(View v) {
 		int sensorType = 0;
 		boolean turnOn = false;
-
 		/*
 		 * switch (v.getId()) { case R.id.btnAcel: sensorType =
 		 * Sensor.TYPE_ACCELEROMETER; acelOn = !acelOn; turnOn = acelOn; break;
