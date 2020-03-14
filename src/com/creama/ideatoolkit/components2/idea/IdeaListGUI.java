@@ -146,7 +146,6 @@ public abstract class IdeaListGUI extends CRComponent implements IList{
 			Log.i("PASS - going to json object", " array length?...= "+ideasArray.length());
 			for (int j = 0; j < ideasArray.length(); j++) {
 				JSONObject ideasObject = (JSONObject) ideasArray.get(j);
-				//JSONArray namesArray = ideasObject.names();
 				String titulo, descricao;
 				titulo = ideasObject.getString("titulo");
 				descricao = ideasObject.getString("descricao");
