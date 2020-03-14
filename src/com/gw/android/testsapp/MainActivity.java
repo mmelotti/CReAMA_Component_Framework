@@ -79,7 +79,6 @@ public class MainActivity extends CRActivity {
 		});
 
 		buttonTag = (Button) findViewById(R.id.go_tag);
-		// bttela2.setText("NEW");
 
 		buttonTag.setOnClickListener(new View.OnClickListener() {
 			@Override
