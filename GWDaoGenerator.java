@@ -12,7 +12,7 @@ public class GWDaoGenerator {
 
 		schema.setDefaultJavaPackageDao("com.gw.android.first_components.database");
 
-		// componentes
+		// componente
 		Entity com = addComment(schema);
 		addPhoto(schema);
 		addTag(schema);
@@ -23,7 +23,7 @@ public class GWDaoGenerator {
 		Entity rating = addRating(schema);
 		addRatingToComment(schema, com, rating);
 
-		// path destino
+		// path to
 		new DaoGenerator().generateAll(schema, "./");
 	}
 
