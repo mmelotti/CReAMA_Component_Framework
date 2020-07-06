@@ -3,7 +3,7 @@
 
 Developers of mobile collaborative  systems  deal  with  many technical  issues, in  addition  to  the  usual  difficulties  for collaborative  systems  development. In the paper also developed,  we  evaluate CReAMA, a  reference  architecture  defined  to  guide  the development of component-based mobile collaborative systems, by means of its use in the development of two mobile clients of a collaborative application.
 
-The basic idea was to assemble a system, or in another level, confgure it, in a component based structure. With less effort in programming the system, we can focus on build (or assemble) the collaborative system. We can focus more testing the system for example.
+The basic idea was to assemble a system, or in another level, configure it, in a component based structure. With less effort in programming the system, we can focus on build (or assemble) the collaborative system. We can focus more testing the system for example. Composite is the base pattern used, just like atomic design, but not with all that conceptual framework behind it.
 
 **CReAMA_Component_Framework - Mobile Collaborative Project**
 
